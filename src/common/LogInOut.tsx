@@ -1,9 +1,9 @@
 import React, { useState } from "react";
-import { useAppDispatch, useAppSelector } from "../../app/hooks";
+import { useAppDispatch, useAppSelector } from "../app/hooks";
 
-import { login, logout } from "../user/userSlice";
+import { login, logout } from "../feature/user/userSlice";
 
-export const Navbar = () => {
+export const LogInOut = () => {
   const [loginForm, setLoginForm] = useState(false); // 로그인 폼 표시 여부
   const [username, setUsername] = useState("");
 
@@ -11,9 +11,8 @@ export const Navbar = () => {
 
   const { isLoggedIn } = useAppSelector((state) => state.user);
 
-  const toggleLogInOut: React.MouseEventHandler<HTMLButtonElement> = (e) => {
+  const toggleLogInOut: React.MouseEventHandler<HTMLButtonElement> = () => {
     // 로그인/로그아웃 기능
-    e.preventDefault();
     if (isLoggedIn) {
       setUsername("");
       dispatch(logout());
@@ -24,22 +23,20 @@ export const Navbar = () => {
   const onSubmitUsername: React.FormEventHandler<HTMLFormElement> = (e) => {
     // 유저 이름 submit
     e.preventDefault();
+    if (username.length === 0) {
+      window.alert("이름을 입력해주세요"); // 나중에 커스텀 토스트?
+      return;
+    }
     dispatch(login(username));
     setLoginForm(false);
   };
   const onUsernameChange: React.ChangeEventHandler<HTMLInputElement> = (e) =>
     // 유저 이름 input onChange
     setUsername(e.target.value);
+  const onCancelSubmit = () => setLoginForm(false);
 
   return (
-    <nav>
-      <ul>
-        <li>피드</li>
-        <li>익명</li>
-        <li>자유</li>
-        <li>구인</li>
-        <li>정보공유</li>
-      </ul>
+    <>
       <button type="button" onClick={toggleLogInOut}>
         {isLoggedIn ? "로그아웃" : "로그인"}
       </button>
@@ -56,8 +53,11 @@ export const Navbar = () => {
             />
           </label>
           <button type="submit">로그인</button>
+          <button type="button" onClick={onCancelSubmit}>
+            취소
+          </button>
         </form>
       ) : null}
-    </nav>
+    </>
   );
 };
