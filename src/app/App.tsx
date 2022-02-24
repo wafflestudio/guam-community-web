@@ -3,7 +3,7 @@ import { Link, Routes, Route, useLocation } from "react-router-dom";
 import { LogInOut } from "../common/LogInOut";
 import { PostsList } from "../feature/posts/PostsList";
 import styles from "./App.module.scss";
-import { useAppSelector } from "./hooks";
+import { useAppSelector } from "../store/hooks";
 
 const App = () => {
   const username = useAppSelector((state) => state.user.name);
