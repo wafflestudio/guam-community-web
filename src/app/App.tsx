@@ -2,10 +2,10 @@ import React, { useEffect } from "react";
 import { Link, Routes, Route, useLocation } from "react-router-dom";
 import { QueryClient, QueryClientProvider } from "react-query";
 import axios, { AxiosRequestConfig } from "axios";
-import { PostsList } from "../feature/posts/PostsList";
 import styles from "./App.module.scss";
 import { useAppDispatch } from "../store/hooks";
 import { removeToken, setToken } from "../store/authSlice";
+import { PostsPage } from "../feature/posts/PostsPage";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -74,7 +74,7 @@ const App = () => {
   return (
     <QueryClientProvider client={queryClient}>
       {pathname === "/" ? (
-        <Link to="/posts">글 보기</Link>
+        <Link to="/posts/all">글 보기</Link>
       ) : (
         <Link to="/">돌아가기</Link>
       )}
@@ -83,7 +83,7 @@ const App = () => {
           path="/"
           element={<div className={styles.userGreetings}>Hello!</div>}
         />
-        <Route path="/posts" element={<PostsList />} />
+        <Route path="/posts/:boardType" element={<PostsPage />} />
       </Routes>
     </QueryClientProvider>
   );

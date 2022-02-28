@@ -37,3 +37,11 @@ export interface IPostData {
   content: IPost[];
   hasNext: boolean;
 }
+
+export interface IMatchParams {
+  match: {
+    params: {
+      permalink: string;
+    };
+  };
+}

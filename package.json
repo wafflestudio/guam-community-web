@@ -69,6 +69,5 @@
     "node-sass": "^7.0.1",
     "prettier": "^2.5.1",
     "prettier-eslint": "^13.0.0"
-  },
-  "proxy": "https://guam.jon-snow-korea.com/community/api/v1"
+  }
 }
