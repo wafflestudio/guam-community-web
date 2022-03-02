@@ -1,23 +1,19 @@
-import React from "react";
 import axios from "axios";
+import React from "react";
 import { useQuery } from "react-query";
 import { useParams } from "react-router-dom";
 import { useAppSelector } from "../../store/hooks";
-import { IPostsListPost, IPostData } from "../../types/types";
-import { boardList } from "../../common/Navbar";
+import { IDetailedPost } from "../../types/types";
+import { CommentsList } from "./comments/CommentsList";
 
-export const PostsList = () => {
+export const PostDetailPage = () => {
   const token = useAppSelector((state) => state.auth.token);
 
-  const { boardType } = useParams();
-  const boardId = boardList.find((board) => board.route === boardType)?.id;
-
+  const { postId } = useParams();
   const { data, status, error } = useQuery(
-    ["posts", boardType],
+    ["comments", postId],
     async () => {
-      const response: IPostData = await axios.get(
-        `/posts${boardId === 0 ? "" : `?boardId=${boardId}`}`
-      );
+      const response: IDetailedPost = await axios.get(`/posts/${postId}`);
       console.log(response);
       return response;
     },
@@ -39,10 +35,10 @@ export const PostsList = () => {
   }
 
   return (
-    <div>
-      {data?.content.map((post: IPostsListPost) => (
-        <li key={post.id}>{post.title}</li>
-      ))}
-    </div>
+    <>
+      <div>{data?.user.nickname}</div>
+      <div>{data?.content}</div>
+      <CommentsList comments={data?.comments} />
+    </>
   );
 };

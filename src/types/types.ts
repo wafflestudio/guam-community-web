@@ -1,4 +1,4 @@
-export interface IPost {
+export interface IPostsListPost {
   id: number;
   boardId: 0 | 1 | 2 | 3 | 4 | 5;
   user: {
@@ -34,7 +34,7 @@ export interface IPost {
 }
 
 export interface IPostData {
-  content: IPost[];
+  content: IPostsListPost[];
   hasNext: boolean;
 }
 
@@ -44,4 +44,38 @@ export interface IMatchParams {
       permalink: string;
     };
   };
+}
+
+export interface IComment {
+  id: number;
+  postId: number;
+  user: {
+    id: number;
+    introduction: string;
+    githubId: string;
+    blogUrl: string;
+    nickname: string;
+    email: string;
+    profileImage: string;
+    interests: [
+      {
+        name: string;
+      }
+    ];
+    profileSet: boolean;
+  };
+  content: string;
+  imagePaths: [string];
+  likeCount: number;
+  createdAt: string;
+  updatedAt: string;
+}
+
+export interface ICommentData {
+  postId: number;
+  content: [IComment];
+}
+
+export interface IDetailedPost extends IPostsListPost {
+  comments: [IComment];
 }

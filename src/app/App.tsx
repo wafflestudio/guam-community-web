@@ -6,6 +6,7 @@ import styles from "./App.module.scss";
 import { useAppDispatch } from "../store/hooks";
 import { removeToken, setToken } from "../store/authSlice";
 import { PostsPage } from "../feature/posts/PostsPage";
+import { PostDetailPage } from "../feature/posts/PostDetailPage";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -17,6 +18,7 @@ const queryClient = new QueryClient({
 
 const App = () => {
   axios.defaults.baseURL = "https://guam.jon-snow-korea.com/community/api/v1";
+
   const dispatch = useAppDispatch();
 
   useEffect(() => {
@@ -83,7 +85,8 @@ const App = () => {
           path="/"
           element={<div className={styles.userGreetings}>Hello!</div>}
         />
-        <Route path="/posts/:boardType" element={<PostsPage />} />
+        <Route path="/posts/:postId(\\d+)" element={<PostDetailPage />} />
+        <Route path="/posts/:boardType(\\w+)" element={<PostsPage />} />
       </Routes>
     </QueryClientProvider>
   );
