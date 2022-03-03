@@ -5,6 +5,7 @@ import PageTitle from "../../components/PageTitle";
 import { useAppSelector } from "../../store/hooks";
 import { IPostsData } from "../../types/types";
 import { PostsList } from "./PostsList";
+import SignInForm from "../../components/SignInForm";
 
 const fetchPosts = async () => {
   const response: IPostsData = await api.get("/posts");
@@ -39,6 +40,7 @@ export default function Posts() {
     <>
       <PageTitle title="Posts" />
       <PostsBoardNavbar />
+      <SignInForm />
       <div>all</div>
       {status === "loading" ? (
         <span>Loading</span>

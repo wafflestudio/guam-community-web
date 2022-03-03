@@ -6,6 +6,7 @@ import {
   boardList,
   PostsBoardNavbar,
 } from "../../../components/PostsBoardNavbar";
+import SignInForm from "../../../components/SignInForm";
 import { useAppSelector } from "../../../store/hooks";
 import { IPostsData } from "../../../types/types";
 import { PostsList } from "../PostsList";
@@ -38,6 +39,7 @@ export default function PostsBoard() {
     <>
       <PageTitle title="Posts" />
       <PostsBoardNavbar />
+      <SignInForm />
       <div>{boardType}</div>
       {status === "loading" ? (
         <span>Loading</span>
