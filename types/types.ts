@@ -33,7 +33,7 @@ export interface IPostsListPost {
   boardType: string;
 }
 
-export interface IPostData {
+export interface IPostsData {
   content: IPostsListPost[];
   hasNext: boolean;
 }

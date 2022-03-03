@@ -1,5 +1,4 @@
-import React from "react";
-import { useNavigate } from "react-router-dom";
+import Link from "next/link";
 
 export const boardList = [
   { id: 0, name: "피드", route: "all" },
@@ -11,18 +10,12 @@ export const boardList = [
 ];
 
 export const Navbar = () => {
-  const navigate = useNavigate();
-
-  const clickLink = (boardId: number) => {
-    navigate(`/posts/${boardList[boardId].route}`);
-  };
-
   const buttonList = boardList.map((board) => {
     return (
       <li key={board.id}>
-        <button type="button" onClick={() => clickLink(board.id)}>
-          {board.name}
-        </button>
+        <Link href={`/${board.route}`}>
+          <a>{board.name}</a>
+        </Link>
       </li>
     );
   });
