@@ -39,6 +39,7 @@ export default function Posts() {
     <>
       <PageTitle title="Posts" />
       <PostsBoardNavbar />
+      <div>all</div>
       {status === "loading" ? (
         <span>Loading</span>
       ) : status === "error" && isError(error) ? (
