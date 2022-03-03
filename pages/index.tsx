@@ -1,14 +1,11 @@
 import type { NextPage } from "next";
-import Head from "next/head";
 import Link from "next/link";
-import styles from "../styles/Home.module.css";
+import PageTitle from "../components/PageTitle";
 
 const Home: NextPage = () => {
   return (
-    <div className={styles.container}>
-      <Head>
-        <title>Guam</title>
-      </Head>
+    <div>
+      <PageTitle title="Guam" />
       <Link href="/posts">
         <a>글 목록</a>
       </Link>

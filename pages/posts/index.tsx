@@ -1,7 +1,8 @@
 import { dehydrate, QueryClient, useQuery } from "react-query";
-import { api } from "../../apis/api";
-import { Navbar } from "../../components/Navbar";
-import Title from "../../components/Title";
+import { api } from "../../api/api";
+import { PostsBoardNavbar } from "../../components/PostsBoardNavbar";
+import PageTitle from "../../components/PageTitle";
+import { useAppSelector } from "../../store/hooks";
 import { IPostsData } from "../../types/types";
 import { PostsList } from "./PostsList";
 
@@ -11,15 +12,9 @@ const fetchPosts = async () => {
 };
 
 export async function getStaticProps() {
-  const queryClient = new QueryClient({
-    defaultOptions: {
-      queries: {
-        refetchOnWindowFocus: false,
-      },
-    },
-  });
+  const queryClient = new QueryClient();
 
-  await queryClient.prefetchQuery("posts", fetchPosts);
+  await queryClient.prefetchQuery("posts", fetchPosts, { retry: false });
 
   return {
     props: {
@@ -29,8 +24,11 @@ export async function getStaticProps() {
 }
 
 export default function Posts() {
+  const token = useAppSelector((state) => state.auth.token);
+
   const { data, status, error } = useQuery("posts", fetchPosts, {
     retry: false,
+    enabled: !!token,
   });
 
   const isError = (error: unknown): error is Error => {
@@ -39,8 +37,8 @@ export default function Posts() {
 
   return (
     <>
-      <Title title="Posts" />
-      <Navbar />
+      <PageTitle title="Posts" />
+      <PostsBoardNavbar />
       {status === "loading" ? (
         <span>Loading</span>
       ) : status === "error" && isError(error) ? (
