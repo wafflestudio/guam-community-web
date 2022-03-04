@@ -2,14 +2,12 @@ import { useRouter } from "next/router";
 import { useQuery } from "react-query";
 import { api } from "../../../api/api";
 import PageTitle from "../../../components/PageTitle";
-import {
-  boardList,
-  PostsBoardNavbar,
-} from "../../../components/PostsBoardNavbar";
+import { PostsBoardNavbar } from "../../../components/PostsBoardNavbar";
 import SignInForm from "../../../components/SignInForm";
 import { useAppSelector } from "../../../store/hooks";
 import { IPostsData } from "../../../types/types";
-import { PostsList } from "../PostsList";
+import { boardList, ERROR, LOADING } from "../../../constants/constants";
+import { PostsList } from "../../../components/PostsList";
 
 export default function PostsBoard() {
   const router = useRouter();
@@ -37,9 +35,9 @@ export default function PostsBoard() {
       <PostsBoardNavbar />
       <SignInForm />
       <div>{boardType}</div>
-      {status === "loading" ? (
+      {status === LOADING ? (
         <span>Loading</span>
-      ) : status === "error" && error instanceof Error ? (
+      ) : status === ERROR && error instanceof Error ? (
         <span>Error: {error.message}</span>
       ) : null}
       <PostsList posts={data?.content || []} />

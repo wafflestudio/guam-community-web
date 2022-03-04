@@ -4,8 +4,9 @@ import { PostsBoardNavbar } from "../../components/PostsBoardNavbar";
 import PageTitle from "../../components/PageTitle";
 import { useAppSelector } from "../../store/hooks";
 import { IPostsData } from "../../types/types";
-import { PostsList } from "./PostsList";
+import { PostsList } from "../../components/PostsList";
 import SignInForm from "../../components/SignInForm";
+import { ERROR, LOADING } from "../../constants/constants";
 
 const fetchPosts = (): Promise<IPostsData> => api.get(`/posts`);
 
@@ -35,9 +36,9 @@ export default function Posts() {
       <PostsBoardNavbar />
       <SignInForm />
       <div>all</div>
-      {status === "loading" ? (
+      {status === LOADING ? (
         <span>Loading</span>
-      ) : status === "error" && error instanceof Error ? (
+      ) : status === ERROR && error instanceof Error ? (
         <span>Error: {error.message}</span>
       ) : null}
       <PostsList posts={data?.content || []} />

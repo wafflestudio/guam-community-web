@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { IPostsListPost } from "../../types/types";
+import { IPostsListPost } from "../types/types";
 
 export const PostsList = ({ posts }: { posts: IPostsListPost[] }) => {
   const postsList = posts.map((post) => (
