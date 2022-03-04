@@ -7,10 +7,7 @@ import { IPostsData } from "../../types/types";
 import { PostsList } from "./PostsList";
 import SignInForm from "../../components/SignInForm";
 
-const fetchPosts = async () => {
-  const response: IPostsData = await api.get("/posts");
-  return response;
-};
+const fetchPosts = (): Promise<IPostsData> => api.get(`/posts`);
 
 export async function getStaticProps() {
   const queryClient = new QueryClient();
@@ -32,10 +29,6 @@ export default function Posts() {
     enabled: !!token,
   });
 
-  const isError = (error: unknown): error is Error => {
-    return error instanceof Error;
-  };
-
   return (
     <>
       <PageTitle title="Posts" />
@@ -44,7 +37,7 @@ export default function Posts() {
       <div>all</div>
       {status === "loading" ? (
         <span>Loading</span>
-      ) : status === "error" && isError(error) ? (
+      ) : status === "error" && error instanceof Error ? (
         <span>Error: {error.message}</span>
       ) : null}
       <PostsList posts={data?.content || []} />

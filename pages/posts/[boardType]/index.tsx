@@ -19,21 +19,17 @@ export default function PostsBoard() {
 
   const token = useAppSelector((state) => state.auth.token);
 
+  const fetchPostsByBoard = (): Promise<IPostsData> =>
+    api.get(`/posts?boardId=${boardId}`);
+
   const { data, status, error } = useQuery(
     ["posts", boardType],
-    async () => {
-      const response: IPostsData = await api.get(`/posts?boardId=${boardId}`);
-      return response;
-    },
+    fetchPostsByBoard,
     {
       retry: false,
       enabled: !!token && !!boardId,
     }
   );
-
-  const isError = (error: unknown): error is Error => {
-    return error instanceof Error;
-  };
 
   return (
     <>
@@ -43,7 +39,7 @@ export default function PostsBoard() {
       <div>{boardType}</div>
       {status === "loading" ? (
         <span>Loading</span>
-      ) : status === "error" && isError(error) ? (
+      ) : status === "error" && error instanceof Error ? (
         <span>Error: {error.message}</span>
       ) : null}
       <PostsList posts={data?.content || []} />
