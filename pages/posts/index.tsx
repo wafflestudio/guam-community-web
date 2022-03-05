@@ -41,7 +41,7 @@ export default function Posts() {
       ) : status === ERROR && error instanceof Error ? (
         <span>Error: {error.message}</span>
       ) : null}
-      <PostsList posts={data?.content || []} />
+      <PostsList posts={data?.data.content || []} />
     </>
   );
 }

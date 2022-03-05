@@ -34,8 +34,10 @@ export interface IPostsListPost {
 }
 
 export interface IPostsData {
-  content: IPostsListPost[];
-  hasNext: boolean;
+  data: {
+    content: IPostsListPost[];
+    hasNext: boolean;
+  };
 }
 
 export interface IMatchParams {
