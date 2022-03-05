@@ -5,7 +5,6 @@ import PageTitle from "../../components/PageTitle";
 import { useAppSelector } from "../../store/hooks";
 import { IPostsData } from "../../types/types";
 import { PostsList } from "../../components/PostsList";
-import SignInForm from "../../components/SignInForm";
 import { ERROR, LOADING } from "../../constants/constants";
 
 const fetchPosts = (): Promise<IPostsData> => api.get(`/posts`);
@@ -34,7 +33,6 @@ export default function Posts() {
     <>
       <PageTitle title="Posts" />
       <PostsBoardNavbar />
-      <SignInForm />
       <div>all</div>
       {status === LOADING ? (
         <span>Loading</span>
