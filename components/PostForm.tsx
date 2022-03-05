@@ -16,7 +16,6 @@ export default function PostForm() {
         boardId,
         title,
         content,
-        tagId: 0,
         images,
       });
     } catch (e) {

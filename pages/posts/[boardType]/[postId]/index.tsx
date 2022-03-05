@@ -36,8 +36,8 @@ export default function DetailedPostPage() {
       ) : status === "error" && isError(error) ? (
         <span>Error: {error.message}</span>
       ) : null}
-      {data?.content}
-      <Comments comments={data?.comments || []} />
+      {data?.data.user.nickname} {data?.data.content}
+      <Comments comments={data?.data.comments || []} />
     </>
   );
 }
