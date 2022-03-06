@@ -1,6 +1,8 @@
+import Link from "next/link";
 import { useRouter } from "next/router";
 import { useQuery } from "react-query";
 import { api } from "../../../../api/api";
+import CommentForm from "../../../../components/CommentForm";
 import Comments from "../../../../components/Comments";
 import PageTitle from "../../../../components/PageTitle";
 import { useAppSelector } from "../../../../store/hooks";
@@ -28,15 +30,28 @@ export default function DetailedPostPage() {
     return error instanceof Error;
   };
 
+  const postData = data?.data;
+
   return (
     <>
       <PageTitle title="Posts" />
+      <Link href={"/"}>
+        <a>홈</a>
+      </Link>
       {status === "loading" ? (
         <span>Loading</span>
       ) : status === "error" && isError(error) ? (
         <span>Error: {error.message}</span>
       ) : null}
-      {data?.data.user.nickname} {data?.data.content}
+      <div>
+        {postData?.user.nickname} {postData?.content}
+      </div>
+      {postData?.imagePaths.map((image) => (
+        <li key={image}>
+          <img src={"https://guam.s3.ap-northeast-2.amazonaws.com/" + image} />
+        </li>
+      ))}
+      <CommentForm id={postData?.id || 0} />
       <Comments comments={data?.data.comments || []} />
     </>
   );

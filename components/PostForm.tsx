@@ -6,17 +6,29 @@ export default function PostForm() {
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
   const [boardId, setBoardId] = useState(0);
-  const [images, setImages] = useState<any[]>([]);
+  const [images, setImages] = useState<Blob[]>([]);
   const [imageUrls, setImageUrls] = useState<string[]>([]);
 
   const onPostSubmit: React.FormEventHandler<HTMLFormElement> = async (e) => {
     e.preventDefault();
+    const formData = new FormData();
+    const object = {
+      boardId: boardId.toString(),
+      title,
+      content,
+      tagId: "1",
+    };
+    Object.keys(object).forEach((key) =>
+      formData.append(key, object[key as keyof object])
+    );
+    images.length
+      ? images.forEach((image) => {
+          formData.append("images", image);
+        })
+      : formData.append("images", new Blob());
     try {
-      await api.post("/posts", {
-        boardId,
-        title,
-        content,
-        images,
+      await api.post("/posts", formData, {
+        headers: { "Content-type": "multipart/form-data" },
       });
     } catch (e) {
       console.log(e);
