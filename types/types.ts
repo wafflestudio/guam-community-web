@@ -74,8 +74,10 @@ export interface IComment {
 }
 
 export interface ICommentData {
-  postId: number;
-  content: [IComment];
+  data: {
+    postId: number;
+    content: IComment[];
+  };
 }
 
 export interface IDetailedPost {

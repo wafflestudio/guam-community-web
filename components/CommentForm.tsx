@@ -1,19 +1,26 @@
 import { useState } from "react";
 import { api } from "../api/api";
+import { setComments } from "../store/commentsSlice";
+import { useAppDispatch } from "../store/hooks";
 
 export default function CommentForm({ id }: { id: number }) {
-  const [comment, setComment] = useState("");
+  const [commentInput, setCommentInput] = useState("");
+
+  const dispatch = useAppDispatch();
 
   const onCommentChange: React.ChangeEventHandler<HTMLTextAreaElement> = (e) =>
-    setComment(e.target.value);
+    setCommentInput(e.target.value);
 
   const onSubmitComment: React.FormEventHandler = async (e) => {
     e.preventDefault();
     try {
       await api.post(`/posts/${id}/comments`, {
-        content: comment,
+        content: commentInput,
         mentionIds: [0],
       });
+      setCommentInput("");
+      const { data } = await api.get(`/posts/${id}/comments`);
+      dispatch(setComments(data.content));
     } catch (e) {
       console.log(e);
     }
@@ -26,7 +33,7 @@ export default function CommentForm({ id }: { id: number }) {
         <textarea
           id="comment"
           name="comment"
-          value={comment}
+          value={commentInput}
           onChange={onCommentChange}
         />
       </label>

@@ -1,13 +1,14 @@
 import Link from "next/link";
 import { useRouter } from "next/router";
-import { useCallback, useMemo } from "react";
+import { useCallback, useEffect, useMemo } from "react";
 import { useQuery } from "react-query";
 import { api } from "../../../../api/api";
 import CommentForm from "../../../../components/CommentForm";
 import Comments from "../../../../components/Comments";
 import PageTitle from "../../../../components/PageTitle";
 import { ERROR, LOADING } from "../../../../constants/constants";
-import { useAppSelector } from "../../../../store/hooks";
+import { setComments } from "../../../../store/commentsSlice";
+import { useAppDispatch, useAppSelector } from "../../../../store/hooks";
 import { IDetailedPost } from "../../../../types/types";
 
 export default function DetailedPostPage() {
@@ -15,6 +16,8 @@ export default function DetailedPostPage() {
   const { postId } = router.query;
 
   const token = useAppSelector((state) => state.auth.token);
+  const comments = useAppSelector((state) => state.comments.comments);
+  const dispatch = useAppDispatch();
 
   const fetchDetailedPost = useCallback((): Promise<IDetailedPost> => {
     return api.get(`/posts/${postId}`);
@@ -23,17 +26,17 @@ export default function DetailedPostPage() {
   const { data, status, error } = useQuery(
     ["posts", postId],
     fetchDetailedPost,
-    {
-      retry: false,
-      enabled: !!token,
-    }
+    { retry: false, enabled: !!token }
   );
 
   const postData = useMemo(() => data?.data, [data?.data]);
+  useEffect(() => {
+    dispatch(setComments(data?.data.comments || null));
+  }, [data?.data.comments]);
 
   return (
     <>
-      <PageTitle title="Posts" />
+      <PageTitle title={postData?.title || "Posts"} />
       <Link href={"/"}>
         <a>홈</a>
       </Link>
@@ -51,7 +54,7 @@ export default function DetailedPostPage() {
         </li>
       ))}
       <CommentForm id={postData?.id || 0} />
-      <Comments comments={data?.data.comments || []} />
+      <Comments comments={comments} />
     </>
   );
 }
