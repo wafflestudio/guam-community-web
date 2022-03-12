@@ -6,6 +6,7 @@ const nextConfig = {
   env: {
     KEY: KEY,
   },
+
   async rewrites() {
     if (process.env.NODE_ENV !== "production") {
       return [
@@ -15,6 +16,16 @@ const nextConfig = {
         },
       ];
     }
+  },
+
+  webpack(config) {
+    config.module.rules.push({
+      test: /\.svg$/,
+      issuer: /\.[jt]sx?$/,
+      use: ["@svgr/webpack"],
+    });
+
+    return config;
   },
 };
 

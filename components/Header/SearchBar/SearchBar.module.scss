@@ -1,0 +1,27 @@
+@import "../../../assets/colors/colors";
+
+.container {
+  position: absolute;
+  left: 97px;
+  display: inline-block;
+
+  .searchInput {
+    width: 357px;
+    height: 40px;
+    background: $grayscale-gray7;
+    border: none;
+    padding: 10px 8px;
+    color: $grayscale-gray2;
+  }
+
+  svg {
+    height: 24px;
+    width: 24px;
+    margin: 4px 0 0 19px;
+    cursor: pointer;
+
+    path {
+      fill: $grayscale-gray3;
+    }
+  }
+}

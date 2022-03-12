@@ -4,6 +4,7 @@ import { Hydrate, QueryClient, QueryClientProvider } from "react-query";
 import React from "react";
 import { Provider } from "react-redux";
 import { store } from "../store/store";
+import Layout from "../components/layout";
 
 function MyApp({ Component, pageProps }: AppProps) {
   const [queryClient] = React.useState(
@@ -22,7 +23,9 @@ function MyApp({ Component, pageProps }: AppProps) {
     <Provider store={store}>
       <QueryClientProvider client={queryClient}>
         <Hydrate state={pageProps.dehydratedState}>
-          <Component {...pageProps} />
+          <Layout>
+            <Component {...pageProps} />
+          </Layout>
         </Hydrate>
       </QueryClientProvider>
     </Provider>
