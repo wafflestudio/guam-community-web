@@ -12,22 +12,19 @@
   display: inline-block;
 
   button {
-    border: none;
-    padding: 0;
     width: 100%;
     height: 100%;
-    background: transparent;
-    cursor: pointer;
 
     svg {
       height: 24px;
       width: 24px;
 
-      path {
+      :first-child {
+        fill: $red-core;
+      }
+
+      :last-child {
         fill: $grayscale-gray2;
-        &:first {
-          fill: $red-core;
-        }
       }
     }
 

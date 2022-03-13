@@ -1,9 +1,9 @@
 @import "../../../assets/colors/colors";
+@import "../../../assets/fonts/typography_regular";
 
 .container {
   position: absolute;
   left: 97px;
-  display: inline-block;
 
   .searchInput {
     width: 357px;
@@ -12,16 +12,18 @@
     border: none;
     padding: 10px 8px;
     color: $grayscale-gray2;
+    vertical-align: top;
   }
 
-  svg {
+  button {
     height: 24px;
     width: 24px;
     margin: 4px 0 0 19px;
-    cursor: pointer;
 
-    path {
-      fill: $grayscale-gray3;
+    svg {
+      path {
+        fill: $grayscale-gray3;
+      }
     }
   }
 }

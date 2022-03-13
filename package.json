@@ -14,6 +14,7 @@
     "@types/axios": "^0.14.0",
     "@types/react-query": "^1.2.9",
     "axios": "^0.26.0",
+    "dayjs": "^1.10.8",
     "eslint-plugin-react": "^7.29.2",
     "next": "12.1.0",
     "next-redux-wrapper": "^7.0.5",

@@ -1,0 +1,25 @@
+@import "../../../../assets/fonts/typography_medium";
+@import "../../../../assets/colors/colors";
+.container {
+  display: grid;
+  align-items: center;
+
+  button {
+    border: none;
+    background: transparent;
+    padding: 0;
+    cursor: pointer;
+
+    &#recommend {
+      color: $grayscale-gray4;
+      position: absolute;
+      left: 340px;
+    }
+
+    &#time {
+      color: $grayscale-gray2;
+      position: absolute;
+      left: 398px;
+    }
+  }
+}

@@ -1,4 +1,7 @@
-@import url("./SpoqaHanSansNeo-Regular.ttf");
+@font-face {
+  font-family: "Spoqa Han Sans Neo";
+  src: url("./SpoqaHanSansNeo-Regular.ttf") format("truetype");
+}
 
 @mixin typo-regular($size, $height) {
   font-family: Spoqa Han Sans Neo;

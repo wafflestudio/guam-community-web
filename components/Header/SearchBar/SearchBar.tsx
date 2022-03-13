@@ -11,13 +11,15 @@ export default function SearchBar() {
   return (
     <form className={styles.container}>
       <input
-        className={styles.searchInput}
+        className={`${styles.searchInput} ${styles["typo4-regular"]}`}
         type="text"
         placeholder="개발자!"
         value={searchInput}
         onChange={onSearchInputChange}
       />
-      <SearchIcon />
+      <button>
+        <SearchIcon />
+      </button>
     </form>
   );
 }

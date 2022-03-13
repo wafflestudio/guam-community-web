@@ -1,0 +1,22 @@
+@import "../../../../assets/colors/colors";
+
+.writeButton {
+  height: 56px;
+  width: 56px;
+  padding: 0;
+  border: none;
+  border-radius: 50%;
+  background: $purple-core;
+  margin-left: 32px;
+  position: relative;
+
+  svg {
+    position: absolute;
+    left: 17.33px;
+    top: 17.28px;
+
+    path {
+      fill: $grayscale-white;
+    }
+  }
+}

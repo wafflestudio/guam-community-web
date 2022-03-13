@@ -1,10 +1,12 @@
 /** @type {import('next').NextConfig} */
 const KEY = process.env.KEY;
+const BUCKET_URL = process.env.BUCKET_URL;
 
 const nextConfig = {
   reactStrictMode: true,
   env: {
     KEY: KEY,
+    BUCKET_URL: BUCKET_URL,
   },
 
   async rewrites() {

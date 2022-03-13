@@ -1,0 +1,124 @@
+@import "../../../assets/fonts/typography_medium";
+@import "../../../assets/fonts/typography_regular";
+@import "../../../assets/colors/colors";
+
+.container {
+  width: 552px;
+  height: 161px;
+  position: relative;
+  background: $grayscale-white;
+  margin-bottom: 12px;
+
+  ul.categories {
+    height: 20px;
+    position: absolute;
+    left: 24px;
+    top: 12px;
+
+    li {
+      color: $purple-core;
+    }
+  }
+
+  span.fromNow {
+    height: 16px;
+    position: absolute;
+    right: 24px;
+    top: 14px;
+    color: $grayscale-gray4;
+  }
+
+  hr {
+    width: 504px;
+    height: 0;
+    border: none;
+    border-top: 1px solid;
+    margin: 0;
+    position: absolute;
+    left: 24px;
+    top: 40px;
+    color: $grayscale-gray7;
+  }
+
+  div.title {
+    position: absolute;
+    left: 24px;
+    top: 48px;
+    color: $grayscale-gray1;
+    font-weight: 500;
+    text-overflow: ellipsis;
+    cursor: pointer;
+  }
+
+  div.content {
+    width: 504px;
+    height: 42px;
+    position: relative;
+    left: 24px;
+    top: 75px;
+    text-overflow: ellipsis;
+    color: $grayscale-gray3;
+    cursor: pointer;
+  }
+
+  div.profileImage {
+    img {
+      position: absolute;
+      top: 125px;
+      left: 24px;
+      height: 24px;
+      width: 24px;
+    }
+
+    svg {
+      position: absolute;
+      top: 125px;
+      left: 24px;
+    }
+  }
+
+  span.writerName {
+    position: absolute;
+    top: 127px;
+    left: 56px;
+    color: $grayscale-gray2;
+  }
+
+  div.engagement {
+    height: 20px;
+    min-width: 133px;
+    position: absolute;
+    top: 127px;
+    right: 24px;
+    text-align: right;
+
+    .countContainer {
+      height: 20px;
+      box-sizing: border-box;
+
+      svg {
+        height: 100%;
+        width: 20px;
+        vertical-align: top;
+        margin-left: 12px;
+      }
+
+      span {
+        color: $grayscale-gray5;
+        display: inline-block;
+        min-width: 15px;
+        height: 20px;
+        vertical-align: top;
+        margin-left: 4px;
+        text-align: center;
+      }
+
+      .likes,
+      .comments {
+        svg {
+          margin-right: 12px;
+        }
+      }
+    }
+  }
+}
