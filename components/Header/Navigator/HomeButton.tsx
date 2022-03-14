@@ -10,7 +10,7 @@ export default function HomeButton() {
 
   return (
     <li className={styles.homeButton} onClick={onHomeClick}>
-      <button>
+      <button className={`${router.pathname === "/" && styles.isAtHome}`}>
         <HomeIcon />
         <div className={styles["typo1-medium"]}>홈</div>
       </button>

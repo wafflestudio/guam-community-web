@@ -1,6 +1,6 @@
-@import "../../../assets/fonts/typography_medium";
-@import "../../../assets/fonts/typography_regular";
-@import "../../../assets/colors/colors";
+@import "../../../../assets/fonts/typography_medium";
+@import "../../../../assets/fonts/typography_regular";
+@import "../../../../assets/colors/colors";
 
 .container {
   width: 552px;
@@ -17,6 +17,7 @@
 
     li {
       color: $purple-core;
+      font-weight: 500;
     }
   }
 

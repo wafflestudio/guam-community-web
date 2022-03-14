@@ -1,0 +1,127 @@
+@import "../../../assets/colors/colors";
+@import "../../../assets/fonts/typography_medium";
+
+.container {
+  width: 264px;
+  height: 258px;
+  background: $grayscale-white;
+  position: absolute;
+  top: 80px;
+
+  .title {
+    font-weight: 500;
+    position: absolute;
+    left: 24px;
+    top: 24px;
+  }
+
+  hr {
+    width: 216px;
+    height: 0;
+    border: none;
+    border-top: 1px solid;
+    margin: 0;
+    position: absolute;
+    left: 24px;
+    top: 58px;
+    color: $grayscale-gray7;
+  }
+
+  nav {
+    ul {
+      li {
+        button.listItem {
+          svg {
+            position: absolute;
+            left: 24px;
+          }
+
+          span {
+            position: absolute;
+            left: 52px;
+            height: 23px;
+            color: $grayscale-gray4;
+            display: flex;
+            align-items: flex-end;
+            line-height: 21px;
+          }
+
+          &.all {
+            svg {
+              top: 66px;
+
+              path {
+                stroke: $grayscale-gray4;
+              }
+            }
+
+            span {
+              top: 66px;
+              width: 26px;
+            }
+          }
+
+          &.free {
+            svg {
+              top: 102px;
+            }
+
+            span {
+              top: 102px;
+              width: 68px;
+            }
+          }
+
+          &.anonymous {
+            svg {
+              top: 138px;
+            }
+
+            span {
+              top: 138px;
+              width: 68px;
+            }
+          }
+
+          &.info {
+            svg {
+              top: 174px;
+            }
+
+            span {
+              top: 174px;
+              width: 94px;
+            }
+          }
+
+          &.career {
+            svg {
+              top: 210px;
+            }
+
+            span {
+              top: 210px;
+              width: 68px;
+            }
+          }
+
+          &.isSelected {
+            svg {
+              color: $purple-dark1;
+              path {
+                color: $purple-dark1;
+                stroke: $purple-dark1;
+                fill-rule: $purple-dark1;
+              }
+            }
+
+            span {
+              color: $purple-dark1;
+              font-weight: 500;
+            }
+          }
+        }
+      }
+    }
+  }
+}

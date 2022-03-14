@@ -1,5 +1,5 @@
 import styles from "./PostWriteButton.module.scss";
-import WriteIcon from "../../../../assets/icons/write/button.svg";
+import WriteIcon from "../../../../../assets/icons/write/button.svg";
 import { useRouter } from "next/router";
 
 export default function PostWriteButton() {

@@ -1,9 +1,9 @@
-import { IPostsListPost } from "../../../types/types";
+import { IPostsListPost } from "../../../../types/types";
 import styles from "./Post.module.scss";
-import ProfileIcon from "../../../assets/icons/profile/default_image.svg";
-import LikeIcon from "../../../assets/icons/like/post-list.svg";
-import CommentIcon from "../../../assets/icons/comment/comment_20.svg";
-import ScrapIcon from "../../../assets/icons/scrap/outlined_20.svg";
+import ProfileIcon from "../../../../assets/icons/profile/default_image.svg";
+import LikeIcon from "../../../../assets/icons/like/post-list.svg";
+import CommentIcon from "../../../../assets/icons/comment/comment_20.svg";
+import ScrapIcon from "../../../../assets/icons/scrap/outlined_20.svg";
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
 import ko from "dayjs/locale/ko";
@@ -25,10 +25,10 @@ export default function Post({ post }: { post: IPostsListPost }) {
 
   return (
     <li key={post.id} className={styles.container}>
-      <ul className={`${styles.categories} ${styles["typo2-medium"]}`}>
+      <ul className={`${styles["typo2-medium"]} ${styles.categories}`}>
         {categories}
       </ul>
-      <span className={`${styles.fromNow} ${styles["typo1-regular"]}`}>
+      <span className={`${styles["typo1-regular"]} ${styles.fromNow}`}>
         {dayjs(createdTime).locale(ko).fromNow()}
       </span>
       <hr />

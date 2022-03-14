@@ -1,17 +1,19 @@
+export interface IUser {
+  id: number;
+  introduction: null | string;
+  githubId: null | string;
+  blogUrl: null | string;
+  nickname: string;
+  email: null | string;
+  profileImage: null | string;
+  interests: [];
+  profileSet: boolean;
+}
+
 export interface IPostsListPost {
   id: number;
   boardId: 0 | 1 | 2 | 3 | 4 | 5;
-  user: {
-    id: number;
-    introduction: null | string;
-    githubId: null | string;
-    blogUrl: null | string;
-    nickname: string;
-    email: null | string;
-    profileImage: null | string;
-    interests: [];
-    profileSet: boolean;
-  };
+  user: IUser;
   title: string;
   content: string;
   imagePaths: [string];
@@ -51,21 +53,7 @@ export interface IMatchParams {
 export interface IComment {
   id: number;
   postId: number;
-  user: {
-    id: number;
-    introduction: string;
-    githubId: string;
-    blogUrl: string;
-    nickname: string;
-    email: string;
-    profileImage: string;
-    interests: [
-      {
-        name: string;
-      }
-    ];
-    profileSet: boolean;
-  };
+  user: IUser;
   content: string;
   imagePaths: [string];
   likeCount: number;
@@ -84,17 +72,7 @@ export interface IDetailedPost {
   data: {
     id: number;
     boardId: 0 | 1 | 2 | 3 | 4 | 5;
-    user: {
-      id: number;
-      introduction: null | string;
-      githubId: null | string;
-      blogUrl: null | string;
-      nickname: string;
-      email: null | string;
-      profileImage: null | string;
-      interests: [];
-      profileSet: boolean;
-    };
+    user: IUser;
     title: string;
     content: string;
     imagePaths: [string];

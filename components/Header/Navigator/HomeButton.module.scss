@@ -19,13 +19,22 @@
       width: 24px;
 
       path {
-        fill: $purple-core;
+        fill: $grayscale-gray4;
       }
     }
 
     div {
-      color: $purple-core;
+      color: $grayscale-gray4;
       margin: auto;
+    }
+
+    &.isAtHome {
+      path {
+        fill: $purple-core;
+      }
+      div {
+        color: $purple-core;
+      }
     }
   }
 }
