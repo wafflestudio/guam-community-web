@@ -25,7 +25,7 @@ export default function PostsBoard() {
                   } ${router.pathname === "/" && styles.isSelected}`}
                 >
                   <GlobalIcon />
-                  <span>피드</span>
+                  <span>전체 게시판</span>
                 </button>
               </a>
             </Link>
