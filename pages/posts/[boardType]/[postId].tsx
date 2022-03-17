@@ -6,6 +6,7 @@ import { api } from "../../../api/api";
 import CommentForm from "../../../components/CommentForm";
 import Comments from "../../../components/Comments";
 import PageTitle from "../../../components/PageTitle";
+import PostDetail from "../../../components/PostDetailPage/PostDetailPage";
 import { ERROR, LOADING } from "../../../constants/constants";
 import { setComments } from "../../../store/commentsSlice";
 import { useAppDispatch, useAppSelector } from "../../../store/hooks";
@@ -32,6 +33,7 @@ export default function DetailedPostPage() {
   );
 
   const postData = useMemo(() => data?.data, [data?.data]);
+
   useEffect(() => {
     dispatch(setComments(data?.data.comments || null));
   }, [data?.data.comments]);
@@ -39,9 +41,7 @@ export default function DetailedPostPage() {
   return (
     <>
       <PageTitle title={postData?.title || "Posts"} />
-      <Link href={"/"}>
-        <a>홈</a>
-      </Link>
+      <PostDetail />
       {status === LOADING ? (
         <span>Loading</span>
       ) : status === ERROR && error instanceof Error ? (
