@@ -6,7 +6,7 @@ export default function WriteAPost() {
   return (
     <div className={styles.container}>
       <MessageBox />
-      <PostWriteButton />
+      <PostWriteButton postDetailPage={false} />
     </div>
   );
 }

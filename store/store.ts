@@ -4,6 +4,7 @@ import authReducer from "./authSlice";
 import commentsReducer from "./commentsSlice";
 import boardReducer from "./boardSlice";
 import postsListReducer from "./postsListSlice";
+import postDetailReducer from "./postDetailSlice";
 
 export const store = configureStore({
   reducer: {
@@ -11,9 +12,9 @@ export const store = configureStore({
     comments: commentsReducer,
     boardId: boardReducer,
     postsList: postsListReducer,
+    postDetail: postDetailReducer,
   },
 });
 
-// Infer the `RootState` and `AppDispatch` types from the store itself
 export type AppDispatch = typeof store.dispatch;
 export type RootState = ReturnType<typeof store.getState>;

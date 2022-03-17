@@ -1,4 +1,3 @@
-import Link from "next/link";
 import { useRouter } from "next/router";
 import { useCallback, useEffect, useMemo } from "react";
 import { useQuery } from "react-query";
@@ -6,10 +5,11 @@ import { api } from "../../../api/api";
 import CommentForm from "../../../components/CommentForm";
 import Comments from "../../../components/Comments";
 import PageTitle from "../../../components/PageTitle";
-import PostDetail from "../../../components/PostDetailPage/PostDetailPage";
+import PostDetailPage from "../../../components/PostDetailPage/PostDetailPage";
 import { ERROR, LOADING } from "../../../constants/constants";
 import { setComments } from "../../../store/commentsSlice";
 import { useAppDispatch, useAppSelector } from "../../../store/hooks";
+import { setPost } from "../../../store/postDetailSlice";
 import { IDetailedPost } from "../../../types/types";
 
 export default function DetailedPostPage() {
@@ -36,12 +36,13 @@ export default function DetailedPostPage() {
 
   useEffect(() => {
     dispatch(setComments(data?.data.comments || null));
-  }, [data?.data.comments]);
+    dispatch(setPost(data));
+  }, [data?.data]);
 
   return (
     <>
       <PageTitle title={postData?.title || "Posts"} />
-      <PostDetail />
+      <PostDetailPage />
       {status === LOADING ? (
         <span>Loading</span>
       ) : status === ERROR && error instanceof Error ? (
