@@ -3,8 +3,8 @@
 @import "../../../../assets/colors/colors";
 
 .container {
-  width: 552px;
-  height: 161px;
+  width: 841px;
+  height: 140px;
   position: relative;
   background: $grayscale-white;
   margin-bottom: 12px;
@@ -52,8 +52,8 @@
   }
 
   div.content {
-    width: 504px;
-    height: 42px;
+    width: 793px;
+    height: 21px;
     position: relative;
     left: 24px;
     top: 75px;
@@ -65,7 +65,7 @@
   div.profileImage {
     img {
       position: absolute;
-      top: 125px;
+      top: 104px;
       left: 24px;
       height: 24px;
       width: 24px;
@@ -73,14 +73,14 @@
 
     svg {
       position: absolute;
-      top: 125px;
+      top: 104px;
       left: 24px;
     }
   }
 
   span.writerName {
     position: absolute;
-    top: 127px;
+    top: 106px;
     left: 56px;
     color: $grayscale-gray2;
   }
@@ -89,7 +89,7 @@
     height: 20px;
     min-width: 133px;
     position: absolute;
-    top: 127px;
+    top: 106px;
     right: 24px;
     text-align: right;
 
