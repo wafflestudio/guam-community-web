@@ -2,14 +2,14 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import { useCallback, useEffect, useMemo } from "react";
 import { useQuery } from "react-query";
-import { api } from "../../../../api/api";
-import CommentForm from "../../../../components/CommentForm";
-import Comments from "../../../../components/Comments";
-import PageTitle from "../../../../components/PageTitle";
-import { ERROR, LOADING } from "../../../../constants/constants";
-import { setComments } from "../../../../store/commentsSlice";
-import { useAppDispatch, useAppSelector } from "../../../../store/hooks";
-import { IDetailedPost } from "../../../../types/types";
+import { api } from "../../../api/api";
+import CommentForm from "../../../components/CommentForm";
+import Comments from "../../../components/Comments";
+import PageTitle from "../../../components/PageTitle";
+import { ERROR, LOADING } from "../../../constants/constants";
+import { setComments } from "../../../store/commentsSlice";
+import { useAppDispatch, useAppSelector } from "../../../store/hooks";
+import { IDetailedPost } from "../../../types/types";
 
 export default function DetailedPostPage() {
   const router = useRouter();
