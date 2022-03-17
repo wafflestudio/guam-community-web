@@ -2,8 +2,6 @@ import { useRouter } from "next/router";
 import { useCallback, useEffect, useMemo } from "react";
 import { useQuery } from "react-query";
 import { api } from "../../../api/api";
-import CommentForm from "../../../components/CommentForm";
-import Comments from "../../../components/Comments";
 import PageTitle from "../../../components/PageTitle";
 import PostDetailPage from "../../../components/PostDetailPage/PostDetailPage";
 import { ERROR, LOADING } from "../../../constants/constants";
@@ -17,7 +15,6 @@ export default function DetailedPostPage() {
   const { postId } = router.query;
 
   const token = useAppSelector((state) => state.auth.token);
-  const comments = useAppSelector((state) => state.comments.comments);
   const dispatch = useAppDispatch();
 
   const fetchDetailedPost = useCallback((): Promise<IDetailedPost> => {
@@ -42,22 +39,17 @@ export default function DetailedPostPage() {
   return (
     <>
       <PageTitle title={postData?.title || "Posts"} />
-      <PostDetailPage />
       {status === LOADING ? (
         <span>Loading</span>
       ) : status === ERROR && error instanceof Error ? (
         <span>Error: {error.message}</span>
       ) : null}
-      <div>
-        {postData?.user.nickname} {postData?.content}
-      </div>
-      {postData?.imagePaths.map((image) => (
+      <PostDetailPage />
+      {/* {postData?.imagePaths.map((image) => (
         <li key={image}>
           <img src={process.env.BUCKET_URL + image} />
         </li>
-      ))}
-      <CommentForm id={postData?.id || 0} />
-      <Comments comments={comments} />
+      ))} */}
     </>
   );
 }
