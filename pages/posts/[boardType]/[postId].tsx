@@ -33,18 +33,18 @@ export default function DetailedPostPage() {
 
   useEffect(() => {
     dispatch(setComments(data?.data.comments || null));
-    dispatch(setPost(data));
+    dispatch(setPost(data?.data));
   }, [data?.data]);
 
   return (
     <>
       <PageTitle title={postData?.title || "Posts"} />
+      <PostDetailPage />
       {status === LOADING ? (
         <span>Loading</span>
       ) : status === ERROR && error instanceof Error ? (
         <span>Error: {error.message}</span>
       ) : null}
-      <PostDetailPage />
       {/* {postData?.imagePaths.map((image) => (
         <li key={image}>
           <img src={process.env.BUCKET_URL + image} />

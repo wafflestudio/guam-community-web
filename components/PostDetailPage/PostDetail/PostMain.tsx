@@ -7,7 +7,7 @@ import ko from "dayjs/locale/ko";
 dayjs.extend(relativeTime);
 
 export default function PostMain() {
-  const post = useAppSelector((state) => state.postDetail.post?.data);
+  const post = useAppSelector((state) => state.postDetail.post);
 
   return (
     <div className={styles.container}>

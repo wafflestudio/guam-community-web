@@ -3,9 +3,7 @@ import Comment from "./Comment";
 import styles from "./CommentsList.module.scss";
 
 export default function CommentsList() {
-  const comments = useAppSelector(
-    (state) => state.postDetail.post?.data.comments
-  );
+  const comments = useAppSelector((state) => state.comments.comments);
 
   return (
     <div className={styles.container}>

@@ -2,13 +2,13 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { IDetailedPost } from "../types/types";
 
 type IPostState = {
-  post: IDetailedPost | undefined;
+  post: IDetailedPost["data"] | undefined;
 };
 
 type IPostReducer = {
   setPost: (
     state: IPostState,
-    action: PayloadAction<IDetailedPost | undefined>
+    action: PayloadAction<IDetailedPost["data"] | undefined>
   ) => IPostState;
 };
 
@@ -17,7 +17,7 @@ const initialState = {
 };
 
 const postDetailSlice = createSlice<IPostState, IPostReducer>({
-  name: "comments",
+  name: "post",
   initialState,
   reducers: {
     setPost: (_, action) => {

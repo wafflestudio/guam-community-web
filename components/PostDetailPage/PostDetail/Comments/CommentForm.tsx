@@ -8,7 +8,8 @@ import styles from "./CommentForm.module.scss";
 export default function CommentForm() {
   const [commentInput, setCommentInput] = useState("");
 
-  const commentId = useAppSelector((state) => state.postDetail.post?.data.id);
+  const postId = useAppSelector((state) => state.postDetail.post?.id);
+  const token = useAppSelector((state) => state.auth.token);
 
   const dispatch = useAppDispatch();
 
@@ -18,12 +19,18 @@ export default function CommentForm() {
   const onSubmitComment: React.FormEventHandler = async (e) => {
     e.preventDefault();
     try {
-      await api.post(`/posts/${commentId}/comments`, {
-        content: commentInput,
-        mentionIds: [0],
-      });
+      await api.post(
+        `/posts/${postId}/comments`,
+        {
+          content: commentInput,
+          mentionIds: [],
+        },
+        { headers: { Authorization: `Bearer ${token}` } }
+      );
       setCommentInput("");
-      const { data } = await api.get(`/posts/${commentId}/comments`);
+      const { data } = await api.get(`/posts/${postId}/comments`, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
       dispatch(setComments(data.content));
     } catch (e) {
       console.log(e);

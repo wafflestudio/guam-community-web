@@ -13,7 +13,7 @@ type ICommentReducer = {
 };
 
 const initialState = {
-  comments: [],
+  comments: null,
 };
 
 const commentsSlice = createSlice<ICommentState, ICommentReducer>({
