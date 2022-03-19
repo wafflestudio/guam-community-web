@@ -1,10 +1,10 @@
 import { configureStore } from "@reduxjs/toolkit";
 
 import authReducer from "./authSlice";
-import commentsReducer from "./commentsSlice";
 import boardReducer from "./boardSlice";
-import postsListReducer from "./postsListSlice";
+import commentsReducer from "./commentsSlice";
 import postDetailReducer from "./postDetailSlice";
+import postsListReducer from "./postsListSlice";
 
 export const store = configureStore({
   reducer: {

@@ -1,5 +1,6 @@
-import styles from "./MessageButton.module.scss";
 import MessageIcon from "../../../assets/icons/message/default.svg";
+
+import styles from "./MessageButton.module.scss";
 
 export default function MessageButton() {
   return (

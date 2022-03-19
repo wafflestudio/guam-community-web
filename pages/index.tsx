@@ -1,13 +1,15 @@
 import type { GetStaticProps, NextPage } from "next";
-import PageTitle from "../components/PageTitle";
-import SignInForm from "../components/SignInForm";
-import PostsPage from "../components/PostsPage/PostsPage";
-import { IPostsData } from "../types/types";
+
 import { dehydrate, QueryClient, useQuery } from "react-query";
-import { useAppDispatch, useAppSelector } from "../store/hooks";
+
 import { api } from "../api/api";
+import PageTitle from "../components/PageTitle";
+import PostsPage from "../components/PostsPage/PostsPage";
+import SignInForm from "../components/SignInForm";
 import { ERROR, LOADING } from "../constants/constants";
+import { useAppDispatch, useAppSelector } from "../store/hooks";
 import { setPosts } from "../store/postsListSlice";
+import { IPostsData } from "../types/types";
 
 const fetchPosts = (): Promise<IPostsData> => api.get(`/posts`);
 

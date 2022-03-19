@@ -1,5 +1,6 @@
 import { boardList, categoryList } from "../../../constants/constants";
 import { useAppSelector } from "../../../store/hooks";
+
 import styles from "./BoardName.module.scss";
 
 export default function BoardName() {

@@ -1,5 +1,6 @@
-import styles from "./ProfileButton.module.scss";
 import ProfileIcon from "../../../assets/icons/profile/outlined.svg";
+
+import styles from "./ProfileButton.module.scss";
 
 export default function ProfileButton() {
   return (

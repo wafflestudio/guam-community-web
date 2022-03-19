@@ -1,6 +1,7 @@
 import { useRouter } from "next/router";
 import { useCallback, useEffect, useMemo } from "react";
 import { useQuery } from "react-query";
+
 import { api } from "../../../api/api";
 import PageTitle from "../../../components/PageTitle";
 import PostDetailPage from "../../../components/PostDetailPage/PostDetailPage";

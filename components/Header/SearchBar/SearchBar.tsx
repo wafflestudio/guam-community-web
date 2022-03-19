@@ -1,6 +1,8 @@
-import styles from "./SearchBar.module.scss";
-import SearchIcon from "../../../assets/icons/search.svg";
 import { useState } from "react";
+
+import SearchIcon from "../../../assets/icons/search.svg";
+
+import styles from "./SearchBar.module.scss";
 
 export default function SearchBar() {
   const [searchInput, setSearchInput] = useState("");

@@ -1,8 +1,10 @@
 import { useState } from "react";
+
 import { api } from "../../../../api/api";
+import CameraIcon from "../../../../assets/icons/camera.svg";
 import { setComments } from "../../../../store/commentsSlice";
 import { useAppDispatch, useAppSelector } from "../../../../store/hooks";
-import CameraIcon from "../../../../assets/icons/camera.svg";
+
 import styles from "./CommentForm.module.scss";
 
 export default function CommentForm() {

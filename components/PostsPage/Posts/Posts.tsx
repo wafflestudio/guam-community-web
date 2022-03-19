@@ -1,6 +1,7 @@
-import styles from "./Posts.module.scss";
 import PostsList from "./PostsList/PostsList";
 import WriteAPost from "./WriteAPost/WriteAPost";
+
+import styles from "./Posts.module.scss";
 
 export default function Posts() {
   return (

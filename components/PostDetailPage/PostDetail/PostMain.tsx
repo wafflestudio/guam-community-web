@@ -1,8 +1,11 @@
-import { useAppSelector } from "../../../store/hooks";
-import styles from "./PostMain.module.scss";
 import dayjs from "dayjs";
-import relativeTime from "dayjs/plugin/relativeTime";
 import ko from "dayjs/locale/ko";
+import relativeTime from "dayjs/plugin/relativeTime";
+
+import { useAppSelector } from "../../../store/hooks";
+
+import styles from "./PostMain.module.scss";
+
 
 dayjs.extend(relativeTime);
 

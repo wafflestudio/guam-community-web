@@ -1,5 +1,7 @@
 import { useAppSelector } from "../../../../store/hooks";
+
 import Post from "./Post";
+
 import styles from "./PostsList.module.scss";
 
 export default function PostsList() {

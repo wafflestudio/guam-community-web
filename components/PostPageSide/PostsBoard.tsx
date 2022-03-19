@@ -1,16 +1,18 @@
-import styles from "./PostsBoard.module.scss";
-import FeedIcon from "../../assets/icons/board/feed.svg";
-import FeedActiveIcon from "../../assets/icons/board/feed-active.svg";
-import FreeIcon from "../../assets/icons/board/free.svg";
-import FreeActiveIcon from "../../assets/icons/board/free-active.svg";
-import AnonymousIcon from "../../assets/icons/board/anonymous.svg";
-import AnonymousActiveIcon from "../../assets/icons/board/anonymous-active.svg";
-import InfoIcon from "../../assets/icons/board/info.svg";
-import InfoActiveIcon from "../../assets/icons/board/info-active.svg";
-import HRIcon from "../../assets/icons/board/hr.svg";
-import HRActiveIcon from "../../assets/icons/board/hr-active.svg";
-import { useRouter } from "next/router";
 import Link from "next/link";
+import { useRouter } from "next/router";
+
+import AnonymousActiveIcon from "../../assets/icons/board/anonymous-active.svg";
+import AnonymousIcon from "../../assets/icons/board/anonymous.svg";
+import FeedActiveIcon from "../../assets/icons/board/feed-active.svg";
+import FeedIcon from "../../assets/icons/board/feed.svg";
+import FreeActiveIcon from "../../assets/icons/board/free-active.svg";
+import FreeIcon from "../../assets/icons/board/free.svg";
+import HRActiveIcon from "../../assets/icons/board/hr-active.svg";
+import HRIcon from "../../assets/icons/board/hr.svg";
+import InfoActiveIcon from "../../assets/icons/board/info-active.svg";
+import InfoIcon from "../../assets/icons/board/info.svg";
+
+import styles from "./PostsBoard.module.scss";
 
 export default function PostsBoard() {
   const router = useRouter();

@@ -4,6 +4,42 @@
     "next/core-web-vitals",
     "plugin:@typescript-eslint/recommended",
     "plugin:@next/next/recommended",
+    "plugin:import/warnings",
+    "plugin:import/recommended",
+    "plugin:import/typescript",
     "prettier"
-  ]
+  ],
+  "rules": {
+    "import/order": [
+      "warn",
+      {
+        "groups": [
+          "external",
+          "builtin",
+          "object",
+          "internal",
+          "parent",
+          "sibling"
+        ],
+        "pathGroups": [
+          {
+            "pattern": "next",
+            "group": "external",
+            "position": "before"
+          },
+          {
+            "pattern": "./*.scss",
+            "group": "sibling",
+            "position": "after"
+          }
+        ],
+        "pathGroupsExcludedImportTypes": ["next", "./*.scss"],
+        "newlines-between": "always",
+        "alphabetize": {
+          "order": "asc",
+          "caseInsensitive": true
+        }
+      }
+    ]
+  }
 }

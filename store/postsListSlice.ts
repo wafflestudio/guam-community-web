@@ -1,4 +1,5 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+
 import { IPostsListPost } from "../types/types";
 
 type IPostsListState = {

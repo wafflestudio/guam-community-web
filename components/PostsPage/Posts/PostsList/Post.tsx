@@ -1,13 +1,15 @@
-import { IPostsListPost } from "../../../../types/types";
-import styles from "./Post.module.scss";
-import ProfileIcon from "../../../../assets/icons/profile/default_image.svg";
-import LikeIcon from "../../../../assets/icons/like/post-list.svg";
-import CommentIcon from "../../../../assets/icons/comment/comment_20.svg";
-import ScrapIcon from "../../../../assets/icons/scrap/outlined_20.svg";
 import dayjs from "dayjs";
-import relativeTime from "dayjs/plugin/relativeTime";
 import ko from "dayjs/locale/ko";
+import relativeTime from "dayjs/plugin/relativeTime";
 import { useRouter } from "next/router";
+
+import CommentIcon from "../../../../assets/icons/comment/comment_20.svg";
+import LikeIcon from "../../../../assets/icons/like/post-list.svg";
+import ProfileIcon from "../../../../assets/icons/profile/default_image.svg";
+import ScrapIcon from "../../../../assets/icons/scrap/outlined_20.svg";
+import { IPostsListPost } from "../../../../types/types";
+
+import styles from "./Post.module.scss";
 
 dayjs.extend(relativeTime);
 

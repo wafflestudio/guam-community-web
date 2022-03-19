@@ -1,13 +1,16 @@
-import PageTitle from "../../../components/PageTitle";
-import SignInForm from "../../../components/SignInForm";
-import PostsPage from "../../../components/PostsPage/PostsPage";
+import { GetStaticProps } from "next";
+
 import { useRouter } from "next/router";
-import { boardList, ERROR, LOADING } from "../../../constants/constants";
 import { dehydrate, QueryClient, useQuery } from "react-query";
+
 import { api } from "../../../api/api";
+import PageTitle from "../../../components/PageTitle";
+import PostsPage from "../../../components/PostsPage/PostsPage";
+import SignInForm from "../../../components/SignInForm";
+import { boardList, ERROR, LOADING } from "../../../constants/constants";
 import { useAppDispatch, useAppSelector } from "../../../store/hooks";
 import { setPosts } from "../../../store/postsListSlice";
-import { GetStaticProps } from "next";
+
 
 export async function getStaticPaths() {
   const paths = boardList.map((board) => ({

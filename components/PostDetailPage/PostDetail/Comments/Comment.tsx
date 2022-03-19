@@ -1,7 +1,8 @@
-import { IComment } from "../../../../types/types";
-import styles from "./Comment.module.scss";
-import MoreIcon from "../../../../assets/icons/more.svg";
 import LikeIcon from "../../../../assets/icons/like/outlined.svg";
+import MoreIcon from "../../../../assets/icons/more.svg";
+import { IComment } from "../../../../types/types";
+
+import styles from "./Comment.module.scss";
 
 export default function Comment({ comment }: { comment: IComment }) {
   return (

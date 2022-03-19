@@ -1,5 +1,7 @@
 import { useAppSelector } from "../../../../store/hooks";
+
 import Comment from "./Comment";
+
 import styles from "./CommentsList.module.scss";
 
 export default function CommentsList() {
