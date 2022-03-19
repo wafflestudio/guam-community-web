@@ -3,7 +3,7 @@
 
 .container {
   width: 264px;
-  height: 258px;
+  height: 298px;
   background: $grayscale-white;
   position: absolute;
   top: 80px;
@@ -46,61 +46,39 @@
             line-height: 21px;
           }
 
-          &.all {
-            svg {
-              top: 66px;
-            }
-
-            span {
-              top: 66px;
-            }
+          &.all svg,
+          &.all span {
+            top: 70px;
           }
 
-          &.free {
-            svg {
-              top: 102px;
-            }
-
-            span {
-              top: 102px;
-            }
+          &.free svg,
+          &.free span {
+            top: 106px;
           }
 
-          &.anonymous {
-            svg {
-              top: 138px;
-            }
-
-            span {
-              top: 138px;
-            }
+          &.anonymous svg,
+          &.anonymous span {
+            top: 142px;
           }
 
-          &.info {
-            svg {
-              top: 174px;
-            }
-
-            span {
-              top: 174px;
-            }
+          &.info svg,
+          &.info span {
+            top: 178px;
           }
 
-          &.career {
-            svg {
-              top: 210px;
-            }
-
-            span {
-              top: 210px;
-            }
+          &.career svg,
+          &.career span {
+            top: 214px;
           }
 
-          &.isSelected {
-            span {
-              color: $purple-dark1;
-              font-weight: 500;
-            }
+          &.ad svg,
+          &.ad span {
+            top: 250px;
+          }
+
+          &.isSelected span {
+            color: $purple-dark1;
+            font-weight: 500;
           }
         }
       }

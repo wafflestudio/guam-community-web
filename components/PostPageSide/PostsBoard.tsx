@@ -1,6 +1,8 @@
 import Link from "next/link";
 import { useRouter } from "next/router";
 
+import AdActiveIcon from "../../assets/icons/board/ad-active.svg";
+import AdIcon from "../../assets/icons/board/ad.svg";
 import AnonymousActiveIcon from "../../assets/icons/board/anonymous-active.svg";
 import AnonymousIcon from "../../assets/icons/board/anonymous.svg";
 import FeedActiveIcon from "../../assets/icons/board/feed-active.svg";
@@ -11,6 +13,13 @@ import HRActiveIcon from "../../assets/icons/board/hr-active.svg";
 import HRIcon from "../../assets/icons/board/hr.svg";
 import InfoActiveIcon from "../../assets/icons/board/info-active.svg";
 import InfoIcon from "../../assets/icons/board/info.svg";
+import {
+  AD,
+  ANONYMOUS,
+  CAREER,
+  FREE,
+  INFORMATION,
+} from "../../constants/constants";
 
 import styles from "./PostsBoard.module.scss";
 
@@ -39,28 +48,28 @@ export default function PostsBoard() {
             </Link>
           </li>
           <li>
-            <Link href={"/posts/free"}>
+            <Link href={`/posts/${FREE}`}>
               <a>
                 <button
                   className={`${styles["typo4-medium"]} ${styles.listItem} ${
                     styles.free
-                  } ${isSelected("free") && styles.isSelected}`}
+                  } ${isSelected(FREE) && styles.isSelected}`}
                 >
-                  {isSelected("free") ? <FreeActiveIcon /> : <FreeIcon />}
+                  {isSelected(FREE) ? <FreeActiveIcon /> : <FreeIcon />}
                   <span>자유 게시판</span>
                 </button>
               </a>
             </Link>
           </li>
           <li>
-            <Link href={"/posts/anonymous"}>
+            <Link href={`/posts/${ANONYMOUS}`}>
               <a>
                 <button
                   className={`${styles["typo4-medium"]} ${styles.listItem} ${
                     styles.anonymous
-                  } ${isSelected("anonymous") && styles.isSelected}`}
+                  } ${isSelected(ANONYMOUS) && styles.isSelected}`}
                 >
-                  {isSelected("anonymous") ? (
+                  {isSelected(ANONYMOUS) ? (
                     <AnonymousActiveIcon />
                   ) : (
                     <AnonymousIcon />
@@ -71,40 +80,47 @@ export default function PostsBoard() {
             </Link>
           </li>
           <li>
-            <Link href={"/posts/information"}>
+            <Link href={`/posts/${INFORMATION}`}>
               <a>
                 <button
                   className={`${styles["typo4-medium"]} ${styles.listItem} ${
                     styles.info
-                  } ${isSelected("information") && styles.isSelected}`}
+                  } ${isSelected(INFORMATION) && styles.isSelected}`}
                 >
-                  {isSelected("information") ? (
-                    <InfoActiveIcon />
-                  ) : (
-                    <InfoIcon />
-                  )}
+                  {isSelected(INFORMATION) ? <InfoActiveIcon /> : <InfoIcon />}
                   <span>정보공유 게시판</span>
                 </button>
               </a>
             </Link>
           </li>
           <li>
-            <Link href={"/posts/career"}>
+            <Link href={`/posts/${CAREER}`}>
               <a>
                 <button
                   className={`${styles["typo4-medium"]} ${styles.listItem} ${
                     styles.career
-                  } ${isSelected("career") && styles.isSelected}`}
+                  } ${isSelected(CAREER) && styles.isSelected}`}
                 >
-                  {isSelected("career") ? <HRActiveIcon /> : <HRIcon />}
+                  {isSelected(CAREER) ? <HRActiveIcon /> : <HRIcon />}
                   <span>구인 게시판</span>
                 </button>
               </a>
             </Link>
           </li>
-          {/* <li className={`${styles["typo4-medium"]} ${styles.listItem} ${styles.ad}`}>
-            <span>홍보 게시판</span>
-          </li> */}
+          <li>
+            <Link href={`/posts/${AD}`}>
+              <a>
+                <button
+                  className={`${styles["typo4-medium"]} ${styles.listItem} ${
+                    styles.ad
+                  } ${isSelected(AD) && styles.isSelected}`}
+                >
+                  {isSelected(AD) ? <AdActiveIcon /> : <AdIcon />}
+                  <span>홍보 게시판</span>
+                </button>
+              </a>
+            </Link>
+          </li>
         </ul>
       </nav>
     </div>
