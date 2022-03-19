@@ -1,4 +1,4 @@
-import NotificationIcon from "../../../assets/icons/notification/outlined/new.svg";
+import NotificationIcon from "../../../assets/icons/notification/outlined/default.svg";
 
 import styles from "./NotificationButton.module.scss";
 

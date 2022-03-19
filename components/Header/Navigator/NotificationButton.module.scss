@@ -19,12 +19,8 @@
       height: 24px;
       width: 24px;
 
-      :first-child {
-        fill: $red-core;
-      }
-
-      :last-child {
-        fill: $grayscale-gray2;
+      path {
+        fill: $grayscale-gray4;
       }
     }
 

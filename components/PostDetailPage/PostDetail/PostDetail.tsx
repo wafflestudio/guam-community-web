@@ -1,4 +1,4 @@
-import PostWriteButton from "../../PostsPage/Posts/WriteAPost/PostWriteButton/PostWriteButton";
+import PostWriteButton from "../../PostWriteButton/PostWriteButton";
 
 import BoardName from "./BoardName";
 import CommentForm from "./Comments/CommentForm";

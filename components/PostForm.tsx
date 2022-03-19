@@ -22,11 +22,10 @@ export default function PostForm() {
     Object.keys(object).forEach((key) =>
       formData.append(key, object[key as keyof object])
     );
-    images.length
-      ? images.forEach((image) => {
-          formData.append("images", image);
-        })
-      : formData.append("images", new Blob());
+    images.length &&
+      images.forEach((image) => {
+        formData.append("images", image);
+      });
     try {
       await api.post("/posts", formData, {
         headers: { "Content-type": "multipart/form-data" },

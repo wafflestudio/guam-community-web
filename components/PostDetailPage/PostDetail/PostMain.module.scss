@@ -8,6 +8,7 @@
   margin-top: 24px;
   margin-left: 288px;
   padding: 24px 24px 21px;
+  position: relative;
 
   .title {
     font-weight: 500;
@@ -43,8 +44,9 @@
   }
 
   .userInfo {
-    height: 36px;
-    margin-top: 17px;
+    position: absolute;
+    top: 27px;
+    right: 73px;
 
     .profileImage {
       width: 36px;

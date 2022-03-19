@@ -1,5 +1,6 @@
+import PostWriteButton from "../../../PostWriteButton/PostWriteButton";
+
 import MessageBox from "./MessageBox/MessageBox";
-import PostWriteButton from "./PostWriteButton/PostWriteButton";
 
 import styles from "./WriteAPost.module.scss";
 

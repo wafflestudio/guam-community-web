@@ -1,22 +1,59 @@
-import { useState } from "react";
+import { useMemo, useState } from "react";
 
 import { api } from "../../../../api/api";
 import CameraIcon from "../../../../assets/icons/camera.svg";
 import { setComments } from "../../../../store/commentsSlice";
 import { useAppDispatch, useAppSelector } from "../../../../store/hooks";
 
+import MentionList from "./MentionList";
+
 import styles from "./CommentForm.module.scss";
 
 export default function CommentForm() {
   const [commentInput, setCommentInput] = useState("");
+  const [mentionListOpen, setMentionListOpen] = useState(false);
 
-  const postId = useAppSelector((state) => state.postDetail.post?.id);
+  const post = useAppSelector((state) => state.postDetail.post);
+  const postId = post?.id;
+
   const token = useAppSelector((state) => state.auth.token);
+
+  const commentWriters = useAppSelector(
+    (state) => state.comments.comments
+  )?.map((comment) => comment.user);
+
+  const canBeMentioned = useMemo(
+    () =>
+      post?.boardId !== 1 && post?.user
+        ? commentWriters
+          ? [post?.user, ...commentWriters]
+          : [post?.user]
+        : null,
+    [post, commentWriters]
+  );
+
+  const mentionList = useMemo(
+    () =>
+      canBeMentioned?.filter(
+        (user, index, array) =>
+          array.findIndex((u) => u.id === user.id) === index
+      ),
+    [canBeMentioned]
+  );
 
   const dispatch = useAppDispatch();
 
-  const onCommentChange: React.ChangeEventHandler<HTMLTextAreaElement> = (e) =>
+  const onCommentChange: React.ChangeEventHandler<HTMLTextAreaElement> = (
+    e
+  ) => {
     setCommentInput(e.target.value);
+
+    if (e.target.value[e.target.value.length - 1] === "@") {
+      setMentionListOpen(true);
+    } else {
+      setMentionListOpen(false);
+    }
+  };
 
   const onSubmitComment: React.FormEventHandler = async (e) => {
     e.preventDefault();
@@ -58,6 +95,9 @@ export default function CommentForm() {
       >
         전송
       </button>
+      {mentionListOpen && mentionList ? (
+        <MentionList mentionList={mentionList} />
+      ) : null}
     </form>
   );
 }
