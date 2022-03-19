@@ -3,14 +3,14 @@
 @import "../../../../assets/fonts/typography_regular";
 
 .container {
-  width: 551px;
+  width: 839px;
   height: 151px;
   margin: 12px 0 0 288px;
   background: $grayscale-white;
   position: relative;
 
   textarea {
-    width: 519px;
+    width: 807px;
     height: 80px;
     position: absolute;
     top: 16px;
@@ -43,7 +43,7 @@
     width: 30px;
     position: absolute;
     top: 108px;
-    left: 497px;
+    right: 16px;
     color: $purple-core;
   }
 }
