@@ -1,14 +1,20 @@
 import styles from "./PostsBoard.module.scss";
-import GlobalIcon from "../../../assets/icons/board/global.svg";
-import FreeIcon from "../../../assets/icons/board/free.svg";
-import AnonymousIcon from "../../../assets/icons/board/anonymous.svg";
-import BalloonIcon from "../../../assets/icons/board/balloon.svg";
-import CareerIcon from "../../../assets/icons/board/career.svg";
+import FeedIcon from "../../assets/icons/board/feed.svg";
+import FeedActiveIcon from "../../assets/icons/board/feed-active.svg";
+import FreeIcon from "../../assets/icons/board/free.svg";
+import FreeActiveIcon from "../../assets/icons/board/free-active.svg";
+import AnonymousIcon from "../../assets/icons/board/anonymous.svg";
+import AnonymousActiveIcon from "../../assets/icons/board/anonymous-active.svg";
+import InfoIcon from "../../assets/icons/board/info.svg";
+import InfoActiveIcon from "../../assets/icons/board/info-active.svg";
+import HRIcon from "../../assets/icons/board/hr.svg";
+import HRActiveIcon from "../../assets/icons/board/hr-active.svg";
 import { useRouter } from "next/router";
 import Link from "next/link";
 
 export default function PostsBoard() {
   const router = useRouter();
+  const isSelected = (route: string) => router.query.boardType === route;
 
   return (
     <div className={styles.container}>
@@ -24,7 +30,7 @@ export default function PostsBoard() {
                     styles.all
                   } ${router.pathname === "/" && styles.isSelected}`}
                 >
-                  <GlobalIcon />
+                  {router.pathname === "/" ? <FeedActiveIcon /> : <FeedIcon />}
                   <span>전체 게시판</span>
                 </button>
               </a>
@@ -36,9 +42,9 @@ export default function PostsBoard() {
                 <button
                   className={`${styles["typo4-medium"]} ${styles.listItem} ${
                     styles.free
-                  } ${router.query.boardType === "free" && styles.isSelected}`}
+                  } ${isSelected("free") && styles.isSelected}`}
                 >
-                  <FreeIcon />
+                  {isSelected("free") ? <FreeActiveIcon /> : <FreeIcon />}
                   <span>자유 게시판</span>
                 </button>
               </a>
@@ -50,11 +56,13 @@ export default function PostsBoard() {
                 <button
                   className={`${styles["typo4-medium"]} ${styles.listItem} ${
                     styles.anonymous
-                  } ${
-                    router.query.boardType === "anonymous" && styles.isSelected
-                  }`}
+                  } ${isSelected("anonymous") && styles.isSelected}`}
                 >
-                  <AnonymousIcon />
+                  {isSelected("anonymous") ? (
+                    <AnonymousActiveIcon />
+                  ) : (
+                    <AnonymousIcon />
+                  )}
                   <span>익명 게시판</span>
                 </button>
               </a>
@@ -66,12 +74,13 @@ export default function PostsBoard() {
                 <button
                   className={`${styles["typo4-medium"]} ${styles.listItem} ${
                     styles.info
-                  } ${
-                    router.query.boardType === "information" &&
-                    styles.isSelected
-                  }`}
+                  } ${isSelected("information") && styles.isSelected}`}
                 >
-                  <BalloonIcon />
+                  {isSelected("information") ? (
+                    <InfoActiveIcon />
+                  ) : (
+                    <InfoIcon />
+                  )}
                   <span>정보공유 게시판</span>
                 </button>
               </a>
@@ -83,11 +92,9 @@ export default function PostsBoard() {
                 <button
                   className={`${styles["typo4-medium"]} ${styles.listItem} ${
                     styles.career
-                  } ${
-                    router.query.boardType === "career" && styles.isSelected
-                  }`}
+                  } ${isSelected("career") && styles.isSelected}`}
                 >
-                  <CareerIcon />
+                  {isSelected("career") ? <HRActiveIcon /> : <HRIcon />}
                   <span>구인 게시판</span>
                 </button>
               </a>

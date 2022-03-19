@@ -1,5 +1,5 @@
-@import "../../../assets/colors/colors";
-@import "../../../assets/fonts/typography_medium";
+@import "../../assets/colors/colors";
+@import "../../assets/fonts/typography_medium";
 
 .container {
   width: 264px;
@@ -49,10 +49,6 @@
           &.all {
             svg {
               top: 66px;
-
-              path {
-                stroke: $grayscale-gray4;
-              }
             }
 
             span {
@@ -101,15 +97,6 @@
           }
 
           &.isSelected {
-            svg {
-              color: $purple-dark1;
-              path {
-                color: $purple-dark1;
-                stroke: $purple-dark1;
-                fill-rule: $purple-dark1;
-              }
-            }
-
             span {
               color: $purple-dark1;
               font-weight: 500;
