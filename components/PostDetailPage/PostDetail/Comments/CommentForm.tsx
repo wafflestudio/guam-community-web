@@ -1,11 +1,9 @@
-import { useMemo, useState } from "react";
+import { useMemo, useRef, useState } from "react";
 
 import { api } from "../../../../api/api";
 import CameraIcon from "../../../../assets/icons/camera.svg";
 import { setComments } from "../../../../store/commentsSlice";
 import { useAppDispatch, useAppSelector } from "../../../../store/hooks";
-
-import MentionList from "./MentionList";
 
 import styles from "./CommentForm.module.scss";
 
@@ -13,14 +11,21 @@ export default function CommentForm() {
   const [commentInput, setCommentInput] = useState("");
   const [mentionListOpen, setMentionListOpen] = useState(false);
 
+  const contentRef = useRef<HTMLTextAreaElement>(null);
+
   const post = useAppSelector((state) => state.postDetail.post);
   const postId = post?.id;
 
   const token = useAppSelector((state) => state.auth.token);
 
-  const commentWriters = useAppSelector(
-    (state) => state.comments.comments
-  )?.map((comment) => comment.user);
+  const comments = useAppSelector((state) => state.comments.comments);
+
+  const dispatch = useAppDispatch();
+
+  const commentWriters = useMemo(
+    () => comments?.map((comment) => comment.user),
+    [comments]
+  );
 
   const canBeMentioned = useMemo(
     () =>
@@ -41,8 +46,6 @@ export default function CommentForm() {
     [canBeMentioned]
   );
 
-  const dispatch = useAppDispatch();
-
   const onCommentChange: React.ChangeEventHandler<HTMLTextAreaElement> = (
     e
   ) => {
@@ -55,17 +58,55 @@ export default function CommentForm() {
     }
   };
 
+  const onSelectId = (id: number) => {
+    const selectedUser = mentionList?.find((user) => user.id === id)?.nickname;
+    selectedUser && setCommentInput(commentInput.concat(`${selectedUser} `));
+    setMentionListOpen(false);
+    contentRef.current?.focus();
+  };
+
+  const list = mentionList?.map((user) => (
+    <li
+      key={user.id}
+      className={styles.userList}
+      onClick={() => onSelectId(user.id)}
+    >
+      <div className={styles.profileImage}>
+        <img
+          src={
+            user.profileImage
+              ? process.env.BUCKET_URL + user.profileImage
+              : "/default profile image.png"
+          }
+        />
+      </div>
+      <span className={`${styles["typo3-regular"]} ${styles.nickname}`}>
+        @{user.nickname}
+      </span>
+    </li>
+  ));
+
   const onSubmitComment: React.FormEventHandler = async (e) => {
     e.preventDefault();
+
+    const mentionIds = commentInput
+      .match(/@\S+/g)
+      ?.map((mention) => mention.substring(1))
+      .map((name) => mentionList?.find((user) => user.nickname === name)?.id);
+
+    const formData = new FormData();
+    const object = {
+      content: commentInput,
+      mentionIds,
+    };
+    Object.keys(object).forEach((key) =>
+      formData.append(key, object[key as keyof object])
+    );
+
     try {
-      await api.post(
-        `/posts/${postId}/comments`,
-        {
-          content: commentInput,
-          mentionIds: [],
-        },
-        { headers: { Authorization: `Bearer ${token}` } }
-      );
+      await api.post(`/posts/${postId}/comments`, formData, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
       setCommentInput("");
       const { data } = await api.get(`/posts/${postId}/comments`, {
         headers: { Authorization: `Bearer ${token}` },
@@ -85,6 +126,7 @@ export default function CommentForm() {
         onChange={onCommentChange}
         placeholder={"댓글을 남겨 주세요"}
         className={styles["typo4-regular"]}
+        ref={contentRef}
       />
       <button className={styles.addPhoto}>
         <CameraIcon />
@@ -96,7 +138,9 @@ export default function CommentForm() {
         전송
       </button>
       {mentionListOpen && mentionList ? (
-        <MentionList mentionList={mentionList} />
+        <div className={`${styles.mentionContainer} ${styles.null}`}>
+          <ul>{list}</ul>
+        </div>
       ) : null}
     </form>
   );

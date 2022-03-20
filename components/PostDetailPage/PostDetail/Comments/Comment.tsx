@@ -1,3 +1,5 @@
+import { useEffect, useRef } from "react";
+
 import LikeIcon from "../../../../assets/icons/like/outlined.svg";
 import MoreIcon from "../../../../assets/icons/more.svg";
 import { IComment } from "../../../../types/types";
@@ -5,6 +7,17 @@ import { IComment } from "../../../../types/types";
 import styles from "./Comment.module.scss";
 
 export default function Comment({ comment }: { comment: IComment }) {
+  const commentRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (commentRef.current?.textContent) {
+      commentRef.current.innerHTML = commentRef.current.textContent.replace(
+        /(@\S*)/g,
+        '<span class="mentions">$1</span>'
+      );
+    }
+  }, [commentRef.current?.textContent]);
+
   return (
     <li key={comment.id} className={styles.container}>
       <div className={styles.userProfile}>
@@ -24,7 +37,10 @@ export default function Comment({ comment }: { comment: IComment }) {
           <MoreIcon />
         </div>
         <div className={styles.content}>
-          <div className={`${styles["typo3-regular"]} ${styles.comment}`}>
+          <div
+            className={`${styles["typo3-regular"]} ${styles.comment}`}
+            ref={commentRef}
+          >
             {comment.content}
           </div>
           <div className={`${styles["typo1-regular"]} ${styles.like}`}>

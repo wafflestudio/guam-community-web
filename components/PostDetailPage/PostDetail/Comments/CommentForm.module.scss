@@ -46,4 +46,46 @@
     right: 16px;
     color: $purple-core;
   }
+
+  .mentionContainer {
+    width: 232px;
+    max-height: 238px;
+    overflow: auto;
+    position: absolute;
+    bottom: 150px;
+    background: $grayscale-white;
+    border-radius: 5px;
+    box-shadow: 1px 1px 5px 2px #afafaf40;
+
+    ul {
+      padding-top: 1px;
+
+      .userList {
+        height: 53px;
+        position: relative;
+        border-bottom: 0.5px solid $grayscale-gray7;
+        cursor: pointer;
+
+        .profileImage {
+          position: absolute;
+          top: 6px;
+          left: 14px;
+          border-radius: 50%;
+          overflow: hidden;
+
+          img {
+            width: 41px;
+            height: 41px;
+          }
+        }
+
+        .nickname {
+          position: absolute;
+          top: 16px;
+          left: 69px;
+          color: $grayscale-gray1;
+        }
+      }
+    }
+  }
 }
