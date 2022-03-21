@@ -5,13 +5,17 @@ import CameraIcon from "../../../../assets/icons/camera.svg";
 import { setComments } from "../../../../store/commentsSlice";
 import { useAppDispatch, useAppSelector } from "../../../../store/hooks";
 
+import MentionList from "./MentionList";
+
 import styles from "./CommentForm.module.scss";
 
 export default function CommentForm() {
   const [commentInput, setCommentInput] = useState("");
+  const [mockInput, setMockInput] = useState("");
   const [mentionListOpen, setMentionListOpen] = useState(false);
 
-  const contentRef = useRef<HTMLTextAreaElement>(null);
+  const textareaRef = useRef<HTMLTextAreaElement>(null);
+  const mockTextareaRef = useRef<HTMLDivElement>(null);
 
   const post = useAppSelector((state) => state.postDetail.post);
   const postId = post?.id;
@@ -46,45 +50,28 @@ export default function CommentForm() {
     [canBeMentioned]
   );
 
-  const onCommentChange: React.ChangeEventHandler<HTMLTextAreaElement> = (
-    e
-  ) => {
-    setCommentInput(e.target.value);
+  const onCommentChange: React.ChangeEventHandler<HTMLTextAreaElement> = ({
+    target,
+  }) => {
+    setCommentInput(target.value);
+    setMockInput(target.value);
 
-    if (e.target.value[e.target.value.length - 1] === "@") {
+    const { current } = mockTextareaRef;
+    if (current?.textContent) {
+      current.innerHTML = commentInput.replace(
+        /(@\S*)/g,
+        '<span class="mentions">$1</span>'
+      );
+    }
+  };
+
+  const onMention: React.KeyboardEventHandler<HTMLTextAreaElement> = (e) => {
+    if (e.key === "@") {
       setMentionListOpen(true);
     } else {
       setMentionListOpen(false);
     }
   };
-
-  const onSelectId = (id: number) => {
-    const selectedUser = mentionList?.find((user) => user.id === id)?.nickname;
-    selectedUser && setCommentInput(commentInput.concat(`${selectedUser} `));
-    setMentionListOpen(false);
-    contentRef.current?.focus();
-  };
-
-  const list = mentionList?.map((user) => (
-    <li
-      key={user.id}
-      className={styles.userList}
-      onClick={() => onSelectId(user.id)}
-    >
-      <div className={styles.profileImage}>
-        <img
-          src={
-            user.profileImage
-              ? process.env.BUCKET_URL + user.profileImage
-              : "/default profile image.png"
-          }
-        />
-      </div>
-      <span className={`${styles["typo3-regular"]} ${styles.nickname}`}>
-        @{user.nickname}
-      </span>
-    </li>
-  ));
 
   const onSubmitComment: React.FormEventHandler = async (e) => {
     e.preventDefault();
@@ -124,10 +111,17 @@ export default function CommentForm() {
         name="comment"
         value={commentInput}
         onChange={onCommentChange}
+        onKeyDown={onMention}
         placeholder={"댓글을 남겨 주세요"}
-        className={styles["typo4-regular"]}
-        ref={contentRef}
+        className={`${styles["typo4-regular"]} ${styles.commentInput}`}
+        ref={textareaRef}
       />
+      <div
+        className={`${styles["typo4-regular"]} ${styles.mockTextarea}`}
+        ref={mockTextareaRef}
+      >
+        {mockInput}
+      </div>
       <button className={styles.addPhoto}>
         <CameraIcon />
       </button>
@@ -138,9 +132,14 @@ export default function CommentForm() {
         전송
       </button>
       {mentionListOpen && mentionList ? (
-        <div className={`${styles.mentionContainer} ${styles.null}`}>
-          <ul>{list}</ul>
-        </div>
+        <MentionList
+          mentionList={mentionList}
+          commentInput={commentInput}
+          setCommentInput={setCommentInput}
+          setMentionListOpen={setMentionListOpen}
+          textareaRef={textareaRef}
+          mockTextareaRef={mockTextareaRef}
+        />
       ) : null}
     </form>
   );

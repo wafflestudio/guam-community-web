@@ -10,13 +10,24 @@
   position: relative;
 
   textarea {
+    color: #666666;
+    -webkit-text-fill-color: transparent;
+    background: transparent;
+    z-index: 2;
+  }
+
+  .mockTextarea {
+    color: #666666;
+  }
+
+  textarea,
+  .mockTextarea {
     width: 807px;
     height: 80px;
     position: absolute;
     top: 16px;
     left: 16px;
     padding: 10px 8px;
-    color: #666666;
     overflow: auto;
     resize: none;
     border: none;
