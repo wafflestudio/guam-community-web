@@ -6,6 +6,7 @@ import { setComments } from "../../../../store/commentsSlice";
 import { useAppDispatch, useAppSelector } from "../../../../store/hooks";
 import { mentionRegex } from "../../../../utils/mentionRegex";
 
+import CommentArea from "./CommentArea";
 import MentionList from "./MentionList";
 
 import styles from "./CommentForm.module.scss";
@@ -31,7 +32,6 @@ export default function CommentForm() {
     () => comments?.map((comment) => comment.user),
     [comments]
   );
-
   const canBeMentioned = useMemo(
     () =>
       post?.boardId !== 1 && post?.user
@@ -41,7 +41,6 @@ export default function CommentForm() {
         : null,
     [post, commentWriters]
   );
-
   const mentionList = useMemo(
     () =>
       canBeMentioned?.filter(
@@ -72,7 +71,6 @@ export default function CommentForm() {
       textareaRef.current.style.height = "80px";
       textareaRef.current.style.height =
         textareaRef.current.scrollHeight + "px";
-
       if (containerRef.current?.style) {
         containerRef.current.style.height = "80px";
         containerRef.current.style.height =
@@ -80,21 +78,6 @@ export default function CommentForm() {
       }
     }
   }, [commentInput]);
-
-  const onCommentChange: React.ChangeEventHandler<HTMLTextAreaElement> = ({
-    target,
-  }) => {
-    const comment = target.value.replace(/[\r\n\v]+/g, "");
-    setCommentInput(comment);
-  };
-
-  const onMention: React.KeyboardEventHandler<HTMLTextAreaElement> = (e) => {
-    if (e.key === "@") {
-      setMentionListOpen(true);
-    } else {
-      setMentionListOpen(false);
-    }
-  };
 
   const onSubmitComment: React.FormEventHandler = async (e) => {
     e.preventDefault();
@@ -140,27 +123,21 @@ export default function CommentForm() {
       className={styles.container}
       ref={containerRef}
     >
-      <div className={styles.commentContainer}>
-        <textarea
-          id="comment"
-          name="comment"
-          value={commentInput}
-          onChange={onCommentChange}
-          onKeyDown={onMention}
-          className={`${styles["typo4-regular"]} ${styles.commentInput}`}
-          ref={textareaRef}
-        />
-        <div
-          className={`${styles["typo4-regular"]} ${styles.mockTextarea}`}
-          ref={mockTextareaRef}
-        />
-      </div>
+      <CommentArea
+        commentInput={commentInput}
+        setCommentInput={setCommentInput}
+        setMentionListOpen={setMentionListOpen}
+        textareaRef={textareaRef}
+        mockTextareaRef={mockTextareaRef}
+      />
       <button className={styles.addPhoto}>
         <CameraIcon />
       </button>
       <button
         type="submit"
-        className={`${styles["typo5-medium"]} ${styles.submit}`}
+        className={`${styles["typo5-medium"]} ${styles.submit} ${
+          commentInput === "" && styles.disabled
+        }`}
       >
         전송
       </button>
