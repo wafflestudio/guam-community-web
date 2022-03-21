@@ -7,6 +7,7 @@ import { IComment } from "../../../../types/types";
 import styles from "./Comment.module.scss";
 
 export default function Comment({ comment }: { comment: IComment }) {
+  const containerRef = useRef<HTMLLIElement>(null);
   const commentRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -16,10 +17,16 @@ export default function Comment({ comment }: { comment: IComment }) {
         '<span class="mentions">$1</span>'
       );
     }
+
+    if (containerRef.current?.style && commentRef.current) {
+      containerRef.current.style.height = "85px";
+      containerRef.current.style.height =
+        commentRef.current.scrollHeight + 64 + "px";
+    }
   }, [commentRef.current?.textContent]);
 
   return (
-    <li key={comment.id} className={styles.container}>
+    <li key={comment.id} className={styles.container} ref={containerRef}>
       <div className={styles.userProfile}>
         <div className={styles.profileImage}>
           <img

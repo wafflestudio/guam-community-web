@@ -43,18 +43,19 @@
   }
 
   .content {
-    position: absolute;
-    top: 38px;
-    left: 40px;
-
     .comment {
       color: $grayscale-gray2;
+      position: absolute;
+      top: 38px;
+      left: 40px;
     }
 
     .like {
-      margin-top: 4px;
       color: $grayscale-gray5;
       height: 18px;
+      position: absolute;
+      bottom: 4px;
+      left: 40px;
 
       svg {
         height: 18px;

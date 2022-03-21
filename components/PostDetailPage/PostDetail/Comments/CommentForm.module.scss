@@ -5,41 +5,53 @@
 .container {
   width: 839px;
   height: 151px;
-  margin: 12px 0 0 288px;
+  margin: 12px 0 20px 288px;
   background: $grayscale-white;
   position: relative;
 
-  textarea {
-    color: #666666;
-    -webkit-text-fill-color: transparent;
-    background: transparent;
-    z-index: 2;
-  }
-
-  .mockTextarea {
-    color: #666666;
-  }
-
-  textarea,
-  .mockTextarea {
-    width: 807px;
+  .commentContainer {
     height: 80px;
-    position: absolute;
-    top: 16px;
-    left: 16px;
-    padding: 10px 8px;
-    overflow: auto;
-    resize: none;
-    border: none;
+    background: transparent;
 
-    &::placeholder {
-      color: $grayscale-gray5;
+    textarea {
+      -webkit-text-fill-color: transparent;
+      z-index: 3;
+      border: none;
+      display: block;
+      resize: auto;
+      background: transparent;
+
+      &:focus {
+        outline: none;
+      }
+    }
+
+    .mockTextarea {
+      background: $grayscale-white;
+      z-index: 2;
+    }
+
+    textarea,
+    .mockTextarea {
+      width: 807px;
+      min-height: 80px;
+      position: absolute;
+      top: 16px;
+      left: 16px;
+      padding: 10px 8px;
+      color: #666666;
+      word-wrap: break-word;
+      overflow-y: scroll;
+
+      &::-webkit-scrollbar {
+        display: none;
+      }
     }
   }
 
   .addPhoto {
     position: absolute;
-    top: 112px;
+    bottom: 14px;
     left: 16px;
 
     svg {
@@ -53,7 +65,7 @@
     height: 26px;
     width: 30px;
     position: absolute;
-    top: 108px;
+    bottom: 16px;
     right: 16px;
     color: $purple-core;
   }
@@ -67,6 +79,7 @@
     background: $grayscale-white;
     border-radius: 5px;
     box-shadow: 1px 1px 5px 2px #afafaf40;
+    z-index: 4;
 
     ul {
       padding-top: 1px;

@@ -1,9 +1,10 @@
-import { useMemo, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 
 import { api } from "../../../../api/api";
 import CameraIcon from "../../../../assets/icons/camera.svg";
 import { setComments } from "../../../../store/commentsSlice";
 import { useAppDispatch, useAppSelector } from "../../../../store/hooks";
+import { mentionRegex } from "../../../../utils/mentionRegex";
 
 import MentionList from "./MentionList";
 
@@ -11,9 +12,9 @@ import styles from "./CommentForm.module.scss";
 
 export default function CommentForm() {
   const [commentInput, setCommentInput] = useState("");
-  const [mockInput, setMockInput] = useState("");
   const [mentionListOpen, setMentionListOpen] = useState(false);
 
+  const containerRef = useRef<HTMLFormElement>(null);
   const textareaRef = useRef<HTMLTextAreaElement>(null);
   const mockTextareaRef = useRef<HTMLDivElement>(null);
 
@@ -50,19 +51,41 @@ export default function CommentForm() {
     [canBeMentioned]
   );
 
+  useEffect(() => {
+    const { current } = mockTextareaRef;
+
+    if (current && current.innerHTML === "") {
+      current.innerHTML =
+        '<span class="customPlaceholder">댓글을 남겨 주세요.</span>';
+    }
+
+    const regex = mentionRegex(mentionList?.map((user) => user.nickname) || []);
+
+    if (current) {
+      current.innerHTML = commentInput.replace(
+        regex,
+        '<span class="mentions">$1</span>'
+      );
+    }
+
+    if (textareaRef.current?.style) {
+      textareaRef.current.style.height = "80px";
+      textareaRef.current.style.height =
+        textareaRef.current.scrollHeight + "px";
+
+      if (containerRef.current?.style) {
+        containerRef.current.style.height = "80px";
+        containerRef.current.style.height =
+          textareaRef.current.scrollHeight + 70 + "px";
+      }
+    }
+  }, [commentInput]);
+
   const onCommentChange: React.ChangeEventHandler<HTMLTextAreaElement> = ({
     target,
   }) => {
     const comment = target.value.replace(/[\r\n\v]+/g, "");
     setCommentInput(comment);
-
-    const { current } = mockTextareaRef;
-    if (current?.textContent) {
-      current.innerHTML = comment.replace(
-        /(@\S*)/g,
-        '<span class="mentions">$1</span>'
-      );
-    }
   };
 
   const onMention: React.KeyboardEventHandler<HTMLTextAreaElement> = (e) => {
@@ -76,6 +99,8 @@ export default function CommentForm() {
   const onSubmitComment: React.FormEventHandler = async (e) => {
     e.preventDefault();
 
+    if (commentInput.length === 0) return;
+
     const mentionIds =
       commentInput
         .match(/@\S+/g)
@@ -87,8 +112,9 @@ export default function CommentForm() {
     const formData = new FormData();
     const object = {
       content: commentInput,
-      ...(mentionIds && mentionIds),
+      ...(mentionIds && { mentionIds }),
     };
+
     Object.keys(object).forEach((key) =>
       formData.append(key, object[key as keyof object])
     );
@@ -98,6 +124,7 @@ export default function CommentForm() {
         headers: { Authorization: `Bearer ${token}` },
       });
       setCommentInput("");
+      mockTextareaRef.current!.innerHTML = "";
       const { data } = await api.get(`/posts/${postId}/comments`, {
         headers: { Authorization: `Bearer ${token}` },
       });
@@ -108,22 +135,25 @@ export default function CommentForm() {
   };
 
   return (
-    <form onSubmit={onSubmitComment} className={styles.container}>
-      <textarea
-        id="comment"
-        name="comment"
-        value={commentInput}
-        onChange={onCommentChange}
-        onKeyDown={onMention}
-        placeholder={"댓글을 남겨 주세요"}
-        className={`${styles["typo4-regular"]} ${styles.commentInput}`}
-        ref={textareaRef}
-      />
-      <div
-        className={`${styles["typo4-regular"]} ${styles.mockTextarea}`}
-        ref={mockTextareaRef}
-      >
-        {mockInput}
+    <form
+      onSubmit={onSubmitComment}
+      className={styles.container}
+      ref={containerRef}
+    >
+      <div className={styles.commentContainer}>
+        <textarea
+          id="comment"
+          name="comment"
+          value={commentInput}
+          onChange={onCommentChange}
+          onKeyDown={onMention}
+          className={`${styles["typo4-regular"]} ${styles.commentInput}`}
+          ref={textareaRef}
+        />
+        <div
+          className={`${styles["typo4-regular"]} ${styles.mockTextarea}`}
+          ref={mockTextareaRef}
+        />
       </div>
       <button className={styles.addPhoto}>
         <CameraIcon />

@@ -1,6 +1,7 @@
 import { Dispatch, RefObject } from "react";
 
 import { IUser } from "../../../../types/types";
+import { mentionRegex } from "../../../../utils/mentionRegex";
 
 import styles from "./CommentForm.module.scss";
 
@@ -31,10 +32,13 @@ export default function MentionList({
 
     selectedUser && setCommentInput(content);
 
+    const regex = mentionRegex(mentionList?.map((user) => user.nickname) || []);
+
     const { current } = mockTextareaRef;
-    if (current?.textContent) {
+
+    if (current) {
       current.innerHTML = content.replace(
-        /(@\S*)/g,
+        regex,
         '<span class="mentions">$1</span>'
       );
     }
