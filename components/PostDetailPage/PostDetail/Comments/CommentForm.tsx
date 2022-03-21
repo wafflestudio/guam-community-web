@@ -53,12 +53,12 @@ export default function CommentForm() {
   const onCommentChange: React.ChangeEventHandler<HTMLTextAreaElement> = ({
     target,
   }) => {
-    setCommentInput(target.value);
-    setMockInput(target.value);
+    const comment = target.value.replace(/[\r\n\v]+/g, "");
+    setCommentInput(comment);
 
     const { current } = mockTextareaRef;
     if (current?.textContent) {
-      current.innerHTML = commentInput.replace(
+      current.innerHTML = comment.replace(
         /(@\S*)/g,
         '<span class="mentions">$1</span>'
       );
@@ -76,15 +76,18 @@ export default function CommentForm() {
   const onSubmitComment: React.FormEventHandler = async (e) => {
     e.preventDefault();
 
-    const mentionIds = commentInput
-      .match(/@\S+/g)
-      ?.map((mention) => mention.substring(1))
-      .map((name) => mentionList?.find((user) => user.nickname === name)?.id);
+    const mentionIds =
+      commentInput
+        .match(/@\S+/g)
+        ?.map((mention) => mention.substring(1))
+        .map(
+          (name) => mentionList?.find((user) => user.nickname === name)?.id
+        ) || null;
 
     const formData = new FormData();
     const object = {
       content: commentInput,
-      mentionIds,
+      ...(mentionIds && mentionIds),
     };
     Object.keys(object).forEach((key) =>
       formData.append(key, object[key as keyof object])
