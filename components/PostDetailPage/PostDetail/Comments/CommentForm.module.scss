@@ -21,6 +21,7 @@
       color: #666666;
       word-wrap: break-word;
       overflow-y: scroll;
+      white-space: pre-line;
 
       &::-webkit-scrollbar {
         display: none;
@@ -34,10 +35,6 @@
       display: block;
       resize: auto;
       background: transparent;
-
-      &:focus {
-        outline: none;
-      }
 
       &.showPlaceholder {
         -webkit-text-fill-color: $grayscale-gray5;

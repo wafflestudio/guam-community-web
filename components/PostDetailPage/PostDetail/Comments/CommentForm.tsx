@@ -20,7 +20,7 @@ export default function CommentForm() {
   const mockTextareaRef = useRef<HTMLDivElement>(null);
 
   const post = useAppSelector((state) => state.postDetail.post);
-  const postId = post?.id;
+  const postId = useMemo(() => post?.id, [post]);
 
   const token = useAppSelector((state) => state.auth.token);
 
@@ -50,21 +50,28 @@ export default function CommentForm() {
     [canBeMentioned]
   );
 
+  const regex = useMemo(
+    () => mentionRegex(mentionList?.map((user) => user.nickname) || []),
+    [mentionList]
+  );
+
   useEffect(() => {
     const { current } = mockTextareaRef;
 
-    if (current && current.innerHTML === "") {
-      current.innerHTML =
-        '<span class="customPlaceholder">댓글을 남겨 주세요.</span>';
-    }
-
-    const regex = mentionRegex(mentionList?.map((user) => user.nickname) || []);
-
     if (current) {
-      current.innerHTML = commentInput.replace(
-        regex,
-        '<span class="mentions">$1</span>'
-      );
+      if (mentionList) {
+        current.innerHTML = commentInput.replace(
+          regex,
+          '<span class="mentions">$1</span>'
+        );
+      } else {
+        current.innerHTML = commentInput;
+      }
+
+      if (current.innerHTML === "") {
+        current.innerHTML =
+          '<span class="customPlaceholder">댓글을 남겨 주세요.</span>';
+      }
     }
 
     if (textareaRef.current?.style) {
@@ -77,7 +84,7 @@ export default function CommentForm() {
           textareaRef.current.scrollHeight + 70 + "px";
       }
     }
-  }, [commentInput]);
+  }, [commentInput, regex]);
 
   const onSubmitComment: React.FormEventHandler = async (e) => {
     e.preventDefault();

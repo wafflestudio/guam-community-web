@@ -18,8 +18,7 @@ export default function CommentArea({
   const onCommentChange: React.ChangeEventHandler<HTMLTextAreaElement> = ({
     target,
   }) => {
-    const comment = target.value.replace(/[\r\n\v]+/g, "");
-    setCommentInput(comment);
+    setCommentInput(target.value);
   };
 
   const onMention: React.KeyboardEventHandler<HTMLTextAreaElement> = (e) => {
@@ -38,10 +37,8 @@ export default function CommentArea({
         value={commentInput}
         onChange={onCommentChange}
         onKeyDown={onMention}
-        className={`${styles["typo4-regular"]} ${styles.commentInput} ${
-          commentInput === "" && styles.showPlaceholder
-        }`}
-        placeholder={"댓글을 남겨 주세요."}
+        className={`${styles["typo4-regular"]} ${styles.commentInput}`}
+        maxLength={255}
         ref={textareaRef}
       />
       <div
