@@ -1,4 +1,4 @@
-import { GetStaticProps } from "next";
+import { GetServerSideProps } from "next";
 
 import { useRouter } from "next/router";
 import { dehydrate, QueryClient, useQuery } from "react-query";
@@ -10,39 +10,37 @@ import SignInForm from "../../../components/SignInForm";
 import { boardList, ERROR, LOADING } from "../../../constants/constants";
 import { useAppDispatch, useAppSelector } from "../../../store/hooks";
 import { setPosts } from "../../../store/postsListSlice";
+import { IPostsData } from "../../../types/types";
 
+// const fetchPosts = (boardId: number): Promise<IPostsData> =>
+//   api.get(`/posts`, {
+//     params: {
+//       boardId,
+//     },
+//   });
 
-export async function getStaticPaths() {
-  const paths = boardList.map((board) => ({
-    params: { boardType: board.route },
-  }));
-  return {
-    paths,
-    fallback: true,
-  };
-}
+// export async function getStaticPaths() {
+//   const paths = boardList.map((board) => ({
+//     params: { boardType: board.route },
+//   }));
+//   return {
+//     paths,
+//     fallback: false,
+//   };
+// }
 
-export const getStaticProps: GetStaticProps = async ({ params }) => {
+export const getServerSideProps: GetServerSideProps = async ({ params }) => {
   const queryClient = new QueryClient();
 
   const boardId = boardList.find(
     (board) => board.route === params?.boardType
   )?.id;
 
-  await queryClient.prefetchQuery(
-    ["posts", boardId],
-    async () =>
-      await api.get(`/posts`, {
-        params: {
-          boardId,
-        },
-      }),
-    { retry: false }
-  );
+  const posts = await fetchPosts(boardId || 0);
 
   return {
     props: {
-      dehydratedState: dehydrate(queryClient),
+      posts,
     },
   };
 };

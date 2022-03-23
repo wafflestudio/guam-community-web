@@ -9,6 +9,10 @@ const nextConfig = {
     BUCKET_URL: BUCKET_URL,
   },
 
+  eslint: {
+    ignoreDuringBuilds: true,
+  },
+
   async rewrites() {
     return [
       {
