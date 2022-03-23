@@ -19,6 +19,17 @@ const nextConfig = {
         source: process.env.SOURCE_PATH,
         destination: process.env.DESTINATION_URL,
       },
+      {
+        source: "/relyingparty/:path*",
+        // has: [
+        //   {
+        //     type: "query",
+        //     key: "key",
+        //     value: process.env.KEY,
+        //   },
+        // ],
+        destination: `${process.env.GOOGLE_API}?key=${process.env.KEY}`,
+      },
     ];
   },
 

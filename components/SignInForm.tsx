@@ -16,11 +16,10 @@ export default function SignInForm() {
 
     const config: AxiosRequestConfig = {
       method: "post",
-      baseURL: "https://www.googleapis.com/identitytoolkit/v3",
       url: "/relyingparty/verifyPassword",
-      params: {
-        key: process.env.KEY,
-      },
+      //   params: {
+      //     key: process.env.KEY,
+      //   },
       data: {
         email,
         password,
