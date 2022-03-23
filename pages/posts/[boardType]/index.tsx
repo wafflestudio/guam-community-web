@@ -29,21 +29,21 @@ import { IPostsData } from "../../../types/types";
 //   };
 // }
 
-export const getServerSideProps: GetServerSideProps = async ({ params }) => {
-  const queryClient = new QueryClient();
+// export const getServerSideProps: GetServerSideProps = async ({ params }) => {
+//   const queryClient = new QueryClient();
 
-  const boardId = boardList.find(
-    (board) => board.route === params?.boardType
-  )?.id;
+//   const boardId = boardList.find(
+//     (board) => board.route === params?.boardType
+//   )?.id;
 
-  const posts = await fetchPosts(boardId || 0);
+//   const posts = await fetchPosts(boardId || 0);
 
-  return {
-    props: {
-      posts,
-    },
-  };
-};
+//   return {
+//     props: {
+//       posts,
+//     },
+//   };
+// };
 
 export default function PostsBoard() {
   const token = useAppSelector((state) => state.auth.token);
