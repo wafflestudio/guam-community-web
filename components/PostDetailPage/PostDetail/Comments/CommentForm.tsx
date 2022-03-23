@@ -84,7 +84,7 @@ export default function CommentForm() {
           textareaRef.current.scrollHeight + 70 + "px";
       }
     }
-  }, [commentInput, regex]);
+  }, [commentInput, regex, mentionList]);
 
   const onSubmitComment: React.FormEventHandler = async (e) => {
     e.preventDefault();
