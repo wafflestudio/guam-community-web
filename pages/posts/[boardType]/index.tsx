@@ -75,9 +75,7 @@ export default function PostsBoard() {
   return (
     <>
       <PageTitle
-        title={`${
-          typeof boardType === "string" && boardType.toUpperCase()
-        } | Guam`}
+        title={`${typeof boardType === "string" && boardType.toUpperCase()}`}
       />
       <SignInForm />
       {status === LOADING ? (
