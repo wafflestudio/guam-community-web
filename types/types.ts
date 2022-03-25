@@ -59,6 +59,7 @@ export interface IComment {
   likeCount: number;
   createdAt: string;
   updatedAt: string;
+  isMine: boolean;
 }
 
 export interface ICommentData {

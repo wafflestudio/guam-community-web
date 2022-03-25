@@ -38,7 +38,7 @@ export default function CommentArea({
         onChange={onCommentChange}
         onKeyDown={onMention}
         className={`${styles["typo4-regular"]} ${styles.commentInput}`}
-        maxLength={255}
+        maxLength={1023}
         ref={textareaRef}
       />
       <div

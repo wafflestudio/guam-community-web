@@ -1,7 +1,11 @@
-import { useEffect, useRef } from "react";
+import { useEffect, useMemo, useRef } from "react";
+import { useDispatch } from "react-redux";
 
+import { api } from "../../../../api/api";
 import LikeIcon from "../../../../assets/icons/like/outlined.svg";
 import MoreIcon from "../../../../assets/icons/more.svg";
+import { setComments } from "../../../../store/commentsSlice";
+import { useAppSelector } from "../../../../store/hooks";
 import { IComment } from "../../../../types/types";
 
 import styles from "./Comment.module.scss";
@@ -9,6 +13,12 @@ import styles from "./Comment.module.scss";
 export default function Comment({ comment }: { comment: IComment }) {
   const containerRef = useRef<HTMLLIElement>(null);
   const commentRef = useRef<HTMLDivElement>(null);
+
+  const { token } = useAppSelector((state) => state.auth);
+
+  const dispatch = useDispatch();
+
+  const { postId } = useMemo(() => comment, [comment]);
 
   useEffect(() => {
     if (commentRef.current?.textContent) {
@@ -25,6 +35,20 @@ export default function Comment({ comment }: { comment: IComment }) {
     }
   }, [commentRef.current?.textContent]);
 
+  const deleteComment = async () => {
+    if (!window.confirm("삭제하시겠습니까") || !comment.isMine) return;
+
+    try {
+      await api.delete(`/posts/${postId}/comments/${comment.id}`);
+      const { data } = await api.get(`/posts/${postId}/comments`, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      dispatch(setComments(data.content));
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
   return (
     <li key={comment.id} className={styles.container} ref={containerRef}>
       <div className={styles.userProfile}>
@@ -40,7 +64,7 @@ export default function Comment({ comment }: { comment: IComment }) {
         <div className={`${styles["typo2-regular"]} ${styles.userNickname}`}>
           {comment.user.nickname}
         </div>
-        <div className={styles.more}>
+        <div className={styles.more} onClick={deleteComment}>
           <MoreIcon />
         </div>
         <div className={styles.content}>
