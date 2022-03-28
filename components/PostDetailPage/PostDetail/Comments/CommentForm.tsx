@@ -1,9 +1,11 @@
+import { useRouter } from "next/router";
 import { useEffect, useMemo, useRef, useState } from "react";
 
-import { api } from "../../../../api/api";
+import {
+  postDetailApi,
+  usePostCommentMutation,
+} from "../../../../api/postDetailApi";
 import CameraIcon from "../../../../assets/icons/camera.svg";
-import { setComments } from "../../../../store/commentsSlice";
-import { useAppDispatch, useAppSelector } from "../../../../store/hooks";
 import { mentionRegex } from "../../../../utils/mentionRegex";
 
 import CommentArea from "./CommentArea";
@@ -19,14 +21,16 @@ export default function CommentForm() {
   const textareaRef = useRef<HTMLTextAreaElement>(null);
   const mockTextareaRef = useRef<HTMLDivElement>(null);
 
-  const post = useAppSelector((state) => state.postDetail.post);
-  const postId = useMemo(() => post?.id, [post]);
+  const router = useRouter();
+  const { postId } = router.query;
 
-  const token = useAppSelector((state) => state.auth.token);
+  const post = postDetailApi.endpoints.getPostDetail.useQueryState(
+    typeof postId === "string" ? postId : "0"
+  ).data;
 
-  const comments = useAppSelector((state) => state.comments.comments);
+  const [postComment] = usePostCommentMutation();
 
-  const dispatch = useAppDispatch();
+  const comments = post?.comments;
 
   const commentWriters = useMemo(
     () => comments?.map((comment) => comment.user),
@@ -99,29 +103,22 @@ export default function CommentForm() {
           (name) => mentionList?.find((user) => user.nickname === name)?.id
         ) || null;
 
-    const formData = new FormData();
+    const data = new FormData();
     const object = {
       content: commentInput,
       ...(mentionIds && { mentionIds }),
     };
 
     Object.keys(object).forEach((key) =>
-      formData.append(key, object[key as keyof object])
+      data.append(key, object[key as keyof object])
     );
 
-    try {
-      await api.post(`/posts/${postId}/comments`, formData, {
-        headers: { Authorization: `Bearer ${token}` },
-      });
-      setCommentInput("");
-      mockTextareaRef.current!.innerHTML = "";
-      const { data } = await api.get(`/posts/${postId}/comments`, {
-        headers: { Authorization: `Bearer ${token}` },
-      });
-      dispatch(setComments(data.content));
-    } catch (e) {
-      console.log(e);
-    }
+    const id = typeof postId === "string" ? postId : "0";
+
+    postComment({ data, id });
+
+    setCommentInput("");
+    mockTextareaRef.current!.innerHTML = "";
   };
 
   return (

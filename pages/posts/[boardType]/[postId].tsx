@@ -1,51 +1,31 @@
 import { useRouter } from "next/router";
-import { useCallback, useEffect, useMemo } from "react";
-import { useQuery } from "react-query";
 
-import { api } from "../../../api/api";
+import { useGetPostDetailQuery } from "../../../api/postDetailApi";
 import PageTitle from "../../../components/PageTitle";
 import PostDetailPage from "../../../components/PostDetailPage/PostDetailPage";
-import { ERROR, LOADING } from "../../../constants/constants";
-import { setComments } from "../../../store/commentsSlice";
-import { useAppDispatch, useAppSelector } from "../../../store/hooks";
-import { setPost } from "../../../store/postDetailSlice";
-import { IDetailedPost } from "../../../types/types";
+import { useAppSelector } from "../../../store/hooks";
 
 export default function DetailedPostPage() {
   const router = useRouter();
   const { postId } = router.query;
 
-  const token = useAppSelector((state) => state.auth.token);
-  const dispatch = useAppDispatch();
+  const { isLoggedIn } = useAppSelector((state) => state.auth);
 
-  const fetchDetailedPost = useCallback((): Promise<IDetailedPost> => {
-    return api.get(`/posts/${postId}`, {
-      headers: { Authorization: `Bearer ${token}` },
-    });
-  }, [postId]);
-
-  const { data, status, error } = useQuery(
-    ["posts", postId],
-    fetchDetailedPost,
-    { retry: false, enabled: !!token }
+  const result = useGetPostDetailQuery(
+    typeof postId === "string" ? postId : "0",
+    {
+      skip: !!!isLoggedIn,
+      refetchOnMountOrArgChange: true,
+    }
   );
 
-  const postData = useMemo(() => data?.data, [data?.data]);
-
-  useEffect(() => {
-    dispatch(setComments(data?.data.comments || null));
-    dispatch(setPost(data?.data));
-  }, [data?.data]);
+  const { isLoading, error } = result;
 
   return (
     <>
-      <PageTitle title={postData?.title || "Posts"} />
+      <PageTitle title={result?.data?.title || "Posts"} />
+      {isLoading ? <span>Loading</span> : error ? <span>Error</span> : null}
       <PostDetailPage />
-      {status === LOADING ? (
-        <span>Loading</span>
-      ) : status === ERROR && error instanceof Error ? (
-        <span>Error: {error.message}</span>
-      ) : null}
       {/* {postData?.imagePaths.map((image) => (
         <li key={image}>
           <img src={process.env.BUCKET_URL + image} />

@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-import { api } from "../api/api";
+import { usePostPostMutation } from "../api/postsListApi";
 import { boardList } from "../constants/constants";
 
 export default function PostForm() {
@@ -10,9 +10,13 @@ export default function PostForm() {
   const [images, setImages] = useState<Blob[]>([]);
   const [imageUrls, setImageUrls] = useState<string[]>([]);
 
+  const [postPost] = usePostPostMutation();
+
   const onPostSubmit: React.FormEventHandler<HTMLFormElement> = async (e) => {
     e.preventDefault();
+
     const formData = new FormData();
+
     const object = {
       boardId: boardId.toString(),
       title,
@@ -26,13 +30,8 @@ export default function PostForm() {
       images.forEach((image) => {
         formData.append("images", image);
       });
-    try {
-      await api.post("/posts", formData, {
-        headers: { "Content-type": "multipart/form-data" },
-      });
-    } catch (e) {
-      console.log(e);
-    }
+
+    postPost(formData);
   };
 
   const onBoardChange: React.ChangeEventHandler<HTMLSelectElement> = (e) =>

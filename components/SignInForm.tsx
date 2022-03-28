@@ -1,4 +1,5 @@
 import axios, { AxiosRequestConfig } from "axios";
+import { useRouter } from "next/router";
 import { useState } from "react";
 
 import { setToken } from "../store/authSlice";
@@ -10,6 +11,8 @@ export default function SignInForm() {
 
   const { isLoggedIn } = useAppSelector((state) => state.auth);
   const dispatch = useAppDispatch();
+
+  const router = useRouter();
 
   const onSignIn: React.FormEventHandler<HTMLFormElement> = async (e) => {
     e.preventDefault();
@@ -30,6 +33,7 @@ export default function SignInForm() {
     try {
       const { data } = await axios(config);
       dispatch(setToken(data.idToken));
+      router.push("/");
     } catch (error) {
       console.log(error);
       window.alert("로그인 에러");
