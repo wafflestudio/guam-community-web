@@ -1,9 +1,14 @@
+import Link from "next/link";
 import { useRouter } from "next/router";
+import { useCallback, useEffect, useMemo } from "react";
 import { useQuery } from "react-query";
 import { api } from "../../../../api/api";
+import CommentForm from "../../../../components/CommentForm";
 import Comments from "../../../../components/Comments";
 import PageTitle from "../../../../components/PageTitle";
-import { useAppSelector } from "../../../../store/hooks";
+import { ERROR, LOADING } from "../../../../constants/constants";
+import { setComments } from "../../../../store/commentsSlice";
+import { useAppDispatch, useAppSelector } from "../../../../store/hooks";
 import { IDetailedPost } from "../../../../types/types";
 
 export default function DetailedPostPage() {
@@ -11,33 +16,45 @@ export default function DetailedPostPage() {
   const { postId } = router.query;
 
   const token = useAppSelector((state) => state.auth.token);
+  const comments = useAppSelector((state) => state.comments.comments);
+  const dispatch = useAppDispatch();
+
+  const fetchDetailedPost = useCallback((): Promise<IDetailedPost> => {
+    return api.get(`/posts/${postId}`);
+  }, [postId]);
 
   const { data, status, error } = useQuery(
     ["posts", postId],
-    async () => {
-      const response: IDetailedPost = await api.get(`/posts/${postId}`);
-      return response;
-    },
-    {
-      retry: false,
-      enabled: !!token,
-    }
+    fetchDetailedPost,
+    { retry: false, enabled: !!token }
   );
 
-  const isError = (error: unknown): error is Error => {
-    return error instanceof Error;
-  };
+  const postData = useMemo(() => data?.data, [data?.data]);
+  useEffect(() => {
+    dispatch(setComments(data?.data.comments || null));
+  }, [data?.data.comments]);
 
   return (
     <>
-      <PageTitle title="Posts" />
-      {status === "loading" ? (
+      <PageTitle title={postData?.title || "Posts"} />
+      <Link href={"/"}>
+        <a>홈</a>
+      </Link>
+      {status === LOADING ? (
         <span>Loading</span>
-      ) : status === "error" && isError(error) ? (
+      ) : status === ERROR && error instanceof Error ? (
         <span>Error: {error.message}</span>
       ) : null}
-      {data?.content}
-      <Comments comments={data?.comments || []} />
+      <div>
+        {postData?.user.nickname} {postData?.content}
+      </div>
+      {postData?.imagePaths.map((image) => (
+        <li key={image}>
+          <img src={"https://guam.s3.ap-northeast-2.amazonaws.com/" + image} />
+        </li>
+      ))}
+      <CommentForm id={postData?.id || 0} />
+      <Comments comments={comments} />
     </>
   );
 }
