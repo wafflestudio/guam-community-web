@@ -1,0 +1,40 @@
+@import "../../../assets/colors/colors";
+@import "../../../assets/fonts/typography_medium";
+
+.homeButton {
+  list-style: none;
+  width: 24px;
+  height: 42px;
+  text-align: center;
+  display: inline-block;
+  position: absolute;
+  left: 792px;
+
+  button {
+    width: 100%;
+    height: 100%;
+
+    svg {
+      height: 24px;
+      width: 24px;
+
+      path {
+        fill: $grayscale-gray4;
+      }
+    }
+
+    div {
+      color: $grayscale-gray4;
+      margin: auto;
+    }
+
+    &.isAtHome {
+      path {
+        fill: $purple-core;
+      }
+      div {
+        color: $purple-core;
+      }
+    }
+  }
+}

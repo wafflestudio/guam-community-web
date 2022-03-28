@@ -1,0 +1,41 @@
+@font-face {
+  font-family: "Spoqa Han Sans Neo";
+  src: url("./SpoqaHanSansNeo-Regular.ttf") format("truetype");
+}
+
+@mixin typo-regular($size, $height) {
+  font-family: Spoqa Han Sans Neo;
+  font-style: normal;
+  font-weight: 400;
+  letter-spacing: 0px;
+  font-size: $size;
+  line-height: $height;
+}
+
+.typo1-regular {
+  @include typo-regular(10px, 14px);
+}
+
+.typo2-regular {
+  @include typo-regular(12px, 19.2px);
+}
+
+.typo3-regular {
+  @include typo-regular(13px, 20.8px);
+}
+
+.typo4-regular {
+  @include typo-regular(14px, 22.4px);
+}
+
+.typo5-regular {
+  @include typo-regular(16px, 25.6px);
+}
+
+.typo6-regular {
+  @include typo-regular(18px, 28.8px);
+}
+
+.typo7-regular {
+  @include typo-regular(20px, 32px);
+}

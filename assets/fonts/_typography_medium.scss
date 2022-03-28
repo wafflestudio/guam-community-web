@@ -1,0 +1,45 @@
+@font-face {
+  font-family: "Spoqa Han Sans Neo";
+  src: url("./SpoqaHanSansNeo-Medium.ttf") format("truetype");
+}
+
+@mixin typo-medium($size, $height) {
+  font-family: "Spoqa Han Sans Neo", sans-serif;
+  font-style: normal;
+  font-weight: 400;
+  letter-spacing: 0px;
+  font-size: $size;
+  line-height: $height;
+}
+
+.typo1-medium {
+  @include typo-medium(10px, 16px);
+}
+
+.typo2-medium {
+  @include typo-medium(12px, 19.2px);
+}
+
+.typo3-medium {
+  @include typo-medium(13px, 20.8px);
+}
+
+.typo4-medium {
+  @include typo-medium(14px, 22.4px);
+}
+
+.typo5-medium {
+  @include typo-medium(16px, 25.6px);
+}
+
+.typo6-medium {
+  @include typo-medium(18px, 28.8px);
+}
+
+.typo7-medium {
+  @include typo-medium(20px, 32px);
+}
+
+.typo8-medium {
+  @include typo-medium(24px, 38.4px);
+}

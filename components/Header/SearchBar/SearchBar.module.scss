@@ -1,0 +1,29 @@
+@import "../../../assets/colors/colors";
+@import "../../../assets/fonts/typography_regular";
+
+.container {
+  position: absolute;
+  left: 97px;
+
+  .searchInput {
+    width: 357px;
+    height: 40px;
+    background: $grayscale-gray7;
+    border: none;
+    padding: 10px 8px;
+    color: $grayscale-gray2;
+    vertical-align: top;
+  }
+
+  button {
+    height: 24px;
+    width: 24px;
+    margin: 4px 0 0 19px;
+
+    svg {
+      path {
+        fill: $grayscale-gray3;
+      }
+    }
+  }
+}

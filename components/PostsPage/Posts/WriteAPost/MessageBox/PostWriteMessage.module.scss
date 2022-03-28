@@ -1,0 +1,14 @@
+@import "../../../../../assets/colors/colors";
+@import "../../../../../assets/fonts/typography_medium";
+
+.container {
+  span {
+    position: absolute;
+    left: 24px;
+    top: 15px;
+
+    &#specials {
+      font-weight: 500;
+    }
+  }
+}

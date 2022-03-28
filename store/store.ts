@@ -2,11 +2,13 @@ import { configureStore } from "@reduxjs/toolkit";
 
 import authReducer from "./authSlice";
 import commentsReducer from "./commentsSlice";
+import boardReducer from "./boardSlice";
 
 export const store = configureStore({
   reducer: {
     auth: authReducer,
     comments: commentsReducer,
+    boardId: boardReducer,
   },
 });
 

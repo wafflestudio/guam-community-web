@@ -20,7 +20,9 @@ export default function DetailedPostPage() {
   const dispatch = useAppDispatch();
 
   const fetchDetailedPost = useCallback((): Promise<IDetailedPost> => {
-    return api.get(`/posts/${postId}`);
+    return api.get(`/posts/${postId}`, {
+      headers: { Authorization: `Bearer ${token}` },
+    });
   }, [postId]);
 
   const { data, status, error } = useQuery(
@@ -50,7 +52,7 @@ export default function DetailedPostPage() {
       </div>
       {postData?.imagePaths.map((image) => (
         <li key={image}>
-          <img src={"https://guam.s3.ap-northeast-2.amazonaws.com/" + image} />
+          <img src={process.env.BUCKET_URL + image} />
         </li>
       ))}
       <CommentForm id={postData?.id || 0} />
