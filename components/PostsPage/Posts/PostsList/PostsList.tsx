@@ -29,7 +29,10 @@ export default function PostsList() {
     setPosts(result.data?.content || []);
   }, [result]);
 
-  const postsList = posts.map((post) => <Post key={post.id} post={post} />);
+  const postsList = useMemo(
+    () => posts.map((post) => <Post key={post.id} post={post} />),
+    [posts]
+  );
 
   return <ul className={styles.container}>{postsList}</ul>;
 }

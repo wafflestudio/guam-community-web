@@ -1,5 +1,3 @@
-import { GetStaticProps } from "next";
-
 import { skipToken } from "@reduxjs/toolkit/dist/query";
 import { useRouter } from "next/router";
 
@@ -17,7 +15,7 @@ import { wrapper } from "../../../store/store";
 
 // export async function getStaticPaths() {
 //   return {
-//     paths: boardList.map((board) => `/posts/${board.route}`),
+//     paths: boardList.map((board) => `/posts/${board.id}`),
 //     fallback: true,
 //   };
 // }
@@ -55,19 +53,18 @@ export default function Home() {
   );
 }
 
-// export const getStaticProps: GetStaticProps = wrapper.getStaticProps(
+// export const getStaticProps = wrapper.getStaticProps(
 //   (store) => async (context) => {
-//     const boardType = context.params?.boardType;
-//     const boardId = boardList.find((board) => boardType === board.route)?.id;
+//     const boardId = context.params?.boardId;
 
 //     if (typeof boardId === "number") {
 //       store.dispatch(getPostsByBoard.initiate(boardId));
 //     }
 
-//     const result = await Promise.all(getRunningOperationPromises());
+//     await Promise.all(getRunningOperationPromises());
 
 //     return {
-//       props: { props: JSON.parse(JSON.stringify(result)) },
+//       props: {},
 //     };
 //   }
 // );

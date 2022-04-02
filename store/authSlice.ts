@@ -2,7 +2,7 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import axios from "axios";
 
 type IAuthState = {
-  token: string | null | undefined;
+  token: string | null | number;
   isLoggedIn: boolean;
 };
 
@@ -12,7 +12,7 @@ type IAuthReducer = {
 };
 
 const initialState = {
-  token: undefined,
+  token: 0,
   isLoggedIn: false,
 };
 

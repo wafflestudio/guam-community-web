@@ -17,10 +17,6 @@ dayjs.extend(relativeTime);
 export default function Post({ post }: { post: IPostsListPost }) {
   const router = useRouter();
 
-  const categories = post.categories.map((category) => (
-    <li key={category.tagId}>#{category.title}</li>
-  ));
-
   const createdTime = new Date(post.createdAt);
 
   const onClickPost: MouseEventHandler<HTMLLIElement> = () =>
@@ -28,9 +24,9 @@ export default function Post({ post }: { post: IPostsListPost }) {
 
   return (
     <li key={post.id} className={styles.container} onClick={onClickPost}>
-      <ul className={`${styles["typo2-medium"]} ${styles.categories}`}>
-        {categories}
-      </ul>
+      <div className={`${styles["typo2-medium"]} ${styles.categories}`}>
+        #{post.categories[0].title}
+      </div>
       <span className={`${styles["typo1-regular"]} ${styles.fromNow}`}>
         {dayjs(createdTime).locale(ko).fromNow()}
       </span>

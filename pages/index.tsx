@@ -1,6 +1,6 @@
-import type { GetStaticProps, NextPage } from "next";
+import type { NextPage } from "next";
 
-import { getAllPosts, useGetAllPostsQuery } from "../api/postsListApi";
+import { postsListApi, useGetAllPostsQuery } from "../api/postsListApi";
 import PageTitle from "../components/PageTitle";
 import PostsPage from "../components/PostsPage/PostsPage";
 import SignInForm from "../components/SignInForm";
@@ -11,7 +11,7 @@ const Home: NextPage = () => {
   const { isLoggedIn } = useAppSelector((state) => state.auth);
 
   const result = useGetAllPostsQuery(undefined, {
-    skip: !!!isLoggedIn,
+    skip: !isLoggedIn,
     refetchOnMountOrArgChange: true,
   });
   const { isLoading, error } = result;
@@ -26,12 +26,12 @@ const Home: NextPage = () => {
   );
 };
 
-// export const getStaticProps = wrapper.getStaticProps((store) => async () => {
-//   await store.dispatch(getAllPosts.initiate());
+export const getStaticProps = wrapper.getStaticProps((store) => async () => {
+  store.dispatch(postsListApi.endpoints.getAllPosts.initiate());
 
-//   return {
-//     props: {},
-//   };
-// });
+  return {
+    props: {},
+  };
+});
 
 export default Home;

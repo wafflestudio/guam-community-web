@@ -19,9 +19,9 @@ export default function PostMain() {
 
   return (
     <div className={styles.container}>
-      <div className={`${styles["typo8-medium"]} ${styles.title}`}>
+      <h1 className={`${styles["typo8-medium"]} ${styles.title}`}>
         {post?.title}
-      </div>
+      </h1>
       <div className={`${styles["typo1-regular"]} ${styles.createdAt}`}>
         {post && dayjs(new Date(post.createdAt)).locale(ko).fromNow()}
       </div>
