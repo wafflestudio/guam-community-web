@@ -110,17 +110,18 @@ export default function PostFormModal() {
               onChange={handleImageInput}
               multiple
             />
-            {imageUrls.length !== 0 ? (
-              imageUrls.map((imageUrl) => (
-                <div className={styles.imageList} key={imageUrl}>
-                  <img key={imageUrl} src={imageUrl} />
-                </div>
-              ))
-            ) : (
+            {imageUrls.length !== 0
+              ? imageUrls.map((imageUrl) => (
+                  <div className={styles.imageList} key={imageUrl}>
+                    <img key={imageUrl} src={imageUrl} />
+                  </div>
+                ))
+              : null}
+            {imageUrls.length < 5 ? (
               <div className={styles.addBox} onClick={clickImageInput}>
                 <PlusIcon />
               </div>
-            )}
+            ) : null}
           </div>
           <button
             type="button"

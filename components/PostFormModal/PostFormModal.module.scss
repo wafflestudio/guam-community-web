@@ -131,6 +131,8 @@
       }
 
       .addPhotos {
+        width: 600px;
+
         .label {
           position: absolute;
           top: 336px;
@@ -140,11 +142,12 @@
         .addBox {
           width: 109px;
           height: 109px;
-          position: absolute;
-          top: 363px;
+          display: inline-block;
+          position: relative;
           border: 1px dashed $purple-light2;
           border-radius: 8px;
           cursor: pointer;
+          margin-top: 363px;
 
           svg {
             position: absolute;
