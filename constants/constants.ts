@@ -17,9 +17,9 @@ export const boardList = [
 ];
 
 export const categoryList = [
-  { id: 1, name: "개발" },
-  { id: 2, name: "데이터분석" },
-  { id: 3, name: "디자인" },
-  { id: 4, name: "기획/마케팅" },
-  { id: 5, name: "기타" },
+  { id: 1, name: "개발", tag: "develop" },
+  { id: 2, name: "데이터분석", tag: "dataAnalysis" },
+  { id: 3, name: "디자인", tag: "design" },
+  { id: 4, name: "기획/마케팅", tag: "marketing" },
+  { id: 5, name: "기타", tag: "extra" },
 ];
