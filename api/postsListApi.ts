@@ -37,7 +37,7 @@ export const postsListApi = createApi({
       ],
     }),
     postPost: build.mutation({
-      query(body) {
+      query: (body) => {
         return {
           url: `posts`,
           method: "POST",
