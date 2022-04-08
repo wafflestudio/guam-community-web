@@ -79,7 +79,7 @@
         }
       }
 
-      .tagOptions {
+      .categoryOptions {
         .label {
           height: 23px;
           width: 123px;
@@ -88,44 +88,69 @@
           color: $grayscale-gray3;
         }
 
-        input {
-          display: none;
+        .selectedCategory {
+          height: 26px;
+          position: absolute;
+          top: 298px;
+          left: 164px;
+
+          .categoryName {
+            display: inline-block;
+            vertical-align: top;
+            color: $blue-core;
+          }
+
+          button.deleteCategory {
+            width: 20px;
+            height: 20px;
+            display: inline-block;
+
+            svg path {
+              fill: $blue-core;
+            }
+          }
         }
 
-        label {
-          -webkit-appearance: none;
-          height: 25.29px;
-          position: absolute;
-          top: 297px;
-          border-radius: 15px;
-          padding: 2px 0 0 8px;
-          background: $purple-light3;
-          color: $purple-light1;
-          cursor: pointer;
-
-          &.develop {
-            width: 46.83px;
-            left: 162px;
+        .categoryList {
+          input {
+            display: none;
           }
 
-          &.dataAnalysis {
-            width: 83.35px;
-            left: 216.32px;
-          }
+          label {
+            -webkit-appearance: none;
+            height: 25.29px;
+            position: absolute;
+            top: 297px;
+            border-radius: 15px;
+            padding: 2px 0 0 8px;
+            background: $purple-light3;
+            color: $purple-light1;
+            cursor: pointer;
 
-          &.design {
-            width: 59px;
-            left: 307.16px;
-          }
+            &.develop {
+              width: 46.83px;
+              left: 162px;
+            }
 
-          &.marketing {
-            width: 88.03px;
-            left: 373.65px;
-          }
+            &.dataAnalysis {
+              width: 83.35px;
+              left: 216.32px;
+            }
 
-          &.extra {
-            width: 46.83px;
-            left: 469.17px;
+            &.design {
+              width: 59px;
+              left: 307.16px;
+            }
+
+            &.marketing {
+              width: 88.03px;
+              left: 373.65px;
+            }
+
+            &.extra {
+              width: 46.83px;
+              left: 469.17px;
+            }
           }
         }
       }
@@ -180,7 +205,7 @@
         }
       }
 
-      button {
+      button.bottom {
         height: 45px;
         width: 92px;
         border-radius: 4px;
@@ -225,7 +250,7 @@
         top: 290px;
       }
 
-      &.tagPhoto {
+      &.categoryPhoto {
         top: 329px;
       }
 

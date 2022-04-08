@@ -11,7 +11,7 @@ export const store = () =>
   configureStore({
     reducer: {
       auth: authReducer,
-      modal: modalReducer,
+      modals: modalReducer,
       [postsListApi.reducerPath]: postsListApi.reducer,
       [postDetailApi.reducerPath]: postDetailApi.reducer,
     },

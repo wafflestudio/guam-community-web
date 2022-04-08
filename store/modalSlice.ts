@@ -16,7 +16,7 @@ const initialState = {
 };
 
 const modalSlice = createSlice<IModalState, IModalReducer>({
-  name: "forms",
+  name: "modals",
   initialState,
   reducers: {
     setPostModalOpen: (_, action) => {
