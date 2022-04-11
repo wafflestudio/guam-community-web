@@ -1,17 +1,32 @@
-import type { NextPage } from "next";
+import { NextPage } from "next";
 
-import { postsListApi, useGetAllPostsQuery } from "../api/postsListApi";
+import { useRouter } from "next/router";
+import { useEffect } from "react";
+
+import { useGetAllPostsQuery } from "../api/postsListApi";
 import PageTitle from "../components/PageTitle";
 import PostsPage from "../components/PostsPage/PostsPage";
 import SignInForm from "../components/SignInForm";
-import { useAppSelector } from "../store/hooks";
-import { wrapper } from "../store/store";
+import { useAppDispatch, useAppSelector } from "../store/hooks";
+import { setPage } from "../store/pageSlice";
 
 const Home: NextPage = () => {
-  const { isLoggedIn } = useAppSelector((state) => state.auth);
+  const { page } = useAppSelector((state) => state.page);
+  const dispatch = useAppDispatch();
 
-  const result = useGetAllPostsQuery(undefined, {
-    skip: !isLoggedIn,
+  const router = useRouter();
+
+  useEffect(() => {
+    dispatch(
+      setPage(
+        parseInt(
+          typeof router.query.page === "string" ? router.query.page : "0"
+        )
+      )
+    );
+  }, [router.query.page]);
+
+  const result = useGetAllPostsQuery(page, {
     refetchOnMountOrArgChange: true,
   });
   const { isLoading, error } = result;
@@ -25,13 +40,5 @@ const Home: NextPage = () => {
     </>
   );
 };
-
-export const getStaticProps = wrapper.getStaticProps((store) => async () => {
-  store.dispatch(postsListApi.endpoints.getAllPosts.initiate());
-
-  return {
-    props: {},
-  };
-});
 
 export default Home;

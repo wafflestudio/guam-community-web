@@ -1,37 +1,36 @@
-import { skipToken } from "@reduxjs/toolkit/dist/query";
 import { useRouter } from "next/router";
+import { useEffect } from "react";
 
-import {
-  getPostsByBoard,
-  getRunningOperationPromises,
-  useGetPostsByBoardQuery,
-} from "../../../api/postsListApi";
+import { useGetPostsByBoardQuery } from "../../../api/postsListApi";
 import PageTitle from "../../../components/PageTitle";
 import PostsPage from "../../../components/PostsPage/PostsPage";
 import SignInForm from "../../../components/SignInForm";
 import { boardList } from "../../../constants/constants";
-import { useAppSelector } from "../../../store/hooks";
-import { wrapper } from "../../../store/store";
-
-// export async function getStaticPaths() {
-//   return {
-//     paths: boardList.map((board) => `/posts/${board.id}`),
-//     fallback: true,
-//   };
-// }
+import { useAppDispatch, useAppSelector } from "../../../store/hooks";
+import { setPage } from "../../../store/pageSlice";
 
 export default function Home() {
-  const { isLoggedIn } = useAppSelector((state) => state.auth);
+  const { page } = useAppSelector((state) => state.page);
+  const dispatch = useAppDispatch();
 
   const router = useRouter();
+
+  useEffect(() => {
+    dispatch(
+      setPage(
+        parseInt(
+          typeof router.query.page === "string" ? router.query.page : "0"
+        )
+      )
+    );
+  }, [router.query.page]);
 
   const boardType = router.query.boardType;
   const boardId = boardList.find((board) => boardType === board.route)?.id;
 
   const result = useGetPostsByBoardQuery(
-    typeof boardId === "number" ? boardId : skipToken,
+    { id: typeof boardId === "number" ? boardId : 0, page },
     {
-      skip: router.isFallback || !!!isLoggedIn,
       refetchOnMountOrArgChange: true,
     }
   );
@@ -43,28 +42,8 @@ export default function Home() {
         title={`${typeof boardType === "string" && boardType.toUpperCase()}`}
       />
       <SignInForm />
-      {error ? (
-        <>error</>
-      ) : router.isFallback || isLoading ? (
-        <>Loading...</>
-      ) : null}
+      {error ? <>error</> : isLoading ? <>Loading...</> : null}
       <PostsPage />
     </>
   );
 }
-
-// export const getStaticProps = wrapper.getStaticProps(
-//   (store) => async (context) => {
-//     const boardId = context.params?.boardId;
-
-//     if (typeof boardId === "number") {
-//       store.dispatch(getPostsByBoard.initiate(boardId));
-//     }
-
-//     await Promise.all(getRunningOperationPromises());
-
-//     return {
-//       props: {},
-//     };
-//   }
-// );

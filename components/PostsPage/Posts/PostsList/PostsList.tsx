@@ -3,6 +3,7 @@ import { useEffect, useMemo, useState } from "react";
 
 import { postsListApi } from "../../../../api/postsListApi";
 import { boardList } from "../../../../constants/constants";
+import { useAppSelector } from "../../../../store/hooks";
 import { IPostsListPost } from "../../../../types/types";
 
 import Post from "./Post";
@@ -11,6 +12,8 @@ import styles from "./PostsList.module.scss";
 
 export default function PostsList() {
   const [posts, setPosts] = useState<IPostsListPost[]>([]);
+
+  const { page } = useAppSelector((state) => state.page);
 
   const router = useRouter();
 
@@ -22,8 +25,11 @@ export default function PostsList() {
 
   const result =
     typeof boardId === "number"
-      ? postsListApi.endpoints.getPostsByBoard.useQueryState(boardId)
-      : postsListApi.endpoints.getAllPosts.useQueryState();
+      ? postsListApi.endpoints.getPostsByBoard.useQueryState({
+          id: boardId,
+          page,
+        })
+      : postsListApi.endpoints.getAllPosts.useQueryState(page);
 
   useEffect(() => {
     setPosts(result.data?.content || []);
