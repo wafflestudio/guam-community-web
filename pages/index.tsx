@@ -1,5 +1,3 @@
-import { NextPage } from "next";
-
 import { useRouter } from "next/router";
 import { useEffect } from "react";
 
@@ -7,29 +5,25 @@ import { useGetAllPostsQuery } from "../api/postsListApi";
 import PageTitle from "../components/PageTitle";
 import PostsPage from "../components/PostsPage/PostsPage";
 import SignInForm from "../components/SignInForm";
-import { useAppDispatch, useAppSelector } from "../store/hooks";
+import { useAppDispatch } from "../store/hooks";
 import { setPage } from "../store/pageSlice";
 
-const Home: NextPage = () => {
-  const { page } = useAppSelector((state) => state.page);
+const Home = () => {
   const dispatch = useAppDispatch();
 
   const router = useRouter();
+  const currentPage =
+    typeof router.query.page === "string" && parseInt(router.query.page) >= 1
+      ? parseInt(router.query.page) - 1
+      : 0;
 
   useEffect(() => {
-    dispatch(
-      setPage(
-        parseInt(
-          typeof router.query.page === "string" ? router.query.page : "0"
-        )
-      )
-    );
+    dispatch(setPage(currentPage));
   }, [router.query.page]);
 
-  const result = useGetAllPostsQuery(page, {
+  const { isLoading, error } = useGetAllPostsQuery(currentPage, {
     refetchOnMountOrArgChange: true,
   });
-  const { isLoading, error } = result;
 
   return (
     <>
