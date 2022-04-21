@@ -1,25 +1,21 @@
-import React, { Dispatch, RefObject, SetStateAction, useCallback } from "react";
+import React, { RefObject, useCallback } from "react";
 
 import CancelIcon from "../../../../../assets/icons/cancel/filled_18.svg";
-import { IImageUrl } from "../../../../../types/types";
+import { setImages, setImageUrls } from "../../../../../store/commentFormSlice";
+import { useAppDispatch, useAppSelector } from "../../../../../store/hooks";
 
 import styles from "./CommentForm.module.scss";
 
-const HandleImages = ({
-  images,
-  setImages,
-  imageUrls,
-  setImageUrls,
+export default function HandleImages({
   textareaRef,
   photoInputRef,
 }: {
-  images: File[];
-  setImages: Dispatch<SetStateAction<File[]>>;
-  imageUrls: IImageUrl[];
-  setImageUrls: Dispatch<SetStateAction<IImageUrl[]>>;
   textareaRef: RefObject<HTMLTextAreaElement>;
   photoInputRef: RefObject<HTMLInputElement>;
-}) => {
+}) {
+  const { images, imageUrls } = useAppSelector((state) => state.commentForm);
+  const dispatch = useAppDispatch();
+
   const handleImageInput: React.ChangeEventHandler<HTMLInputElement> =
     useCallback(
       ({ target }) => {
@@ -45,22 +41,25 @@ const HandleImages = ({
           if (imagesList.length !== images.length + filteredImages.length)
             alert("이미 선택한 사진입니다");
           if (imagesList.length > 5) alert("사진은 5장까지 첨부 가능합니다");
-          setImages(imagesList.slice(0, 5));
+          dispatch(setImages(imagesList.slice(0, 5)));
 
           const newUrls = imagesList.map((file) => ({
             id: file.lastModified,
             url: URL.createObjectURL(file),
           }));
-          setImageUrls(newUrls.slice(0, 5));
+          dispatch(setImageUrls(newUrls.slice(0, 5)));
         }
       },
-      [images]
+      [dispatch, images]
     );
 
-  const deleteImage = useCallback((id: number) => {
-    setImages((images) => images.filter((file) => file.lastModified !== id));
-    setImageUrls((imageUrls) => imageUrls.filter((url) => url.id !== id));
-  }, []);
+  const deleteImage = useCallback(
+    (id: number) => {
+      dispatch(setImages(images.filter((file) => file.lastModified !== id)));
+      dispatch(setImageUrls(imageUrls.filter((url) => url.id !== id)));
+    },
+    [dispatch, imageUrls, images]
+  );
 
   return (
     <>
@@ -103,6 +102,4 @@ const HandleImages = ({
       ) : null}
     </>
   );
-};
-
-export default React.memo(HandleImages);
+}

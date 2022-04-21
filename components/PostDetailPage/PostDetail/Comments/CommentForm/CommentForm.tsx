@@ -1,8 +1,8 @@
 import { useRouter } from "next/router";
-import React, { useEffect, useMemo, useRef, useState } from "react";
+import React, { useEffect, useMemo, useRef } from "react";
 
 import { postDetailApi } from "../../../../../api/postDetailApi";
-import { IImageUrl } from "../../../../../types/types";
+import { useAppSelector } from "../../../../../store/hooks";
 import { mentionRegex } from "../../../../../utils/mentionRegex";
 
 import CommentArea from "./CommentArea";
@@ -12,16 +12,16 @@ import MentionList from "./MentionList";
 
 import styles from "./CommentForm.module.scss";
 
-const CommentForm = () => {
-  const [commentInput, setCommentInput] = useState("");
-  const [mentionListOpen, setMentionListOpen] = useState(false);
-  const [images, setImages] = useState<File[]>([]);
-  const [imageUrls, setImageUrls] = useState<IImageUrl[]>([]);
-
-  const containerRef = useRef<HTMLFormElement>(null);
+export default function CommentForm() {
   const textareaRef = useRef<HTMLTextAreaElement>(null);
   const mockTextareaRef = useRef<HTMLDivElement>(null);
   const photoInputRef = useRef<HTMLInputElement>(null);
+
+  const { commentInput, mentionListOpen } = useAppSelector(
+    (state) => state.commentForm
+  );
+
+  const containerRef = useRef<HTMLFormElement>(null);
 
   const router = useRouter();
   const { postId } = router.query;
@@ -88,49 +88,28 @@ const CommentForm = () => {
           textareaRef.current.scrollHeight + 70 + "px";
       }
     }
-  }, [commentInput, regex, mentionList]);
+  }, [commentInput, regex, mentionList, mockTextareaRef, textareaRef]);
 
   return (
     <form className={styles.container} ref={containerRef}>
       <CommentArea
-        commentInput={commentInput}
-        setCommentInput={setCommentInput}
-        setMentionListOpen={setMentionListOpen}
         textareaRef={textareaRef}
         mockTextareaRef={mockTextareaRef}
       />
-      <HandleImages
-        images={images}
-        setImages={setImages}
-        imageUrls={imageUrls}
-        setImageUrls={setImageUrls}
-        textareaRef={textareaRef}
-        photoInputRef={photoInputRef}
-      />
+      <HandleImages textareaRef={textareaRef} photoInputRef={photoInputRef} />
       <CommentFormButtons
-        images={images}
-        setImages={setImages}
-        imageUrls={imageUrls}
-        setImageUrls={setImageUrls}
-        commentInput={commentInput}
-        setCommentInput={setCommentInput}
         photoInputRef={photoInputRef}
         mockTextareaRef={mockTextareaRef}
-        mentionList={mentionList}
-        postId={postId}
+        mentionList={mentionList || []}
+        postId={typeof postId === "string" ? postId : "0"}
       />
       {mentionListOpen && mentionList ? (
         <MentionList
-          mentionList={mentionList}
-          commentInput={commentInput}
-          setCommentInput={setCommentInput}
-          setMentionListOpen={setMentionListOpen}
           textareaRef={textareaRef}
           mockTextareaRef={mockTextareaRef}
+          mentionList={mentionList}
         />
       ) : null}
     </form>
   );
-};
-
-export default React.memo(CommentForm);
+}
