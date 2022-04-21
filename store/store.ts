@@ -6,14 +6,12 @@ import { postsListApi } from "../api/postsListApi";
 
 import authReducer from "./authSlice";
 import modalReducer from "./modalSlice";
-import pageReducer from "./pageSlice";
 
 export const store = () =>
   configureStore({
     reducer: {
       auth: authReducer,
       modals: modalReducer,
-      page: pageReducer,
       [postsListApi.reducerPath]: postsListApi.reducer,
       [postDetailApi.reducerPath]: postDetailApi.reducer,
     },

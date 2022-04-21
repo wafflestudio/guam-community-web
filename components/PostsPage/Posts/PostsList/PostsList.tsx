@@ -3,7 +3,6 @@ import { useEffect, useMemo, useState } from "react";
 
 import { postsListApi } from "../../../../api/postsListApi";
 import { boardList } from "../../../../constants/constants";
-import { useAppSelector } from "../../../../store/hooks";
 import { IPostsListPost } from "../../../../types/types";
 
 import Post from "./Post";
@@ -13,11 +12,16 @@ import styles from "./PostsList.module.scss";
 export default function PostsList() {
   const [posts, setPosts] = useState<IPostsListPost[]>([]);
 
-  const { page } = useAppSelector((state) => state.page);
-
   const router = useRouter();
 
   const boardType = useMemo(() => router.query.boardType, [router.query]);
+  const page = useMemo(
+    () =>
+      typeof router.query.page === "string"
+        ? parseInt(router.query.page) - 1
+        : 0,
+    [router.query]
+  );
   const boardId = useMemo(
     () => boardList.find((board) => boardType === board.route)?.id,
     [boardType]

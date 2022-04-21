@@ -1,34 +1,54 @@
 import { useRouter } from "next/router";
-import { useEffect } from "react";
+import { useEffect, useMemo, useState } from "react";
 
 import { useGetPostsByBoardQuery } from "../../../api/postsListApi";
 import PageTitle from "../../../components/PageTitle";
 import PostsPage from "../../../components/PostsPage/PostsPage";
 import SignInForm from "../../../components/SignInForm";
 import { boardList } from "../../../constants/constants";
-import { useAppDispatch } from "../../../store/hooks";
-import { setPage } from "../../../store/pageSlice";
 
 export default function Home() {
-  const dispatch = useAppDispatch();
+  const [boardId, setBoardId] = useState<number | undefined>(undefined);
+  const [currentPage, setCurrentPage] = useState<number | undefined>(undefined);
 
   const router = useRouter();
-  const currentPage =
-    typeof router.query.page === "string" && parseInt(router.query.page) >= 1
-      ? parseInt(router.query.page) - 1
-      : 0;
+
+  const page = useMemo(() => router.isReady && router.query.page, [router]);
+  const boardType = useMemo(
+    () => router.isReady && router.query.boardType,
+    [router]
+  );
 
   useEffect(() => {
-    dispatch(setPage(currentPage));
-  }, [router.query.page]);
+    if (!router.isReady) return;
 
-  const boardType = router.query.boardType;
-  const boardId = boardList.find((board) => boardType === board.route)?.id;
+    if (page === undefined) {
+      setCurrentPage(0);
+      return;
+    }
+
+    if (typeof page === "string" && parseInt(page) >= 1) {
+      setCurrentPage(parseInt(page) - 1);
+    } else {
+      router.push("/404");
+    }
+  }, [page, router.isReady]);
+
+  useEffect(() => {
+    if (!router.isReady) return;
+
+    if (boardType === undefined) return;
+
+    const id = boardList.find((board) => boardType === board.route)?.id;
+    if (typeof id === "number") setBoardId(id);
+    else router.push("404");
+  }, [boardType, router.isReady]);
 
   const { isLoading, error } = useGetPostsByBoardQuery(
-    { id: typeof boardId === "number" ? boardId : 0, page: currentPage },
+    { id: boardId, page: currentPage },
     {
       refetchOnMountOrArgChange: true,
+      skip: currentPage === undefined || boardId === undefined,
     }
   );
 

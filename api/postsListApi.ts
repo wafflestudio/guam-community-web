@@ -4,8 +4,8 @@ import { RootState } from "../store/store";
 import { IPostsData } from "../types/types";
 
 interface PostsBoardQuery {
-  id: number;
-  page: number;
+  id: number | undefined;
+  page: number | undefined;
 }
 
 export const postsListApi = createApi({
@@ -23,17 +23,17 @@ export const postsListApi = createApi({
   tagTypes: ["Posts List"],
   endpoints: (build) => ({
     getAllPosts: build.query<IPostsData, number | void>({
-      query: (page = 0) => ({ url: `posts?page=${page}` }),
-      providesTags: () => [{ type: "Posts List", id: 0 }],
+      query: (page) => ({ url: `posts?page=${page}` }),
+      providesTags: () => [{ type: "Posts List", boardId: 0 }],
     }),
     getPostsByBoard: build.query<IPostsData, PostsBoardQuery>({
       query: (req) => ({
         url: `posts?boardId=${req.id}&page=${req.page}`,
       }),
-      providesTags: (result) => [
+      providesTags: (result, error, req) => [
         {
           type: "Posts List",
-          id: result?.content[0]?.boardId,
+          boardId: req.id,
         },
       ],
     }),
@@ -46,8 +46,8 @@ export const postsListApi = createApi({
         };
       },
       invalidatesTags: (result) => [
-        { type: "Posts List", id: 0 },
-        { type: "Posts List", id: result.boardId },
+        { type: "Posts List", boardId: 0 },
+        { type: "Posts List", boardId: result.boardId },
       ],
     }),
   }),

@@ -1,28 +1,36 @@
 import { useRouter } from "next/router";
-import { useEffect } from "react";
+import { useEffect, useMemo, useState } from "react";
 
 import { useGetAllPostsQuery } from "../api/postsListApi";
 import PageTitle from "../components/PageTitle";
 import PostsPage from "../components/PostsPage/PostsPage";
 import SignInForm from "../components/SignInForm";
-import { useAppDispatch } from "../store/hooks";
-import { setPage } from "../store/pageSlice";
 
 const Home = () => {
-  const dispatch = useAppDispatch();
+  const [currentPage, setCurrentPage] = useState<number | undefined>(undefined);
 
   const router = useRouter();
-  const currentPage =
-    typeof router.query.page === "string" && parseInt(router.query.page) >= 1
-      ? parseInt(router.query.page) - 1
-      : 0;
+
+  const page = useMemo(() => router.isReady && router.query.page, [router]);
 
   useEffect(() => {
-    dispatch(setPage(currentPage));
-  }, [router.query.page]);
+    if (!router.isReady) return;
+
+    if (page === undefined) {
+      setCurrentPage(0);
+      return;
+    }
+
+    if (typeof page === "string" && parseInt(page) >= 1) {
+      setCurrentPage(parseInt(page) - 1);
+    } else {
+      router.push("/404");
+    }
+  }, [router.isReady, router.query.page]);
 
   const { isLoading, error } = useGetAllPostsQuery(currentPage, {
     refetchOnMountOrArgChange: true,
+    skip: currentPage === undefined,
   });
 
   return (
