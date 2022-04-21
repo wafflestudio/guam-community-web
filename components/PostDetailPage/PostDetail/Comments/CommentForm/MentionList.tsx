@@ -1,7 +1,7 @@
-import { Dispatch, RefObject } from "react";
+import { Dispatch, RefObject, useRef } from "react";
 
-import { IUser } from "../../../../types/types";
-import { mentionRegex } from "../../../../utils/mentionRegex";
+import { IUser } from "../../../../../types/types";
+import { mentionRegex } from "../../../../../utils/mentionRegex";
 
 import styles from "./CommentForm.module.scss";
 
@@ -20,6 +20,8 @@ export default function MentionList({
   textareaRef: RefObject<HTMLTextAreaElement>;
   mockTextareaRef: RefObject<HTMLDivElement>;
 }) {
+  const mentionListRef = useRef<HTMLDivElement>(null);
+
   const onSelectId = (id: number) => {
     const selectedUser = mentionList?.find((user) => user.id === id)?.nickname;
 
@@ -70,7 +72,11 @@ export default function MentionList({
   ));
 
   return (
-    <div className={`${styles.mentionContainer} ${styles.null}`}>
+    <div
+      ref={mentionListRef}
+      className={`${styles.mentionContainer} ${styles.null}`}
+      style={{ top: `-${mentionListRef.current?.clientHeight}px` }}
+    >
       <ul>{list}</ul>
     </div>
   );

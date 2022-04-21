@@ -1,7 +1,7 @@
 import PostWriteButton from "../../PostWriteButton/PostWriteButton";
 
 import BoardName from "./BoardName";
-import CommentForm from "./Comments/CommentForm";
+import CommentForm from "./Comments/CommentForm/CommentForm";
 import CommentsList from "./Comments/CommentsList";
 import PostMain from "./PostMain";
 

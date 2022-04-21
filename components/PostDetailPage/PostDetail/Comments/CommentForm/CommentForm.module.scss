@@ -1,6 +1,6 @@
-@import "../../../../assets/colors/colors";
-@import "../../../../assets/fonts/typography_medium";
-@import "../../../../assets/fonts/typography_regular";
+@import "../../../../../assets/colors/colors";
+@import "../../../../../assets/fonts/typography_medium";
+@import "../../../../../assets/fonts/typography_regular";
 
 .container {
   width: 839px;
@@ -52,6 +52,10 @@
         fill: $grayscale-gray3;
       }
     }
+
+    &.disabled {
+      cursor: default;
+    }
   }
 
   .submit {
@@ -68,12 +72,50 @@
     }
   }
 
+  .photoInput {
+    display: none;
+  }
+
+  .photosDisplay {
+    position: absolute;
+    width: 840px;
+    height: 96px;
+    background: #1d1d1d40;
+
+    .imageList {
+      position: relative;
+      width: 81.13px;
+      height: 80px;
+      overflow: hidden;
+      display: inline-grid;
+      justify-content: center;
+      margin-left: 7.13px;
+      margin-right: 7.74px;
+      margin-top: 8px;
+      background: $grayscale-white;
+
+      img {
+        width: auto;
+        height: 80px;
+      }
+
+      .deleteButton {
+        position: absolute;
+        top: 2px;
+        left: 60.87px;
+        width: 18px;
+        height: 18px;
+        z-index: 10;
+      }
+    }
+  }
+
   .mentionContainer {
     width: 232px;
     max-height: 238px;
     overflow: auto;
     position: absolute;
-    bottom: 150px;
+    top: -10px;
     background: $grayscale-white;
     border-radius: 5px;
     box-shadow: 1px 1px 5px 2px #afafaf40;
@@ -90,8 +132,8 @@
 
         .profileImage {
           position: absolute;
-          top: 6px;
-          left: 14px;
+          top: 5px;
+          left: 30px;
           border-radius: 50%;
           overflow: hidden;
 
@@ -103,8 +145,8 @@
 
         .nickname {
           position: absolute;
-          top: 16px;
-          left: 69px;
+          top: 13px;
+          left: 85px;
           color: $grayscale-gray1;
         }
       }

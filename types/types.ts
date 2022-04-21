@@ -66,3 +66,8 @@ export interface ICommentData {
 export interface IDetailedPost extends IPostsListPost {
   comments: IComment[];
 }
+
+export interface IImageUrl {
+  id: number;
+  url: string;
+}

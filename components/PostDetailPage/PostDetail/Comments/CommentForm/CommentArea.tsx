@@ -1,8 +1,8 @@
-import { Dispatch, RefObject, SetStateAction } from "react";
+import React, { Dispatch, RefObject, SetStateAction, useCallback } from "react";
 
 import styles from "./CommentForm.module.scss";
 
-export default function CommentArea({
+const CommentArea = ({
   commentInput,
   setCommentInput,
   setMentionListOpen,
@@ -14,20 +14,20 @@ export default function CommentArea({
   setMentionListOpen: Dispatch<SetStateAction<boolean>>;
   textareaRef: RefObject<HTMLTextAreaElement>;
   mockTextareaRef: RefObject<HTMLDivElement>;
-}) {
-  const onCommentChange: React.ChangeEventHandler<HTMLTextAreaElement> = ({
-    target,
-  }) => {
-    setCommentInput(target.value);
-  };
+}) => {
+  const onCommentChange: React.ChangeEventHandler<HTMLTextAreaElement> =
+    useCallback(({ target }) => {
+      setCommentInput(target.value);
+    }, []);
 
-  const onMention: React.KeyboardEventHandler<HTMLTextAreaElement> = (e) => {
-    if (e.key === "@") {
-      setMentionListOpen(true);
-    } else {
-      setMentionListOpen(false);
-    }
-  };
+  const onMention: React.KeyboardEventHandler<HTMLTextAreaElement> =
+    useCallback((e) => {
+      if (e.key === "@") {
+        setMentionListOpen(true);
+      } else {
+        setMentionListOpen(false);
+      }
+    }, []);
 
   return (
     <div className={styles.commentContainer}>
@@ -47,4 +47,6 @@ export default function CommentArea({
       />
     </div>
   );
-}
+};
+
+export default React.memo(CommentArea);
