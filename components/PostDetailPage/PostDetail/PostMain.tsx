@@ -22,15 +22,7 @@ export default function PostMain() {
       <h1 className={`${styles["typo8-medium"]} ${styles.title}`}>
         {post?.title}
       </h1>
-      <div className={`${styles["typo1-regular"]} ${styles.createdAt}`}>
-        {post && dayjs(new Date(post.createdAt)).locale(ko).fromNow()}
-      </div>
       <hr />
-      <div className={styles.content}>
-        <div className={`${styles["typo4-regular"]} ${styles.description}`}>
-          {post?.content}
-        </div>
-      </div>
       <div className={styles.userInfo}>
         <div className={styles.profileImage}>
           <img
@@ -44,6 +36,14 @@ export default function PostMain() {
         <div className={`${styles["typo5-regular"]} ${styles.userNickname}`}>
           {post?.user.nickname}
         </div>
+      </div>
+      <div className={styles.content}>
+        <div className={`${styles["typo4-regular"]} ${styles.description}`}>
+          {post?.content}
+        </div>
+      </div>
+      <div className={`${styles["typo1-regular"]} ${styles.createdAt}`}>
+        {post && dayjs(new Date(post.createdAt)).locale(ko).fromNow()}
       </div>
     </div>
   );
