@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { useRouter } from "next/router";
 import { useEffect, useMemo, useState } from "react";
 
@@ -37,6 +38,9 @@ const Home = () => {
     <>
       <PageTitle title="Home" />
       <SignInForm />
+      <Link href={"/oauth/authorize"}>
+        <a>카카오로그인</a>
+      </Link>
       {error ? <>error</> : isLoading ? <>Loading...</> : null}
       <PostsPage />
     </>

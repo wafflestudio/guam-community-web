@@ -1,12 +1,12 @@
 /** @type {import('next').NextConfig} */
-const KEY = process.env.KEY;
-const BUCKET_URL = process.env.BUCKET_URL;
 
 const nextConfig = {
   reactStrictMode: true,
   env: {
-    KEY: KEY,
-    BUCKET_URL: BUCKET_URL,
+    KEY: process.env.KEY,
+    BUCKET_URL: process.env.BUCKET_URLL,
+    REST_API_KEY: process.env.REST_API_KEY,
+    CLIENT_SECRET: process.env.CLIENT_SECRET,
   },
 
   eslint: {
@@ -21,14 +21,11 @@ const nextConfig = {
       },
       {
         source: "/relyingparty/:path*",
-        // has: [
-        //   {
-        //     type: "query",
-        //     key: "key",
-        //     value: process.env.KEY,
-        //   },
-        // ],
         destination: `${process.env.GOOGLE_API}?key=${process.env.KEY}`,
+      },
+      {
+        source: "/oauth/authorize",
+        destination: `https://kauth.kakao.com/oauth/authorize?client_id=${process.env.REST_API_KEY}&redirect_uri=http://localhost:3000/oauth/kakao/callback&response_type=code`,
       },
     ];
   },
