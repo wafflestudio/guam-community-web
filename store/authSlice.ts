@@ -1,33 +1,31 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import axios from "axios";
 
-type IAuthState = {
+type AuthStateType = {
   token: string | null | number;
-  kakao_token: string | null | undefined;
   isLoggedIn: boolean;
 };
 
-type IAuthReducer = {
-  setToken: (state: IAuthState, action: PayloadAction<string>) => IAuthState;
-  removeToken: (state: IAuthState) => IAuthState;
-  setKakaoToken: (
-    state: IAuthState,
+type AuthReducerType = {
+  setToken: (
+    state: AuthStateType,
     action: PayloadAction<string>
-  ) => IAuthState;
-  removeKakaoToken: (state: IAuthState) => IAuthState;
+  ) => AuthStateType;
+  removeToken: (state: AuthStateType) => AuthStateType;
 };
 
 const initialState = {
   token: 0,
-  kakao_token: null,
   isLoggedIn: false,
 };
 
-const authSlice = createSlice<IAuthState, IAuthReducer>({
-  name: "user",
+const authSlice = createSlice<AuthStateType, AuthReducerType>({
+  name: "auth",
   initialState,
   reducers: {
     setToken: (state, action) => {
       const token = action.payload;
+      axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
       return {
         ...state,
         token,
@@ -35,30 +33,16 @@ const authSlice = createSlice<IAuthState, IAuthReducer>({
       };
     },
     removeToken: (state) => {
+      delete axios.defaults.headers.common["Authorization"];
       return {
         ...state,
         token: null,
         isLoggedIn: false,
       };
     },
-    setKakaoToken: (state, action) => {
-      return {
-        ...state,
-        kakao_token: action.payload,
-        isLoggedIn: true,
-      };
-    },
-    removeKakaoToken: (state) => {
-      return {
-        ...state,
-        kakao_token: null,
-        isLoggedIn: false,
-      };
-    },
   },
 });
 
-export const { setToken, removeToken, setKakaoToken, removeKakaoToken } =
-  authSlice.actions;
+export const { setToken, removeToken } = authSlice.actions;
 
 export default authSlice.reducer;

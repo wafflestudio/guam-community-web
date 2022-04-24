@@ -3,10 +3,10 @@ export interface IUser {
   introduction: null | string;
   githubId: null | string;
   blogUrl: null | string;
-  nickname: string;
+  nickname: string | null;
   email: null | string;
   profileImage: null | string;
-  interests: [];
+  interests: { name: string }[];
   profileSet: boolean;
 }
 

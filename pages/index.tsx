@@ -6,9 +6,12 @@ import { useGetAllPostsQuery } from "../api/postsListApi";
 import PageTitle from "../components/PageTitle";
 import PostsPage from "../components/PostsPage/PostsPage";
 import SignInForm from "../components/SignInForm";
+import { useAppSelector } from "../store/hooks";
 
 const Home = () => {
   const [currentPage, setCurrentPage] = useState<number | undefined>(undefined);
+
+  const { isLoggedIn } = useAppSelector((state) => state.auth);
 
   const router = useRouter();
 
@@ -38,9 +41,11 @@ const Home = () => {
     <>
       <PageTitle title="Home" />
       <SignInForm />
-      <Link href={"/oauth/authorize"}>
-        <a>카카오로그인</a>
-      </Link>
+      {isLoggedIn ? null : (
+        <Link href={"/oauth/authorize"}>
+          <a>카카오로그인</a>
+        </Link>
+      )}
       {error ? <>error</> : isLoading ? <>Loading...</> : null}
       <PostsPage />
     </>

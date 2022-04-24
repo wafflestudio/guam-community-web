@@ -55,9 +55,14 @@ export default function PostForm() {
 
   return (
     <form onSubmit={onPostSubmit}>
-      <label htmlFor="title">
+      <label htmlFor="board">
         게시판
-        <select value={boardId} onChange={onBoardChange}>
+        <select
+          id="board"
+          name="board"
+          value={boardId}
+          onChange={onBoardChange}
+        >
           {boardList.map((board) => (
             <option key={board.id} value={board.id}>
               {board.name}
