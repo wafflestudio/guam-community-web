@@ -1,8 +1,7 @@
 import axios from "axios";
 import { useRouter } from "next/router";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 
-import DefaultImageIcon from "../../public/default_profile_image.png";
 import { useAppDispatch, useAppSelector } from "../../store/hooks";
 import { setUserState } from "../../store/userSlice";
 
@@ -23,8 +22,6 @@ export default function SetProfilePage() {
     null
   );
   const [imageUrl, setImageUrl] = useState<string | null>(null);
-
-  const imageRef = useRef<HTMLImageElement>(null);
 
   const user = useAppSelector((state) => state.user);
 
@@ -69,6 +66,11 @@ export default function SetProfilePage() {
       const url = URL.createObjectURL(target.files[0]);
       setImageUrl(url);
     }
+  };
+
+  const removeProfileImage = () => {
+    setProfileImage(null);
+    setImageUrl(null);
   };
 
   const onSubmit: React.FormEventHandler<HTMLFormElement> = async (e) => {
@@ -155,11 +157,18 @@ export default function SetProfilePage() {
           onChange={handleImageInput}
         />
       </label>
+      <button type="button" onClick={removeProfileImage}>
+        기본 이미지 세팅
+      </button>
       <button type="submit">등록</button>
       {imageUrl ? (
-        <img src={imageUrl} />
+        typeof profileImage === "string" ? (
+          <img src={process.env.BUCKET_URL + imageUrl + "?" + Date.now()} />
+        ) : (
+          <img src={imageUrl} />
+        )
       ) : (
-        <img ref={imageRef} src={"default_profile_image.png"} />
+        <img src={"default_profile_image.png"} />
       )}
     </form>
   );

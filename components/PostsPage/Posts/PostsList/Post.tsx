@@ -39,7 +39,11 @@ export default function Post({ post }: { post: IPostsListPost }) {
       </div>
       <div className={styles.profileImage}>
         {post.user.profileImage ? (
-          <img src={process.env.BUCKET_URL + post.user.profileImage} />
+          <img
+            src={
+              process.env.BUCKET_URL + post.user.profileImage + "?" + Date.now()
+            }
+          />
         ) : (
           <ProfileIcon />
         )}

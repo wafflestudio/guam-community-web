@@ -3,6 +3,10 @@ export const ERROR = "error";
 
 export const FREE = "free";
 export const ANONYMOUS = "anonymous";
+export const CAREER = "career";
+export const INFORMATION = "information";
+export const AD = "ad";
+
 export const firebaseConfig = {
   apiKey: process.env.FIREBASE_API_KEY,
   authDomain: process.env.FIREBASE_AUTH_DOMAIN,
@@ -12,10 +16,6 @@ export const firebaseConfig = {
   appId: process.env.FIREBASE_APP_ID,
   measurementId: process.env.FIREBASE_MEASUREMENT_ID,
 };
-
-export const CAREER = "career";
-export const INFORMATION = "information";
-export const AD = "ad";
 
 export const boardList = [
   { id: 0, name: "전체 게시판", route: "" },
