@@ -1,6 +1,6 @@
 import { useRouter } from "next/router";
 
-import { postDetailApi } from "../../../../api/postDetailApi";
+import { postsApi } from "../../../../api/postsApi";
 
 import Comment from "./Comment";
 
@@ -10,7 +10,7 @@ export default function CommentsList() {
   const router = useRouter();
   const { postId } = router.query;
 
-  const comments = postDetailApi.endpoints.getPostDetail.useQueryState(
+  const comments = postsApi.endpoints.getPostDetail.useQueryState(
     typeof postId === "string" ? postId : "0"
   ).data?.comments;
 

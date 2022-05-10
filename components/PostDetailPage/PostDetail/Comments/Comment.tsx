@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useRef } from "react";
 
-import { useDeleteCommentMutation } from "../../../../api/postDetailApi";
+import { useDeleteCommentMutation } from "../../../../api/postsApi";
 import LikeIcon from "../../../../assets/icons/like/outlined.svg";
 import MoreIcon from "../../../../assets/icons/more.svg";
 import { IComment } from "../../../../types/types";

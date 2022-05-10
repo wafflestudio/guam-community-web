@@ -70,4 +70,12 @@
     margin-top: 30px;
     color: $grayscale-gray4;
   }
+
+  .more {
+    svg {
+      position: absolute;
+      top: 26px;
+      left: 792px;
+    }
+  }
 }

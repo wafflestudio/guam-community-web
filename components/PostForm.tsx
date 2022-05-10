@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-import { usePostPostMutation } from "../api/postsListApi";
+import { usePostPostMutation } from "../api/postsApi";
 import { boardList } from "../constants/constants";
 
 export default function PostForm() {

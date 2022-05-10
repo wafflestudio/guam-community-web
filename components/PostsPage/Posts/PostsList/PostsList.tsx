@@ -1,7 +1,7 @@
 import { useRouter } from "next/router";
 import { useEffect, useMemo, useState } from "react";
 
-import { postsListApi } from "../../../../api/postsListApi";
+import { postsApi } from "../../../../api/postsApi";
 import { boardList } from "../../../../constants/constants";
 import { IPostsListPost } from "../../../../types/types";
 
@@ -29,11 +29,11 @@ export default function PostsList() {
 
   const result =
     typeof boardId === "number"
-      ? postsListApi.endpoints.getPostsByBoard.useQueryState({
+      ? postsApi.endpoints.getPostsByBoard.useQueryState({
           id: boardId,
           page,
         })
-      : postsListApi.endpoints.getAllPosts.useQueryState(page);
+      : postsApi.endpoints.getAllPosts.useQueryState(page);
 
   useEffect(() => {
     setPosts(result.data?.content || []);

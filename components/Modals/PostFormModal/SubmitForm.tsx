@@ -7,13 +7,13 @@ import React, {
   useState,
 } from "react";
 
-import { usePostPostMutation } from "../../api/postsListApi";
-import CancelIcon from "../../assets/icons/cancel/outlined.svg";
-import PlusIcon from "../../assets/icons/plus.svg";
-import { categoryList } from "../../constants/constants";
-import { useAppDispatch } from "../../store/hooks";
-import { setPostModalOpen } from "../../store/modalSlice";
-import { IImageUrl } from "../../types/types";
+import { usePostPostMutation } from "../../../api/postsApi";
+import CancelIcon from "../../../assets/icons/cancel/outlined.svg";
+import PlusIcon from "../../../assets/icons/plus.svg";
+import { categoryList } from "../../../constants/constants";
+import { useAppDispatch } from "../../../store/hooks";
+import { setPostModalOpen } from "../../../store/modalSlice";
+import { IImageUrl } from "../../../types/types";
 
 import styles from "./PostFormModal.module.scss";
 

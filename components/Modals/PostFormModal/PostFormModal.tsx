@@ -1,8 +1,8 @@
 import React, { useCallback } from "react";
 
-import CancelIcon from "../../assets/icons/cancel/outlined.svg";
-import { useAppDispatch, useAppSelector } from "../../store/hooks";
-import { setPostModalOpen } from "../../store/modalSlice";
+import CancelIcon from "../../../assets/icons/cancel/outlined.svg";
+import { useAppDispatch, useAppSelector } from "../../../store/hooks";
+import { setPostModalOpen } from "../../../store/modalSlice";
 
 import SubmitForm from "./SubmitForm";
 

@@ -1,6 +1,6 @@
 import React, { RefObject, useCallback } from "react";
 
-import { usePostCommentMutation } from "../../../../../api/postDetailApi";
+import { usePostCommentMutation } from "../../../../../api/postsApi";
 import CameraIcon from "../../../../../assets/icons/camera.svg";
 import {
   setCommentInput,

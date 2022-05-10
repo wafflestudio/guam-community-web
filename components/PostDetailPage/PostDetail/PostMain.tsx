@@ -2,8 +2,13 @@ import dayjs from "dayjs";
 import ko from "dayjs/locale/ko";
 import relativeTime from "dayjs/plugin/relativeTime";
 import { useRouter } from "next/router";
+import { useCallback } from "react";
 
-import { postDetailApi } from "../../../api/postDetailApi";
+import { postsApi } from "../../../api/postsApi";
+import MoreIcon from "../../../assets/icons/more.svg";
+import { useAppDispatch, useAppSelector } from "../../../store/hooks";
+import { setPostModifyModalOpen } from "../../../store/modalSlice";
+import PostModifyModal from "../PostModifyModal/PostModifyModal";
 
 import styles from "./PostMain.module.scss";
 
@@ -13,9 +18,18 @@ export default function PostMain() {
   const router = useRouter();
   const { postId } = router.query;
 
-  const post = postDetailApi.endpoints.getPostDetail.useQueryState(
+  const post = postsApi.endpoints.getPostDetail.useQueryState(
     typeof postId === "string" ? postId : "0"
   ).data;
+
+  const { postModifyModalOpen } = useAppSelector((state) => state.modals);
+
+  const dispatch = useAppDispatch();
+
+  const toggleMore = useCallback(() => {
+    const modalState = postModifyModalOpen;
+    dispatch(setPostModifyModalOpen(!modalState));
+  }, [dispatch, postModifyModalOpen]);
 
   return (
     <div className={styles.container}>
@@ -48,6 +62,14 @@ export default function PostMain() {
       <div className={`${styles["typo1-regular"]} ${styles.createdAt}`}>
         {post && dayjs(new Date(post.createdAt)).locale(ko).fromNow()}
       </div>
+      {post?.isMine ? (
+        <div className={styles.more}>
+          <button onClick={toggleMore}>
+            <MoreIcon />
+          </button>
+          {postModifyModalOpen ? <PostModifyModal id={post.id} /> : null}
+        </div>
+      ) : null}
     </div>
   );
 }

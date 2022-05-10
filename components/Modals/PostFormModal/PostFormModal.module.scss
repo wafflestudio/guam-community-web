@@ -1,6 +1,6 @@
-@import "../../assets/colors/colors";
-@import "../../assets/fonts/typography_regular";
-@import "../../assets/fonts/typography_medium";
+@use "../../../assets/colors/colors";
+@import "../../../assets/fonts/typography_regular";
+@import "../../../assets/fonts/typography_medium";
 
 .wrapper {
   height: 100vh;
@@ -24,7 +24,7 @@
   .container {
     height: 562px;
     width: 744px;
-    background: $grayscale-white;
+    background: colors.$grayscale-white;
     position: absolute;
     top: 50%;
     left: 50%;
@@ -37,7 +37,7 @@
       position: absolute;
       top: 16px;
       left: 23px;
-      color: $grayscale-gray1;
+      color: colors.$grayscale-gray1;
       margin: 0;
       &.title {
         font-size: 20px;
@@ -58,7 +58,7 @@
       select.boardId {
         position: absolute;
         top: 74px;
-        color: $grayscale-gray3;
+        color: colors.$grayscale-gray3;
       }
 
       input.title {
@@ -69,7 +69,7 @@
         border: none;
 
         &::placeholder {
-          color: $grayscale-gray5;
+          color: colors.$grayscale-gray5;
         }
       }
 
@@ -81,7 +81,7 @@
         border: none;
 
         &::placeholder {
-          color: $grayscale-gray5;
+          color: colors.$grayscale-gray5;
         }
       }
 
@@ -91,7 +91,7 @@
           width: 123px;
           position: absolute;
           top: 300px;
-          color: $grayscale-gray3;
+          color: colors.$grayscale-gray3;
         }
 
         .selectedCategory {
@@ -103,7 +103,7 @@
           .categoryName {
             display: inline-block;
             vertical-align: top;
-            color: $blue-core;
+            color: colors.$blue-core;
           }
 
           button.deleteCategory {
@@ -112,7 +112,7 @@
             display: inline-block;
 
             svg path {
-              fill: $blue-core;
+              fill: colors.$blue-core;
             }
           }
         }
@@ -129,8 +129,8 @@
             top: 297px;
             border-radius: 15px;
             padding: 2px 0 0 8px;
-            background: $purple-light3;
-            color: $purple-light1;
+            background: colors.$purple-light3;
+            color: colors.$purple-light1;
             cursor: pointer;
 
             &.develop {
@@ -167,7 +167,7 @@
         .label {
           position: absolute;
           top: 336px;
-          color: $grayscale-gray3;
+          color: colors.$grayscale-gray3;
         }
 
         .addBox {
@@ -175,7 +175,7 @@
           height: 109px;
           display: inline-block;
           position: relative;
-          border: 1px dashed $purple-light2;
+          border: 1px dashed colors.$purple-light2;
           border-radius: 8px;
           cursor: pointer;
           margin-top: 363px;
@@ -186,7 +186,7 @@
             left: 42.5px;
 
             path {
-              stroke: $purple-light1;
+              stroke: colors.$purple-light1;
             }
           }
         }
@@ -215,18 +215,18 @@
         height: 45px;
         width: 92px;
         border-radius: 4px;
-        color: $grayscale-white;
+        color: colors.$grayscale-white;
         position: absolute;
         top: 500px;
         font-size: 17px;
 
         &.save {
-          background: $grayscale-gray5;
+          background: colors.$grayscale-gray5;
           left: 531px;
         }
 
         &.submit {
-          background: $purple-core;
+          background: colors.$purple-core;
           left: 639px;
         }
       }
@@ -240,7 +240,7 @@
       margin: 0;
       position: absolute;
       left: 22px;
-      color: $grayscale-gray7;
+      color: colors.$grayscale-gray7;
 
       &.title {
         width: 752px;

@@ -1,6 +1,7 @@
 import { useRouter } from "next/router";
 
-import { useGetPostDetailQuery } from "../../../api/postDetailApi";
+import { useGetPostDetailQuery } from "../../../api/postsApi";
+import DeleteConfirmModal from "../../../components/Modals/DeleteConfirmModal/DeleteConfirmModal";
 import PageTitle from "../../../components/PageTitle";
 import PostDetailPage from "../../../components/PostDetailPage/PostDetailPage";
 import { useAppSelector } from "../../../store/hooks";
@@ -24,6 +25,7 @@ export default function DetailedPostPage() {
       <PageTitle title={data?.title || "Posts"} />
       {isLoading ? <span>Loading</span> : error ? <span>Error</span> : null}
       <PostDetailPage />
+      <DeleteConfirmModal type={"게시글"} />
       {/* {postData?.imagePaths.map((image) => (
         <li key={image}>
           <img src={process.env.BUCKET_URL + image} />

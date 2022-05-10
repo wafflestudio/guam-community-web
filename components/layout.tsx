@@ -1,7 +1,5 @@
-import React from "react";
-
 import Header from "./Header/Header";
-import PostFormModal from "./PostFormModal/PostFormModal";
+import PostFormModal from "./Modals/PostFormModal/PostFormModal";
 
 interface LayoutProps {
   children: React.ReactNode;
