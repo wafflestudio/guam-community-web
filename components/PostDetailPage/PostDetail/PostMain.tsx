@@ -32,7 +32,7 @@ export default function PostMain() {
                   post?.user.profileImage +
                   "?" +
                   Date.now()
-                : "/default profile image.png"
+                : "/default_profile_image.png"
             }
           />
         </div>

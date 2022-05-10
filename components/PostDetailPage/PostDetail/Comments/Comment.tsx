@@ -41,7 +41,7 @@ export default function Comment({ comment }: { comment: IComment }) {
                   comment.user.profileImage +
                   "?" +
                   Date.now()
-                : "/default profile image.png"
+                : "/default_profile_image.png"
             }
           />
         </div>

@@ -5,8 +5,10 @@ import { useRouter } from "next/router";
 import { MouseEventHandler } from "react";
 
 import CommentIcon from "../../../../assets/icons/comment/comment_20.svg";
+import LikeFilledIcon from "../../../../assets/icons/like/filled_20.svg";
 import LikeIcon from "../../../../assets/icons/like/post-list.svg";
 import ProfileIcon from "../../../../assets/icons/profile/default_image.svg";
+import ScrapFilledIcon from "../../../../assets/icons/scrap/filled_20.svg";
 import ScrapIcon from "../../../../assets/icons/scrap/outlined_20.svg";
 import { IPostsListPost } from "../../../../types/types";
 
@@ -53,7 +55,7 @@ export default function Post({ post }: { post: IPostsListPost }) {
       </span>
       <div className={styles.engagement}>
         <span className={`${styles.countContainer} ${styles.likes}`}>
-          <LikeIcon />
+          {post.isLiked ? <LikeFilledIcon /> : <LikeIcon />}
           <span className={styles["typo2-regular"]}>{post.likeCount}</span>
         </span>
         <span className={`${styles.countContainer} ${styles.comments}`}>
@@ -61,7 +63,7 @@ export default function Post({ post }: { post: IPostsListPost }) {
           <span className={styles["typo2-regular"]}>{post.commentCount}</span>
         </span>
         <span className={`${styles.countContainer} ${styles.scraps}`}>
-          <ScrapIcon />
+          {post.isScrapped ? <ScrapFilledIcon /> : <ScrapIcon />}
           <span className={styles["typo2-regular"]}>{post.scrapCount}</span>
         </span>
       </div>
