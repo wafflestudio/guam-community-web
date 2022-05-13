@@ -1,24 +1,29 @@
 import { useRouter } from "next/router";
+import React, { SetStateAction } from "react";
 
-import { useDeletePostMutation } from "../../../api/postsApi";
-import { useAppDispatch, useAppSelector } from "../../../store/hooks";
-import { setDeleteConfirmModalOpen } from "../../../store/modalSlice";
+import { useDeletePostMutation } from "../../../../api/postsApi";
 
 import styles from "./DeleteConfirmModal.module.scss";
 
-export default function DeleteConfirmModal({ type }: { type: string }) {
+export default function DeleteConfirmModal({
+  type,
+  id,
+  deleteConfirmModal,
+  setDeleteConfirmModal,
+}: {
+  type: string;
+  id: number;
+  deleteConfirmModal: boolean;
+  setDeleteConfirmModal: React.Dispatch<SetStateAction<boolean>>;
+}) {
   const router = useRouter();
-
-  const dispatch = useAppDispatch();
-
-  const { deleteConfirmModalOpen } = useAppSelector((state) => state.modals);
 
   const [deletePost] = useDeletePostMutation();
 
-  const closeModal = () => dispatch(setDeleteConfirmModalOpen(false));
+  const closeModal = () => setDeleteConfirmModal(false);
 
   const onDeletePost = () => {
-    deletePost(router.query.postId);
+    deletePost(id);
     router.push("/");
     closeModal();
   };
@@ -26,7 +31,7 @@ export default function DeleteConfirmModal({ type }: { type: string }) {
   return (
     <div
       className={`${styles.wrapper} ${
-        deleteConfirmModalOpen ? styles.open : styles.close
+        deleteConfirmModal ? styles.open : styles.close
       }`}
       onClick={closeModal}
     >

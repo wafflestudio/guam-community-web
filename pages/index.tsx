@@ -46,7 +46,7 @@ const Home = () => {
           <a>카카오로그인</a>
         </Link>
       )}
-      <Link href={"/set_profile"}>
+      <Link href={"/profile/me"}>
         <a>프로필 관리</a>
       </Link>
       {error ? <>error</> : isLoading ? <>Loading...</> : null}

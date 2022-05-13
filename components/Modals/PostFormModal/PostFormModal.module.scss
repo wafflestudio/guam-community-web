@@ -3,14 +3,6 @@
 @import "../../../assets/fonts/typography_medium";
 
 .wrapper {
-  height: 100vh;
-  width: 100vw;
-  background-color: rgba(29, 29, 29, 0.4);
-  position: fixed;
-  top: 0;
-  left: 0;
-  transition: opacity 0.5s;
-
   &.close {
     opacity: 0;
     pointer-events: none;
@@ -21,55 +13,129 @@
     pointer-events: initial;
   }
 
+  &.expanded {
+    height: calc(100vh - 57px);
+    width: 100vw;
+    position: fixed;
+    top: 57px;
+    left: 0;
+    transition: opacity 0.5s;
+    z-index: 10;
+    background: colors.$grayscale-gray8;
+  }
+
   .container {
     height: 562px;
     width: 744px;
-    background: colors.$grayscale-white;
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
     border-radius: 8px;
+
+    &.expanded {
+      height: calc(100vh - 57px);
+      width: 1128px;
+      background: colors.$grayscale-white;
+      position: absolute;
+      left: 50%;
+      transform: translateX(-50%);
+      border-radius: 0;
+    }
 
     h1 {
       height: 29px;
-      width: 327px;
       position: absolute;
       top: 16px;
-      left: 23px;
+      left: 24px;
       color: colors.$grayscale-gray1;
       margin: 0;
+
       &.title {
         font-size: 20px;
+
+        &.expanded {
+          display: none;
+        }
+      }
+    }
+
+    button.expand {
+      position: absolute;
+      top: 22px;
+      left: 679px;
+      width: 13px;
+      height: 13px;
+
+      svg {
+        position: absolute;
+        top: 0;
+        left: 0;
       }
     }
 
     button.cancel {
       position: absolute;
-      top: 13px;
-      right: 11.87px;
+      top: 16px;
+      right: 16px;
       height: 24px;
       width: 24px;
+
+      svg {
+        position: absolute;
+        top: 0;
+        left: 0;
+
+        path {
+          fill: colors.$grayscale-gray2;
+        }
+      }
+    }
+
+    .cancelExpanded {
+      width: 98px;
+      height: 48px;
+      position: absolute;
+      bottom: 14px;
+      right: 249px;
+      background: #f37462;
+      border-radius: 4px;
+
+      span {
+        color: colors.$grayscale-white;
+      }
     }
 
     form {
-      padding: 0 22px;
-
       select.boardId {
         position: absolute;
-        top: 74px;
+        top: 72px;
+        left: 24px;
         color: colors.$grayscale-gray3;
+
+        &.expanded {
+          top: 32px;
+          left: 24px;
+          width: 96px;
+          height: 23px;
+        }
       }
 
       input.title {
         height: 29px;
         width: 708px;
         position: absolute;
-        top: 104px;
+        top: 103px;
+        left: 22px;
         border: none;
 
         &::placeholder {
           color: colors.$grayscale-gray5;
+        }
+
+        &.expanded {
+          height: 30px;
+          top: 71px;
+          left: 24px;
+          font-size: 32px;
+          line-height: 28.8px;
+          padding: 0;
         }
       }
 
@@ -77,28 +143,47 @@
         height: 128px;
         width: 708px;
         position: absolute;
-        top: 151px;
+        top: 149px;
+        left: 22px;
         border: none;
 
         &::placeholder {
           color: colors.$grayscale-gray5;
         }
+
+        &.expanded {
+          width: 1086px;
+          top: 132px;
+          left: 21px;
+          font-size: 16px;
+          line-height: 22.4px;
+          padding: 0;
+        }
       }
 
       .categoryOptions {
         .label {
-          height: 23px;
-          width: 123px;
           position: absolute;
-          top: 300px;
+          bottom: 241px;
+          left: 22px;
           color: colors.$grayscale-gray3;
+
+          &.expanded {
+            bottom: 249px;
+            left: 28px;
+          }
         }
 
         .selectedCategory {
           height: 26px;
+          min-width: 65px;
           position: absolute;
-          top: 298px;
-          left: 164px;
+          bottom: 241px;
+          left: 66px;
+
+          &.expanded {
+            bottom: 249px;
+          }
 
           .categoryName {
             display: inline-block;
@@ -107,12 +192,20 @@
           }
 
           button.deleteCategory {
-            width: 20px;
-            height: 20px;
+            width: 24px;
+            height: 24px;
             display: inline-block;
+            vertical-align: top;
+            position: relative;
 
-            svg path {
-              fill: colors.$blue-core;
+            svg {
+              position: absolute;
+              top: 0;
+              left: 0;
+
+              path {
+                fill: colors.$blue-core;
+              }
             }
           }
         }
@@ -126,36 +219,70 @@
             -webkit-appearance: none;
             height: 25.29px;
             position: absolute;
-            top: 297px;
+            bottom: 240.71px;
             border-radius: 15px;
-            padding: 2px 0 0 8px;
+            padding: 2px 4px 0 8px;
             background: colors.$purple-light3;
             color: colors.$purple-light1;
             cursor: pointer;
 
+            &.expanded {
+              bottom: 249px;
+              font-size: 16px;
+              font-weight: 500;
+              line-height: 22.4px;
+              padding: 2px 0 0 8px;
+              bottom: 249px;
+            }
+
             &.develop {
-              width: 46.83px;
-              left: 162px;
+              width: 48px;
+              left: 64px;
+
+              &.expanded {
+                width: 56px;
+                left: 70px;
+              }
             }
 
             &.dataAnalysis {
-              width: 83.35px;
-              left: 216.32px;
+              width: 85px;
+              left: 117.83px;
+
+              &.expanded {
+                width: 101px;
+                left: 134px;
+              }
             }
 
             &.design {
-              width: 59px;
-              left: 307.16px;
+              width: 60px;
+              left: 208.17px;
+
+              &.expanded {
+                width: 72px;
+                left: 243px;
+              }
             }
 
             &.marketing {
-              width: 88.03px;
-              left: 373.65px;
+              width: 90px;
+              left: 274.17px;
+
+              &.expanded {
+                width: 104px;
+                left: 323px;
+              }
             }
 
             &.extra {
-              width: 46.83px;
-              left: 469.17px;
+              width: 48px;
+              left: 369.21px;
+
+              &.expanded {
+                width: 56px;
+                left: 435px;
+              }
             }
           }
         }
@@ -166,15 +293,23 @@
 
         .label {
           position: absolute;
-          top: 336px;
+          bottom: 202px;
+          left: 22px;
           color: colors.$grayscale-gray3;
+
+          &.expanded {
+            left: 26px;
+            bottom: 209px;
+          }
         }
 
         .addBox {
           width: 109px;
           height: 109px;
           display: inline-block;
-          position: relative;
+          position: absolute;
+          bottom: 85px;
+          left: 22px;
           border: 1px dashed colors.$purple-light2;
           border-radius: 8px;
           cursor: pointer;
@@ -189,6 +324,18 @@
               stroke: colors.$purple-light1;
             }
           }
+
+          &.expanded {
+            width: 120px;
+            height: 113px;
+            left: 25px;
+            bottom: 88px;
+
+            svg {
+              top: 45px;
+              left: 48px;
+            }
+          }
         }
 
         .photoInput {
@@ -199,14 +346,26 @@
           width: 109px;
           height: 109px;
           overflow: hidden;
-          display: inline-grid;
-          justify-content: center;
-          margin-top: 363px;
-          margin-right: 20px;
+          position: absolute;
+          bottom: 85px;
+          left: 20px;
 
           img {
             width: auto;
             height: 109px;
+          }
+
+          &.expanded {
+            width: 120px;
+            height: 113px;
+            position: absolute;
+            bottom: 88px;
+            left: 25px;
+
+            img {
+              width: auto;
+              height: 113px;
+            }
           }
         }
       }
@@ -217,17 +376,32 @@
         border-radius: 4px;
         color: colors.$grayscale-white;
         position: absolute;
-        top: 500px;
+        bottom: 17px;
         font-size: 17px;
+
+        &.expanded {
+          height: 48px;
+          width: 98px;
+          font-size: 16px;
+          bottom: 14px;
+        }
 
         &.save {
           background: colors.$grayscale-gray5;
           left: 531px;
+
+          &.expanded {
+            left: 895px;
+          }
         }
 
         &.submit {
           background: colors.$purple-core;
           left: 639px;
+
+          &.expanded {
+            left: 1009px;
+          }
         }
       }
     }
@@ -246,22 +420,48 @@
         width: 752px;
         top: 58px;
         left: 0;
+
+        &.expanded {
+          top: 116px;
+        }
       }
 
       &.contentTop {
         top: 140px;
+
+        &.expanded {
+          display: none;
+        }
       }
 
       &.contentBottom {
-        top: 290px;
+        bottom: 272px;
+
+        &.expanded {
+          bottom: 284px;
+        }
       }
 
       &.categoryPhoto {
-        top: 329px;
+        bottom: 233px;
+
+        &.expanded {
+          bottom: 240px;
+        }
       }
 
       &.bottom {
-        top: 483px;
+        bottom: 77px;
+
+        &.expanded {
+          bottom: 72px;
+        }
+      }
+
+      &.expanded {
+        width: 1085px;
+        position: absolute;
+        left: 21px;
       }
     }
   }

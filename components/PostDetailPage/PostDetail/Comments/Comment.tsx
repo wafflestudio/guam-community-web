@@ -1,19 +1,31 @@
-import { useEffect, useMemo, useRef } from "react";
+import { Dispatch, SetStateAction, useEffect, useRef } from "react";
 
-import { useDeleteCommentMutation } from "../../../../api/postsApi";
 import LikeIcon from "../../../../assets/icons/like/outlined.svg";
 import MoreIcon from "../../../../assets/icons/more.svg";
 import { IComment } from "../../../../types/types";
 
+import CommentMoreModal from "./CommentMoreModal";
+
 import styles from "./Comment.module.scss";
 
-export default function Comment({ comment }: { comment: IComment }) {
+export default function Comment({
+  comment,
+  selectedId,
+  setSelectedId,
+}: {
+  comment: IComment;
+  selectedId: number | null;
+  setSelectedId: Dispatch<SetStateAction<number | null>>;
+}) {
   const containerRef = useRef<HTMLLIElement>(null);
   const commentRef = useRef<HTMLDivElement>(null);
 
-  const { postId } = useMemo(() => comment, [comment]);
+  const { id } = comment;
 
-  const [deleteComment] = useDeleteCommentMutation();
+  const onClickMore = () => {
+    if (selectedId === id) setSelectedId(null);
+    else setSelectedId(id);
+  };
 
   useEffect(() => {
     if (commentRef.current?.textContent) {
@@ -48,9 +60,9 @@ export default function Comment({ comment }: { comment: IComment }) {
         <div className={`${styles["typo2-regular"]} ${styles.userNickname}`}>
           {comment.user.nickname}
         </div>
-        <div className={styles.more} onClick={() => deleteComment(postId)}>
+        <button className={styles.more} onClick={onClickMore}>
           <MoreIcon />
-        </div>
+        </button>
         <div className={styles.content}>
           <div
             className={`${styles["typo3-regular"]} ${styles.comment}`}
@@ -63,6 +75,9 @@ export default function Comment({ comment }: { comment: IComment }) {
             <div>{comment.likeCount}</div>
           </div>
         </div>
+        {selectedId === id ? (
+          <CommentMoreModal user={comment.user} setSelectedId={setSelectedId} />
+        ) : null}
       </div>
     </li>
   );

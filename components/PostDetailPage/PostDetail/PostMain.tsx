@@ -2,12 +2,11 @@ import dayjs from "dayjs";
 import ko from "dayjs/locale/ko";
 import relativeTime from "dayjs/plugin/relativeTime";
 import { useRouter } from "next/router";
-import { useCallback } from "react";
+import { useCallback, useState } from "react";
 
 import { postsApi } from "../../../api/postsApi";
 import MoreIcon from "../../../assets/icons/more.svg";
-import { useAppDispatch, useAppSelector } from "../../../store/hooks";
-import { setPostModifyModalOpen } from "../../../store/modalSlice";
+import DeleteConfirmModal from "../PostModifyModal/DeleteConfirmModal/DeleteConfirmModal";
 import PostModifyModal from "../PostModifyModal/PostModifyModal";
 
 import styles from "./PostMain.module.scss";
@@ -15,6 +14,9 @@ import styles from "./PostMain.module.scss";
 dayjs.extend(relativeTime);
 
 export default function PostMain() {
+  const [postModifyModal, setPostModifyModal] = useState(false);
+  const [deleteConfirmModal, setDeleteConfirmModal] = useState(false);
+
   const router = useRouter();
   const { postId } = router.query;
 
@@ -22,14 +24,10 @@ export default function PostMain() {
     typeof postId === "string" ? postId : "0"
   ).data;
 
-  const { postModifyModalOpen } = useAppSelector((state) => state.modals);
-
-  const dispatch = useAppDispatch();
-
   const toggleMore = useCallback(() => {
-    const modalState = postModifyModalOpen;
-    dispatch(setPostModifyModalOpen(!modalState));
-  }, [dispatch, postModifyModalOpen]);
+    const modalState = postModifyModal;
+    setPostModifyModal(!modalState);
+  }, [postModifyModal]);
 
   return (
     <div className={styles.container}>
@@ -67,7 +65,17 @@ export default function PostMain() {
           <button onClick={toggleMore}>
             <MoreIcon />
           </button>
-          {postModifyModalOpen ? <PostModifyModal id={post.id} /> : null}
+          {postModifyModal ? (
+            <PostModifyModal setDeleteConfirmModal={setDeleteConfirmModal} />
+          ) : null}
+          {deleteConfirmModal ? (
+            <DeleteConfirmModal
+              type={"게시글"}
+              id={post.id}
+              deleteConfirmModal={deleteConfirmModal}
+              setDeleteConfirmModal={setDeleteConfirmModal}
+            />
+          ) : null}
         </div>
       ) : null}
     </div>

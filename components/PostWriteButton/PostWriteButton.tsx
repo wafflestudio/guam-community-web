@@ -1,6 +1,7 @@
 import WriteIcon from "../../assets/icons/write/button.svg";
 import { useAppDispatch } from "../../store/hooks";
-import { setPostModalOpen } from "../../store/modalSlice";
+import { setPostFormModal } from "../../store/modalSlice";
+import PostFormModal from "../Modals/PostFormModal/PostFormModal";
 
 import styles from "./PostWriteButton.module.scss";
 
@@ -12,7 +13,7 @@ export default function PostWriteButton({
   const dispatch = useAppDispatch();
 
   const onWriteClick = () => {
-    dispatch(setPostModalOpen(true));
+    dispatch(setPostFormModal({ open: true, expanded: false }));
   };
 
   return (
@@ -21,6 +22,7 @@ export default function PostWriteButton({
       onClick={onWriteClick}
     >
       <WriteIcon />
+      <PostFormModal />
     </button>
   );
 }

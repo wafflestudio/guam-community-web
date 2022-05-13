@@ -1,38 +1,72 @@
-import React, { useCallback } from "react";
+import React from "react";
 
 import CancelIcon from "../../../assets/icons/cancel/outlined.svg";
+import ExpandIcon from "../../../assets/icons/expand.svg";
 import { useAppDispatch, useAppSelector } from "../../../store/hooks";
-import { setPostModalOpen } from "../../../store/modalSlice";
+import { setPostFormModal } from "../../../store/modalSlice";
 
 import SubmitForm from "./SubmitForm";
 
 import styles from "./PostFormModal.module.scss";
 
 export default function PostFormModal() {
-  const { postModalOpen } = useAppSelector((state) => state.modals);
+  const { open, expanded } = useAppSelector(
+    (state) => state.modals.postFormModal
+  );
 
   const dispatch = useAppDispatch();
 
-  const closeModal = useCallback(() => dispatch(setPostModalOpen(false)), []);
+  const expandModal = () =>
+    dispatch(setPostFormModal({ open: true, expanded: true }));
+
+  const closeModal = () =>
+    dispatch(setPostFormModal({ open: false, expanded: false }));
 
   return (
     <div
-      className={`${styles.wrapper} ${
-        postModalOpen ? styles.open : styles.close
-      }`}
+      className={`${!expanded && `${"modal-wrapper"} ${styles.wrapper}`} ${
+        open ? styles.open : styles.close
+      } ${expanded && `${styles.expanded} ${styles.wrapper}`}`}
       onClick={closeModal}
     >
-      <main className={styles.container} onClick={(e) => e.stopPropagation()}>
-        <h1 className={`${styles["typo6-regular"]} ${styles.title}`}>글쓰기</h1>
-        <button className={styles.cancel} onClick={closeModal}>
-          <CancelIcon />
+      <main
+        className={`${styles.container} ${"modal-container"} ${
+          expanded && styles.expanded
+        }`}
+        onClick={(e) => e.stopPropagation()}
+      >
+        <h1
+          className={`${styles["typo6-regular"]} ${styles.title} ${
+            expanded && styles.expanded
+          }`}
+        >
+          글쓰기
+        </h1>
+        {expanded ? null : (
+          <button className={styles.expand} onClick={expandModal}>
+            <ExpandIcon />
+          </button>
+        )}
+        <button
+          className={expanded ? styles.cancelExpanded : styles.cancel}
+          onClick={closeModal}
+        >
+          {expanded ? (
+            <span className={styles["typo5-regular"]}>취소</span>
+          ) : (
+            <CancelIcon />
+          )}
         </button>
         <SubmitForm />
-        <hr className={styles.title} />
-        <hr className={styles.contentTop} />
-        <hr className={styles.contentBottom} />
-        <hr className={styles.categoryPhoto} />
-        <hr className={styles.bottom} />
+        <hr className={`${styles.title} ${expanded && styles.expanded}`} />
+        <hr className={`${styles.contentTop} ${expanded && styles.expanded}`} />
+        <hr
+          className={`${styles.contentBottom} ${expanded && styles.expanded}`}
+        />
+        <hr
+          className={`${styles.categoryPhoto} ${expanded && styles.expanded}`}
+        />
+        <hr className={`${styles.bottom} ${expanded && styles.expanded}`} />
       </main>
     </div>
   );

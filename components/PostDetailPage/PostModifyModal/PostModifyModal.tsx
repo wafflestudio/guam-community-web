@@ -1,18 +1,13 @@
-import { useAppDispatch } from "../../../store/hooks";
-import {
-  setDeleteConfirmModalOpen,
-  setPostModifyModalOpen,
-} from "../../../store/modalSlice";
+import React, { SetStateAction } from "react";
 
 import styles from "./PostModifyModal.module.scss";
 
-export default function PostModifyModal() {
-  const dispatch = useAppDispatch();
-
-  const onDeletePost = () => {
-    dispatch(setDeleteConfirmModalOpen(true));
-    dispatch(setPostModifyModalOpen(false));
-  };
+export default function PostModifyModal({
+  setDeleteConfirmModal,
+}: {
+  setDeleteConfirmModal: React.Dispatch<SetStateAction<boolean>>;
+}) {
+  const onDeletePost = () => setDeleteConfirmModal(true);
 
   return (
     <div className={styles.container}>

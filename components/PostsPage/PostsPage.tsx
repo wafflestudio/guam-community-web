@@ -1,3 +1,4 @@
+import PostFormModal from "../Modals/PostFormModal/PostFormModal";
 import Side from "../PostPageSide/Side";
 
 import Posts from "./Posts/Posts";
@@ -9,6 +10,7 @@ export default function PostsPage() {
     <div className={styles.container}>
       <Side />
       <Posts />
+      <PostFormModal />
     </div>
   );
 }

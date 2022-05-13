@@ -11,8 +11,8 @@ import { usePostPostMutation } from "../../../api/postsApi";
 import CancelIcon from "../../../assets/icons/cancel/outlined.svg";
 import PlusIcon from "../../../assets/icons/plus.svg";
 import { categoryList } from "../../../constants/constants";
-import { useAppDispatch } from "../../../store/hooks";
-import { setPostModalOpen } from "../../../store/modalSlice";
+import { useAppDispatch, useAppSelector } from "../../../store/hooks";
+import { setPostFormModal } from "../../../store/modalSlice";
 import { IImageUrl } from "../../../types/types";
 
 import styles from "./PostFormModal.module.scss";
@@ -27,11 +27,24 @@ const SubmitForm = () => {
 
   const photoInput = useRef<HTMLInputElement>(null);
 
+  const { expanded } = useAppSelector((state) => state.modals.postFormModal);
+
+  useEffect(() => {
+    if (expanded) document.body.style.overflow = "hidden";
+    else document.body.style.overflow = "unset";
+
+    return () => {
+      document.body.style.overflow = "unset";
+    };
+  }, [expanded]);
+
   const [postPost, { isError, isSuccess }] = usePostPostMutation();
 
   const dispatch = useAppDispatch();
 
-  const closeModal = useCallback(() => dispatch(setPostModalOpen(false)), []);
+  const closeModal = () => {
+    dispatch(setPostFormModal({ open: false, expanded: false }));
+  };
 
   const onBoardIdChange: ChangeEventHandler<HTMLSelectElement> = useCallback(
     ({ target }) => setBoardId(parseInt(target.value)),
@@ -86,34 +99,31 @@ const SubmitForm = () => {
     photoInput.current?.click();
   }, []);
 
-  const onPostSubmit: FormEventHandler<HTMLFormElement> = useCallback(
-    (e) => {
-      e.preventDefault();
+  const onPostSubmit: FormEventHandler<HTMLFormElement> = useCallback((e) => {
+    e.preventDefault();
 
-      if (boardId === 0) return window.alert("게시판을 골라주세요");
-      if (title.length === 0 || content.length === 0)
-        return window.alert("제목과 내용을 작성해주세요");
-      if (categoryId === 0) return window.alert("태그를 골라주세요");
+    if (boardId === 0) return window.alert("게시판을 골라주세요");
+    if (title.length === 0 || content.length === 0)
+      return window.alert("제목과 내용을 작성해주세요");
+    if (categoryId === 0) return window.alert("태그를 골라주세요");
 
-      const data = new FormData();
-      const object = {
-        boardId,
-        title,
-        content,
-        categoryId,
-      };
-      Object.keys(object).forEach((key) =>
-        data.append(key, object[key as keyof object])
-      );
-      images.length &&
-        images.forEach((image) => {
-          data.append("images", image);
-        });
+    const data = new FormData();
+    const object = {
+      boardId,
+      title,
+      content,
+      categoryId,
+    };
+    Object.keys(object).forEach((key) =>
+      data.append(key, object[key as keyof object])
+    );
+    images.length &&
+      images.forEach((image) => {
+        data.append("images", image);
+      });
 
-      postPost(data);
-    },
-    [title, content, categoryId, images]
-  );
+    postPost(data);
+  }, []);
 
   useEffect(() => {
     if (isSuccess) {
@@ -132,7 +142,9 @@ const SubmitForm = () => {
   return (
     <form onSubmit={onPostSubmit}>
       <select
-        className={`${styles["typo4-regular"]} ${styles.boardId}`}
+        className={`${styles["typo4-regular"]} ${styles.boardId} ${
+          expanded && styles.expanded
+        }`}
         value={boardId}
         onChange={onBoardIdChange}
       >
@@ -144,21 +156,29 @@ const SubmitForm = () => {
         <option value={5}>홍보 게시판</option>
       </select>
       <input
-        className={`${styles["typo6-medium"]} ${styles.title}`}
+        className={`${styles["typo6-medium"]} ${styles.title} ${
+          expanded && styles.expanded
+        }`}
         type="text"
         value={title}
         onChange={onTitleChange}
-        placeholder="제목을 입력해주세요."
+        placeholder="제목"
       />
       <textarea
-        className={`${styles["typo4-regular"]} ${styles.content}`}
+        className={`${styles["typo4-regular"]} ${styles.content} ${
+          expanded && styles.expanded
+        }`}
         value={content}
         onChange={onContentChange}
         placeholder="내용을 입력해주세요."
       />
       <div className={styles.categoryOptions}>
-        <div className={`${styles["typo4-regular"]} ${styles.label}`}>
-          태그를 선택해주세요.
+        <div
+          className={`${styles["typo4-regular"]} ${styles.label} ${
+            expanded && styles.expanded
+          }`}
+        >
+          태그
         </div>
         {categoryId == 0 ? (
           categoryList.map((category) => (
@@ -171,7 +191,9 @@ const SubmitForm = () => {
                 onChange={onCategoryIdChange}
               />
               <label
-                className={`${styles["typo4-medium"]} ${styles[category.tag]}`}
+                className={`${styles["typo4-medium"]} ${styles[category.tag]} ${
+                  expanded && styles.expanded
+                }`}
                 htmlFor={category.tag}
               >
                 #{category.name}
@@ -180,7 +202,9 @@ const SubmitForm = () => {
           ))
         ) : (
           <div
-            className={`${styles["typo5-medium"]} ${styles.selectedCategory}`}
+            className={`${styles["typo5-medium"]} ${styles.selectedCategory} ${
+              expanded && styles.expanded
+            }`}
           >
             <span className={styles.categoryName}>
               #{categoryList[categoryId - 1].name}
@@ -196,8 +220,12 @@ const SubmitForm = () => {
         )}
       </div>
       <div className={styles.addPhotos}>
-        <div className={`${styles["typo4-regular"]} ${styles.label}`}>
-          사진을 첨부해보세요.
+        <div
+          className={`${styles["typo4-regular"]} ${styles.label} ${
+            expanded && styles.expanded
+          }`}
+        >
+          사진
         </div>
         <input
           className={styles.photoInput}
@@ -208,27 +236,47 @@ const SubmitForm = () => {
           multiple
         />
         {imageUrls.length !== 0
-          ? imageUrls.map((imageUrl) => (
-              <div className={styles.imageList} key={imageUrl.id}>
+          ? imageUrls.map((imageUrl, index) => (
+              <div
+                className={`${styles.imageList} ${expanded && styles.expanded}`}
+                key={imageUrl.id}
+                style={{
+                  left: `${expanded ? 25 + 140 * index : 20 + 124 * index}px`,
+                }}
+              >
                 <img key={imageUrl.id} src={imageUrl.url} />
               </div>
             ))
           : null}
         {imageUrls.length < 5 ? (
-          <div className={styles.addBox} onClick={clickImageInput}>
+          <div
+            className={`${styles.addBox} ${expanded && styles.expanded}`}
+            style={{
+              left: `${
+                expanded
+                  ? 25 + 140 * imageUrls.length
+                  : 20 + 124 * imageUrls.length
+              }px`,
+            }}
+            onClick={clickImageInput}
+          >
             <PlusIcon />
           </div>
         ) : null}
       </div>
       <button
         type="button"
-        className={`${styles["typo4-regular"]} ${styles.save} ${styles.bottom}`}
+        className={`${styles["typo4-regular"]} ${styles.save} ${
+          styles.bottom
+        } ${expanded && styles.expanded}`}
       >
         저장
       </button>
       <button
         type="submit"
-        className={`${styles["typo4-regular"]} ${styles.submit} ${styles.bottom}`}
+        className={`${styles["typo4-regular"]} ${styles.submit} ${
+          styles.bottom
+        } ${expanded && styles.expanded}`}
       >
         등록
       </button>

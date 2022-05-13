@@ -1,15 +1,29 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
+import { IUser } from "../types/types";
+
+type postFormModalType = {
+  open: boolean;
+  expanded: boolean;
+};
+
+type userModalType = {
+  open: boolean;
+  user: IUser | null;
+};
+
 type ModalStateType = {
-  postModalOpen: boolean;
+  postFormModal: postFormModalType;
   postModifyModalOpen: boolean;
   deleteConfirmModalOpen: boolean;
+  userReportModal: userModalType;
+  userBlockModal: userModalType;
 };
 
 type ModalReducerType = {
-  setPostModalOpen: (
+  setPostFormModal: (
     state: ModalStateType,
-    action: PayloadAction<boolean>
+    action: PayloadAction<postFormModalType>
   ) => ModalStateType;
   setPostModifyModalOpen: (
     state: ModalStateType,
@@ -19,22 +33,41 @@ type ModalReducerType = {
     state: ModalStateType,
     action: PayloadAction<boolean>
   ) => ModalStateType;
+  setUserReportModal: (
+    state: ModalStateType,
+    action: PayloadAction<userModalType>
+  ) => ModalStateType;
+  setUserBlockModal: (
+    state: ModalStateType,
+    action: PayloadAction<userModalType>
+  ) => ModalStateType;
 };
 
 const initialState = {
-  postModalOpen: false,
+  postFormModal: {
+    open: false,
+    expanded: false,
+  },
   postModifyModalOpen: false,
   deleteConfirmModalOpen: false,
+  userReportModal: {
+    open: false,
+    user: null,
+  },
+  userBlockModal: {
+    open: false,
+    user: null,
+  },
 };
 
 const modalSlice = createSlice<ModalStateType, ModalReducerType>({
   name: "modals",
   initialState,
   reducers: {
-    setPostModalOpen: (state, action) => {
+    setPostFormModal: (state, action) => {
       return {
         ...state,
-        postModalOpen: action.payload,
+        postFormModal: action.payload,
       };
     },
     setPostModifyModalOpen: (state, action) => {
@@ -49,13 +82,27 @@ const modalSlice = createSlice<ModalStateType, ModalReducerType>({
         deleteConfirmModalOpen: action.payload,
       };
     },
+    setUserReportModal: (state, action) => {
+      return {
+        ...state,
+        userReportModal: action.payload,
+      };
+    },
+    setUserBlockModal: (state, action) => {
+      return {
+        ...state,
+        userBlockModal: action.payload,
+      };
+    },
   },
 });
 
 export const {
-  setPostModalOpen,
+  setPostFormModal,
   setPostModifyModalOpen,
   setDeleteConfirmModalOpen,
+  setUserReportModal,
+  setUserBlockModal,
 } = modalSlice.actions;
 
 export default modalSlice.reducer;

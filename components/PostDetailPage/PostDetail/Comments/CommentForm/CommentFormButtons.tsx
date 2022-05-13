@@ -87,7 +87,7 @@ const CommentFormButtons = ({
       </button>
       <button
         className={`${styles["typo5-medium"]} ${styles.submit} ${
-          commentInput === "" && styles.disabled
+          commentInput.trim() === "" && styles.disabled
         }`}
         onClick={onSubmitComment}
       >
