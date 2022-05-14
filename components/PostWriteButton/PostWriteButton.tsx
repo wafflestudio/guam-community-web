@@ -17,12 +17,16 @@ export default function PostWriteButton({
   };
 
   return (
-    <button
-      className={`${styles.writeButton} ${postDetailPage && styles.detailPage}`}
-      onClick={onWriteClick}
-    >
-      <WriteIcon />
+    <>
+      <button
+        className={`${styles.writeButton} ${
+          postDetailPage && styles.detailPage
+        }`}
+        onClick={onWriteClick}
+      >
+        <WriteIcon />
+      </button>
       <PostFormModal />
-    </button>
+    </>
   );
 }

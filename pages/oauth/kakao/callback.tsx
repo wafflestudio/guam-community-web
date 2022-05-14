@@ -1,12 +1,17 @@
 import axios from "axios";
-import { getAuth, signInWithCustomToken } from "firebase/auth";
+import {
+  browserLocalPersistence,
+  getAuth,
+  setPersistence,
+  signInWithCustomToken,
+} from "firebase/auth";
 import { useRouter } from "next/router";
 import qs from "qs";
 import { useEffect } from "react";
 
-import { setToken } from "../../../store/authSlice";
 import { useAppDispatch } from "../../../store/hooks";
 import { setUserState } from "../../../store/userSlice";
+import { getFirebaseIdToken } from "../../../utils/firebaseUtils";
 
 export default function Auth() {
   const dispatch = useAppDispatch();
@@ -43,24 +48,21 @@ export default function Auth() {
             `/guam-immigration/token?kakaoToken=${kakaoToken}`
           );
 
-          signInWithCustomToken(auth, data.customToken)
-            .then(async (response: any) => {
-              dispatch(setToken(response.user.accessToken));
+          await setPersistence(auth, browserLocalPersistence);
+          await signInWithCustomToken(auth, data.customToken);
 
-              const { data } = await axios.get("/api/users/me", {
-                headers: {
-                  Authorization: `Bearer ${response.user.accessToken}`,
-                },
-              });
+          const token = await getFirebaseIdToken();
 
-              dispatch(setUserState(data));
+          const { data: userData } = await axios.get("/api/users/me", {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          });
 
-              if (!data.profileSet) router.push("/set_profile");
-              else router.push("/");
-            })
-            .catch((e) => {
-              console.log(e);
-            });
+          dispatch(setUserState(userData));
+
+          if (!userData.profileSet) router.push("/profile/set_nickname");
+          else router.push("/");
         } catch (e) {
           console.log(e);
         }
@@ -70,7 +72,7 @@ export default function Auth() {
     };
 
     if (router.isReady) getToken();
-  }, [CLIENT_SECRET, REST_API_KEY, code, dispatch, router]);
+  }, [CLIENT_SECRET, REST_API_KEY, code]);
 
   return null;
 }

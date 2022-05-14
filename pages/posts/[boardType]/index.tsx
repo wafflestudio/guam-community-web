@@ -4,12 +4,14 @@ import { useEffect, useMemo, useState } from "react";
 import { useGetPostsByBoardQuery } from "../../../api/postsApi";
 import PageTitle from "../../../components/PageTitle";
 import PostsPage from "../../../components/PostsPage/PostsPage";
-import SignInForm from "../../../components/SignInForm";
 import { boardList } from "../../../constants/constants";
+import { useAppSelector } from "../../../store/hooks";
 
 export default function Home() {
   const [boardId, setBoardId] = useState<number | undefined>(undefined);
   const [currentPage, setCurrentPage] = useState<number | undefined>(undefined);
+
+  const { isLoggedIn } = useAppSelector((state) => state.auth);
 
   const router = useRouter();
 
@@ -48,7 +50,10 @@ export default function Home() {
     { id: boardId, page: currentPage },
     {
       refetchOnMountOrArgChange: true,
-      skip: currentPage === undefined || boardId === undefined,
+      skip:
+        currentPage === undefined ||
+        boardId === undefined ||
+        isLoggedIn === undefined,
     }
   );
 
@@ -57,7 +62,6 @@ export default function Home() {
       <PageTitle
         title={`${typeof boardType === "string" && boardType.toUpperCase()}`}
       />
-      <SignInForm />
       {error ? <>error</> : isLoading ? <>Loading...</> : null}
       <PostsPage />
     </>

@@ -8,7 +8,7 @@ type UserReducerType = {
 };
 
 const initialState = {
-  id: 0,
+  id: null,
   introduction: null,
   githubId: null,
   blogUrl: null,
@@ -23,8 +23,8 @@ const userSlice = createSlice<IUser, UserReducerType>({
   name: "user",
   initialState,
   reducers: {
-    setUserState: (_, action) => {
-      return action.payload;
+    setUserState: (state, action) => {
+      return { ...state, ...action.payload };
     },
     removeUserState: () => {
       return initialState;

@@ -35,7 +35,7 @@ const nextConfig = {
         destination: `${process.env.GOOGLE_API}?key=${process.env.KEY}`,
       },
       {
-        source: "/oauth/authorize",
+        source: "/oauth/authorize/kakao",
         destination: `https://kauth.kakao.com/oauth/authorize?client_id=${process.env.REST_API_KEY}&redirect_uri=${process.env.KAKAO_REDIRECT_URI}&response_type=code`,
       },
     ];

@@ -1,48 +1,26 @@
-import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import axios from "axios";
+import { createSlice } from "@reduxjs/toolkit";
 
-type AuthStateType = {
-  token: string | null | number;
-  isLoggedIn: boolean;
+type authState = {
+  isLoggedIn: undefined | boolean;
 };
 
-type AuthReducerType = {
-  setToken: (
-    state: AuthStateType,
-    action: PayloadAction<string>
-  ) => AuthStateType;
-  removeToken: (state: AuthStateType) => AuthStateType;
+const initialState: authState = {
+  isLoggedIn: undefined,
 };
 
-const initialState = {
-  token: 0,
-  isLoggedIn: false,
-};
-
-const authSlice = createSlice<AuthStateType, AuthReducerType>({
+const authSlice = createSlice({
   name: "auth",
   initialState,
   reducers: {
-    setToken: (state, action) => {
-      const token = action.payload;
-      axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
-      return {
-        ...state,
-        token,
-        isLoggedIn: true,
-      };
+    signIn: () => {
+      return { isLoggedIn: true };
     },
-    removeToken: (state) => {
-      delete axios.defaults.headers.common["Authorization"];
-      return {
-        ...state,
-        token: null,
-        isLoggedIn: false,
-      };
+    signOut: () => {
+      return initialState;
     },
   },
 });
 
-export const { setToken, removeToken } = authSlice.actions;
+export const { signIn, signOut } = authSlice.actions;
 
 export default authSlice.reducer;

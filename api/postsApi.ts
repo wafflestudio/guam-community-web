@@ -1,7 +1,7 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 
-import { RootState } from "../store/store";
 import { IDetailedPost, IPostsData } from "../types/types";
+import { getFirebaseIdToken } from "../utils/firebaseUtils";
 
 interface PostsBoardQuery {
   id: number | undefined;
@@ -12,8 +12,8 @@ export const postsApi = createApi({
   reducerPath: "posts",
   baseQuery: fetchBaseQuery({
     baseUrl: "/api/",
-    prepareHeaders: (headers, { getState }) => {
-      const { token } = (getState() as RootState).auth;
+    prepareHeaders: async (headers) => {
+      const token = await getFirebaseIdToken();
       if (typeof token === "string") {
         headers.set("Authorization", `Bearer ${token}`);
       }

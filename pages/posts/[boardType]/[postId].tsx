@@ -3,18 +3,14 @@ import { useRouter } from "next/router";
 import { useGetPostDetailQuery } from "../../../api/postsApi";
 import PageTitle from "../../../components/PageTitle";
 import PostDetailPage from "../../../components/PostDetailPage/PostDetailPage";
-import { useAppSelector } from "../../../store/hooks";
 
 export default function DetailedPostPage() {
   const router = useRouter();
   const { postId } = router.query;
 
-  const { isLoggedIn } = useAppSelector((state) => state.auth);
-
   const { data, isLoading, error } = useGetPostDetailQuery(
     typeof postId === "string" ? postId : "0",
     {
-      skip: !!!isLoggedIn,
       refetchOnMountOrArgChange: true,
     }
   );
