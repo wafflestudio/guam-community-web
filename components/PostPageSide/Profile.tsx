@@ -10,23 +10,28 @@ export default function Profile() {
 
   return (
     <>
-      {isLoggedIn === true ? (
+      {isLoggedIn ? (
         <div className={styles.container}>
           <div className={styles.profileImage}>
-            <img
-              src={
-                profileImage
-                  ? process.env.BUCKET_URL + profileImage + "?" + Date.now()
-                  : "/default_profile_image.png"
-              }
-            />
+            {profileImage ? (
+              <img
+                src={process.env.BUCKET_URL + profileImage + "?" + Date.now()}
+                onError={({ currentTarget }) => {
+                  currentTarget.onerror = null;
+                  currentTarget.src = "/default_profile_image.png";
+                }}
+              />
+            ) : (
+              <img src={"/default_profile_image.png"} />
+            )}
           </div>
           <div className={`${styles["typo6-medium"]} ${styles.nickname}`}>
             {nickname}
           </div>
         </div>
-      ) : null}
-      {isLoggedIn === false ? <SignInUpButton /> : null}
+      ) : (
+        <SignInUpButton />
+      )}
     </>
   );
 }

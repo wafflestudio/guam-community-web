@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 
 import { useAppDispatch, useAppSelector } from "../../store/hooks";
 import { setUserState } from "../../store/userSlice";
+import { getFirebaseIdToken } from "../../utils/firebaseUtils";
 
 interface IProfileObject {
   nickname: string;
@@ -86,7 +87,7 @@ export default function SetProfilePage() {
     };
 
     if (profileImage === null && user.profileImage !== null) {
-      object.profileImage = await fetch("default_profile_image.png").then(
+      object.profileImage = await fetch("/default_profile_image.png").then(
         (res) => res.blob()
       );
     } else if (profileImage instanceof File) object.profileImage = profileImage;
@@ -96,7 +97,10 @@ export default function SetProfilePage() {
     );
 
     try {
-      const { data } = await axios.patch(`/api/users/${user.id}`, formData);
+      const token = await getFirebaseIdToken();
+      const { data } = await axios.patch(`/api/users/${user.id}`, formData, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
       data.profileSet = true;
       dispatch(setUserState(data));
 

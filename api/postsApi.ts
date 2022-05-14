@@ -50,6 +50,30 @@ export const postsApi = createApi({
         { type: "Posts List", boardId: result.boardId },
       ],
     }),
+    scrapPost: build.mutation({
+      query(req) {
+        return {
+          url: `posts/${req.postId}/scraps`,
+          method: !req.scrapped ? "POST" : "DELETE",
+        };
+      },
+      invalidatesTags: (result, error, req) => [
+        { type: "Posts List", boardId: 0 },
+        { type: "Posts List", boardId: req.boardId },
+      ],
+    }),
+    likePost: build.mutation({
+      query(req) {
+        return {
+          url: `posts/${req.postId}/likes`,
+          method: !req.liked ? "POST" : "DELETE",
+        };
+      },
+      invalidatesTags: (result, error, req) => [
+        { type: "Posts List", boardId: 0 },
+        { type: "Posts List", boardId: req.boardId },
+      ],
+    }),
 
     getPostDetail: build.query<IDetailedPost, string>({
       query: (postId: string) => ({
@@ -96,6 +120,8 @@ export const {
   useGetAllPostsQuery,
   useGetPostsByBoardQuery,
   usePostPostMutation,
+  useScrapPostMutation,
+  useLikePostMutation,
   useGetPostDetailQuery,
   useDeletePostMutation,
   usePostCommentMutation,
