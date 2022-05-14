@@ -1,6 +1,8 @@
-import styles from "./PostsPage.module.scss";
+import Side from "../PostPageSide/Side";
+
 import Posts from "./Posts/Posts";
-import Side from "./Side/Side";
+
+import styles from "./PostsPage.module.scss";
 
 export default function PostsPage() {
   return (

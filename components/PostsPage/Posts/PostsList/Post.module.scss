@@ -8,6 +8,7 @@
   position: relative;
   background: $grayscale-white;
   margin-bottom: 12px;
+  cursor: pointer;
 
   ul.categories {
     height: 20px;
@@ -48,7 +49,6 @@
     color: $grayscale-gray1;
     font-weight: 500;
     text-overflow: ellipsis;
-    cursor: pointer;
   }
 
   div.content {
@@ -59,7 +59,6 @@
     top: 75px;
     text-overflow: ellipsis;
     color: $grayscale-gray3;
-    cursor: pointer;
   }
 
   div.profileImage {

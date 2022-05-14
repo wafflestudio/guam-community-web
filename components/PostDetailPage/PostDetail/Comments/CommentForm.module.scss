@@ -1,0 +1,113 @@
+@import "../../../../assets/colors/colors";
+@import "../../../../assets/fonts/typography_medium";
+@import "../../../../assets/fonts/typography_regular";
+
+.container {
+  width: 839px;
+  height: 151px;
+  margin: 12px 0 20px 288px;
+  background: $grayscale-white;
+  position: relative;
+
+  .commentContainer {
+    textarea,
+    .mockTextarea {
+      width: 807px;
+      min-height: 80px;
+      position: absolute;
+      top: 16px;
+      left: 16px;
+      padding: 10px 8px;
+      color: #666666;
+      word-wrap: break-word;
+      overflow-y: scroll;
+      white-space: pre-line;
+
+      &::-webkit-scrollbar {
+        display: none;
+      }
+    }
+
+    textarea {
+      -webkit-text-fill-color: transparent;
+      z-index: 2;
+      border: none;
+      display: block;
+      resize: auto;
+      background: transparent;
+
+      &.showPlaceholder {
+        -webkit-text-fill-color: $grayscale-gray5;
+      }
+    }
+  }
+
+  .addPhoto {
+    position: absolute;
+    bottom: 14px;
+    left: 16px;
+
+    svg {
+      path {
+        fill: $grayscale-gray3;
+      }
+    }
+  }
+
+  .submit {
+    height: 26px;
+    width: 30px;
+    position: absolute;
+    bottom: 16px;
+    right: 16px;
+    color: $purple-core;
+
+    &.disabled {
+      color: $grayscale-gray5;
+      cursor: default;
+    }
+  }
+
+  .mentionContainer {
+    width: 232px;
+    max-height: 238px;
+    overflow: auto;
+    position: absolute;
+    bottom: 150px;
+    background: $grayscale-white;
+    border-radius: 5px;
+    box-shadow: 1px 1px 5px 2px #afafaf40;
+    z-index: 4;
+
+    ul {
+      padding-top: 1px;
+
+      .userList {
+        height: 53px;
+        position: relative;
+        border-bottom: 0.5px solid $grayscale-gray7;
+        cursor: pointer;
+
+        .profileImage {
+          position: absolute;
+          top: 6px;
+          left: 14px;
+          border-radius: 50%;
+          overflow: hidden;
+
+          img {
+            width: 41px;
+            height: 41px;
+          }
+        }
+
+        .nickname {
+          position: absolute;
+          top: 16px;
+          left: 69px;
+          color: $grayscale-gray1;
+        }
+      }
+    }
+  }
+}

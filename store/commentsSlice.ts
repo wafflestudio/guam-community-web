@@ -1,4 +1,5 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+
 import { IComment } from "../types/types";
 
 type ICommentState = {
@@ -13,7 +14,7 @@ type ICommentReducer = {
 };
 
 const initialState = {
-  comments: [],
+  comments: null,
 };
 
 const commentsSlice = createSlice<ICommentState, ICommentReducer>({

@@ -1,0 +1,73 @@
+@import "../../../assets/colors/colors";
+@import "../../../assets/fonts/typography_regular";
+@import "../../../assets/fonts/typography_medium";
+
+.container {
+  width: 840px;
+  background: $grayscale-white;
+  margin-top: 24px;
+  margin-left: 288px;
+  padding: 24px 24px 21px;
+  position: relative;
+
+  .title {
+    font-weight: 500;
+    min-height: 39px;
+    color: $grayscale-gray1;
+  }
+
+  .createdAt {
+    height: 16px;
+    margin-top: 8px;
+    color: $grayscale-gray4;
+  }
+
+  hr {
+    width: 504px;
+    height: 0;
+    border: none;
+    border-top: 1px solid;
+    margin: 0;
+    margin-top: 8px;
+    color: $grayscale-gray7;
+  }
+
+  .content {
+    width: 840px;
+    margin-top: 8px;
+
+    .description {
+      width: 100%;
+      color: $grayscale-gray3;
+      margin: 12px 0;
+    }
+  }
+
+  .userInfo {
+    position: absolute;
+    top: 27px;
+    right: 73px;
+
+    .profileImage {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      overflow: hidden;
+      display: inline-block;
+
+      img {
+        width: 36px;
+        height: 36px;
+      }
+    }
+
+    .userNickname {
+      height: 26px;
+      margin: 5px 0 5px 12px;
+      font-weight: 500;
+      display: inline-block;
+      vertical-align: top;
+      color: $grayscale-gray2;
+    }
+  }
+}

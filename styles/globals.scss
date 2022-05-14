@@ -36,4 +36,20 @@ li {
   margin-inline-start: 0;
   margin-inline-end: 0;
   margin: 0;
+  display: block;
+}
+
+textarea,
+input {
+  &:focus {
+    outline: none;
+  }
+}
+
+.mentions {
+  color: #9f8fff;
+}
+
+.customPlaceholder {
+  color: $grayscale-gray5;
 }

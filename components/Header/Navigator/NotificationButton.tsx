@@ -1,5 +1,6 @@
+import NotificationIcon from "../../../assets/icons/notification/outlined/default.svg";
+
 import styles from "./NotificationButton.module.scss";
-import NotificationIcon from "../../../assets/icons/notification/outlined/new.svg";
 
 export default function NotificationButton() {
   return (

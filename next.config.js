@@ -9,15 +9,28 @@ const nextConfig = {
     BUCKET_URL: BUCKET_URL,
   },
 
+  eslint: {
+    ignoreDuringBuilds: true,
+  },
+
   async rewrites() {
-    if (process.env.NODE_ENV !== "production") {
-      return [
-        {
-          source: process.env.SOURCE_PATH,
-          destination: process.env.DESTINATION_URL,
-        },
-      ];
-    }
+    return [
+      {
+        source: process.env.SOURCE_PATH,
+        destination: process.env.DESTINATION_URL,
+      },
+      {
+        source: "/relyingparty/:path*",
+        // has: [
+        //   {
+        //     type: "query",
+        //     key: "key",
+        //     value: process.env.KEY,
+        //   },
+        // ],
+        destination: `${process.env.GOOGLE_API}?key=${process.env.KEY}`,
+      },
+    ];
   },
 
   webpack(config) {

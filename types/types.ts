@@ -55,10 +55,11 @@ export interface IComment {
   postId: number;
   user: IUser;
   content: string;
-  imagePaths: [string];
+  imagePaths: string[];
   likeCount: number;
   createdAt: string;
   updatedAt: string;
+  isMine: boolean;
 }
 
 export interface ICommentData {
@@ -75,7 +76,7 @@ export interface IDetailedPost {
     user: IUser;
     title: string;
     content: string;
-    imagePaths: [string];
+    imagePaths: string[];
     categories: [
       {
         postId: number;
@@ -92,6 +93,6 @@ export interface IDetailedPost {
     isLiked: boolean;
     isScrapped: boolean;
     boardType: string;
-    comments: [IComment];
+    comments: IComment[];
   };
 }

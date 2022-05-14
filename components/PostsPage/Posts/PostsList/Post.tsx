@@ -1,13 +1,16 @@
-import { IPostsListPost } from "../../../../types/types";
-import styles from "./Post.module.scss";
-import ProfileIcon from "../../../../assets/icons/profile/default_image.svg";
-import LikeIcon from "../../../../assets/icons/like/post-list.svg";
-import CommentIcon from "../../../../assets/icons/comment/comment_20.svg";
-import ScrapIcon from "../../../../assets/icons/scrap/outlined_20.svg";
 import dayjs from "dayjs";
-import relativeTime from "dayjs/plugin/relativeTime";
 import ko from "dayjs/locale/ko";
+import relativeTime from "dayjs/plugin/relativeTime";
 import { useRouter } from "next/router";
+import { MouseEventHandler } from "react";
+
+import CommentIcon from "../../../../assets/icons/comment/comment_20.svg";
+import LikeIcon from "../../../../assets/icons/like/post-list.svg";
+import ProfileIcon from "../../../../assets/icons/profile/default_image.svg";
+import ScrapIcon from "../../../../assets/icons/scrap/outlined_20.svg";
+import { IPostsListPost } from "../../../../types/types";
+
+import styles from "./Post.module.scss";
 
 dayjs.extend(relativeTime);
 
@@ -20,11 +23,11 @@ export default function Post({ post }: { post: IPostsListPost }) {
 
   const createdTime = new Date(post.createdAt);
 
-  const onClickPost: React.MouseEventHandler<HTMLDivElement> = () =>
+  const onClickPost: MouseEventHandler<HTMLLIElement> = () =>
     router.push(`/posts/${post.boardType.toLowerCase()}/${post.id}`);
 
   return (
-    <li key={post.id} className={styles.container}>
+    <li key={post.id} className={styles.container} onClick={onClickPost}>
       <ul className={`${styles["typo2-medium"]} ${styles.categories}`}>
         {categories}
       </ul>
@@ -32,16 +35,10 @@ export default function Post({ post }: { post: IPostsListPost }) {
         {dayjs(createdTime).locale(ko).fromNow()}
       </span>
       <hr />
-      <div
-        className={`${styles["typo4-medium"]} ${styles.title}`}
-        onClick={onClickPost}
-      >
+      <div className={`${styles["typo4-medium"]} ${styles.title}`}>
         {post.title}
       </div>
-      <div
-        className={`${styles["typo3-regular"]} ${styles.content}`}
-        onClick={onClickPost}
-      >
+      <div className={`${styles["typo3-regular"]} ${styles.content}`}>
         {post.content}
       </div>
       <div className={styles.profileImage}>

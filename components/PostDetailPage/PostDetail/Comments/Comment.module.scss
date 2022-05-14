@@ -1,0 +1,79 @@
+@import "../../../../assets/colors/colors";
+@import "../../../../assets/fonts/typography_regular";
+
+.container {
+  width: 839px;
+  min-height: 85px;
+  position: relative;
+
+  .userProfile {
+    height: 20px;
+    width: 527px;
+
+    .profileImage {
+      width: 20px;
+      height: 20px;
+      position: absolute;
+      top: 8px;
+      left: 12px;
+      border-radius: 50%;
+      overflow: hidden;
+
+      img {
+        width: 20px;
+        height: 20px;
+      }
+    }
+
+    .userNickname {
+      height: 20px;
+      position: absolute;
+      left: 40px;
+      top: 8px;
+      color: $grayscale-gray3;
+    }
+
+    .more {
+      width: 20px;
+      height: 100%;
+      position: absolute;
+      top: 8px;
+      right: 12px;
+      cursor: pointer;
+    }
+  }
+
+  .content {
+    .comment {
+      color: $grayscale-gray2;
+      position: absolute;
+      top: 38px;
+      left: 40px;
+      right: 40px;
+      white-space: pre-line;
+      word-break: break-all;
+    }
+
+    .like {
+      color: $grayscale-gray5;
+      height: 18px;
+      position: absolute;
+      bottom: 4px;
+      left: 40px;
+
+      svg {
+        height: 18px;
+        width: 18px;
+        display: inline-block;
+      }
+
+      div {
+        height: 18px;
+        margin-left: 4px;
+        display: inline-grid;
+        vertical-align: top;
+        align-items: center;
+      }
+    }
+  }
+}
