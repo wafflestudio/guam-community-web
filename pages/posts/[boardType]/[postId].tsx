@@ -11,7 +11,7 @@ export default function DetailedPostPage() {
 
   const { isLoggedIn } = useAppSelector((state) => state.auth);
 
-  const result = useGetPostDetailQuery(
+  const { data, isLoading, error } = useGetPostDetailQuery(
     typeof postId === "string" ? postId : "0",
     {
       skip: !!!isLoggedIn,
@@ -19,11 +19,9 @@ export default function DetailedPostPage() {
     }
   );
 
-  const { isLoading, error } = result;
-
   return (
     <>
-      <PageTitle title={result?.data?.title || "Posts"} />
+      <PageTitle title={data?.title || "Posts"} />
       {isLoading ? <span>Loading</span> : error ? <span>Error</span> : null}
       <PostDetailPage />
       {/* {postData?.imagePaths.map((image) => (

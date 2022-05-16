@@ -1,8 +1,12 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
-import { HYDRATE } from "next-redux-wrapper";
 
 import { RootState } from "../store/store";
 import { IPostsData } from "../types/types";
+
+interface PostsBoardQuery {
+  id: number | undefined;
+  page: number | undefined;
+}
 
 export const postsListApi = createApi({
   reducerPath: "postsList",
@@ -16,23 +20,20 @@ export const postsListApi = createApi({
       return headers;
     },
   }),
-  extractRehydrationInfo(action, { reducerPath }) {
-    if (action.type === HYDRATE) {
-      return action.payload[reducerPath];
-    }
-  },
   tagTypes: ["Posts List"],
   endpoints: (build) => ({
-    getAllPosts: build.query<IPostsData, void>({
-      query: () => ({ url: `posts` }),
-      providesTags: () => [{ type: "Posts List", id: 0 }],
+    getAllPosts: build.query<IPostsData, number | void>({
+      query: (page) => ({ url: `posts?page=${page}` }),
+      providesTags: () => [{ type: "Posts List", boardId: 0 }],
     }),
-    getPostsByBoard: build.query<IPostsData, number>({
-      query: (id: number) => ({ url: `posts?boardId=${id}` }),
-      providesTags: (result) => [
+    getPostsByBoard: build.query<IPostsData, PostsBoardQuery>({
+      query: (req) => ({
+        url: `posts?boardId=${req.id}&page=${req.page}`,
+      }),
+      providesTags: (result, error, req) => [
         {
           type: "Posts List",
-          id: result?.content[0].boardId,
+          boardId: req.id,
         },
       ],
     }),
@@ -45,8 +46,8 @@ export const postsListApi = createApi({
         };
       },
       invalidatesTags: (result) => [
-        { type: "Posts List", id: result.boardId },
-        { type: "Posts List", id: 0 },
+        { type: "Posts List", boardId: 0 },
+        { type: "Posts List", boardId: result.boardId },
       ],
     }),
   }),

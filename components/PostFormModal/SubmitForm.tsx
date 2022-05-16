@@ -7,7 +7,7 @@ import React, {
   useState,
 } from "react";
 
-import { usePostPostMutation } from "../../api/postsListApi";
+import { postsListApi, usePostPostMutation } from "../../api/postsListApi";
 import CancelIcon from "../../assets/icons/cancel/outlined.svg";
 import PlusIcon from "../../assets/icons/plus.svg";
 import { categoryList } from "../../constants/constants";
@@ -17,6 +17,7 @@ import { setPostModalOpen } from "../../store/modalSlice";
 import styles from "./PostFormModal.module.scss";
 
 const SubmitForm = () => {
+  const [boardId, setBoardId] = useState(0);
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
   const [categoryId, setCategoryId] = useState(0);
@@ -30,6 +31,11 @@ const SubmitForm = () => {
   const dispatch = useAppDispatch();
 
   const closeModal = useCallback(() => dispatch(setPostModalOpen(false)), []);
+
+  const onBoardIdChange: ChangeEventHandler<HTMLSelectElement> = useCallback(
+    ({ target }) => setBoardId(parseInt(target.value)),
+    []
+  );
 
   const onTitleChange: ChangeEventHandler<HTMLInputElement> = useCallback(
     ({ target }) => setTitle(target.value),
@@ -82,9 +88,14 @@ const SubmitForm = () => {
     (e) => {
       e.preventDefault();
 
+      if (boardId === 0) return window.alert("게시판을 골라주세요");
+      if (title.length === 0 || content.length === 0)
+        return window.alert("제목과 내용을 작성해주세요");
+      if (categoryId === 0) return window.alert("태그를 골라주세요");
+
       const data = new FormData();
       const object = {
-        boardId: 1,
+        boardId,
         title,
         content,
         categoryId,
@@ -104,6 +115,7 @@ const SubmitForm = () => {
 
   useEffect(() => {
     if (isSuccess) {
+      setBoardId(0);
       setTitle("");
       setContent("");
       setCategoryId(0);
@@ -117,6 +129,18 @@ const SubmitForm = () => {
 
   return (
     <form onSubmit={onPostSubmit}>
+      <select
+        className={`${styles["typo4-regular"]} ${styles.boardId}`}
+        value={boardId}
+        onChange={onBoardIdChange}
+      >
+        <option hidden>게시판</option>
+        <option value={2}>자유 게시판</option>
+        <option value={1}>익명 게시판</option>
+        <option value={3}>구인 게시판</option>
+        <option value={4}>정보공유 게시판</option>
+        <option value={5}>홍보 게시판</option>
+      </select>
       <input
         className={`${styles["typo6-medium"]} ${styles.title}`}
         type="text"

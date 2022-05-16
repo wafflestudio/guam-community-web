@@ -23,7 +23,7 @@
 
   .container {
     height: 562px;
-    width: 752px;
+    width: 744px;
     background: $grayscale-white;
     position: absolute;
     top: 50%;
@@ -35,7 +35,7 @@
       height: 29px;
       width: 327px;
       position: absolute;
-      top: 18px;
+      top: 16px;
       left: 23px;
       color: $grayscale-gray1;
       margin: 0;
@@ -47,13 +47,19 @@
     button.cancel {
       position: absolute;
       top: 13px;
-      right: 12px;
+      right: 11.87px;
       height: 24px;
       width: 24px;
     }
 
     form {
       padding: 0 22px;
+
+      select.boardId {
+        position: absolute;
+        top: 74px;
+        color: $grayscale-gray3;
+      }
 
       input.title {
         height: 29px;

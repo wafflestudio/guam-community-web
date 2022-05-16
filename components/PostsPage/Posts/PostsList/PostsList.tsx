@@ -15,6 +15,13 @@ export default function PostsList() {
   const router = useRouter();
 
   const boardType = useMemo(() => router.query.boardType, [router.query]);
+  const page = useMemo(
+    () =>
+      typeof router.query.page === "string"
+        ? parseInt(router.query.page) - 1
+        : 0,
+    [router.query]
+  );
   const boardId = useMemo(
     () => boardList.find((board) => boardType === board.route)?.id,
     [boardType]
@@ -22,8 +29,11 @@ export default function PostsList() {
 
   const result =
     typeof boardId === "number"
-      ? postsListApi.endpoints.getPostsByBoard.useQueryState(boardId)
-      : postsListApi.endpoints.getAllPosts.useQueryState();
+      ? postsListApi.endpoints.getPostsByBoard.useQueryState({
+          id: boardId,
+          page,
+        })
+      : postsListApi.endpoints.getAllPosts.useQueryState(page);
 
   useEffect(() => {
     setPosts(result.data?.content || []);
