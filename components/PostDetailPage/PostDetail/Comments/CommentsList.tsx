@@ -14,7 +14,7 @@ export default function CommentsList() {
   const { postId } = router.query;
 
   const comments = postsApi.endpoints.getPostDetail.useQueryState(
-    typeof postId === "string" ? postId : "0"
+    typeof postId === "string" ? parseInt(postId) : 0
   ).data?.comments;
 
   return (

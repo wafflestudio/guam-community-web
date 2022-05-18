@@ -1,5 +1,4 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { RefObject } from "react";
 
 import { IImageUrl } from "../types/types";
 

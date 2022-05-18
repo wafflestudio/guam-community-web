@@ -1,6 +1,11 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 
-import { IDetailedPost, IPostsData } from "../types/types";
+import {
+  IDetailedPost,
+  ILetters,
+  IPairLetters,
+  IPostsData,
+} from "../types/types";
 import { getFirebaseIdToken } from "../utils/firebaseUtils";
 
 interface PostsBoardQuery {
@@ -20,7 +25,7 @@ export const postsApi = createApi({
       return headers;
     },
   }),
-  tagTypes: ["Posts List", "Post Detail"],
+  tagTypes: ["Posts List", "Post Detail", "LetterBox List", "Letters"],
   endpoints: (build) => ({
     getAllPosts: build.query<IPostsData, number | void>({
       query: (page) => ({ url: `posts?page=${page}` }),
@@ -75,11 +80,11 @@ export const postsApi = createApi({
       ],
     }),
 
-    getPostDetail: build.query<IDetailedPost, string>({
-      query: (postId: string) => ({
+    getPostDetail: build.query<IDetailedPost, number>({
+      query: (postId: number) => ({
         url: `posts/${postId}`,
       }),
-      providesTags: (result) => [{ type: "Post Detail", id: result?.id }],
+      providesTags: (result) => [{ type: "Post Detail", postId: result?.id }],
     }),
     deletePost: build.mutation({
       query(postId) {
@@ -90,7 +95,7 @@ export const postsApi = createApi({
       },
       invalidatesTags: (result) => [
         { type: "Posts List", boardId: 0 },
-        { type: "Posts List", id: result.boardId },
+        { type: "Posts List", boardId: result.boardId },
       ],
     }),
     postComment: build.mutation({
@@ -101,7 +106,9 @@ export const postsApi = createApi({
           body: data,
         };
       },
-      invalidatesTags: (result) => [{ type: "Post Detail", id: result.postId }],
+      invalidatesTags: (result) => [
+        { type: "Post Detail", postId: result.postId },
+      ],
     }),
     deleteComment: build.mutation({
       query(body) {
@@ -111,7 +118,40 @@ export const postsApi = createApi({
           body,
         };
       },
-      invalidatesTags: (result) => [{ type: "Post Detail", id: result.postId }],
+      invalidatesTags: (result) => [
+        { type: "Post Detail", postId: result.postId },
+      ],
+    }),
+    likeComment: build.mutation({
+      query(req) {
+        return {
+          url: `posts/${req.postId}/comments/${req.commentId}/likes`,
+          method: !req.liked ? "POST" : "DELETE",
+        };
+      },
+      invalidatesTags: (result) => [
+        { type: "Post Detail", postId: result.postId },
+      ],
+    }),
+
+    getLetters: build.query<ILetters, void>({
+      query: () => ({ url: `letters/letters`, method: "GET" }),
+      providesTags: () => [{ type: "LetterBox List" }],
+    }),
+    getPairLetters: build.query<IPairLetters, number>({
+      query: (id) => ({ url: `letters/letters/${id}`, method: "GET" }),
+      providesTags: (result) => [{ type: "Letters", pairId: result?.pairId }],
+    }),
+    postLetter: build.mutation({
+      query: (data: FormData) => ({
+        url: `letters`,
+        method: "POST",
+        body: data,
+      }),
+      invalidatesTags: (result) => [
+        { type: "Letters", pairId: result?.to },
+        { type: "LetterBox List" },
+      ],
     }),
   }),
 });
@@ -126,6 +166,10 @@ export const {
   useDeletePostMutation,
   usePostCommentMutation,
   useDeleteCommentMutation,
+  useLikeCommentMutation,
+  useGetLettersQuery,
+  useGetPairLettersQuery,
+  usePostLetterMutation,
   util: { getRunningOperationPromises },
 } = postsApi;
 

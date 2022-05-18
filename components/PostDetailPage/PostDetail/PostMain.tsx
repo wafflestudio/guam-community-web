@@ -21,7 +21,7 @@ export default function PostMain() {
   const { postId } = router.query;
 
   const post = postsApi.endpoints.getPostDetail.useQueryState(
-    typeof postId === "string" ? postId : "0"
+    typeof postId === "string" ? parseInt(postId) : 0
   ).data;
 
   const toggleMore = useCallback(() => {

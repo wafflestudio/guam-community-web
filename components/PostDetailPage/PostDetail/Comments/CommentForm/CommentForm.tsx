@@ -27,7 +27,7 @@ export default function CommentForm() {
   const { postId } = router.query;
 
   const post = postsApi.endpoints.getPostDetail.useQueryState(
-    typeof postId === "string" ? postId : "0"
+    typeof postId === "string" ? parseInt(postId) : 0
   ).data;
 
   const comments = post?.comments;

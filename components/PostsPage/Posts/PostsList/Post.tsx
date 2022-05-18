@@ -2,7 +2,6 @@ import dayjs from "dayjs";
 import ko from "dayjs/locale/ko";
 import relativeTime from "dayjs/plugin/relativeTime";
 import { useRouter } from "next/router";
-import { MouseEventHandler } from "react";
 
 import {
   useLikePostMutation,

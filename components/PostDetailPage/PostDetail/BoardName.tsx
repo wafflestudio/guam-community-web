@@ -10,7 +10,7 @@ export default function BoardName() {
   const { postId } = router.query;
 
   const post = postsApi.endpoints.getPostDetail.useQueryState(
-    typeof postId === "string" ? postId : "0"
+    typeof postId === "string" ? parseInt(postId) : 0
   ).data;
 
   const boardName = boardList.find((board) => post?.boardId === board.id)?.name;

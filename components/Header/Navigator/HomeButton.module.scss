@@ -1,4 +1,4 @@
-@import "../../../assets/colors/colors";
+@use "../../../assets/colors/colors";
 @import "../../../assets/fonts/typography_medium";
 
 .homeButton {
@@ -19,21 +19,21 @@
       width: 24px;
 
       path {
-        fill: $grayscale-gray4;
+        fill: colors.$grayscale-gray4;
       }
     }
 
     div {
-      color: $grayscale-gray4;
+      color: colors.$grayscale-gray4;
       margin: auto;
     }
 
     &.isAtHome {
       path {
-        fill: $purple-core;
+        fill: colors.$purple-core;
       }
       div {
-        color: $purple-core;
+        color: colors.$purple-core;
       }
     }
   }

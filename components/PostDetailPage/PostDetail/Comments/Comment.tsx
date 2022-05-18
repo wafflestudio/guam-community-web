@@ -1,5 +1,6 @@
 import { Dispatch, SetStateAction, useEffect, useRef } from "react";
 
+import { useLikeCommentMutation } from "../../../../api/postsApi";
 import LikeIcon from "../../../../assets/icons/like/outlined.svg";
 import MoreIcon from "../../../../assets/icons/more.svg";
 import { IComment } from "../../../../types/types";
@@ -19,6 +20,8 @@ export default function Comment({
 }) {
   const containerRef = useRef<HTMLLIElement>(null);
   const commentRef = useRef<HTMLDivElement>(null);
+
+  const [likeComment] = useLikeCommentMutation();
 
   const { id } = comment;
 
@@ -41,6 +44,13 @@ export default function Comment({
         commentRef.current.scrollHeight + 64 + "px";
     }
   }, [commentRef.current?.textContent]);
+
+  const onLikeComment = () =>
+    likeComment({
+      postId: comment.postId,
+      commentId: comment.id,
+      liked: comment.isLiked,
+    });
 
   return (
     <li key={comment.id} className={styles.container} ref={containerRef}>
@@ -70,8 +80,12 @@ export default function Comment({
           >
             {comment.content}
           </div>
-          <div className={`${styles["typo1-regular"]} ${styles.like}`}>
-            <LikeIcon />
+          <div
+            className={`${styles["typo1-regular"]} ${styles.like} ${
+              comment.isLiked && styles.isLiked
+            }`}
+          >
+            <LikeIcon onClick={onLikeComment} />
             <div>{comment.likeCount}</div>
           </div>
         </div>

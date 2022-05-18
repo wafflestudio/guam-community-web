@@ -9,8 +9,10 @@ import React, {
 
 import { usePostPostMutation } from "../../../api/postsApi";
 import CancelIcon from "../../../assets/icons/cancel/outlined.svg";
+import CheckIcon from "../../../assets/icons/check.svg";
+import DownIcon from "../../../assets/icons/down/down_20.svg";
 import PlusIcon from "../../../assets/icons/plus.svg";
-import { categoryList } from "../../../constants/constants";
+import { boardList, categoryList } from "../../../constants/constants";
 import { useAppDispatch, useAppSelector } from "../../../store/hooks";
 import { setPostFormModal } from "../../../store/modalSlice";
 import { IImageUrl } from "../../../types/types";
@@ -19,6 +21,7 @@ import styles from "./PostFormModal.module.scss";
 
 const SubmitForm = () => {
   const [boardId, setBoardId] = useState(0);
+  const [boardListOpen, setBoardListOpen] = useState(false);
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
   const [categoryId, setCategoryId] = useState(0);
@@ -46,10 +49,13 @@ const SubmitForm = () => {
     dispatch(setPostFormModal({ open: false, expanded: false }));
   };
 
-  const onBoardIdChange: ChangeEventHandler<HTMLSelectElement> = useCallback(
-    ({ target }) => setBoardId(parseInt(target.value)),
+  const onBoardIdChange = useCallback(
+    (id: number) => setBoardId((boardId) => id),
     []
   );
+
+  const onToggleBoardList = () =>
+    setBoardListOpen((boardListOpen) => !boardListOpen);
 
   const onTitleChange: ChangeEventHandler<HTMLInputElement> = useCallback(
     ({ target }) => setTitle(target.value),
@@ -141,20 +147,37 @@ const SubmitForm = () => {
 
   return (
     <form onSubmit={onPostSubmit}>
-      <select
-        className={`${styles["typo4-regular"]} ${styles.boardId} ${
-          expanded && styles.expanded
-        }`}
-        value={boardId}
-        onChange={onBoardIdChange}
-      >
-        <option hidden>게시판</option>
-        <option value={2}>자유 게시판</option>
-        <option value={1}>익명 게시판</option>
-        <option value={3}>구인 게시판</option>
-        <option value={4}>정보공유 게시판</option>
-        <option value={5}>홍보 게시판</option>
-      </select>
+      <div className={`${styles.boardWrapper} ${expanded && styles.expanded}`}>
+        <div className={styles.boardHeader}>
+          <button
+            className={`${styles.boardHeaderTitle} ${styles["typo4-regular"]} ${styles.boardId}`}
+            onClick={onToggleBoardList}
+            type="button"
+          >
+            {boardId === 0 ? "게시판" : boardList[boardId].name}
+            <DownIcon />
+          </button>
+        </div>
+        {boardListOpen ? (
+          <div className={styles.boardList}>
+            {boardList.map((board) => {
+              if (board.id === 0) return;
+              return (
+                <li key={board.id}>
+                  <button
+                    type="button"
+                    className={`${styles["typo5-regular"]} ${styles.boardListItem}`}
+                    onClick={() => onBoardIdChange(board.id)}
+                  >
+                    {board.name}
+                  </button>
+                  {board.id === boardId ? <CheckIcon /> : null}
+                </li>
+              );
+            })}
+          </div>
+        ) : null}
+      </div>
       <input
         className={`${styles["typo6-medium"]} ${styles.title} ${
           expanded && styles.expanded

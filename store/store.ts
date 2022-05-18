@@ -5,6 +5,7 @@ import { postsApi } from "../api/postsApi";
 
 import authReducer from "./authSlice";
 import commentFormReducer from "./commentFormSlice";
+import pairReducer from "./letterPairSlice";
 import modalReducer from "./modalSlice";
 import userReducer from "./userSlice";
 
@@ -15,6 +16,7 @@ export const store = () =>
       user: userReducer,
       modals: modalReducer,
       commentForm: commentFormReducer,
+      pair: pairReducer,
       [postsApi.reducerPath]: postsApi.reducer,
     },
     middleware: (getDefaultMiddleware) =>

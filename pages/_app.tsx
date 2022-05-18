@@ -9,7 +9,6 @@ import { useDispatch } from "react-redux";
 import Layout from "../components/layout";
 import { firebaseConfig } from "../constants/constants";
 import { signIn, signOut } from "../store/authSlice";
-import { useAppSelector } from "../store/hooks";
 import { wrapper } from "../store/store";
 import { setUserState } from "../store/userSlice";
 import { getFirebaseIdToken } from "../utils/firebaseUtils";

@@ -53,10 +53,12 @@ export interface IComment {
   user: IUser;
   content: string;
   imagePaths: string[];
+  mentionIds: number[];
   likeCount: number;
   createdAt: string;
   updatedAt: string;
   isMine: boolean;
+  isLiked: boolean;
 }
 
 export interface ICommentData {
@@ -71,4 +73,30 @@ export interface IDetailedPost extends IPostsListPost {
 export interface IImageUrl {
   id: number;
   url: string;
+}
+
+interface ILetter {
+  id: number;
+  sentBy: number;
+  sentTo: number;
+  text: string;
+  createdAt: string;
+  imagePath: string;
+  isRead: string;
+}
+
+export interface ILetterBox {
+  pair: IUser;
+  latestLetter: ILetter;
+}
+
+export interface ILetters {
+  userId: number;
+  letterBoxes: ILetterBox[];
+}
+
+export interface IPairLetters {
+  userId: 10;
+  pairId: 8;
+  letters: ILetter[];
 }

@@ -103,11 +103,42 @@
     }
 
     form {
-      select.boardId {
+      .boardWrapper {
         position: absolute;
         top: 72px;
         left: 24px;
-        color: colors.$grayscale-gray3;
+
+        .boardHeader {
+          .boardId {
+            color: colors.$grayscale-gray3;
+            display: flex;
+          }
+        }
+
+        .boardList {
+          position: absolute;
+          top: 29px;
+          width: 162px;
+          height: 219px;
+          z-index: 11;
+          background: colors.$grayscale-white;
+          border: 1px solid colors.$grayscale-gray6;
+          border-radius: 5px;
+
+          li {
+            display: flex;
+            justify-content: space-between;
+            margin: 9px 0 20px 15px;
+
+            button {
+              color: colors.$grayscale-gray3;
+            }
+
+            svg path {
+              fill: colors.$purple-core;
+            }
+          }
+        }
 
         &.expanded {
           top: 32px;
