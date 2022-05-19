@@ -3,7 +3,7 @@ import ko from "dayjs/locale/ko";
 import relativeTime from "dayjs/plugin/relativeTime";
 
 import { postsApi } from "../../api/postsApi";
-import { useAppDispatch } from "../../store/hooks";
+import { useAppDispatch, useAppSelector } from "../../store/hooks";
 import { setPair } from "../../store/letterPairSlice";
 import { ILetters, IUser } from "../../types/types";
 import Profile from "../PostPageSide/Profile";
@@ -13,6 +13,8 @@ import styles from "./Messages.module.scss";
 dayjs.extend(relativeTime);
 
 export default function MessagesSide() {
+  const pair = useAppSelector((state) => state.pair);
+
   const letters: ILetters | undefined =
     postsApi.endpoints.getLetters.useQueryState().data;
 
@@ -35,7 +37,9 @@ export default function MessagesSide() {
               return (
                 <li
                   key={box.pair.id}
-                  className={styles.messageBox}
+                  className={`${styles.messageBox} ${
+                    box.pair.id === pair.id && styles.selected
+                  }`}
                   onClick={() => onClickPair(box.pair)}
                 >
                   <img

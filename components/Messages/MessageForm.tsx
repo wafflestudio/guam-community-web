@@ -55,12 +55,12 @@ export default function MessageForm({
   const onSubmitMessage: FormEventHandler = async (e) => {
     e.preventDefault();
 
-    if (messageInput.trim().length === 0) return;
+    if (messageInput.trim().length === 0 && images.length === 0) return;
 
     const data = new FormData();
     const object = {
       to: pair.id,
-      text: messageInput.trim(),
+      text: messageInput.trim().length !== 0 ? messageInput.trim() : "사진",
     };
     Object.keys(object).forEach((key) =>
       data.append(key, object[key as keyof object])
@@ -101,12 +101,13 @@ export default function MessageForm({
           imageUrls.length >= 5 && styles.disabled
         }`}
         onClick={clickImageInput}
+        disabled={imageUrls.length >= 5}
       >
         <CameraIcon />
       </button>
       <button
         className={`${styles["typo5-medium"]} ${styles.submit} ${
-          messageInput.trim() === "" && styles.disabled
+          messageInput.trim() === "" && images.length === 0 && styles.disabled
         }`}
         onClick={onSubmitMessage}
       >
