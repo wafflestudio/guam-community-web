@@ -49,13 +49,13 @@ const SubmitForm = () => {
     dispatch(setPostFormModal({ open: false, expanded: false }));
   };
 
-  const onBoardIdChange = useCallback(
-    (id: number) => setBoardId((boardId) => id),
-    []
-  );
-
   const onToggleBoardList = () =>
     setBoardListOpen((boardListOpen) => !boardListOpen);
+
+  const onBoardIdChange = useCallback((id: number) => {
+    setBoardId((boardId) => id);
+    onToggleBoardList();
+  }, []);
 
   const onTitleChange: ChangeEventHandler<HTMLInputElement> = useCallback(
     ({ target }) => setTitle(target.value),

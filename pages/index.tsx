@@ -38,7 +38,7 @@ const Home = () => {
   return (
     <>
       <PageTitle title="Home" />
-      {error ? <>error</> : isLoading ? <img src="/loading.webp" /> : null}
+      {error ? <>error</> : isLoading ? <img src={"/loading.gif"} /> : null}
       <PostsPage />
     </>
   );

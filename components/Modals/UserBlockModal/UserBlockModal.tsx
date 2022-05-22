@@ -29,7 +29,12 @@ export default function UserBlockModal() {
           취소
         </button>
         <div className={`${styles["typo4-regular"]} ${styles.info}`}>
-          사용자를 차단하면~
+          사용자를 차단하면, 해당 사용자의 게시글 및 댓글을 확인 할 수 없으며,
+          서로 쪽지를 주고 받을 수 없습니다.
+          <br />
+          <br />
+          차단계정 관리는 프로필&gt; 계정 설정&gt; 차단 목록 관리 탭에서 확인
+          가능합니다
         </div>
         <button className={`${styles["typo5-regular"]} ${styles.block}`}>
           차단하기

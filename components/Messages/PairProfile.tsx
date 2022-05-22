@@ -1,8 +1,10 @@
 import Link from "next/link";
+import { useRouter } from "next/router";
 import { useState } from "react";
 
 import MoreIcon from "../../assets/icons/more.svg";
-import { useAppSelector } from "../../store/hooks";
+import { useAppDispatch, useAppSelector } from "../../store/hooks";
+import { setUserBlockModal, setUserReportModal } from "../../store/modalSlice";
 
 import styles from "./Messages.module.scss";
 
@@ -10,6 +12,24 @@ export default function PairProfile() {
   const [modal, setModal] = useState(false);
 
   const { pair } = useAppSelector((state) => state);
+
+  const dispatch = useAppDispatch();
+
+  const router = useRouter();
+
+  const onClickMore = () => setModal((modal) => !modal);
+
+  const onSendMessage = () => router.push("/letters");
+
+  const onReportUser = () => {
+    dispatch(setUserReportModal({ open: true, user: pair }));
+    setModal(false);
+  };
+
+  const onBlockUser = () => {
+    dispatch(setUserBlockModal({ open: true, user: pair }));
+    setModal(false);
+  };
 
   return (
     <div className={styles.pairProfile}>
@@ -28,10 +48,24 @@ export default function PairProfile() {
           <div className={styles.profileLink}>프로필 보기</div>
         </a>
       </Link>
-      <button className={styles.moreButton}>
+      <button className={styles.moreButton} onClick={onClickMore}>
         <MoreIcon />
       </button>
-      {modal ? <div></div> : null}
+      {modal ? (
+        <div className={styles.moreModal}>
+          <ul>
+            <li>
+              <button onClick={onSendMessage}>쪽지 삭제하기</button>
+            </li>
+            <li>
+              <button onClick={onReportUser}>신고하기</button>
+            </li>
+            <li>
+              <button onClick={onBlockUser}>차단하기</button>
+            </li>
+          </ul>
+        </div>
+      ) : null}
     </div>
   );
 }

@@ -12,7 +12,7 @@ import MentionList from "./MentionList";
 
 import styles from "./CommentForm.module.scss";
 
-export default function CommentForm() {
+function CommentForm() {
   const textareaRef = useRef<HTMLTextAreaElement>(null);
   const mockTextareaRef = useRef<HTMLDivElement>(null);
   const photoInputRef = useRef<HTMLInputElement>(null);
@@ -113,3 +113,5 @@ export default function CommentForm() {
     </form>
   );
 }
+
+export default React.memo(CommentForm);

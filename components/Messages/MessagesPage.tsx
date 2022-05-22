@@ -1,3 +1,6 @@
+import UserBlockModal from "../Modals/UserBlockModal/UserBlockModal";
+import UserReportModal from "../Modals/UserReportModal/UserReportModal";
+
 import MessagesBox from "./MessageBox";
 import MessagesSide from "./MessagesSide";
 
@@ -8,6 +11,8 @@ export default function MessagesPage() {
     <div className={styles.container}>
       <MessagesSide />
       <MessagesBox />
+      <UserReportModal />
+      <UserBlockModal />
     </div>
   );
 }

@@ -6,7 +6,7 @@ import { useAppDispatch, useAppSelector } from "../../../../../store/hooks";
 
 import styles from "./CommentForm.module.scss";
 
-export default function HandleImages({
+function HandleImages({
   textareaRef,
   photoInputRef,
 }: {
@@ -63,7 +63,6 @@ export default function HandleImages({
 
   return (
     <>
-      {" "}
       <input
         className={styles.photoInput}
         ref={photoInputRef}
@@ -103,3 +102,5 @@ export default function HandleImages({
     </>
   );
 }
+
+export default React.memo(HandleImages);

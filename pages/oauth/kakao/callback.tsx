@@ -40,34 +40,29 @@ export default function Auth() {
           "https://kauth.kakao.com/oauth/token",
           payload
         );
-
         const kakaoToken = data.access_token;
 
-        try {
-          const { data } = await axios.get(
-            `/guam-immigration/token?kakaoToken=${kakaoToken}`
-          );
+        const { data: customTokenData } = await axios.get(
+          `/guam-immigration/token?kakaoToken=${kakaoToken}`
+        );
 
-          await setPersistence(auth, browserLocalPersistence);
-          await signInWithCustomToken(auth, data.customToken);
+        await setPersistence(auth, browserLocalPersistence);
+        await signInWithCustomToken(auth, customTokenData.customToken);
 
-          const token = await getFirebaseIdToken();
+        const token = await getFirebaseIdToken();
 
-          const { data: userData } = await axios.get("/api/users/me", {
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-          });
+        const { data: userData } = await axios.get("/api/users/me", {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
 
-          dispatch(setUserState(userData));
+        dispatch(setUserState(userData));
 
-          if (!userData.profileSet) router.push("/profile/set_nickname");
-          else router.push("/");
-        } catch (e) {
-          console.log(e);
-        }
-      } catch (err) {
-        console.log(err);
+        if (!userData.profileSet) router.push("/profile/set_nickname");
+        else router.push("/");
+      } catch (e) {
+        console.log(e);
       }
     };
 
