@@ -135,11 +135,11 @@ export const postsApi = createApi({
     }),
 
     getLetters: build.query<ILetters, void>({
-      query: () => ({ url: `letters/letters`, method: "GET" }),
+      query: () => ({ url: `letters`, method: "GET" }),
       providesTags: () => [{ type: "LetterBox List" }],
     }),
     getPairLetters: build.query<IPairLetters, number>({
-      query: (id) => ({ url: `letters/letters/${id}`, method: "GET" }),
+      query: (id) => ({ url: `letters/${id}`, method: "GET" }),
       providesTags: (result) => [{ type: "Letters", pairId: result?.pairId }],
     }),
     postLetter: build.mutation({
