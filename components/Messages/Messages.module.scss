@@ -1,0 +1,330 @@
+@use "../../assets/colors/colors";
+@import "../../assets/fonts/typography_medium";
+@import "../../assets/fonts/typography_regular";
+
+.container {
+  width: 1128px;
+  height: 688px;
+  margin: 32px auto;
+  position: relative;
+}
+
+.sideContainer {
+  display: inline-block;
+  position: absolute;
+
+  .titleBox {
+    height: 50px;
+    width: 264px;
+    position: absolute;
+    top: 80px;
+    border-bottom: 1px solid colors.$grayscale-gray7;
+    background: colors.$grayscale-white;
+    z-index: 2;
+
+    .title {
+      position: absolute;
+      top: 12px;
+      left: 24px;
+    }
+  }
+
+  .messageBoxList {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 0px;
+    position: absolute;
+    top: 80px;
+    width: 264px;
+    height: 608px;
+    background: colors.$grayscale-white;
+    overflow: scroll;
+
+    &::-webkit-scrollbar {
+      display: none;
+    }
+
+    ul {
+      position: absolute;
+      top: 50px;
+
+      li.messageBox {
+        width: 264px;
+        height: 84px;
+        border-bottom: 1px solid colors.$grayscale-gray7;
+        position: relative;
+        cursor: pointer;
+
+        &.selected {
+          background: colors.$purple-light3;
+        }
+
+        img,
+        svg {
+          width: 40px;
+          height: 40px;
+          position: absolute;
+          top: 8px;
+          left: 12px;
+        }
+
+        .pairName {
+          position: absolute;
+          top: 17px;
+          left: 64px;
+          color: colors.$grayscale-gray2;
+          font-weight: 500;
+        }
+
+        .fromNow {
+          position: absolute;
+          top: 20px;
+          right: 12px;
+          color: colors.$grayscale-gray1;
+        }
+
+        .preview {
+          width: 240px;
+          height: 20px;
+          position: absolute;
+          top: 56px;
+          left: 12px;
+          color: colors.$grayscale-gray2;
+          text-overflow: ellipsis;
+          display: block;
+          overflow: hidden;
+        }
+      }
+    }
+  }
+
+  .noMessage {
+    width: 123px;
+    position: absolute;
+    top: 200px;
+    left: 71px;
+    color: colors.$grayscale-gray4;
+  }
+}
+
+.mainContainer {
+  position: absolute;
+  left: 288px;
+  width: 840px;
+  height: 688px;
+  background: colors.$grayscale-white;
+
+  .emptyImg {
+    position: absolute;
+    left: 380px;
+    top: 262px;
+  }
+
+  .pairProfile {
+    height: 80px;
+    width: 840px;
+    box-shadow: 0px 4px 10px 0px #0000001a;
+
+    img {
+      width: 56px;
+      height: 56px;
+      position: absolute;
+      left: 24px;
+      top: 12px;
+    }
+
+    .nickname {
+      font-weight: 500;
+      position: absolute;
+      left: 103px;
+      top: 19px;
+      color: colors.$grayscale-gray2;
+    }
+
+    .profileLink {
+      font-size: 12px;
+      line-height: 19px;
+      position: absolute;
+      left: 104px;
+      top: 48px;
+      color: colors.$purple-light1;
+      cursor: pointer;
+    }
+
+    .moreButton svg {
+      position: absolute;
+      right: 24px;
+      top: 28px;
+
+      circle {
+        fill: colors.$grayscale-gray2;
+      }
+    }
+
+    .moreModal {
+      height: 158px;
+      width: 176px;
+      position: absolute;
+      top: 60px;
+      left: 792px;
+      border-radius: 8px;
+      box-shadow: 0px 0px 4px 0px #0000001a;
+      background: colors.$grayscale-white;
+      padding: 24px;
+      z-index: 2;
+
+      ul li {
+        font-size: 16px;
+        font-weight: 400;
+        line-height: 26px;
+        letter-spacing: 0px;
+        text-align: left;
+        margin-bottom: 16px;
+      }
+    }
+  }
+
+  .messagesList {
+    height: 404px;
+    overflow: scroll;
+
+    &::-webkit-scrollbar {
+      display: none;
+    }
+
+    li {
+      position: relative;
+      width: 796px;
+      margin-top: 8px;
+      min-height: 80px;
+      margin-left: 24px;
+      border-bottom: 1px solid colors.$grayscale-gray7;
+
+      .writerName {
+        span {
+          display: inline-block;
+          color: colors.$grayscale-gray1;
+
+          &.mine {
+            color: colors.$purple-dark1;
+          }
+        }
+
+        .fromNow {
+          display: inline-block;
+          margin-left: 23px;
+          color: colors.$grayscale-gray4;
+        }
+      }
+
+      .content {
+        width: 796px;
+        margin-top: 8px;
+        color: colors.$grayscale-gray2;
+        white-space: pre-line;
+        word-break: break-all;
+      }
+    }
+  }
+
+  .messageFormContainer {
+    min-height: 206px;
+    width: 840px;
+    position: absolute;
+    bottom: 0;
+    padding: 16px;
+    background: colors.$grayscale-white;
+    border-top: 1px solid colors.$grayscale-gray7;
+
+    textarea {
+      min-height: 136px;
+      max-height: 400px;
+      width: 808px;
+      border: none;
+      padding: 10px 8px;
+      color: colors.$grayscale-gray2;
+      resize: auto;
+      word-wrap: break-word;
+      overflow-y: scroll;
+      white-space: pre-line;
+
+      &::-webkit-scrollbar {
+        display: none;
+      }
+
+      &::placeholder {
+        color: colors.$grayscale-gray5;
+        opacity: 1;
+      }
+    }
+
+    .addPhoto {
+      position: absolute;
+      left: 24px;
+      bottom: 12px;
+
+      svg path {
+        fill: colors.$grayscale-gray3;
+      }
+
+      &.disabled {
+        cursor: default;
+      }
+    }
+
+    .submit {
+      height: 26px;
+      width: 30px;
+      position: absolute;
+      bottom: 16px;
+      right: 24px;
+      color: colors.$purple-core;
+
+      &.disabled {
+        color: colors.$grayscale-gray5;
+        cursor: default;
+      }
+    }
+
+    .photoInput {
+      display: none;
+    }
+
+    .photosDisplay {
+      position: absolute;
+      left: 0;
+      top: -96px;
+      width: 840px;
+      height: 96px;
+      background: #1d1d1d40;
+
+      .imageList {
+        position: relative;
+        width: 81.13px;
+        height: 80px;
+        overflow: hidden;
+        display: inline-grid;
+        justify-content: center;
+        margin-left: 7.13px;
+        margin-right: 7.74px;
+        margin-top: 8px;
+        background: colors.$grayscale-white;
+
+        img {
+          width: auto;
+          height: 80px;
+        }
+
+        .deleteButton {
+          position: absolute;
+          top: 2px;
+          left: 60.87px;
+          width: 18px;
+          height: 18px;
+          z-index: 10;
+        }
+      }
+    }
+  }
+}

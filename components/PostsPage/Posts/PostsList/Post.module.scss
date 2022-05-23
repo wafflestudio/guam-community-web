@@ -1,25 +1,21 @@
+@use "../../../../assets/colors/colors";
 @import "../../../../assets/fonts/typography_medium";
 @import "../../../../assets/fonts/typography_regular";
-@import "../../../../assets/colors/colors";
 
 .container {
   width: 841px;
   height: 140px;
   position: relative;
-  background: $grayscale-white;
+  background: colors.$grayscale-white;
   margin-bottom: 12px;
-  cursor: pointer;
 
-  ul.categories {
+  .categories {
     height: 20px;
     position: absolute;
     left: 24px;
     top: 12px;
-
-    li {
-      color: $purple-core;
-      font-weight: 500;
-    }
+    color: colors.$purple-core;
+    font-weight: 500;
   }
 
   span.fromNow {
@@ -27,7 +23,7 @@
     position: absolute;
     right: 24px;
     top: 14px;
-    color: $grayscale-gray4;
+    color: colors.$grayscale-gray4;
   }
 
   hr {
@@ -39,16 +35,26 @@
     position: absolute;
     left: 24px;
     top: 40px;
-    color: $grayscale-gray7;
+    color: colors.$grayscale-gray7;
   }
 
   div.title {
     position: absolute;
     left: 24px;
     top: 48px;
-    color: $grayscale-gray1;
+    color: colors.$grayscale-gray1;
     font-weight: 500;
     text-overflow: ellipsis;
+    display: flex;
+    cursor: pointer;
+
+    svg {
+      margin-right: 4px;
+
+      path {
+        fill: colors.$grayscale-gray4;
+      }
+    }
   }
 
   div.content {
@@ -58,22 +64,27 @@
     left: 24px;
     top: 75px;
     text-overflow: ellipsis;
-    color: $grayscale-gray3;
+    color: colors.$grayscale-gray3;
+    cursor: pointer;
   }
 
   div.profileImage {
+    position: absolute;
+    top: 104px;
+    left: 24px;
+    height: 24px;
+    width: 24px;
+    overflow: hidden;
+    border-radius: 50%;
+
     img {
-      position: absolute;
-      top: 104px;
-      left: 24px;
-      height: 24px;
-      width: 24px;
+      width: 100%;
+      height: 100%;
     }
 
     svg {
-      position: absolute;
-      top: 104px;
-      left: 24px;
+      width: 100%;
+      height: 100%;
     }
   }
 
@@ -81,7 +92,7 @@
     position: absolute;
     top: 106px;
     left: 56px;
-    color: $grayscale-gray2;
+    color: colors.$grayscale-gray2;
   }
 
   div.engagement {
@@ -101,10 +112,11 @@
         width: 20px;
         vertical-align: top;
         margin-left: 12px;
+        cursor: pointer;
       }
 
       span {
-        color: $grayscale-gray5;
+        color: colors.$grayscale-gray5;
         display: inline-block;
         min-width: 15px;
         height: 20px;
@@ -118,6 +130,10 @@
         svg {
           margin-right: 12px;
         }
+      }
+
+      .likes svg {
+        cursor: pointer;
       }
     }
   }

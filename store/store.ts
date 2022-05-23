@@ -1,20 +1,30 @@
 import { configureStore } from "@reduxjs/toolkit";
+import { createWrapper } from "next-redux-wrapper";
+
+import { postsApi } from "../api/postsApi";
 
 import authReducer from "./authSlice";
-import boardReducer from "./boardSlice";
-import commentsReducer from "./commentsSlice";
-import postDetailReducer from "./postDetailSlice";
-import postsListReducer from "./postsListSlice";
+import commentFormReducer from "./commentFormSlice";
+import pairReducer from "./letterPairSlice";
+import modalReducer from "./modalSlice";
+import userReducer from "./userSlice";
 
-export const store = configureStore({
-  reducer: {
-    auth: authReducer,
-    comments: commentsReducer,
-    boardId: boardReducer,
-    postsList: postsListReducer,
-    postDetail: postDetailReducer,
-  },
-});
+export const store = () =>
+  configureStore({
+    reducer: {
+      auth: authReducer,
+      user: userReducer,
+      modals: modalReducer,
+      commentForm: commentFormReducer,
+      pair: pairReducer,
+      [postsApi.reducerPath]: postsApi.reducer,
+    },
+    middleware: (getDefaultMiddleware) =>
+      getDefaultMiddleware().concat(postsApi.middleware),
+  });
 
-export type AppDispatch = typeof store.dispatch;
-export type RootState = ReturnType<typeof store.getState>;
+export type AppStore = ReturnType<typeof store>;
+export type RootState = ReturnType<AppStore["getState"]>;
+export type AppDispatch = AppStore["dispatch"];
+
+export const wrapper = createWrapper<AppStore>(store, { debug: true });

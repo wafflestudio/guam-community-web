@@ -1,12 +1,12 @@
 export interface IUser {
-  id: number;
+  id: number | null;
   introduction: null | string;
   githubId: null | string;
   blogUrl: null | string;
-  nickname: string;
+  nickname: string | null;
   email: null | string;
   profileImage: null | string;
-  interests: [];
+  interests: { name: string }[];
   profileSet: boolean;
 }
 
@@ -16,30 +16,27 @@ export interface IPostsListPost {
   user: IUser;
   title: string;
   content: string;
-  imagePaths: [string];
-  categories: [
-    {
-      postId: number;
-      tagId: number;
-      title: string;
-    }
-  ];
+  imagePaths: string[];
+  category: {
+    postId: number;
+    categoryId: number;
+    title: string;
+  };
   likeCount: number;
   commentCount: number;
   scrapCount: number;
   status: string;
   createdAt: string;
   updatedAt: string;
+  isMine: boolean;
   isLiked: boolean;
   isScrapped: boolean;
   boardType: string;
 }
 
 export interface IPostsData {
-  data: {
-    content: IPostsListPost[];
-    hasNext: boolean;
-  };
+  content: IPostsListPost[];
+  hasNext: boolean;
 }
 
 export interface IMatchParams {
@@ -56,43 +53,50 @@ export interface IComment {
   user: IUser;
   content: string;
   imagePaths: string[];
+  mentionIds: number[];
   likeCount: number;
   createdAt: string;
   updatedAt: string;
   isMine: boolean;
+  isLiked: boolean;
 }
 
 export interface ICommentData {
-  data: {
-    postId: number;
-    content: IComment[];
-  };
+  postId: number;
+  content: IComment[];
 }
 
-export interface IDetailedPost {
-  data: {
-    id: number;
-    boardId: 0 | 1 | 2 | 3 | 4 | 5;
-    user: IUser;
-    title: string;
-    content: string;
-    imagePaths: string[];
-    categories: [
-      {
-        postId: number;
-        tagId: number;
-        title: string;
-      }
-    ];
-    likeCount: number;
-    commentCount: number;
-    scrapCount: number;
-    status: string;
-    createdAt: string;
-    updatedAt: string;
-    isLiked: boolean;
-    isScrapped: boolean;
-    boardType: string;
-    comments: IComment[];
-  };
+export interface IDetailedPost extends IPostsListPost {
+  comments: IComment[];
+}
+
+export interface IImageUrl {
+  id: number;
+  url: string;
+}
+
+interface ILetter {
+  id: number;
+  sentBy: number;
+  sentTo: number;
+  text: string;
+  createdAt: string;
+  imagePath: string;
+  isRead: string;
+}
+
+export interface ILetterBox {
+  pair: IUser;
+  latestLetter: ILetter;
+}
+
+export interface ILetters {
+  userId: number;
+  letterBoxes: ILetterBox[];
+}
+
+export interface IPairLetters {
+  userId: 10;
+  pairId: 8;
+  letters: ILetter[];
 }

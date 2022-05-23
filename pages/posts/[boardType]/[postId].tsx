@@ -1,51 +1,45 @@
 import { useRouter } from "next/router";
-import { useCallback, useEffect, useMemo } from "react";
-import { useQuery } from "react-query";
+import { useEffect, useMemo, useState } from "react";
 
-import { api } from "../../../api/api";
+import { useGetPostDetailQuery } from "../../../api/postsApi";
 import PageTitle from "../../../components/PageTitle";
 import PostDetailPage from "../../../components/PostDetailPage/PostDetailPage";
-import { ERROR, LOADING } from "../../../constants/constants";
-import { setComments } from "../../../store/commentsSlice";
-import { useAppDispatch, useAppSelector } from "../../../store/hooks";
-import { setPost } from "../../../store/postDetailSlice";
-import { IDetailedPost } from "../../../types/types";
+import { useAppSelector } from "../../../store/hooks";
 
 export default function DetailedPostPage() {
+  const [currentPost, setCurrentPost] = useState<number>(0);
+
+  const { isLoggedIn } = useAppSelector((state) => state.auth);
+
   const router = useRouter();
-  const { postId } = router.query;
 
-  const token = useAppSelector((state) => state.auth.token);
-  const dispatch = useAppDispatch();
-
-  const fetchDetailedPost = useCallback((): Promise<IDetailedPost> => {
-    return api.get(`/posts/${postId}`, {
-      headers: { Authorization: `Bearer ${token}` },
-    });
-  }, [postId]);
-
-  const { data, status, error } = useQuery(
-    ["posts", postId],
-    fetchDetailedPost,
-    { retry: false, enabled: !!token }
-  );
-
-  const postData = useMemo(() => data?.data, [data?.data]);
+  const postId = useMemo(() => router.isReady && router.query.postId, [router]);
 
   useEffect(() => {
-    dispatch(setComments(data?.data.comments || null));
-    dispatch(setPost(data?.data));
-  }, [data?.data]);
+    if (!router.isReady) return;
+
+    if (postId === undefined) {
+      setCurrentPost(0);
+      return;
+    }
+
+    if (typeof postId === "string" && parseInt(postId) >= 1) {
+      setCurrentPost(parseInt(postId));
+    } else {
+      router.push("/404");
+    }
+  }, [router.isReady, router.query.page]);
+
+  const { data, isLoading, error } = useGetPostDetailQuery(currentPost, {
+    skip: !isLoggedIn || currentPost === 0,
+    refetchOnMountOrArgChange: true,
+  });
 
   return (
     <>
-      <PageTitle title={postData?.title || "Posts"} />
+      <PageTitle title={data?.title || "Posts"} />
+      {isLoading ? <span>Loading</span> : error ? <span>Error</span> : null}
       <PostDetailPage />
-      {status === LOADING ? (
-        <span>Loading</span>
-      ) : status === ERROR && error instanceof Error ? (
-        <span>Error: {error.message}</span>
-      ) : null}
       {/* {postData?.imagePaths.map((image) => (
         <li key={image}>
           <img src={process.env.BUCKET_URL + image} />

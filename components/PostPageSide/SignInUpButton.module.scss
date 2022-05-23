@@ -1,0 +1,18 @@
+@use "../../assets/colors/colors";
+@import "../../assets/fonts/typography_medium";
+
+.container {
+  height: 56px;
+  width: 264px;
+  border-radius: 10px;
+  background: colors.$purple-core;
+  border: 1px solid colors.$grayscale-gray6;
+
+  .text {
+    font-weight: 500;
+    color: colors.$grayscale-white;
+    position: absolute;
+    top: 15px;
+    left: 77px;
+  }
+}

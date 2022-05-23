@@ -1,12 +1,12 @@
-@import "../../../../assets/colors/colors";
-@import "../../../../assets/fonts/typography_medium";
-@import "../../../../assets/fonts/typography_regular";
+@use "../../../../../assets/colors/colors";
+@import "../../../../../assets/fonts/typography_medium";
+@import "../../../../../assets/fonts/typography_regular";
 
 .container {
   width: 839px;
   height: 151px;
   margin: 12px 0 20px 288px;
-  background: $grayscale-white;
+  background: colors.$grayscale-white;
   position: relative;
 
   .commentContainer {
@@ -37,7 +37,7 @@
       background: transparent;
 
       &.showPlaceholder {
-        -webkit-text-fill-color: $grayscale-gray5;
+        -webkit-text-fill-color: colors.$grayscale-gray5;
       }
     }
   }
@@ -49,8 +49,12 @@
 
     svg {
       path {
-        fill: $grayscale-gray3;
+        fill: colors.$grayscale-gray3;
       }
+    }
+
+    &.disabled {
+      cursor: default;
     }
   }
 
@@ -60,11 +64,49 @@
     position: absolute;
     bottom: 16px;
     right: 16px;
-    color: $purple-core;
+    color: colors.$purple-core;
 
     &.disabled {
-      color: $grayscale-gray5;
+      color: colors.$grayscale-gray5;
       cursor: default;
+    }
+  }
+
+  .photoInput {
+    display: none;
+  }
+
+  .photosDisplay {
+    position: absolute;
+    width: 840px;
+    height: 96px;
+    background: #1d1d1d40;
+
+    .imageList {
+      position: relative;
+      width: 81.13px;
+      height: 80px;
+      overflow: hidden;
+      display: inline-grid;
+      justify-content: center;
+      margin-left: 7.13px;
+      margin-right: 7.74px;
+      margin-top: 8px;
+      background: colors.$grayscale-white;
+
+      img {
+        width: auto;
+        height: 80px;
+      }
+
+      .deleteButton {
+        position: absolute;
+        top: 2px;
+        left: 60.87px;
+        width: 18px;
+        height: 18px;
+        z-index: 10;
+      }
     }
   }
 
@@ -73,8 +115,8 @@
     max-height: 238px;
     overflow: auto;
     position: absolute;
-    bottom: 150px;
-    background: $grayscale-white;
+    top: -10px;
+    background: colors.$grayscale-white;
     border-radius: 5px;
     box-shadow: 1px 1px 5px 2px #afafaf40;
     z-index: 4;
@@ -85,13 +127,13 @@
       .userList {
         height: 53px;
         position: relative;
-        border-bottom: 0.5px solid $grayscale-gray7;
+        border-bottom: 0.5px solid colors.$grayscale-gray7;
         cursor: pointer;
 
         .profileImage {
           position: absolute;
-          top: 6px;
-          left: 14px;
+          top: 5px;
+          left: 30px;
           border-radius: 50%;
           overflow: hidden;
 
@@ -103,9 +145,9 @@
 
         .nickname {
           position: absolute;
-          top: 16px;
-          left: 69px;
-          color: $grayscale-gray1;
+          top: 13px;
+          left: 85px;
+          color: colors.$grayscale-gray1;
         }
       }
     }

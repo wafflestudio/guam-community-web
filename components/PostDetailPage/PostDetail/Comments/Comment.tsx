@@ -1,24 +1,34 @@
-import { useEffect, useMemo, useRef } from "react";
-import { useDispatch } from "react-redux";
+import { Dispatch, SetStateAction, useEffect, useRef } from "react";
 
-import { api } from "../../../../api/api";
+import { useLikeCommentMutation } from "../../../../api/postsApi";
 import LikeIcon from "../../../../assets/icons/like/outlined.svg";
 import MoreIcon from "../../../../assets/icons/more.svg";
-import { setComments } from "../../../../store/commentsSlice";
-import { useAppSelector } from "../../../../store/hooks";
 import { IComment } from "../../../../types/types";
+
+import CommentMoreModal from "./CommentMoreModal";
 
 import styles from "./Comment.module.scss";
 
-export default function Comment({ comment }: { comment: IComment }) {
+export default function Comment({
+  comment,
+  selectedId,
+  setSelectedId,
+}: {
+  comment: IComment;
+  selectedId: number | null;
+  setSelectedId: Dispatch<SetStateAction<number | null>>;
+}) {
   const containerRef = useRef<HTMLLIElement>(null);
   const commentRef = useRef<HTMLDivElement>(null);
 
-  const { token } = useAppSelector((state) => state.auth);
+  const [likeComment] = useLikeCommentMutation();
 
-  const dispatch = useDispatch();
+  const { id } = comment;
 
-  const { postId } = useMemo(() => comment, [comment]);
+  const onClickMore = () => {
+    if (selectedId === id) setSelectedId(null);
+    else setSelectedId(id);
+  };
 
   useEffect(() => {
     if (commentRef.current?.textContent) {
@@ -35,19 +45,12 @@ export default function Comment({ comment }: { comment: IComment }) {
     }
   }, [commentRef.current?.textContent]);
 
-  const deleteComment = async () => {
-    if (!window.confirm("삭제하시겠습니까") || !comment.isMine) return;
-
-    try {
-      await api.delete(`/posts/${postId}/comments/${comment.id}`);
-      const { data } = await api.get(`/posts/${postId}/comments`, {
-        headers: { Authorization: `Bearer ${token}` },
-      });
-      dispatch(setComments(data.content));
-    } catch (e) {
-      console.log(e);
-    }
-  };
+  const onLikeComment = () =>
+    likeComment({
+      postId: comment.postId,
+      commentId: comment.id,
+      liked: comment.isLiked,
+    });
 
   return (
     <li key={comment.id} className={styles.container} ref={containerRef}>
@@ -56,17 +59,20 @@ export default function Comment({ comment }: { comment: IComment }) {
           <img
             src={
               comment.user.profileImage
-                ? process.env.BUCKET_URL + comment.user.profileImage
-                : "/default profile image.png"
+                ? process.env.BUCKET_URL +
+                  comment.user.profileImage +
+                  "?" +
+                  Date.now()
+                : "/default_profile_image.png"
             }
           />
         </div>
         <div className={`${styles["typo2-regular"]} ${styles.userNickname}`}>
           {comment.user.nickname}
         </div>
-        <div className={styles.more} onClick={deleteComment}>
+        <button className={styles.more} onClick={onClickMore}>
           <MoreIcon />
-        </div>
+        </button>
         <div className={styles.content}>
           <div
             className={`${styles["typo3-regular"]} ${styles.comment}`}
@@ -74,11 +80,18 @@ export default function Comment({ comment }: { comment: IComment }) {
           >
             {comment.content}
           </div>
-          <div className={`${styles["typo1-regular"]} ${styles.like}`}>
-            <LikeIcon />
+          <div
+            className={`${styles["typo1-regular"]} ${styles.like} ${
+              comment.isLiked && styles.isLiked
+            }`}
+          >
+            <LikeIcon onClick={onLikeComment} />
             <div>{comment.likeCount}</div>
           </div>
         </div>
+        {selectedId === id ? (
+          <CommentMoreModal user={comment.user} setSelectedId={setSelectedId} />
+        ) : null}
       </div>
     </li>
   );

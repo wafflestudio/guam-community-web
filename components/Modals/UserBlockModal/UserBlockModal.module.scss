@@ -1,0 +1,63 @@
+@use "../../../assets/colors/colors";
+@import "../../../assets/fonts/typography_regular";
+@import "../../../assets/fonts/typography_medium";
+
+.wrapper {
+  &.close {
+    opacity: 0;
+    pointer-events: none;
+  }
+
+  &.open {
+    opacity: 1;
+    pointer-events: initial;
+  }
+
+  .container {
+    height: 263px;
+    width: 552px;
+    border-radius: 8px;
+  }
+
+  h1 {
+    font-weight: 500;
+    position: absolute;
+    top: 24px;
+    left: 24px;
+    color: colors.$grayscale-gray2;
+  }
+
+  button.cancel {
+    position: absolute;
+    top: 26px;
+    right: 24px;
+    color: colors.$purple-core;
+  }
+
+  div.info {
+    width: 504px;
+    position: absolute;
+    top: 85px;
+    left: 24px;
+    color: colors.$grayscale-gray2;
+  }
+
+  button.block {
+    position: absolute;
+    top: 213px;
+    left: 247px;
+    color: colors.$red-core;
+  }
+
+  hr.title {
+    height: 0;
+    width: 504px;
+    position: absolute;
+    top: 61px;
+    left: 24px;
+    border: none;
+    border-top: 1px solid;
+    margin: 0;
+    color: colors.$grayscale-gray7;
+  }
+}

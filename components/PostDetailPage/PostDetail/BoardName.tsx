@@ -1,14 +1,21 @@
+import { useRouter } from "next/router";
+
+import { postsApi } from "../../../api/postsApi";
 import { boardList, categoryList } from "../../../constants/constants";
-import { useAppSelector } from "../../../store/hooks";
 
 import styles from "./BoardName.module.scss";
 
 export default function BoardName() {
-  const post = useAppSelector((state) => state.postDetail.post);
+  const router = useRouter();
+  const { postId } = router.query;
+
+  const post = postsApi.endpoints.getPostDetail.useQueryState(
+    typeof postId === "string" ? parseInt(postId) : 0
+  ).data;
 
   const boardName = boardList.find((board) => post?.boardId === board.id)?.name;
   const tagName = categoryList.find(
-    (category) => post?.categories[0].tagId === category.id
+    (category) => post?.category.categoryId === category.id
   )?.name;
 
   return (

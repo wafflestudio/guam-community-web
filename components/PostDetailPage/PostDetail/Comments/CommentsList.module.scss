@@ -1,8 +1,8 @@
-@import "../../../../assets/colors/colors";
+@use "../../../../assets/colors/colors";
 
 .container {
   width: 839px;
   margin-top: 12px;
   margin-left: 288px;
-  background: $grayscale-white;
+  background: colors.$grayscale-white;
 }

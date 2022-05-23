@@ -1,36 +1,46 @@
 import "../styles/globals.scss";
+import axios from "axios";
+import { getAuth } from "firebase/auth";
+import firebase from "firebase/compat/app";
 import type { AppProps } from "next/app";
-import React from "react";
-import { Hydrate, QueryClient, QueryClientProvider } from "react-query";
-import { Provider } from "react-redux";
+import React, { useEffect } from "react";
+import { useDispatch } from "react-redux";
 
 import Layout from "../components/layout";
-import { store } from "../store/store";
+import { firebaseConfig } from "../constants/constants";
+import { signIn, signOut } from "../store/authSlice";
+import { wrapper } from "../store/store";
+import { setUserState } from "../store/userSlice";
+import { getFirebaseIdToken } from "../utils/firebaseUtils";
 
-function MyApp({ Component, pageProps }: AppProps) {
-  const [queryClient] = React.useState(
-    () =>
-      new QueryClient({
-        defaultOptions: {
-          queries: {
-            retry: false,
-            refetchOnWindowFocus: false,
+function App({ Component, pageProps }: AppProps) {
+  const dispatch = useDispatch();
+
+  firebase.initializeApp(firebaseConfig);
+
+  useEffect(() => {
+    getAuth().onAuthStateChanged(async (user) => {
+      if (user) {
+        const token = await getFirebaseIdToken();
+        const { data: userData } = await axios.get("/api/users/me", {
+          headers: {
+            Authorization: `Bearer ${token}`,
           },
-        },
-      })
-  );
+        });
+
+        dispatch(setUserState(userData));
+        dispatch(signIn());
+      } else {
+        dispatch(signOut());
+      }
+    });
+  }, []);
 
   return (
-    <Provider store={store}>
-      <QueryClientProvider client={queryClient}>
-        <Hydrate state={pageProps.dehydratedState}>
-          <Layout>
-            <Component {...pageProps} />
-          </Layout>
-        </Hydrate>
-      </QueryClientProvider>
-    </Provider>
+    <Layout>
+      <Component {...pageProps} />
+    </Layout>
   );
 }
 
-export default MyApp;
+export default wrapper.withRedux(App);

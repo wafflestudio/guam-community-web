@@ -1,58 +1,44 @@
-import type { GetStaticProps, NextPage } from "next";
+import { useRouter } from "next/router";
+import { useEffect, useMemo, useState } from "react";
 
-import { dehydrate, QueryClient, useQuery } from "react-query";
-
-import { api } from "../api/api";
+import { useGetAllPostsQuery } from "../api/postsApi";
 import PageTitle from "../components/PageTitle";
 import PostsPage from "../components/PostsPage/PostsPage";
-import SignInForm from "../components/SignInForm";
-import { ERROR, LOADING } from "../constants/constants";
-import { useAppDispatch, useAppSelector } from "../store/hooks";
-import { setPosts } from "../store/postsListSlice";
-import { IPostsData } from "../types/types";
+import { useAppSelector } from "../store/hooks";
 
-const fetchPosts = (): Promise<IPostsData> => api.get(`/posts`);
+const Home = () => {
+  const [currentPage, setCurrentPage] = useState<number | undefined>(undefined);
 
-export const getStaticProps: GetStaticProps = async () => {
-  const queryClient = new QueryClient();
+  const { isLoggedIn } = useAppSelector((state) => state.auth);
 
-  await queryClient.prefetchQuery("posts", fetchPosts, { retry: false });
+  const router = useRouter();
 
-  return {
-    props: {
-      dehydratedState: dehydrate(queryClient),
-    },
-  };
-};
+  const page = useMemo(() => router.isReady && router.query.page, [router]);
 
-const Home: NextPage = () => {
-  const token = useAppSelector((state) => state.auth.token);
+  useEffect(() => {
+    if (!router.isReady) return;
 
-  const dispatch = useAppDispatch();
-
-  const { data, status, error } = useQuery(
-    ["posts"],
-    async () =>
-      await api.get(`/posts`, {
-        headers: { Authorization: `Bearer ${token}` },
-      }),
-    {
-      retry: false,
-      enabled: !!token,
+    if (page === undefined) {
+      setCurrentPage(0);
+      return;
     }
-  );
 
-  dispatch(setPosts(data?.data.content));
+    if (typeof page === "string" && parseInt(page) >= 1) {
+      setCurrentPage(parseInt(page) - 1);
+    } else {
+      router.push("/404");
+    }
+  }, [router.isReady, router.query.page]);
+
+  const { isLoading, error } = useGetAllPostsQuery(currentPage, {
+    refetchOnMountOrArgChange: true,
+    skip: currentPage === undefined || isLoggedIn === undefined,
+  });
 
   return (
     <>
-      <PageTitle title="Guam" />
-      <SignInForm />
-      {status === LOADING ? (
-        <span>Loading</span>
-      ) : status === ERROR && error instanceof Error ? (
-        <span>Error: {error.message}</span>
-      ) : null}
+      <PageTitle title="Home" />
+      {error ? <>error</> : isLoading ? <img src={"/loading.gif"} /> : null}
       <PostsPage />
     </>
   );

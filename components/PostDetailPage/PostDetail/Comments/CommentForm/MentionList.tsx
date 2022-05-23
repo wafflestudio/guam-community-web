@@ -1,25 +1,29 @@
-import { Dispatch, RefObject } from "react";
+import { RefObject, useRef } from "react";
 
-import { IUser } from "../../../../types/types";
-import { mentionRegex } from "../../../../utils/mentionRegex";
+import {
+  setCommentInput,
+  setMentionListOpen,
+} from "../../../../../store/commentFormSlice";
+import { useAppDispatch, useAppSelector } from "../../../../../store/hooks";
+import { IUser } from "../../../../../types/types";
+import { mentionRegex } from "../../../../../utils/mentionRegex";
 
 import styles from "./CommentForm.module.scss";
 
 export default function MentionList({
-  mentionList,
-  commentInput,
-  setCommentInput,
-  setMentionListOpen,
   textareaRef,
   mockTextareaRef,
+  mentionList,
 }: {
-  mentionList: IUser[];
-  commentInput: string;
-  setCommentInput: Dispatch<React.SetStateAction<string>>;
-  setMentionListOpen: Dispatch<React.SetStateAction<boolean>>;
   textareaRef: RefObject<HTMLTextAreaElement>;
   mockTextareaRef: RefObject<HTMLDivElement>;
+  mentionList: IUser[];
 }) {
+  const { commentInput } = useAppSelector((state) => state.commentForm);
+  const dispatch = useAppDispatch();
+
+  const mentionListRef = useRef<HTMLDivElement>(null);
+
   const onSelectId = (id: number) => {
     const selectedUser = mentionList?.find((user) => user.id === id)?.nickname;
 
@@ -30,7 +34,7 @@ export default function MentionList({
       `${selectedUser} ` +
       commentInput.slice(position);
 
-    selectedUser && setCommentInput(content);
+    selectedUser && dispatch(setCommentInput(content));
 
     const regex = mentionRegex(mentionList?.map((user) => user.nickname) || []);
 
@@ -43,7 +47,7 @@ export default function MentionList({
       );
     }
 
-    setMentionListOpen(false);
+    dispatch(setMentionListOpen(false));
 
     textareaRef.current?.focus();
   };
@@ -70,7 +74,11 @@ export default function MentionList({
   ));
 
   return (
-    <div className={`${styles.mentionContainer} ${styles.null}`}>
+    <div
+      ref={mentionListRef}
+      className={`${styles.mentionContainer} ${styles.null}`}
+      style={{ top: `-${mentionListRef.current?.clientHeight}px` }}
+    >
       <ul>{list}</ul>
     </div>
   );

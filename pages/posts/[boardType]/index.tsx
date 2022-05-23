@@ -1,88 +1,68 @@
-import { GetServerSideProps } from "next";
-
 import { useRouter } from "next/router";
-import { dehydrate, QueryClient, useQuery } from "react-query";
+import { useEffect, useMemo, useState } from "react";
 
-import { api } from "../../../api/api";
+import { useGetPostsByBoardQuery } from "../../../api/postsApi";
 import PageTitle from "../../../components/PageTitle";
 import PostsPage from "../../../components/PostsPage/PostsPage";
-import SignInForm from "../../../components/SignInForm";
-import { boardList, ERROR, LOADING } from "../../../constants/constants";
-import { useAppDispatch, useAppSelector } from "../../../store/hooks";
-import { setPosts } from "../../../store/postsListSlice";
-import { IPostsData } from "../../../types/types";
+import { boardList } from "../../../constants/constants";
+import { useAppSelector } from "../../../store/hooks";
 
-// const fetchPosts = (boardId: number): Promise<IPostsData> =>
-//   api.get(`/posts`, {
-//     params: {
-//       boardId,
-//     },
-//   });
+export default function Home() {
+  const [boardId, setBoardId] = useState<number | undefined>(undefined);
+  const [currentPage, setCurrentPage] = useState<number | undefined>(undefined);
 
-// export async function getStaticPaths() {
-//   const paths = boardList.map((board) => ({
-//     params: { boardType: board.route },
-//   }));
-//   return {
-//     paths,
-//     fallback: false,
-//   };
-// }
-
-// export const getServerSideProps: GetServerSideProps = async ({ params }) => {
-//   const queryClient = new QueryClient();
-
-//   const boardId = boardList.find(
-//     (board) => board.route === params?.boardType
-//   )?.id;
-
-//   const posts = await fetchPosts(boardId || 0);
-
-//   return {
-//     props: {
-//       posts,
-//     },
-//   };
-// };
-
-export default function PostsBoard() {
-  const token = useAppSelector((state) => state.auth.token);
-
-  const dispatch = useAppDispatch();
+  const { isLoggedIn } = useAppSelector((state) => state.auth);
 
   const router = useRouter();
-  const { boardType } = router.query;
 
-  const boardId = boardList.find((board) => board.route === boardType)?.id;
-
-  const { data, status, error } = useQuery(
-    ["posts", boardType],
-    async () =>
-      await api.get(`/posts`, {
-        headers: { Authorization: `Bearer ${token}` },
-        params: {
-          boardId,
-        },
-      }),
-    {
-      retry: false,
-      enabled: !!token,
-    }
+  const page = useMemo(() => router.isReady && router.query.page, [router]);
+  const boardType = useMemo(
+    () => router.isReady && router.query.boardType,
+    [router]
   );
 
-  dispatch(setPosts(data?.data.content));
+  useEffect(() => {
+    if (!router.isReady) return;
+
+    if (page === undefined) {
+      setCurrentPage(0);
+      return;
+    }
+
+    if (typeof page === "string" && parseInt(page) >= 1) {
+      setCurrentPage(parseInt(page) - 1);
+    } else {
+      router.push("/404");
+    }
+  }, [page, router.isReady]);
+
+  useEffect(() => {
+    if (!router.isReady) return;
+
+    if (boardType === undefined) return;
+
+    const id = boardList.find((board) => boardType === board.route)?.id;
+    if (typeof id === "number") setBoardId(id);
+    else router.push("404");
+  }, [boardType, router.isReady]);
+
+  const { isLoading, error } = useGetPostsByBoardQuery(
+    { id: boardId, page: currentPage },
+    {
+      refetchOnMountOrArgChange: true,
+      skip:
+        currentPage === undefined ||
+        boardId === undefined ||
+        isLoggedIn === undefined,
+    }
+  );
 
   return (
     <>
       <PageTitle
         title={`${typeof boardType === "string" && boardType.toUpperCase()}`}
       />
-      <SignInForm />
-      {status === LOADING ? (
-        <span>Loading</span>
-      ) : status === ERROR && error instanceof Error ? (
-        <span>Error: {error.message}</span>
-      ) : null}
+      {error ? <>error</> : isLoading ? <>Loading...</> : null}
       <PostsPage />
     </>
   );
