@@ -18,6 +18,7 @@ type ModalStateType = {
   deleteConfirmModalOpen: boolean;
   userReportModal: userModalType;
   userBlockModal: userModalType;
+  imageExtendedModalOpen: boolean;
 };
 
 type ModalReducerType = {
@@ -41,6 +42,10 @@ type ModalReducerType = {
     state: ModalStateType,
     action: PayloadAction<userModalType>
   ) => ModalStateType;
+  setImageExtendedModalOpen: (
+    state: ModalStateType,
+    action: PayloadAction<boolean>
+  ) => ModalStateType;
 };
 
 const initialState = {
@@ -58,6 +63,7 @@ const initialState = {
     open: false,
     user: null,
   },
+  imageExtendedModalOpen: false,
 };
 
 const modalSlice = createSlice<ModalStateType, ModalReducerType>({
@@ -94,6 +100,12 @@ const modalSlice = createSlice<ModalStateType, ModalReducerType>({
         userBlockModal: action.payload,
       };
     },
+    setImageExtendedModalOpen: (state, action) => {
+      return {
+        ...state,
+        imageExtendedModalOpen: action.payload,
+      };
+    },
   },
 });
 
@@ -103,6 +115,7 @@ export const {
   setDeleteConfirmModalOpen,
   setUserReportModal,
   setUserBlockModal,
+  setImageExtendedModalOpen,
 } = modalSlice.actions;
 
 export default modalSlice.reducer;

@@ -3,6 +3,8 @@ import { Dispatch, SetStateAction, useEffect, useRef } from "react";
 import { useLikeCommentMutation } from "../../../../api/postsApi";
 import LikeIcon from "../../../../assets/icons/like/outlined.svg";
 import MoreIcon from "../../../../assets/icons/more.svg";
+import { useAppDispatch } from "../../../../store/hooks";
+import { setImageExtendedModalOpen } from "../../../../store/modalSlice";
 import { IComment } from "../../../../types/types";
 
 import CommentMoreModal from "./CommentMoreModal";
@@ -20,6 +22,8 @@ export default function Comment({
 }) {
   const containerRef = useRef<HTMLLIElement>(null);
   const commentRef = useRef<HTMLDivElement>(null);
+
+  const dispatch = useAppDispatch();
 
   const [likeComment] = useLikeCommentMutation();
 
@@ -40,8 +44,9 @@ export default function Comment({
 
     if (containerRef.current?.style && commentRef.current) {
       containerRef.current.style.height = "85px";
-      containerRef.current.style.height =
-        commentRef.current.scrollHeight + 64 + "px";
+      containerRef.current.style.height = comment.imagePaths.length
+        ? 174 + commentRef.current.scrollHeight + 64 + "px"
+        : 0 + commentRef.current.scrollHeight + 64 + "px";
     }
   }, [commentRef.current?.textContent]);
 
@@ -51,6 +56,8 @@ export default function Comment({
       commentId: comment.id,
       liked: comment.isLiked,
     });
+
+  const onClickImage = () => dispatch(setImageExtendedModalOpen(true));
 
   return (
     <li key={comment.id} className={styles.container} ref={containerRef}>
@@ -67,6 +74,19 @@ export default function Comment({
             }
           />
         </div>
+        {comment.imagePaths.length ? (
+          <ul className={styles.imageList}>
+            {comment.imagePaths.map((path) => {
+              return (
+                <li key={path}>
+                  <div className={styles.imageContainer}>
+                    <img src={process.env.BUCKET_URL + path} />
+                  </div>
+                </li>
+              );
+            })}
+          </ul>
+        ) : null}
         <div className={`${styles["typo2-regular"]} ${styles.userNickname}`}>
           {comment.user.nickname}
         </div>
