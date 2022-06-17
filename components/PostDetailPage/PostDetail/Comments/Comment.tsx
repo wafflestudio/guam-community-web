@@ -3,8 +3,8 @@ import { Dispatch, SetStateAction, useEffect, useRef } from "react";
 import { useLikeCommentMutation } from "../../../../api/postsApi";
 import LikeIcon from "../../../../assets/icons/like/outlined.svg";
 import MoreIcon from "../../../../assets/icons/more.svg";
-import { useAppDispatch } from "../../../../store/hooks";
-import { setImageExtendedModalOpen } from "../../../../store/modalSlice";
+import { useAppDispatch, useAppSelector } from "../../../../store/hooks";
+import { setImageExtendedModal } from "../../../../store/modalSlice";
 import { IComment } from "../../../../types/types";
 
 import CommentMoreModal from "./CommentMoreModal";
@@ -57,7 +57,8 @@ export default function Comment({
       liked: comment.isLiked,
     });
 
-  const onClickImage = () => dispatch(setImageExtendedModalOpen(true));
+  const onClickImage = () =>
+    dispatch(setImageExtendedModal({ open: true, paths: comment.imagePaths }));
 
   return (
     <li key={comment.id} className={styles.container} ref={containerRef}>
@@ -80,7 +81,15 @@ export default function Comment({
               return (
                 <li key={path}>
                   <div className={styles.imageContainer}>
-                    <img src={process.env.BUCKET_URL + path} />
+                    <img
+                      src={
+                        process.env.BUCKET_URL +
+                        path +
+                        "?" +
+                        comment.id.toString()
+                      }
+                      onClick={onClickImage}
+                    />
                   </div>
                 </li>
               );

@@ -1,0 +1,44 @@
+@use "../../../assets/colors/colors";
+@import "../../../assets/fonts/typography_regular";
+@import "../../../assets/fonts/typography_medium";
+
+.wrapper {
+  &.close {
+    opacity: 0;
+    pointer-events: none;
+  }
+
+  &.open {
+    opacity: 1;
+    pointer-events: initial;
+  }
+
+  .container {
+    height: 80vh;
+    width: 80vh;
+    position: relative;
+    background: transparent;
+
+    img {
+      height: 100%;
+      width: auto;
+      position: relative;
+    }
+
+    button {
+      width: 24px;
+      height: 24px;
+      position: absolute;
+
+      &.prev {
+        left: 13px;
+        top: 50%;
+      }
+
+      &.next {
+        right: 14px;
+        top: 50%;
+      }
+    }
+  }
+}
