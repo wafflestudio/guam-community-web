@@ -28,6 +28,7 @@ export interface IPostsListPost {
   status: string;
   createdAt: string;
   updatedAt: string;
+  isMine: boolean;
   isLiked: boolean;
   isScrapped: boolean;
   boardType: string;

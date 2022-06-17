@@ -1,6 +1,6 @@
 import React, { RefObject, useCallback } from "react";
 
-import { usePostCommentMutation } from "../../../../../api/postDetailApi";
+import { usePostCommentMutation } from "../../../../../api/postsApi";
 import CameraIcon from "../../../../../assets/icons/camera.svg";
 import {
   setCommentInput,
@@ -87,7 +87,7 @@ const CommentFormButtons = ({
       </button>
       <button
         className={`${styles["typo5-medium"]} ${styles.submit} ${
-          commentInput === "" && styles.disabled
+          commentInput.trim() === "" && styles.disabled
         }`}
         onClick={onSubmitComment}
       >

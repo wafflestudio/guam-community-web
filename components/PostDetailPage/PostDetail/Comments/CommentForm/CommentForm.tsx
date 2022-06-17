@@ -1,7 +1,7 @@
 import { useRouter } from "next/router";
 import React, { useEffect, useMemo, useRef } from "react";
 
-import { postDetailApi } from "../../../../../api/postDetailApi";
+import { postsApi } from "../../../../../api/postsApi";
 import { useAppSelector } from "../../../../../store/hooks";
 import { mentionRegex } from "../../../../../utils/mentionRegex";
 
@@ -26,7 +26,7 @@ export default function CommentForm() {
   const router = useRouter();
   const { postId } = router.query;
 
-  const post = postDetailApi.endpoints.getPostDetail.useQueryState(
+  const post = postsApi.endpoints.getPostDetail.useQueryState(
     typeof postId === "string" ? postId : "0"
   ).data;
 
@@ -55,7 +55,7 @@ export default function CommentForm() {
   );
 
   const regex = useMemo(
-    () => mentionRegex(mentionList?.map((user) => user.nickname) || []),
+    () => mentionRegex(mentionList?.map((user) => user.nickname || "") || []),
     [mentionList]
   );
 

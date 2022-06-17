@@ -1,6 +1,6 @@
 import { useRouter } from "next/router";
 
-import { postDetailApi } from "../../../api/postDetailApi";
+import { postsApi } from "../../../api/postsApi";
 import { boardList, categoryList } from "../../../constants/constants";
 
 import styles from "./BoardName.module.scss";
@@ -9,7 +9,7 @@ export default function BoardName() {
   const router = useRouter();
   const { postId } = router.query;
 
-  const post = postDetailApi.endpoints.getPostDetail.useQueryState(
+  const post = postsApi.endpoints.getPostDetail.useQueryState(
     typeof postId === "string" ? postId : "0"
   ).data;
 

@@ -1,7 +1,7 @@
 import { useRouter } from "next/router";
 import { useEffect, useMemo, useState } from "react";
 
-import { useGetPostsByBoardQuery } from "../../../api/postsListApi";
+import { useGetPostsByBoardQuery } from "../../../api/postsApi";
 import PageTitle from "../../../components/PageTitle";
 import PostsPage from "../../../components/PostsPage/PostsPage";
 import SignInForm from "../../../components/SignInForm";

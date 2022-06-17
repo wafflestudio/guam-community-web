@@ -1,8 +1,7 @@
 import { configureStore } from "@reduxjs/toolkit";
 import { createWrapper } from "next-redux-wrapper";
 
-import { postDetailApi } from "../api/postDetailApi";
-import { postsListApi } from "../api/postsListApi";
+import { postsApi } from "../api/postsApi";
 
 import authReducer from "./authSlice";
 import commentFormReducer from "./commentFormSlice";
@@ -16,14 +15,10 @@ export const store = () =>
       user: userReducer,
       modals: modalReducer,
       commentForm: commentFormReducer,
-      [postsListApi.reducerPath]: postsListApi.reducer,
-      [postDetailApi.reducerPath]: postDetailApi.reducer,
+      [postsApi.reducerPath]: postsApi.reducer,
     },
     middleware: (getDefaultMiddleware) =>
-      getDefaultMiddleware().concat(
-        postsListApi.middleware,
-        postDetailApi.middleware
-      ),
+      getDefaultMiddleware().concat(postsApi.middleware),
   });
 
 export type AppStore = ReturnType<typeof store>;

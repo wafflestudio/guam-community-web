@@ -1,6 +1,6 @@
 import { useRouter } from "next/router";
 
-import { useGetPostDetailQuery } from "../../../api/postDetailApi";
+import { useGetPostDetailQuery } from "../../../api/postsApi";
 import PageTitle from "../../../components/PageTitle";
 import PostDetailPage from "../../../components/PostDetailPage/PostDetailPage";
 import { useAppSelector } from "../../../store/hooks";

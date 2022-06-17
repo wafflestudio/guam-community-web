@@ -2,7 +2,7 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import { useEffect, useMemo, useState } from "react";
 
-import { useGetAllPostsQuery } from "../api/postsListApi";
+import { useGetAllPostsQuery } from "../api/postsApi";
 import PageTitle from "../components/PageTitle";
 import PostsPage from "../components/PostsPage/PostsPage";
 import SignInForm from "../components/SignInForm";
@@ -46,7 +46,7 @@ const Home = () => {
           <a>카카오로그인</a>
         </Link>
       )}
-      <Link href={"/set_profile"}>
+      <Link href={"/profile/me"}>
         <a>프로필 관리</a>
       </Link>
       {error ? <>error</> : isLoading ? <>Loading...</> : null}

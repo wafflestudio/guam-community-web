@@ -168,7 +168,7 @@ export default function SetProfilePage() {
           <img src={imageUrl} />
         )
       ) : (
-        <img src={"default_profile_image.png"} />
+        <img src={"/default_profile_image.png"} />
       )}
     </form>
   );
