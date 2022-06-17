@@ -1,25 +1,27 @@
 import { useRouter } from "next/router";
-import { useEffect, useMemo, useRef, useState } from "react";
+import React, { useEffect, useMemo, useRef } from "react";
 
-import {
-  postDetailApi,
-  usePostCommentMutation,
-} from "../../../../api/postDetailApi";
-import CameraIcon from "../../../../assets/icons/camera.svg";
-import { mentionRegex } from "../../../../utils/mentionRegex";
+import { postDetailApi } from "../../../../../api/postDetailApi";
+import { useAppSelector } from "../../../../../store/hooks";
+import { mentionRegex } from "../../../../../utils/mentionRegex";
 
 import CommentArea from "./CommentArea";
+import CommentFormButtons from "./CommentFormButtons";
+import HandleImages from "./HandleImages";
 import MentionList from "./MentionList";
 
 import styles from "./CommentForm.module.scss";
 
 export default function CommentForm() {
-  const [commentInput, setCommentInput] = useState("");
-  const [mentionListOpen, setMentionListOpen] = useState(false);
-
-  const containerRef = useRef<HTMLFormElement>(null);
   const textareaRef = useRef<HTMLTextAreaElement>(null);
   const mockTextareaRef = useRef<HTMLDivElement>(null);
+  const photoInputRef = useRef<HTMLInputElement>(null);
+
+  const { commentInput, mentionListOpen } = useAppSelector(
+    (state) => state.commentForm
+  );
+
+  const containerRef = useRef<HTMLFormElement>(null);
 
   const router = useRouter();
   const { postId } = router.query;
@@ -27,8 +29,6 @@ export default function CommentForm() {
   const post = postDetailApi.endpoints.getPostDetail.useQueryState(
     typeof postId === "string" ? postId : "0"
   ).data;
-
-  const [postComment] = usePostCommentMutation();
 
   const comments = post?.comments;
 
@@ -88,71 +88,26 @@ export default function CommentForm() {
           textareaRef.current.scrollHeight + 70 + "px";
       }
     }
-  }, [commentInput, regex, mentionList]);
-
-  const onSubmitComment: React.FormEventHandler = async (e) => {
-    e.preventDefault();
-
-    if (commentInput.length === 0) return;
-
-    const mentionIds =
-      commentInput
-        .match(/@\S+/g)
-        ?.map((mention) => mention.substring(1))
-        .map(
-          (name) => mentionList?.find((user) => user.nickname === name)?.id
-        ) || null;
-
-    const data = new FormData();
-    const object = {
-      content: commentInput,
-      ...(mentionIds && { mentionIds }),
-    };
-
-    Object.keys(object).forEach((key) =>
-      data.append(key, object[key as keyof object])
-    );
-
-    const id = typeof postId === "string" ? postId : "0";
-
-    postComment({ data, id });
-
-    setCommentInput("");
-    mockTextareaRef.current!.innerHTML = "";
-  };
+  }, [commentInput, regex, mentionList, mockTextareaRef, textareaRef]);
 
   return (
-    <form
-      onSubmit={onSubmitComment}
-      className={styles.container}
-      ref={containerRef}
-    >
+    <form className={styles.container} ref={containerRef}>
       <CommentArea
-        commentInput={commentInput}
-        setCommentInput={setCommentInput}
-        setMentionListOpen={setMentionListOpen}
         textareaRef={textareaRef}
         mockTextareaRef={mockTextareaRef}
       />
-      <button className={styles.addPhoto}>
-        <CameraIcon />
-      </button>
-      <button
-        type="submit"
-        className={`${styles["typo5-medium"]} ${styles.submit} ${
-          commentInput === "" && styles.disabled
-        }`}
-      >
-        전송
-      </button>
+      <HandleImages textareaRef={textareaRef} photoInputRef={photoInputRef} />
+      <CommentFormButtons
+        photoInputRef={photoInputRef}
+        mockTextareaRef={mockTextareaRef}
+        mentionList={mentionList || []}
+        postId={typeof postId === "string" ? postId : "0"}
+      />
       {mentionListOpen && mentionList ? (
         <MentionList
-          mentionList={mentionList}
-          commentInput={commentInput}
-          setCommentInput={setCommentInput}
-          setMentionListOpen={setMentionListOpen}
           textareaRef={textareaRef}
           mockTextareaRef={mockTextareaRef}
+          mentionList={mentionList}
         />
       ) : null}
     </form>

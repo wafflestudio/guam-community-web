@@ -7,12 +7,13 @@ import React, {
   useState,
 } from "react";
 
-import { postsListApi, usePostPostMutation } from "../../api/postsListApi";
+import { usePostPostMutation } from "../../api/postsListApi";
 import CancelIcon from "../../assets/icons/cancel/outlined.svg";
 import PlusIcon from "../../assets/icons/plus.svg";
 import { categoryList } from "../../constants/constants";
 import { useAppDispatch } from "../../store/hooks";
 import { setPostModalOpen } from "../../store/modalSlice";
+import { IImageUrl } from "../../types/types";
 
 import styles from "./PostFormModal.module.scss";
 
@@ -21,8 +22,8 @@ const SubmitForm = () => {
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
   const [categoryId, setCategoryId] = useState(0);
-  const [images, setImages] = useState<Blob[]>([]);
-  const [imageUrls, setImageUrls] = useState<string[]>([]);
+  const [images, setImages] = useState<File[]>([]);
+  const [imageUrls, setImageUrls] = useState<IImageUrl[]>([]);
 
   const photoInput = useRef<HTMLInputElement>(null);
 
@@ -71,9 +72,10 @@ const SubmitForm = () => {
           if (imagesList.length > 5) alert("사진은 5장까지 첨부 가능합니다");
           setImages(imagesList.slice(0, 5));
 
-          const newUrls = filteredImages.map((file) =>
-            URL.createObjectURL(file)
-          );
+          const newUrls = filteredImages.map((file) => ({
+            id: file.lastModified,
+            url: URL.createObjectURL(file),
+          }));
           setImageUrls((imageUrls) => [...imageUrls, ...newUrls].slice(0, 5));
         }
       },
@@ -207,8 +209,8 @@ const SubmitForm = () => {
         />
         {imageUrls.length !== 0
           ? imageUrls.map((imageUrl) => (
-              <div className={styles.imageList} key={imageUrl}>
-                <img key={imageUrl} src={imageUrl} />
+              <div className={styles.imageList} key={imageUrl.id}>
+                <img key={imageUrl.id} src={imageUrl.url} />
               </div>
             ))
           : null}

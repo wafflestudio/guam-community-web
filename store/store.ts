@@ -5,6 +5,7 @@ import { postDetailApi } from "../api/postDetailApi";
 import { postsListApi } from "../api/postsListApi";
 
 import authReducer from "./authSlice";
+import commentFormReducer from "./commentFormSlice";
 import modalReducer from "./modalSlice";
 
 export const store = () =>
@@ -12,6 +13,7 @@ export const store = () =>
     reducer: {
       auth: authReducer,
       modals: modalReducer,
+      commentForm: commentFormReducer,
       [postsListApi.reducerPath]: postsListApi.reducer,
       [postDetailApi.reducerPath]: postDetailApi.reducer,
     },

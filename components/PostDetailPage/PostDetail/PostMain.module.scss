@@ -7,23 +7,18 @@
   background: $grayscale-white;
   margin-top: 24px;
   margin-left: 288px;
-  padding: 24px 24px 21px;
+  padding: 24px 24px 12px;
   position: relative;
 
   .title {
+    margin: 0;
     font-weight: 500;
     min-height: 39px;
     color: $grayscale-gray1;
   }
 
-  .createdAt {
-    height: 16px;
-    margin-top: 8px;
-    color: $grayscale-gray4;
-  }
-
   hr {
-    width: 504px;
+    width: 792px;
     height: 0;
     border: none;
     border-top: 1px solid;
@@ -32,21 +27,9 @@
     color: $grayscale-gray7;
   }
 
-  .content {
-    width: 840px;
-    margin-top: 8px;
-
-    .description {
-      width: 100%;
-      color: $grayscale-gray3;
-      margin: 12px 0;
-    }
-  }
-
   .userInfo {
-    position: absolute;
-    top: 27px;
-    right: 73px;
+    margin-top: 12px;
+    height: 36px;
 
     .profileImage {
       width: 36px;
@@ -69,5 +52,22 @@
       vertical-align: top;
       color: $grayscale-gray2;
     }
+  }
+
+  .content {
+    width: 840px;
+    margin-top: 12px;
+    padding: 12px 0;
+
+    .description {
+      width: 100%;
+      color: $grayscale-gray3;
+    }
+  }
+
+  .createdAt {
+    height: 16px;
+    margin-top: 30px;
+    color: $grayscale-gray4;
   }
 }
