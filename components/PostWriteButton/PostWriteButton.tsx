@@ -1,6 +1,6 @@
-import { useRouter } from "next/router";
-
 import WriteIcon from "../../assets/icons/write/button.svg";
+import { useAppDispatch } from "../../store/hooks";
+import { setPostModalOpen } from "../../store/modalSlice";
 
 import styles from "./PostWriteButton.module.scss";
 
@@ -9,11 +9,12 @@ export default function PostWriteButton({
 }: {
   postDetailPage: boolean;
 }) {
-  const router = useRouter();
+  const dispatch = useAppDispatch();
 
   const onWriteClick = () => {
-    router.push("/posts/write");
+    dispatch(setPostModalOpen(true));
   };
+
   return (
     <button
       className={`${styles.writeButton} ${postDetailPage && styles.detailPage}`}

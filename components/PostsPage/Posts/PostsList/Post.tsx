@@ -25,7 +25,7 @@ export default function Post({ post }: { post: IPostsListPost }) {
   return (
     <li key={post.id} className={styles.container} onClick={onClickPost}>
       <div className={`${styles["typo2-medium"]} ${styles.categories}`}>
-        #{post.categories[0].title}
+        #{post.category ? post.category.title : null}
       </div>
       <span className={`${styles["typo1-regular"]} ${styles.fromNow}`}>
         {dayjs(createdTime).locale(ko).fromNow()}

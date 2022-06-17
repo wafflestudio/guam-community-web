@@ -1,5 +1,4 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
-import { HYDRATE } from "next-redux-wrapper";
 
 import { RootState } from "../store/store";
 import { IDetailedPost } from "../types/types";
@@ -16,11 +15,6 @@ export const postDetailApi = createApi({
       return headers;
     },
   }),
-  extractRehydrationInfo(action, { reducerPath }) {
-    if (action.type === HYDRATE) {
-      return action.payload[reducerPath];
-    }
-  },
   tagTypes: ["Post Detail"],
   endpoints: (build) => ({
     getPostDetail: build.query<IDetailedPost, string>({

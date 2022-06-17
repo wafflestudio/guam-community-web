@@ -44,6 +44,8 @@ input {
   &:focus {
     outline: none;
   }
+
+  resize: none;
 }
 
 .mentions {

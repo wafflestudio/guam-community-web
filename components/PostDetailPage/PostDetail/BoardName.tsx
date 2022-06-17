@@ -15,7 +15,7 @@ export default function BoardName() {
 
   const boardName = boardList.find((board) => post?.boardId === board.id)?.name;
   const tagName = categoryList.find(
-    (category) => post?.categories[0].tagId === category.id
+    (category) => post?.category.categoryId === category.id
   )?.name;
 
   return (

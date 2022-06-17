@@ -16,14 +16,12 @@ export interface IPostsListPost {
   user: IUser;
   title: string;
   content: string;
-  imagePaths: [string];
-  categories: [
-    {
-      postId: number;
-      tagId: number;
-      title: string;
-    }
-  ];
+  imagePaths: string[];
+  category: {
+    postId: number;
+    categoryId: number;
+    title: string;
+  };
   likeCount: number;
   commentCount: number;
   scrapCount: number;
@@ -65,28 +63,6 @@ export interface ICommentData {
   content: IComment[];
 }
 
-export interface IDetailedPost {
-  id: number;
-  boardId: 0 | 1 | 2 | 3 | 4 | 5;
-  user: IUser;
-  title: string;
-  content: string;
-  imagePaths: string[];
-  categories: [
-    {
-      postId: number;
-      tagId: number;
-      title: string;
-    }
-  ];
-  likeCount: number;
-  commentCount: number;
-  scrapCount: number;
-  status: string;
-  createdAt: string;
-  updatedAt: string;
-  isLiked: boolean;
-  isScrapped: boolean;
-  boardType: string;
+export interface IDetailedPost extends IPostsListPost {
   comments: IComment[];
 }
