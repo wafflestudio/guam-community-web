@@ -13,8 +13,8 @@ export const postsListApi = createApi({
   baseQuery: fetchBaseQuery({
     baseUrl: "/api/",
     prepareHeaders: (headers, { getState }) => {
-      const { token, isLoggedIn } = (getState() as RootState).auth;
-      if (isLoggedIn) {
+      const { token } = (getState() as RootState).auth;
+      if (typeof token === "string") {
         headers.set("Authorization", `Bearer ${token}`);
       }
       return headers;

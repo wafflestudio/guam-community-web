@@ -28,7 +28,10 @@ export default function PostMain() {
           <img
             src={
               post?.user.profileImage
-                ? process.env.BUCKET_URL + post?.user.profileImage
+                ? process.env.BUCKET_URL +
+                  post?.user.profileImage +
+                  "?" +
+                  Date.now()
                 : "/default profile image.png"
             }
           />

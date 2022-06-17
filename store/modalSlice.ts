@@ -1,21 +1,21 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
-type IModalState = {
+type ModalStateType = {
   postModalOpen: boolean;
 };
 
-type IModalReducer = {
+type ModalReducerType = {
   setPostModalOpen: (
-    state: IModalState,
+    state: ModalStateType,
     action: PayloadAction<boolean>
-  ) => IModalState;
+  ) => ModalStateType;
 };
 
 const initialState = {
   postModalOpen: false,
 };
 
-const modalSlice = createSlice<IModalState, IModalReducer>({
+const modalSlice = createSlice<ModalStateType, ModalReducerType>({
   name: "modals",
   initialState,
   reducers: {

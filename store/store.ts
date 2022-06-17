@@ -7,11 +7,13 @@ import { postsListApi } from "../api/postsListApi";
 import authReducer from "./authSlice";
 import commentFormReducer from "./commentFormSlice";
 import modalReducer from "./modalSlice";
+import userReducer from "./userSlice";
 
 export const store = () =>
   configureStore({
     reducer: {
       auth: authReducer,
+      user: userReducer,
       modals: modalReducer,
       commentForm: commentFormReducer,
       [postsListApi.reducerPath]: postsListApi.reducer,

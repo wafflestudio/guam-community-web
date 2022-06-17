@@ -1,13 +1,17 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import axios from "axios";
 
-type IAuthState = {
+type AuthStateType = {
   token: string | null | number;
   isLoggedIn: boolean;
 };
 
-type IAuthReducer = {
-  setToken: (state: IAuthState, action: PayloadAction<string>) => IAuthState;
-  removeToken: () => IAuthState;
+type AuthReducerType = {
+  setToken: (
+    state: AuthStateType,
+    action: PayloadAction<string>
+  ) => AuthStateType;
+  removeToken: (state: AuthStateType) => AuthStateType;
 };
 
 const initialState = {
@@ -15,19 +19,23 @@ const initialState = {
   isLoggedIn: false,
 };
 
-const authSlice = createSlice<IAuthState, IAuthReducer>({
-  name: "user",
+const authSlice = createSlice<AuthStateType, AuthReducerType>({
+  name: "auth",
   initialState,
   reducers: {
-    setToken: (_, action) => {
+    setToken: (state, action) => {
       const token = action.payload;
+      axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
       return {
+        ...state,
         token,
         isLoggedIn: true,
       };
     },
-    removeToken: () => {
+    removeToken: (state) => {
+      delete axios.defaults.headers.common["Authorization"];
       return {
+        ...state,
         token: null,
         isLoggedIn: false,
       };

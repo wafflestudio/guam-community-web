@@ -20,9 +20,6 @@ export default function SignInForm() {
     const config: AxiosRequestConfig = {
       method: "post",
       url: "/relyingparty/verifyPassword",
-      //   params: {
-      //     key: process.env.KEY,
-      //   },
       data: {
         email,
         password,

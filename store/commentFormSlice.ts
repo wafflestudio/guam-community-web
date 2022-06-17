@@ -3,14 +3,14 @@ import { RefObject } from "react";
 
 import { IImageUrl } from "../types/types";
 
-type ICommentFormState = {
+type CommentFormStateType = {
   commentInput: string;
   mentionListOpen: boolean;
   images: File[];
   imageUrls: IImageUrl[];
 };
 
-const initialState: ICommentFormState = {
+const initialState: CommentFormStateType = {
   commentInput: "",
   mentionListOpen: false,
   images: [],
