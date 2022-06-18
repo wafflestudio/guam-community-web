@@ -1,3 +1,4 @@
+import ImageExtendModal from "../Modals/ImageExtendModal/ImageExtendModal";
 import PostFormModal from "../Modals/PostFormModal/PostFormModal";
 import UserBlockModal from "../Modals/UserBlockModal/UserBlockModal";
 import UserReportModal from "../Modals/UserReportModal/UserReportModal";
@@ -14,6 +15,7 @@ export default function PostDetailPage() {
       <PostFormModal />
       <UserReportModal />
       <UserBlockModal />
+      <ImageExtendModal />
     </div>
   );
 }
