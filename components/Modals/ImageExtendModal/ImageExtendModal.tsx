@@ -13,14 +13,6 @@ export default function ImageExtendModal() {
   const imageRef = useRef<HTMLImageElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
 
-  useEffect(() => {
-    console.log("asdf");
-    if (imageRef.current?.style && containerRef.current) {
-      containerRef.current.style.width = imageRef.current.style.width;
-      console.log(imageRef.current.style.width);
-    }
-  }, [imageRef.current?.style]);
-
   const { open, paths } = useAppSelector(
     (state) => state.modals.imageExtendedModal
   );
@@ -37,6 +29,13 @@ export default function ImageExtendModal() {
     }
   };
 
+  const onImageLoad = () => {
+    if (imageRef.current && containerRef.current) {
+      containerRef.current.style.width =
+        imageRef.current.clientWidth.toString() + "px";
+    }
+  };
+
   return (
     <div
       className={`${styles.wrapper} ${"modal-wrapper"} ${
@@ -49,7 +48,11 @@ export default function ImageExtendModal() {
         onClick={(e) => e.stopPropagation()}
         ref={containerRef}
       >
-        <img ref={imageRef} src={process.env.BUCKET_URL + paths[imgNum]} />
+        <img
+          ref={imageRef}
+          src={process.env.BUCKET_URL + paths[imgNum]}
+          onLoad={onImageLoad}
+        />
         {imgNum - 1 >= 0 ? (
           <button className={styles.prev} onClick={() => onArrowClick(0)}>
             <BackIcon />
