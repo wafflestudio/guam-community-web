@@ -16,6 +16,7 @@ dayjs.extend(relativeTime);
 export default function PostMain() {
   const [postModifyModal, setPostModifyModal] = useState(false);
   const [deleteConfirmModal, setDeleteConfirmModal] = useState(false);
+  const [imageNum, setImageNum] = useState(0);
 
   const router = useRouter();
   const { postId } = router.query;
@@ -57,6 +58,22 @@ export default function PostMain() {
           {post?.content}
         </div>
       </div>
+      {post?.imagePaths.length !== 0 ? (
+        <div className={styles.imageList}>
+          <img
+            src={process.env.BUCKET_URL + (post?.imagePaths[imageNum] || "")}
+          />
+          <ul>
+            {post?.imagePaths.map((path, index) => {
+              return (
+                <li key={path} onClick={() => setImageNum(index)}>
+                  <img src={process.env.BUCKET_URL + path} />
+                </li>
+              );
+            })}
+          </ul>
+        </div>
+      ) : null}
       <div className={`${styles["typo1-regular"]} ${styles.createdAt}`}>
         {post && dayjs(new Date(post.createdAt)).locale(ko).fromNow()}
       </div>

@@ -65,6 +65,36 @@
     }
   }
 
+  .imageList {
+    margin-top: 12px;
+
+    img {
+      max-width: 792px;
+      border-radius: 8px;
+    }
+
+    ul {
+      display: flex;
+      margin-top: 12px;
+
+      li {
+        width: 80px;
+        height: 80px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        border-radius: 8px;
+        background: rgb(238, 238, 238);
+        margin-right: 12px;
+        cursor: pointer;
+
+        img {
+          height: 80px;
+        }
+      }
+    }
+  }
+
   .createdAt {
     height: 16px;
     margin-top: 30px;
