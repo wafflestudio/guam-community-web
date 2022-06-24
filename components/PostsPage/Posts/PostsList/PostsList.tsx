@@ -47,7 +47,9 @@ export default function PostsList() {
   return (
     <ul className={styles.container}>
       {postsList}
-      {result.isLoading ? <img src={"/loading.gif"} /> : null}
+      {result.isLoading ? (
+        <img className={styles.loading} src={"/loading.gif"} />
+      ) : null}
     </ul>
   );
 }

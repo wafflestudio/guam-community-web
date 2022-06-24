@@ -20,7 +20,7 @@ export default function Auth() {
   const { code } = router.query;
 
   const REST_API_KEY = process.env.REST_API_KEY;
-  const REDIRECT_URI = "http://localhost:3000/oauth/kakao/callback";
+  const REDIRECT_URI = process.env.KAKAO_REDIRECT_URI;
   const CLIENT_SECRET = process.env.CLIENT_SECRET;
 
   const auth = getAuth();
