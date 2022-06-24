@@ -52,60 +52,51 @@ const SubmitForm = () => {
   const onToggleBoardList = () =>
     setBoardListOpen((boardListOpen) => !boardListOpen);
 
-  const onBoardIdChange = useCallback((id: number) => {
-    setBoardId((boardId) => id);
+  const onBoardIdChange = (id: number) => {
+    setBoardId(id);
     onToggleBoardList();
-  }, []);
+  };
 
-  const onTitleChange: ChangeEventHandler<HTMLInputElement> = useCallback(
-    ({ target }) => setTitle(target.value),
-    []
-  );
+  const onTitleChange: ChangeEventHandler<HTMLInputElement> = ({ target }) =>
+    setTitle(target.value);
 
   const onContentChange: ChangeEventHandler<HTMLTextAreaElement> = useCallback(
     ({ target }) => setContent(target.value),
     []
   );
 
-  const onCategoryIdChange: ChangeEventHandler<HTMLInputElement> = useCallback(
-    ({ target }) => setCategoryId(parseInt(target.value)),
-    []
-  );
+  const onCategoryIdChange: ChangeEventHandler<HTMLInputElement> = ({
+    target,
+  }) => setCategoryId(parseInt(target.value));
 
-  const onDeleteCategory = useCallback(() => setCategoryId(0), []);
+  const onDeleteCategory = () => setCategoryId(0);
 
-  const handleImageInput: React.ChangeEventHandler<HTMLInputElement> =
-    useCallback(
-      ({ target }) => {
-        if (target.files) {
-          if (
-            Array.from(target.files).some((file) => file.size > 10 * 1000000)
-          ) {
-            alert("이미지 크기는 10MB 이하만 가능합니다");
-          }
+  const handleImageInput: React.ChangeEventHandler<HTMLInputElement> = ({
+    target,
+  }) => {
+    if (target.files) {
+      if (Array.from(target.files).some((file) => file.size > 10 * 1000000)) {
+        alert("이미지 크기는 10MB 이하만 가능합니다");
+      }
 
-          const filteredImages = Array.from(target.files).filter(
-            (image) => image.size <= 10 * 1000000
-          );
-          const imagesList = [...images, ...filteredImages];
-          if (imagesList.length > 5) alert("사진은 5장까지 첨부 가능합니다");
-          setImages(imagesList.slice(0, 5));
+      const filteredImages = Array.from(target.files).filter(
+        (image) => image.size <= 10 * 1000000
+      );
+      const imagesList = [...images, ...filteredImages];
+      if (imagesList.length > 5) alert("사진은 5장까지 첨부 가능합니다");
+      setImages(imagesList.slice(0, 5));
 
-          const newUrls = filteredImages.map((file) => ({
-            id: file.lastModified,
-            url: URL.createObjectURL(file),
-          }));
-          setImageUrls((imageUrls) => [...imageUrls, ...newUrls].slice(0, 5));
-        }
-      },
-      [images]
-    );
+      const newUrls = filteredImages.map((file) => ({
+        id: file.lastModified,
+        url: URL.createObjectURL(file),
+      }));
+      setImageUrls((imageUrls) => [...imageUrls, ...newUrls].slice(0, 5));
+    }
+  };
 
-  const clickImageInput = useCallback(() => {
-    photoInput.current?.click();
-  }, []);
+  const clickImageInput = () => photoInput.current?.click();
 
-  const onPostSubmit: FormEventHandler<HTMLFormElement> = useCallback((e) => {
+  const onPostSubmit: FormEventHandler<HTMLFormElement> = (e) => {
     e.preventDefault();
 
     if (boardId === 0) return window.alert("게시판을 골라주세요");
@@ -129,7 +120,7 @@ const SubmitForm = () => {
       });
 
     postPost(data);
-  }, []);
+  };
 
   useEffect(() => {
     if (isSuccess) {
@@ -163,11 +154,10 @@ const SubmitForm = () => {
             {boardList.map((board) => {
               if (board.id === 0) return;
               return (
-                <li key={board.id}>
+                <li key={board.id} onClick={() => onBoardIdChange(board.id)}>
                   <button
                     type="button"
                     className={`${styles["typo5-regular"]} ${styles.boardListItem}`}
-                    onClick={() => onBoardIdChange(board.id)}
                   >
                     {board.name}
                   </button>
