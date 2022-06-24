@@ -68,7 +68,7 @@
   .imageList {
     margin-top: 12px;
 
-    img {
+    img.big {
       max-width: 792px;
       border-radius: 8px;
     }
@@ -84,9 +84,10 @@
         justify-content: center;
         align-items: center;
         border-radius: 8px;
-        background: rgb(238, 238, 238);
+        background: rgb(245, 245, 245);
         margin-right: 12px;
         cursor: pointer;
+        overflow: hidden;
 
         img {
           height: 80px;

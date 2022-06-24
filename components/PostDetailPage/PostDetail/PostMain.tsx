@@ -61,6 +61,7 @@ export default function PostMain() {
       {post?.imagePaths.length !== 0 ? (
         <div className={styles.imageList}>
           <img
+            className={styles.big}
             src={process.env.BUCKET_URL + (post?.imagePaths[imageNum] || "")}
           />
           <ul>

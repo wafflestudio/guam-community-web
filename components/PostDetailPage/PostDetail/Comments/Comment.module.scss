@@ -57,6 +57,10 @@
         height: 160px;
         border-radius: 8px;
         overflow: hidden;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background: rgb(245, 245, 245);
 
         img {
           height: 100%;
