@@ -36,7 +36,7 @@ export default function MentionList({
 
     selectedUser && dispatch(setCommentInput(content));
 
-    const regex = mentionRegex(mentionList?.map((user) => user.nickname) || []);
+    const regex = mentionRegex(mentionList.map((user) => user.nickname || ""));
 
     const { current } = mockTextareaRef;
 
@@ -56,7 +56,7 @@ export default function MentionList({
     <li
       key={user.id}
       className={styles.userList}
-      onClick={() => onSelectId(user.id)}
+      onClick={() => onSelectId(user.id || 0)}
     >
       <div className={styles.profileImage}>
         <img

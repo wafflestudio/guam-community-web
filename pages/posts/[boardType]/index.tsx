@@ -62,7 +62,6 @@ export default function Home() {
       <PageTitle
         title={`${typeof boardType === "string" && boardType.toUpperCase()}`}
       />
-      {error ? <>error</> : isLoading ? <>Loading...</> : null}
       <PostsPage />
     </>
   );
