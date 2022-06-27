@@ -15,6 +15,13 @@ export default function PostsList() {
   const router = useRouter();
 
   const boardType = useMemo(() => router.query.boardType, [router.query]);
+  const keyword = useMemo(
+    () =>
+      typeof router.query.keyword === "string" &&
+      encodeURI(router.query.keyword),
+    [router.query]
+  );
+
   const page = useMemo(
     () =>
       typeof router.query.page === "string"
@@ -33,6 +40,8 @@ export default function PostsList() {
           id: boardId,
           page,
         })
+      : typeof keyword === "string"
+      ? postsApi.endpoints.getSearchPosts.useQuery({ keyword, page })
       : postsApi.endpoints.getAllPosts.useQueryState(page);
 
   useEffect(() => {

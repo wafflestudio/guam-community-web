@@ -9,7 +9,8 @@ import {
 import { getFirebaseIdToken } from "../utils/firebaseUtils";
 
 interface PostsBoardQuery {
-  id: number | undefined;
+  id?: number | undefined;
+  keyword?: string;
   page: number | undefined;
 }
 
@@ -39,6 +40,17 @@ export const postsApi = createApi({
         {
           type: "Posts List",
           boardId: req.id,
+        },
+      ],
+    }),
+    getSearchPosts: build.query<IPostsData, PostsBoardQuery>({
+      query: (req) => ({
+        url: `posts/search?keyword=${req.keyword}&page=${req.page}`,
+      }),
+      providesTags: (result, error, req) => [
+        {
+          type: "Posts List",
+          search: req.keyword,
         },
       ],
     }),
@@ -159,6 +171,7 @@ export const postsApi = createApi({
 export const {
   useGetAllPostsQuery,
   useGetPostsByBoardQuery,
+  useGetSearchPostsQuery,
   usePostPostMutation,
   useScrapPostMutation,
   useLikePostMutation,
@@ -173,4 +186,5 @@ export const {
   util: { getRunningOperationPromises },
 } = postsApi;
 
-export const { getAllPosts, getPostsByBoard, postPost } = postsApi.endpoints;
+export const { getAllPosts, getPostsByBoard, getSearchPosts, postPost } =
+  postsApi.endpoints;
