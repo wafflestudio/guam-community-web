@@ -56,7 +56,7 @@ export default function MentionList({
     <li
       key={user.id}
       className={styles.userList}
-      onClick={() => onSelectId(user.id || 0)}
+      onClick={() => user.id && onSelectId(user.id)}
     >
       <div className={styles.profileImage}>
         <img

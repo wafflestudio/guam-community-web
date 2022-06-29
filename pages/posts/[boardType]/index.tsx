@@ -46,8 +46,8 @@ export default function Home() {
     else router.push("404");
   }, [boardType, router.isReady]);
 
-  const { isLoading, error } = useGetPostsByBoardQuery(
-    { id: boardId, page: currentPage },
+  useGetPostsByBoardQuery(
+    { boardId, page: currentPage },
     {
       refetchOnMountOrArgChange: true,
       skip:

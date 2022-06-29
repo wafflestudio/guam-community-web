@@ -7,6 +7,8 @@ export const CAREER = "career";
 export const INFORMATION = "information";
 export const AD = "ad";
 
+export const MB = 1e6;
+
 export const firebaseConfig = {
   apiKey: process.env.FIREBASE_API_KEY,
   authDomain: process.env.FIREBASE_AUTH_DOMAIN,

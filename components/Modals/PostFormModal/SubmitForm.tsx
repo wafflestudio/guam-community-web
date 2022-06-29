@@ -12,7 +12,7 @@ import CancelIcon from "../../../assets/icons/cancel/outlined.svg";
 import CheckIcon from "../../../assets/icons/check.svg";
 import DownIcon from "../../../assets/icons/down/down_20.svg";
 import PlusIcon from "../../../assets/icons/plus.svg";
-import { boardList, categoryList } from "../../../constants/constants";
+import { boardList, categoryList, MB } from "../../../constants/constants";
 import { useAppDispatch, useAppSelector } from "../../../store/hooks";
 import { setPostFormModal } from "../../../store/modalSlice";
 import { IImageUrl } from "../../../types/types";
@@ -52,22 +52,25 @@ const SubmitForm = () => {
   const onToggleBoardList = () =>
     setBoardListOpen((boardListOpen) => !boardListOpen);
 
-  const onBoardIdChange = (id: number) => {
+  const onBoardIdChange = useCallback((id: number) => {
     setBoardId(id);
     onToggleBoardList();
-  };
+  }, []);
 
-  const onTitleChange: ChangeEventHandler<HTMLInputElement> = ({ target }) =>
-    setTitle(target.value);
+  const onTitleChange: ChangeEventHandler<HTMLInputElement> = useCallback(
+    ({ target }) => setTitle(target.value),
+    []
+  );
 
   const onContentChange: ChangeEventHandler<HTMLTextAreaElement> = useCallback(
     ({ target }) => setContent(target.value),
     []
   );
 
-  const onCategoryIdChange: ChangeEventHandler<HTMLInputElement> = ({
-    target,
-  }) => setCategoryId(parseInt(target.value));
+  const onCategoryIdChange: ChangeEventHandler<HTMLInputElement> = useCallback(
+    ({ target }) => setCategoryId(parseInt(target.value)),
+    []
+  );
 
   const onDeleteCategory = () => setCategoryId(0);
 
@@ -75,12 +78,12 @@ const SubmitForm = () => {
     target,
   }) => {
     if (target.files) {
-      if (Array.from(target.files).some((file) => file.size > 10 * 1000000)) {
+      if (Array.from(target.files).some((file) => file.size > 10 * MB)) {
         alert("이미지 크기는 10MB 이하만 가능합니다");
       }
 
       const filteredImages = Array.from(target.files).filter(
-        (image) => image.size <= 10 * 1000000
+        (image) => image.size <= 10 * MB
       );
       const imagesList = [...images, ...filteredImages];
       if (imagesList.length > 5) alert("사진은 5장까지 첨부 가능합니다");

@@ -7,6 +7,7 @@ import React, {
 } from "react";
 
 import CancelIcon from "../../assets/icons/cancel/filled_18.svg";
+import { MB } from "../../constants/constants";
 import { IImageUrl } from "../../types/types";
 
 import styles from "./Messages.module.scss";
@@ -30,14 +31,12 @@ export default function MessageImages({
     useCallback(
       ({ target }) => {
         if (target.files) {
-          if (
-            Array.from(target.files).some((file) => file.size > 10 * 1000000)
-          ) {
+          if (Array.from(target.files).some((file) => file.size > 10 * MB)) {
             alert("이미지 크기는 10MB 이하만 가능합니다");
           }
 
           const filteredImages = Array.from(target.files).filter(
-            (image) => image.size <= 10 * 1000000
+            (image) => image.size <= 10 * MB
           );
 
           const imagesList = [...images, ...filteredImages].filter(

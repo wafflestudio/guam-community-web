@@ -1,6 +1,7 @@
 import React, { RefObject, useCallback } from "react";
 
 import CancelIcon from "../../../../../assets/icons/cancel/filled_18.svg";
+import { MB } from "../../../../../constants/constants";
 import { setImages, setImageUrls } from "../../../../../store/commentFormSlice";
 import { useAppDispatch, useAppSelector } from "../../../../../store/hooks";
 
@@ -20,14 +21,12 @@ function HandleImages({
     useCallback(
       ({ target }) => {
         if (target.files) {
-          if (
-            Array.from(target.files).some((file) => file.size > 10 * 1000000)
-          ) {
+          if (Array.from(target.files).some((file) => file.size > 10 * MB)) {
             alert("이미지 크기는 10MB 이하만 가능합니다");
           }
 
           const filteredImages = Array.from(target.files).filter(
-            (image) => image.size <= 10 * 1000000
+            (image) => image.size <= 10 * MB
           );
 
           const imagesList = [...images, ...filteredImages].filter(

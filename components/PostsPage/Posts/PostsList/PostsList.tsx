@@ -37,25 +37,24 @@ export default function PostsList() {
   const result =
     typeof boardId === "number"
       ? postsApi.endpoints.getPostsByBoard.useQueryState({
-          id: boardId,
+          boardId,
           page,
         })
       : typeof keyword === "string"
-      ? postsApi.endpoints.getSearchPosts.useQuery({ keyword, page })
+      ? postsApi.endpoints.getSearchPosts.useQueryState({ keyword, page })
       : postsApi.endpoints.getAllPosts.useQueryState(page);
 
   useEffect(() => {
-    setPosts(result.data?.content || []);
+    if (result.data) {
+      setPosts(result.data?.content);
+    }
   }, [result]);
 
-  const postsList = useMemo(
-    () => posts.map((post) => <Post key={post.id} post={post} />),
-    [posts]
-  );
+  const postsList = posts.map((post) => <Post key={post.id} post={post} />);
 
   return (
     <ul className={styles.container}>
-      {postsList}
+      {result.data ? postsList : null}
       {result.isLoading ? (
         <img className={styles.loading} src={"/loading.gif"} />
       ) : null}

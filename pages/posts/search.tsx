@@ -1,12 +1,16 @@
 import { useRouter } from "next/router";
 import { useEffect, useMemo, useState } from "react";
 
+import { useGetSearchPostsQuery } from "../../api/postsApi";
 import PageTitle from "../../components/PageTitle";
 import PostsPage from "../../components/PostsPage/PostsPage";
+import { useAppSelector } from "../../store/hooks";
 
 export default function Home() {
   const [currentPage, setCurrentPage] = useState<number | undefined>(undefined);
   const router = useRouter();
+
+  const { isLoggedIn } = useAppSelector((state) => state.auth);
 
   const page = useMemo(() => router.isReady && router.query.page, [router]);
   const keyword = useMemo(
@@ -30,6 +34,17 @@ export default function Home() {
       router.push("/404");
     }
   }, [page, router.isReady]);
+
+  useGetSearchPostsQuery(
+    { keyword: keyword || "", page: currentPage },
+    {
+      refetchOnMountOrArgChange: true,
+      skip:
+        currentPage === undefined ||
+        keyword === undefined ||
+        isLoggedIn === undefined,
+    }
+  );
 
   return (
     <>

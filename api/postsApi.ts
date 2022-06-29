@@ -9,7 +9,7 @@ import {
 import { getFirebaseIdToken } from "../utils/firebaseUtils";
 
 interface PostsBoardQuery {
-  id?: number | undefined;
+  boardId?: number | undefined;
   keyword?: string;
   page: number | undefined;
 }
@@ -34,12 +34,12 @@ export const postsApi = createApi({
     }),
     getPostsByBoard: build.query<IPostsData, PostsBoardQuery>({
       query: (req) => ({
-        url: `posts?boardId=${req.id}&page=${req.page}`,
+        url: `posts?boardId=${req.boardId}&page=${req.page}`,
       }),
       providesTags: (result, error, req) => [
         {
           type: "Posts List",
-          boardId: req.id,
+          boardId: req.boardId,
         },
       ],
     }),
