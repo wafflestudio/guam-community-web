@@ -1,0 +1,32 @@
+@use "../../../assets/colors/colors";
+@use "../../../assets/fonts/typography_regular";
+
+.buttonsList {
+  margin-left: 100px;
+  display: flex;
+  gap: 12px;
+
+  ul {
+    list-style: none;
+    display: flex;
+    gap: 12px;
+
+    li {
+      a button {
+        width: 24px;
+        height: 24px;
+        color: colors.$grayscale-gray3;
+        font-size: 14px;
+        border-radius: 4px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+
+      &.selected a button {
+        color: white;
+        background: colors.$purple-core;
+      }
+    }
+  }
+}

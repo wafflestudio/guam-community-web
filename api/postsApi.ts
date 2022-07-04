@@ -26,7 +26,13 @@ export const postsApi = createApi({
       return headers;
     },
   }),
-  tagTypes: ["Posts List", "Post Detail", "LetterBox List", "Letters"],
+  tagTypes: [
+    "Posts List",
+    "Post Detail",
+    "LetterBox List",
+    "Letters",
+    "Push List",
+  ],
   endpoints: (build) => ({
     getAllPosts: build.query<IPostsData, number | void>({
       query: (page) => ({ url: `posts?page=${page}` }),
@@ -164,6 +170,11 @@ export const postsApi = createApi({
         { type: "Letters", pairId: result?.to },
         { type: "LetterBox List" },
       ],
+    }),
+
+    getPushList: build.query({
+      query: (page) => ({ url: `push/list?page=${page}&size=10` }),
+      providesTags: () => [{ type: "Push List" }],
     }),
   }),
 });

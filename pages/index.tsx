@@ -3,6 +3,7 @@ import { useEffect, useMemo, useState } from "react";
 
 import { useGetAllPostsQuery } from "../api/postsApi";
 import PageTitle from "../components/PageTitle";
+import PaginationButton from "../components/PostsPage/PaginationButton/PaginationButton";
 import PostsPage from "../components/PostsPage/PostsPage";
 import { useAppSelector } from "../store/hooks";
 
