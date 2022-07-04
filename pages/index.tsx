@@ -30,7 +30,7 @@ const Home = () => {
     }
   }, [router.isReady, router.query.page]);
 
-  const { isLoading, error } = useGetAllPostsQuery(currentPage, {
+  useGetAllPostsQuery(currentPage, {
     refetchOnMountOrArgChange: true,
     skip: currentPage === undefined || isLoggedIn === undefined,
   });
@@ -38,7 +38,6 @@ const Home = () => {
   return (
     <>
       <PageTitle title="Home" />
-      {error ? <>error</> : isLoading ? <img src={"/loading.gif"} /> : null}
       <PostsPage />
     </>
   );

@@ -12,7 +12,7 @@ import CancelIcon from "../../../assets/icons/cancel/outlined.svg";
 import CheckIcon from "../../../assets/icons/check.svg";
 import DownIcon from "../../../assets/icons/down/down_20.svg";
 import PlusIcon from "../../../assets/icons/plus.svg";
-import { boardList, categoryList } from "../../../constants/constants";
+import { boardList, categoryList, MB } from "../../../constants/constants";
 import { useAppDispatch, useAppSelector } from "../../../store/hooks";
 import { setPostFormModal } from "../../../store/modalSlice";
 import { IImageUrl } from "../../../types/types";
@@ -53,7 +53,7 @@ const SubmitForm = () => {
     setBoardListOpen((boardListOpen) => !boardListOpen);
 
   const onBoardIdChange = useCallback((id: number) => {
-    setBoardId((boardId) => id);
+    setBoardId(id);
     onToggleBoardList();
   }, []);
 
@@ -72,40 +72,34 @@ const SubmitForm = () => {
     []
   );
 
-  const onDeleteCategory = useCallback(() => setCategoryId(0), []);
+  const onDeleteCategory = () => setCategoryId(0);
 
-  const handleImageInput: React.ChangeEventHandler<HTMLInputElement> =
-    useCallback(
-      ({ target }) => {
-        if (target.files) {
-          if (
-            Array.from(target.files).some((file) => file.size > 10 * 1000000)
-          ) {
-            alert("이미지 크기는 10MB 이하만 가능합니다");
-          }
+  const handleImageInput: React.ChangeEventHandler<HTMLInputElement> = ({
+    target,
+  }) => {
+    if (target.files) {
+      if (Array.from(target.files).some((file) => file.size > 10 * MB)) {
+        alert("이미지 크기는 10MB 이하만 가능합니다");
+      }
 
-          const filteredImages = Array.from(target.files).filter(
-            (image) => image.size <= 10 * 1000000
-          );
-          const imagesList = [...images, ...filteredImages];
-          if (imagesList.length > 5) alert("사진은 5장까지 첨부 가능합니다");
-          setImages(imagesList.slice(0, 5));
+      const filteredImages = Array.from(target.files).filter(
+        (image) => image.size <= 10 * MB
+      );
+      const imagesList = [...images, ...filteredImages];
+      if (imagesList.length > 5) alert("사진은 5장까지 첨부 가능합니다");
+      setImages(imagesList.slice(0, 5));
 
-          const newUrls = filteredImages.map((file) => ({
-            id: file.lastModified,
-            url: URL.createObjectURL(file),
-          }));
-          setImageUrls((imageUrls) => [...imageUrls, ...newUrls].slice(0, 5));
-        }
-      },
-      [images]
-    );
+      const newUrls = filteredImages.map((file) => ({
+        id: file.lastModified,
+        url: URL.createObjectURL(file),
+      }));
+      setImageUrls((imageUrls) => [...imageUrls, ...newUrls].slice(0, 5));
+    }
+  };
 
-  const clickImageInput = useCallback(() => {
-    photoInput.current?.click();
-  }, []);
+  const clickImageInput = () => photoInput.current?.click();
 
-  const onPostSubmit: FormEventHandler<HTMLFormElement> = useCallback((e) => {
+  const onPostSubmit: FormEventHandler<HTMLFormElement> = (e) => {
     e.preventDefault();
 
     if (boardId === 0) return window.alert("게시판을 골라주세요");
@@ -129,7 +123,7 @@ const SubmitForm = () => {
       });
 
     postPost(data);
-  }, []);
+  };
 
   useEffect(() => {
     if (isSuccess) {
@@ -163,11 +157,10 @@ const SubmitForm = () => {
             {boardList.map((board) => {
               if (board.id === 0) return;
               return (
-                <li key={board.id}>
+                <li key={board.id} onClick={() => onBoardIdChange(board.id)}>
                   <button
                     type="button"
                     className={`${styles["typo5-regular"]} ${styles.boardListItem}`}
-                    onClick={() => onBoardIdChange(board.id)}
                   >
                     {board.name}
                   </button>

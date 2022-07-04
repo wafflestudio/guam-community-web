@@ -15,6 +15,13 @@ export default function PostsList() {
   const router = useRouter();
 
   const boardType = useMemo(() => router.query.boardType, [router.query]);
+  const keyword = useMemo(
+    () =>
+      typeof router.query.keyword === "string" &&
+      encodeURI(router.query.keyword),
+    [router.query]
+  );
+
   const page = useMemo(
     () =>
       typeof router.query.page === "string"
@@ -30,19 +37,27 @@ export default function PostsList() {
   const result =
     typeof boardId === "number"
       ? postsApi.endpoints.getPostsByBoard.useQueryState({
-          id: boardId,
+          boardId,
           page,
         })
+      : typeof keyword === "string"
+      ? postsApi.endpoints.getSearchPosts.useQueryState({ keyword, page })
       : postsApi.endpoints.getAllPosts.useQueryState(page);
 
   useEffect(() => {
-    setPosts(result.data?.content || []);
+    if (result.data) {
+      setPosts(result.data?.content);
+    }
   }, [result]);
 
-  const postsList = useMemo(
-    () => posts.map((post) => <Post key={post.id} post={post} />),
-    [posts]
-  );
+  const postsList = posts.map((post) => <Post key={post.id} post={post} />);
 
-  return <ul className={styles.container}>{postsList}</ul>;
+  return (
+    <ul className={styles.container}>
+      {result.data ? postsList : null}
+      {result.isLoading ? (
+        <img className={styles.loading} src={"/loading.gif"} />
+      ) : null}
+    </ul>
+  );
 }

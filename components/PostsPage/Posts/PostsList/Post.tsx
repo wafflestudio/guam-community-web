@@ -14,6 +14,7 @@ import PictureIcon from "../../../../assets/icons/picture.svg";
 import ProfileIcon from "../../../../assets/icons/profile/default_image.svg";
 import ScrapFilledIcon from "../../../../assets/icons/scrap/filled_20.svg";
 import ScrapIcon from "../../../../assets/icons/scrap/outlined_20.svg";
+import { boardList } from "../../../../constants/constants";
 import { IPostsListPost } from "../../../../types/types";
 
 import styles from "./Post.module.scss";
@@ -29,7 +30,7 @@ export default function Post({ post }: { post: IPostsListPost }) {
   const createdTime = new Date(post.createdAt);
 
   const onClickPost = () =>
-    router.push(`/posts/${post.boardType.toLowerCase()}/${post.id}`);
+    router.push(`/posts/${boardList[post.boardId].route}/${post.id}`);
 
   const onLikePost = () =>
     likePost({ postId: post.id, boardId: post.boardId, liked: post.isLiked });
@@ -62,6 +63,7 @@ export default function Post({ post }: { post: IPostsListPost }) {
       <div className={styles.profileImage}>
         {post.user.profileImage ? (
           <img
+            className={styles.profile}
             src={
               process.env.BUCKET_URL + post.user.profileImage + "?" + Date.now()
             }

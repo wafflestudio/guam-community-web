@@ -57,12 +57,12 @@ export default function MessagesSide() {
                   <div
                     className={`${styles["typo3-regular"]} ${styles.fromNow}`}
                   >
-                    {dayjs(box.latestLetter.createdAt).locale(ko).fromNow()}
+                    {dayjs(box.latestLetter?.createdAt).locale(ko).fromNow()}
                   </div>
                   <div
                     className={`${styles["typo3-regular"]} ${styles.preview}`}
                   >
-                    {box.latestLetter.text}
+                    {box.latestLetter?.text}
                   </div>
                 </li>
               );
