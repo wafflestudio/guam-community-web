@@ -35,3 +35,9 @@ export const categoryList = [
   { id: 4, name: "기획/마케팅", tag: "marketing" },
   { id: 5, name: "기타", tag: "extra" },
 ];
+
+export const POST_COMMENT = "POST_COMMENT";
+export const MENTION = "MENTION";
+export const POST_LIKE = "POST_LIKE";
+export const POST_SCRAP = "POST_SCRAP";
+export const COMMENT_LIKE = "COMMENT_LIKE";

@@ -29,8 +29,10 @@ export default function Post({ post }: { post: IPostsListPost }) {
 
   const createdTime = new Date(post.createdAt);
 
-  const onClickPost = () =>
+  const onClickPost = () => {
+    console.log(9);
     router.push(`/posts/${boardList[post.boardId].route}/${post.id}`);
+  };
 
   const onLikePost = () =>
     likePost({ postId: post.id, boardId: post.boardId, liked: post.isLiked });

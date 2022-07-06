@@ -5,6 +5,7 @@ import {
   ILetters,
   IPairLetters,
   IPostsData,
+  IPushData,
 } from "../types/types";
 import { getFirebaseIdToken } from "../utils/firebaseUtils";
 
@@ -172,9 +173,20 @@ export const postsApi = createApi({
       ],
     }),
 
-    getPushList: build.query({
-      query: (page) => ({ url: `push/list?page=${page}&size=10` }),
+    getPushList: build.query<IPushData, number>({
+      query: (page) => ({ url: `push?page=${page}&size=10` }),
       providesTags: () => [{ type: "Push List" }],
+    }),
+    postPushRead: build.mutation({
+      query: ({ userId, pushEventIds }) => ({
+        url: `push/read`,
+        method: "POST",
+        body: { userId, pushEventIds },
+      }),
+      invalidatesTags: (result) => [
+        { type: "Letters", pairId: result?.to },
+        { type: "LetterBox List" },
+      ],
     }),
   }),
 });
@@ -194,6 +206,7 @@ export const {
   useGetLettersQuery,
   useGetPairLettersQuery,
   usePostLetterMutation,
+  useGetPushListQuery,
   util: { getRunningOperationPromises },
 } = postsApi;
 

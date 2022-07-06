@@ -1,14 +1,46 @@
+import axios from "axios";
+import { getAuth, GoogleAuthProvider, signInWithPopup } from "firebase/auth";
+import firebase from "firebase/compat/app";
 import Link from "next/link";
+import { useRouter } from "next/router";
 
 import GoogleIcon from "../../assets/icons/logo/google.svg";
 import KaKaoIcon from "../../assets/icons/logo/kakao.svg";
 import RightIcon from "../../assets/icons/right.svg";
+import { useAppDispatch } from "../../store/hooks";
+import { setUserState } from "../../store/userSlice";
+import { getFirebaseIdToken } from "../../utils/firebaseUtils";
 
 import LeftGuam from "./LeftGuam";
 
 import styles from "./SignIn.module.scss";
 
 export default function SignIn() {
+  const dispatch = useAppDispatch();
+
+  const router = useRouter();
+
+  const googleSignIn = async () => {
+    const provider = new GoogleAuthProvider();
+
+    await signInWithPopup(getAuth(), provider);
+
+    const token = await getFirebaseIdToken();
+
+    axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
+
+    const { data: userData } = await axios.get("/api/users/me", {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
+    dispatch(setUserState(userData));
+
+    if (!userData.profileSet) router.push("/profile/set_nickname");
+    else router.push("/");
+  };
+
   return (
     <div className={styles.wrapper}>
       <div className={styles.container}>
@@ -38,16 +70,12 @@ export default function SignIn() {
               </button>
             </a>
           </Link>
-          <Link href={"/oauth/authorize/google"}>
-            <a>
-              <button className={`${styles.googleLogin}`}>
-                <GoogleIcon />
-                <span className={`${styles["typo5-medium"]} ${styles.text}`}>
-                  구글로 시작하기
-                </span>
-              </button>
-            </a>
-          </Link>
+          <button className={`${styles.googleLogin}`} onClick={googleSignIn}>
+            <GoogleIcon />
+            <span className={`${styles["typo5-medium"]} ${styles.text}`}>
+              구글로 시작하기
+            </span>
+          </button>
         </div>
       </div>
     </div>

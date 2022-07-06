@@ -100,3 +100,39 @@ export interface IPairLetters {
   pairId: 8;
   letters: ILetter[];
 }
+
+export interface IInterest {
+  name: string;
+}
+
+export interface IPushList {
+  id: number;
+  userId: number;
+  writer: {
+    id: number;
+    email: null | string;
+    nickname: string;
+    introduction: string;
+    githubId: string | null;
+    blogUrl: string | null;
+    profileImage: null | string;
+    interests: string[];
+    profileSet: boolean;
+  };
+  kind:
+    | "POST_COMMENT"
+    | "MENTION"
+    | "POST_LIKE"
+    | "POST_SCRAP"
+    | "COMMENT_LIKE";
+  body: string;
+  linkUrl: string;
+  isRead: boolean;
+  createdAt: string;
+}
+
+export interface IPushData {
+  userId: number;
+  content: IPushList[];
+  hasNext: boolean;
+}

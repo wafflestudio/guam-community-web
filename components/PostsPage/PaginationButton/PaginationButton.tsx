@@ -9,7 +9,7 @@ import styles from "./PaginationButton.module.scss";
 
 const PaginationButton = ({ pageNum }: { pageNum: number }) => {
   const router = useRouter();
-  const { page: currentPage } = router.query;
+  const currentPage = router.query.page || "1";
 
   const onPrevClick = () => {
     if (typeof currentPage === "string" && parseInt(currentPage) !== 1)
@@ -19,10 +19,12 @@ const PaginationButton = ({ pageNum }: { pageNum: number }) => {
   };
 
   const onNextClick = () => {
-    if (typeof currentPage === "string")
+    if (typeof currentPage === "string") {
+      console.log("asdf");
       router.replace({
         query: { ...router.query, page: parseInt(currentPage) + 1 },
       });
+    }
   };
 
   return (
@@ -40,7 +42,7 @@ const PaginationButton = ({ pageNum }: { pageNum: number }) => {
             }`}
             key={page}
           >
-            <Link href={`/posts?page=${page + 1}`}>
+            <Link href={`${router.pathname}?page=${page + 1}`}>
               <a className={`${styles["typo4-regular"]}`}>
                 <button>{page + 1}</button>
               </a>

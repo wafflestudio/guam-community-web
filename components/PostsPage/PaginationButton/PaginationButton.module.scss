@@ -2,9 +2,9 @@
 @use "../../../assets/fonts/typography_regular";
 
 .buttonsList {
-  margin-left: 100px;
   display: flex;
   gap: 12px;
+  margin-top: 24px;
 
   ul {
     list-style: none;

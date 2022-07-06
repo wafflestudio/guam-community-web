@@ -4,6 +4,7 @@ import { useEffect, useMemo, useState } from "react";
 import { postsApi } from "../../../../api/postsApi";
 import { boardList } from "../../../../constants/constants";
 import { IPostsListPost } from "../../../../types/types";
+import PaginationButton from "../../PaginationButton/PaginationButton";
 
 import Post from "./Post";
 
@@ -53,11 +54,14 @@ export default function PostsList() {
   const postsList = posts.map((post) => <Post key={post.id} post={post} />);
 
   return (
-    <ul className={styles.container}>
-      {result.data ? postsList : null}
-      {result.isLoading ? (
-        <img className={styles.loading} src={"/loading.gif"} />
-      ) : null}
-    </ul>
+    <>
+      <div className={styles.container}>
+        <ul>{result.data ? postsList : null}</ul>
+        {result.isLoading ? (
+          <img className={styles.loading} src={"/loading.gif"} />
+        ) : null}
+        {result.data ? <PaginationButton pageNum={3} /> : null}
+      </div>
+    </>
   );
 }
