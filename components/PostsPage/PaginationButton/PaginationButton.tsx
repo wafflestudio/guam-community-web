@@ -1,13 +1,14 @@
-import Link from "next/link";
 import { useRouter } from "next/router";
 import React from "react";
 
+import { postsApi } from "../../../api/postsApi";
 import BackIcon from "../../../assets/icons/back.svg";
 import RightIcon from "../../../assets/icons/right.svg";
+import useRouterInfo from "../../../utils/useRouterInfo";
 
 import styles from "./PaginationButton.module.scss";
 
-const PaginationButton = ({ pageNum }: { pageNum: number }) => {
+const PaginationButton = () => {
   const router = useRouter();
   const currentPage = router.query.page || "1";
 
@@ -27,30 +28,30 @@ const PaginationButton = ({ pageNum }: { pageNum: number }) => {
     }
   };
 
+  const { boardId, page, keyword } = useRouterInfo();
+
+  const hasNext =
+    typeof boardId === "number"
+      ? postsApi.endpoints.getPostsByBoard.useQueryState({
+          boardId,
+          page,
+        }).data?.hasNext
+      : typeof keyword === "string"
+      ? postsApi.endpoints.getSearchPosts.useQueryState({ keyword, page }).data
+          ?.hasNext
+      : postsApi.endpoints.getAllPosts.useQueryState(page).data?.hasNext;
+
   return (
     <div className={styles.buttonsList}>
-      <button onClick={onPrevClick}>
+      <button
+        disabled={
+          typeof currentPage === "string" && parseInt(currentPage) === 1
+        }
+        onClick={onPrevClick}
+      >
         <BackIcon />
       </button>
-      <ul>
-        {Array.from(Array(pageNum).keys()).map((page) => (
-          <li
-            className={`${
-              typeof currentPage === "string" &&
-              page + 1 === parseInt(currentPage) &&
-              styles.selected
-            }`}
-            key={page}
-          >
-            <Link href={`${router.pathname}?page=${page + 1}`}>
-              <a className={`${styles["typo4-regular"]}`}>
-                <button>{page + 1}</button>
-              </a>
-            </Link>
-          </li>
-        ))}
-      </ul>
-      <button onClick={onNextClick}>
+      <button disabled={!hasNext} onClick={onNextClick}>
         <RightIcon />
       </button>
     </div>

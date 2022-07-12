@@ -2,6 +2,7 @@
 @use "../../../assets/colors/colors";
 
 .wrapper {
+  position: absolute;
   height: 248px;
   width: 360px;
   padding-top: 12px;
@@ -21,6 +22,14 @@
 
   &::-webkit-scrollbar {
     display: none;
+  }
+
+  .empty {
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transform: translateY(-13px);
   }
 
   ul {

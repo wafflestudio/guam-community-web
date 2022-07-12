@@ -3,8 +3,12 @@
 
 .buttonsList {
   display: flex;
-  gap: 12px;
-  margin-top: 24px;
+  justify-content: space-between;
+  margin: 24px 0;
+
+  button:disabled {
+    cursor: default;
+  }
 
   ul {
     list-style: none;

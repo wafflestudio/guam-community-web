@@ -35,9 +35,11 @@ export const postsApi = createApi({
     "Push List",
   ],
   endpoints: (build) => ({
-    getAllPosts: build.query<IPostsData, number | void>({
+    getAllPosts: build.query<IPostsData, number>({
       query: (page) => ({ url: `posts?page=${page}` }),
-      providesTags: () => [{ type: "Posts List", boardId: 0 }],
+      providesTags: (result, error, req) => [
+        { type: "Posts List", boardId: 0, page: req },
+      ],
     }),
     getPostsByBoard: build.query<IPostsData, PostsBoardQuery>({
       query: (req) => ({
@@ -47,6 +49,7 @@ export const postsApi = createApi({
         {
           type: "Posts List",
           boardId: req.boardId,
+          page: req,
         },
       ],
     }),
@@ -70,8 +73,8 @@ export const postsApi = createApi({
         };
       },
       invalidatesTags: (result) => [
-        { type: "Posts List", boardId: 0 },
-        { type: "Posts List", boardId: result.boardId },
+        { type: "Posts List", boardId: 0, page: 0 },
+        { type: "Posts List", boardId: result.boardId, page: 0 },
       ],
     }),
     scrapPost: build.mutation({
