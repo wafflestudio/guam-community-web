@@ -57,7 +57,7 @@
       right: 152px;
       display: grid;
       gap: 10px;
-      grid-template-columns: repeat(3, 1fr);
+      grid-template-columns: repeat(3, minmax(0, auto));
 
       li {
         width: fit-content;
