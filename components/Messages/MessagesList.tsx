@@ -1,14 +1,10 @@
-import dayjs from "dayjs";
-import ko from "dayjs/locale/ko";
-import relativeTime from "dayjs/plugin/relativeTime";
 import { RefObject } from "react";
 
 import { useGetPairLettersQuery } from "../../api/postsApi";
 import { useAppSelector } from "../../store/hooks";
+import { relativeDate } from "../../utils/formatDate";
 
 import styles from "./Messages.module.scss";
-
-dayjs.extend(relativeTime);
 
 export default function MessagesList({
   messageListRef,
@@ -17,7 +13,7 @@ export default function MessagesList({
 }) {
   const { pair, user } = useAppSelector((state) => state);
 
-  const { isLoading, error, data } = useGetPairLettersQuery(pair.id || 0, {
+  const { data } = useGetPairLettersQuery(pair.id || 0, {
     skip: pair.id === (undefined || null),
   });
 
@@ -37,7 +33,7 @@ export default function MessagesList({
                 </span>
               )}
               <div className={`${styles["typo2-regular"]} ${styles.fromNow}`}>
-                {dayjs(letter.createdAt).locale(ko).fromNow()}
+                {relativeDate(letter.createdAt)}
               </div>
             </div>
             <div className={`${styles["typo3-regular"]} ${styles.content}`}>

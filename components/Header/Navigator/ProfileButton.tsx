@@ -9,7 +9,7 @@ import styles from "./ProfileButton.module.scss";
 export default function ProfileButton() {
   const router = useRouter();
 
-  const isAtProfile = router.pathname === "/profile/me";
+  const isAtProfile = router.pathname.includes("profile");
 
   return (
     <li className={styles.profileButton}>

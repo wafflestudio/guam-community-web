@@ -1,6 +1,3 @@
-import dayjs from "dayjs";
-import ko from "dayjs/locale/ko";
-import relativeTime from "dayjs/plugin/relativeTime";
 import { useRouter } from "next/router";
 
 import {
@@ -16,18 +13,15 @@ import ScrapFilledIcon from "../../../../assets/icons/scrap/filled_20.svg";
 import ScrapIcon from "../../../../assets/icons/scrap/outlined_20.svg";
 import { boardList } from "../../../../constants/constants";
 import { IPostsListPost } from "../../../../types/types";
+import { relativeDate } from "../../../../utils/formatDate";
 
 import styles from "./Post.module.scss";
-
-dayjs.extend(relativeTime);
 
 export default function Post({ post }: { post: IPostsListPost }) {
   const [scrapPost] = useScrapPostMutation();
   const [likePost] = useLikePostMutation();
 
   const router = useRouter();
-
-  const createdTime = new Date(post.createdAt);
 
   const onClickPost = () => {
     console.log(9);
@@ -49,7 +43,7 @@ export default function Post({ post }: { post: IPostsListPost }) {
         #{post.category ? post.category.title : null}
       </div>
       <span className={`${styles["typo1-regular"]} ${styles.fromNow}`}>
-        {dayjs(createdTime).locale(ko).fromNow()}
+        {relativeDate(post.createdAt)}
       </span>
       <hr />
       <div className={`${styles.title}`} onClick={onClickPost}>

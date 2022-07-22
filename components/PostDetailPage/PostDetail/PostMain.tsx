@@ -1,17 +1,13 @@
-import dayjs from "dayjs";
-import ko from "dayjs/locale/ko";
-import relativeTime from "dayjs/plugin/relativeTime";
 import { useRouter } from "next/router";
 import { useCallback, useState } from "react";
 
 import { postsApi } from "../../../api/postsApi";
 import MoreIcon from "../../../assets/icons/more.svg";
+import { relativeDate } from "../../../utils/formatDate";
 import DeleteConfirmModal from "../PostModifyModal/DeleteConfirmModal/DeleteConfirmModal";
 import PostModifyModal from "../PostModifyModal/PostModifyModal";
 
 import styles from "./PostMain.module.scss";
-
-dayjs.extend(relativeTime);
 
 export default function PostMain() {
   const [postModifyModal, setPostModifyModal] = useState(false);
@@ -76,7 +72,7 @@ export default function PostMain() {
         </div>
       ) : null}
       <div className={`${styles["typo1-regular"]} ${styles.createdAt}`}>
-        {post && dayjs(new Date(post.createdAt)).locale(ko).fromNow()}
+        {post && relativeDate(post.createdAt)}
       </div>
       {post?.isMine ? (
         <div className={styles.more}>

@@ -1,5 +1,5 @@
 import { useRouter } from "next/router";
-import { Dispatch, SetStateAction } from "react";
+import { Dispatch, SetStateAction, useRef } from "react";
 
 import { useAppDispatch } from "../../../../store/hooks";
 import {
@@ -7,16 +7,20 @@ import {
   setUserReportModal,
 } from "../../../../store/modalSlice";
 import { IUser } from "../../../../types/types";
+import { useModalRef } from "../../../../utils/useModalRef";
 
 import styles from "./Comment.module.scss";
 
 export default function CommentMoreModal({
   user,
-  setSelectedId,
+  setMoreOpen,
 }: {
   user: IUser;
-  setSelectedId: Dispatch<SetStateAction<number | null>>;
+  setMoreOpen: Dispatch<SetStateAction<boolean>>;
 }) {
+  const modalRef = useRef(null);
+  useModalRef(modalRef, setMoreOpen);
+
   const dispatch = useAppDispatch();
 
   const router = useRouter();
@@ -25,16 +29,16 @@ export default function CommentMoreModal({
 
   const onReportUser = () => {
     dispatch(setUserReportModal({ open: true, user }));
-    setSelectedId(null);
+    setMoreOpen(false);
   };
 
   const onBlockUser = () => {
     dispatch(setUserBlockModal({ open: true, user }));
-    setSelectedId(null);
+    setMoreOpen(false);
   };
 
   return (
-    <div className={styles.moreModal}>
+    <div className={styles.moreModal} ref={modalRef}>
       <ul>
         <li>
           <button onClick={onSendMessage}>쪽지 보내기</button>

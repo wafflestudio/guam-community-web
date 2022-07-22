@@ -6,7 +6,7 @@ export interface IUser {
   nickname: string | null;
   email: null | string;
   profileImage: null | string;
-  interests: { name: string }[];
+  interests: IInterest[];
   profileSet: boolean;
 }
 
@@ -87,7 +87,7 @@ interface ILetter {
 
 export interface ILetterBox {
   pair: IUser;
-  latestLetter: ILetter;
+  lastLetter: ILetter;
 }
 
 export interface ILetters {

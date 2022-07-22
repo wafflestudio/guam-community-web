@@ -1,6 +1,3 @@
-import dayjs from "dayjs";
-import ko from "dayjs/locale/ko";
-import relativeTime from "dayjs/plugin/relativeTime";
 import throttle from "lodash/throttle";
 import Link from "next/link";
 import React, {
@@ -14,10 +11,10 @@ import React, {
 import { useGetPushListQuery } from "../../../api/postsApi";
 import { useAppSelector } from "../../../store/hooks";
 import { IPushData } from "../../../types/types";
+import { relativeDate } from "../../../utils/formatDate";
+import { useModalRef } from "../../../utils/useModalRef";
 
 import styles from "./NotificationModal.module.scss";
-
-dayjs.extend(relativeTime);
 
 const NotificationModal = ({
   setModal,
@@ -46,22 +43,10 @@ const NotificationModal = ({
     }
   }, [currentResult.data]);
 
-  useEffect(() => {
-    const listener = (e: MouseEvent) => {
-      if (!modalRef.current?.contains(e.target as Node)) setModal(false);
-    };
-
-    document.addEventListener("mousedown", listener);
-
-    return () => document.removeEventListener("mousedown", listener);
-  }, []);
+  useModalRef(modalRef, setModal);
 
   const handleScroll = () => {
     if (modalRef.current && hasNext) {
-      console.log(
-        modalRef.current?.clientHeight,
-        modalRef.current?.scrollHeight - modalRef.current?.scrollTop - 1
-      );
       const reachBottom =
         modalRef.current?.clientHeight >=
         modalRef.current?.scrollHeight - modalRef.current?.scrollTop - 1;
@@ -112,7 +97,7 @@ const NotificationModal = ({
                     </Link>
                   </div>
                   <div className={`${styles["typo2-regular"]} ${styles.date}`}>
-                    {dayjs(push.createdAt).locale(ko).fromNow()}
+                    {relativeDate(push.createdAt)}
                   </div>
                 </div>
               </li>
