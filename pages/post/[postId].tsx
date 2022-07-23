@@ -1,10 +1,10 @@
 import { useRouter } from "next/router";
 import { useEffect, useMemo, useState } from "react";
 
-import { useGetPostDetailQuery } from "../../../api/postsApi";
-import PageTitle from "../../../components/PageTitle";
-import PostDetailPage from "../../../components/PostDetailPage/PostDetailPage";
-import { useAppSelector } from "../../../store/hooks";
+import { useGetPostDetailQuery } from "../../api/postsApi";
+import PageTitle from "../../components/PageTitle";
+import PostDetailPage from "../../components/PostDetailPage/PostDetailPage";
+import { useAppSelector } from "../../store/hooks";
 
 export default function DetailedPostPage() {
   const [currentPost, setCurrentPost] = useState<number>(0);
@@ -16,6 +16,8 @@ export default function DetailedPostPage() {
   const postId = useMemo(() => router.isReady && router.query.postId, [router]);
 
   useEffect(() => {
+    if (!isLoggedIn) router.push("/login");
+
     if (!router.isReady) return;
 
     if (postId === undefined) {
@@ -40,11 +42,6 @@ export default function DetailedPostPage() {
       <PageTitle title={data?.title || "Posts"} />
       {isLoading ? <span>Loading</span> : error ? <span>Error</span> : null}
       <PostDetailPage />
-      {/* {postData?.imagePaths.map((image) => (
-        <li key={image}>
-          <img src={process.env.BUCKET_URL + image} />
-        </li>
-      ))} */}
     </>
   );
 }

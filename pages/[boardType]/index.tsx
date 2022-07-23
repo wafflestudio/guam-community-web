@@ -1,11 +1,11 @@
 import { useRouter } from "next/router";
 import { useEffect, useMemo, useState } from "react";
 
-import { useGetPostsByBoardQuery } from "../../../api/postsApi";
-import PageTitle from "../../../components/PageTitle";
-import PostsPage from "../../../components/PostsPage/PostsPage";
-import { boardList } from "../../../constants/constants";
-import { useAppSelector } from "../../../store/hooks";
+import { useGetPostsByBoardQuery } from "../../api/postsApi";
+import PageTitle from "../../components/PageTitle";
+import PostsPage from "../../components/PostsPage/PostsPage";
+import { boardList } from "../../constants/constants";
+import { useAppSelector } from "../../store/hooks";
 
 export default function Home() {
   const [boardId, setBoardId] = useState<number | undefined>(undefined);

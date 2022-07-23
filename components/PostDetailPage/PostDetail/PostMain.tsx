@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { useRouter } from "next/router";
 import { useCallback, useState } from "react";
 
@@ -32,23 +33,29 @@ export default function PostMain() {
         {post?.title}
       </h1>
       <hr />
-      <div className={styles.userInfo}>
-        <div className={styles.profileImage}>
-          <img
-            src={
-              post?.user.profileImage
-                ? process.env.BUCKET_URL +
-                  post?.user.profileImage +
-                  "?" +
-                  Date.now()
-                : "/default_profile_image.png"
-            }
-          />
-        </div>
-        <div className={`${styles["typo5-regular"]} ${styles.userNickname}`}>
-          {post?.user.nickname}
-        </div>
-      </div>
+      <Link href={`/profile/${post?.user.id}`}>
+        <a>
+          <div className={styles.userInfo}>
+            <div className={styles.profileImage}>
+              <img
+                src={
+                  post?.user.profileImage
+                    ? process.env.BUCKET_URL +
+                      post?.user.profileImage +
+                      "?" +
+                      Date.now()
+                    : "/default_profile_image.png"
+                }
+              />
+            </div>
+            <div
+              className={`${styles["typo5-regular"]} ${styles.userNickname}`}
+            >
+              {post?.user.nickname}
+            </div>
+          </div>
+        </a>
+      </Link>
       <div className={styles.content}>
         <div className={`${styles["typo4-regular"]} ${styles.description}`}>
           {post?.content}

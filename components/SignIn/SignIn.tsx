@@ -1,6 +1,5 @@
 import axios from "axios";
 import { getAuth, GoogleAuthProvider, signInWithPopup } from "firebase/auth";
-import firebase from "firebase/compat/app";
 import Link from "next/link";
 import { useRouter } from "next/router";
 
