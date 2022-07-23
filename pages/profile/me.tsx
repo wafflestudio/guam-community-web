@@ -1,19 +1,10 @@
-import { useRouter } from "next/router";
-import { useEffect } from "react";
-
 import SignOutButton from "../../components/Buttons/SignOutButton";
 import PageTitle from "../../components/PageTitle";
 import SetProfilePage from "../../components/SetProfilePage/SetProfilePage";
-import { useAppSelector } from "../../store/hooks";
+import { useLogin } from "../../utils/useLogin";
 
 export default function SetProfile() {
-  const { isLoggedIn } = useAppSelector((state) => state.auth);
-
-  const router = useRouter();
-
-  useEffect(() => {
-    if (!isLoggedIn) router.push("/login");
-  }, []);
+  useLogin();
 
   return (
     <>

@@ -4,20 +4,18 @@ import { useEffect, useMemo, useState } from "react";
 import { useGetPostDetailQuery } from "../../api/postsApi";
 import PageTitle from "../../components/PageTitle";
 import PostDetailPage from "../../components/PostDetailPage/PostDetailPage";
-import { useAppSelector } from "../../store/hooks";
+import { useLogin } from "../../utils/useLogin";
 
 export default function DetailedPostPage() {
   const [currentPost, setCurrentPost] = useState<number>(0);
 
-  const { isLoggedIn } = useAppSelector((state) => state.auth);
+  const isLoggedIn = useLogin();
 
   const router = useRouter();
 
   const postId = useMemo(() => router.isReady && router.query.postId, [router]);
 
   useEffect(() => {
-    if (!isLoggedIn) router.push("/login");
-
     if (!router.isReady) return;
 
     if (postId === undefined) {

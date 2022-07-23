@@ -1,21 +1,15 @@
-import { useRouter } from "next/router";
-import React, { useEffect } from "react";
+import React from "react";
 
 import { useGetUserQuery } from "../../api/postsApi";
 import PageTitle from "../../components/PageTitle";
 import ProfilePage from "../../components/ProfilePage/ProfilePage";
-import { useAppSelector } from "../../store/hooks";
+import { useLogin } from "../../utils/useLogin";
 import useRouterInfo from "../../utils/useRouterInfo";
 
 const ProfileById = () => {
+  const isLoggedIn = useLogin();
+
   const { userId } = useRouterInfo();
-  const { isLoggedIn } = useAppSelector((state) => state.auth);
-
-  const router = useRouter();
-
-  useEffect(() => {
-    if (!isLoggedIn) router.push("/login");
-  }, []);
 
   const user = useGetUserQuery(parseInt(userId), {
     skip:
