@@ -48,7 +48,7 @@ export default function PostsBoard() {
             </Link>
           </li>
           <li>
-            <Link href={`/posts/${FREE}`}>
+            <Link href={`/${FREE}`}>
               <a>
                 <button
                   className={`${styles["typo4-medium"]} ${styles.listItem} ${
@@ -62,7 +62,7 @@ export default function PostsBoard() {
             </Link>
           </li>
           <li>
-            <Link href={`/posts/${ANONYMOUS}`}>
+            <Link href={`/${ANONYMOUS}`}>
               <a>
                 <button
                   className={`${styles["typo4-medium"]} ${styles.listItem} ${
@@ -80,7 +80,7 @@ export default function PostsBoard() {
             </Link>
           </li>
           <li>
-            <Link href={`/posts/${INFORMATION}`}>
+            <Link href={`/${INFORMATION}`}>
               <a>
                 <button
                   className={`${styles["typo4-medium"]} ${styles.listItem} ${
@@ -94,7 +94,7 @@ export default function PostsBoard() {
             </Link>
           </li>
           <li>
-            <Link href={`/posts/${CAREER}`}>
+            <Link href={`/${CAREER}`}>
               <a>
                 <button
                   className={`${styles["typo4-medium"]} ${styles.listItem} ${
@@ -108,7 +108,7 @@ export default function PostsBoard() {
             </Link>
           </li>
           <li>
-            <Link href={`/posts/${AD}`}>
+            <Link href={`/${AD}`}>
               <a>
                 <button
                   className={`${styles["typo4-medium"]} ${styles.listItem} ${

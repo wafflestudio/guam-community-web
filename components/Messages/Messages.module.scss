@@ -39,7 +39,7 @@
     width: 264px;
     height: 608px;
     background: colors.$grayscale-white;
-    overflow: scroll;
+    overflow: auto;
 
     &::-webkit-scrollbar {
       display: none;
@@ -246,7 +246,7 @@
       color: colors.$grayscale-gray2;
       resize: auto;
       word-wrap: break-word;
-      overflow-y: scroll;
+      overflow-y: auto;
       white-space: pre-line;
 
       &::-webkit-scrollbar {

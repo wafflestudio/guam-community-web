@@ -1,16 +1,11 @@
-import dayjs from "dayjs";
-import ko from "dayjs/locale/ko";
-import relativeTime from "dayjs/plugin/relativeTime";
-
 import { postsApi } from "../../api/postsApi";
 import { useAppDispatch, useAppSelector } from "../../store/hooks";
 import { setPair } from "../../store/letterPairSlice";
 import { ILetters, IUser } from "../../types/types";
+import { relativeDate } from "../../utils/formatDate";
 import Profile from "../PostPageSide/Profile";
 
 import styles from "./Messages.module.scss";
-
-dayjs.extend(relativeTime);
 
 export default function MessagesSide() {
   const pair = useAppSelector((state) => state.pair);
@@ -57,12 +52,12 @@ export default function MessagesSide() {
                   <div
                     className={`${styles["typo3-regular"]} ${styles.fromNow}`}
                   >
-                    {dayjs(box.latestLetter?.createdAt).locale(ko).fromNow()}
+                    {relativeDate(box.lastLetter?.createdAt)}
                   </div>
                   <div
                     className={`${styles["typo3-regular"]} ${styles.preview}`}
                   >
-                    {box.latestLetter?.text}
+                    {box.lastLetter?.text}
                   </div>
                 </li>
               );

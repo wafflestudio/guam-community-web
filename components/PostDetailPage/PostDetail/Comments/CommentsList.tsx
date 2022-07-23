@@ -20,12 +20,7 @@ export default function CommentsList() {
   return (
     <div className={styles.container}>
       {comments?.map((comment) => (
-        <Comment
-          key={comment.id}
-          comment={comment}
-          selectedId={selectedId}
-          setSelectedId={setSelectedId}
-        />
+        <Comment key={comment.id} comment={comment} />
       ))}
     </div>
   );
