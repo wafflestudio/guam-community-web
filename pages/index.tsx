@@ -30,8 +30,7 @@ const Home = () => {
     }
   }, [router.isReady, router.query.page]);
 
-  useGetAllPostsQuery(currentPage, {
-    refetchOnMountOrArgChange: true,
+  useGetAllPostsQuery(currentPage || 0, {
     skip: currentPage === undefined || isLoggedIn === undefined,
   });
 

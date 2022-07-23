@@ -5,6 +5,7 @@ import {
   ILetters,
   IPairLetters,
   IPostsData,
+  IPushData,
 } from "../types/types";
 import { getFirebaseIdToken } from "../utils/firebaseUtils";
 
@@ -26,11 +27,19 @@ export const postsApi = createApi({
       return headers;
     },
   }),
-  tagTypes: ["Posts List", "Post Detail", "LetterBox List", "Letters"],
+  tagTypes: [
+    "Posts List",
+    "Post Detail",
+    "LetterBox List",
+    "Letters",
+    "Push List",
+  ],
   endpoints: (build) => ({
-    getAllPosts: build.query<IPostsData, number | void>({
+    getAllPosts: build.query<IPostsData, number>({
       query: (page) => ({ url: `posts?page=${page}` }),
-      providesTags: () => [{ type: "Posts List", boardId: 0 }],
+      providesTags: (result, error, req) => [
+        { type: "Posts List", boardId: 0, page: req },
+      ],
     }),
     getPostsByBoard: build.query<IPostsData, PostsBoardQuery>({
       query: (req) => ({
@@ -40,6 +49,7 @@ export const postsApi = createApi({
         {
           type: "Posts List",
           boardId: req.boardId,
+          page: req,
         },
       ],
     }),
@@ -63,8 +73,8 @@ export const postsApi = createApi({
         };
       },
       invalidatesTags: (result) => [
-        { type: "Posts List", boardId: 0 },
-        { type: "Posts List", boardId: result.boardId },
+        { type: "Posts List", boardId: 0, page: 0 },
+        { type: "Posts List", boardId: result.boardId, page: 0 },
       ],
     }),
     scrapPost: build.mutation({
@@ -165,6 +175,22 @@ export const postsApi = createApi({
         { type: "LetterBox List" },
       ],
     }),
+
+    getPushList: build.query<IPushData, number>({
+      query: (page) => ({ url: `push?page=${page}&size=10` }),
+      providesTags: () => [{ type: "Push List" }],
+    }),
+    postPushRead: build.mutation({
+      query: ({ userId, pushEventIds }) => ({
+        url: `push/read`,
+        method: "POST",
+        body: { userId, pushEventIds },
+      }),
+      invalidatesTags: (result) => [
+        { type: "Letters", pairId: result?.to },
+        { type: "LetterBox List" },
+      ],
+    }),
   }),
 });
 
@@ -183,6 +209,7 @@ export const {
   useGetLettersQuery,
   useGetPairLettersQuery,
   usePostLetterMutation,
+  useGetPushListQuery,
   util: { getRunningOperationPromises },
 } = postsApi;
 

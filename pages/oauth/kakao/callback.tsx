@@ -20,7 +20,13 @@ export default function Auth() {
   const { code } = router.query;
 
   const REST_API_KEY = process.env.REST_API_KEY;
-  const REDIRECT_URI = process.env.KAKAO_REDIRECT_URI;
+  const REDIRECT_URI = () => {
+    if (!process.env.NODE_ENV || process.env.NODE_ENV === "development") {
+      return process.env.KAKAO_REDIRECT_URI;
+    } else {
+      return process.env.KAKAO_REDIRECT_URI_PRODUCTION;
+    }
+  };
   const CLIENT_SECRET = process.env.CLIENT_SECRET;
 
   const auth = getAuth();

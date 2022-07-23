@@ -1,9 +1,9 @@
-import { useRouter } from "next/router";
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useState } from "react";
 
 import { postsApi } from "../../../../api/postsApi";
-import { boardList } from "../../../../constants/constants";
 import { IPostsListPost } from "../../../../types/types";
+import useRouterInfo from "../../../../utils/useRouterInfo";
+import PaginationButton from "../../PaginationButton/PaginationButton";
 
 import Post from "./Post";
 
@@ -12,27 +12,7 @@ import styles from "./PostsList.module.scss";
 export default function PostsList() {
   const [posts, setPosts] = useState<IPostsListPost[]>([]);
 
-  const router = useRouter();
-
-  const boardType = useMemo(() => router.query.boardType, [router.query]);
-  const keyword = useMemo(
-    () =>
-      typeof router.query.keyword === "string" &&
-      encodeURI(router.query.keyword),
-    [router.query]
-  );
-
-  const page = useMemo(
-    () =>
-      typeof router.query.page === "string"
-        ? parseInt(router.query.page) - 1
-        : 0,
-    [router.query]
-  );
-  const boardId = useMemo(
-    () => boardList.find((board) => boardType === board.route)?.id,
-    [boardType]
-  );
+  const { boardId, page, keyword } = useRouterInfo();
 
   const result =
     typeof boardId === "number"
@@ -53,11 +33,14 @@ export default function PostsList() {
   const postsList = posts.map((post) => <Post key={post.id} post={post} />);
 
   return (
-    <ul className={styles.container}>
-      {result.data ? postsList : null}
-      {result.isLoading ? (
-        <img className={styles.loading} src={"/loading.gif"} />
-      ) : null}
-    </ul>
+    <>
+      <div className={styles.container}>
+        <ul>{result.data ? postsList : null}</ul>
+        {result.isLoading ? (
+          <img className={styles.loading} src={"/loading.gif"} />
+        ) : null}
+        {result.data ? <PaginationButton /> : null}
+      </div>
+    </>
   );
 }

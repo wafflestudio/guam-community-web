@@ -1,0 +1,79 @@
+@use "../../../assets/fonts/typography_regular";
+@use "../../../assets/colors/colors";
+
+.wrapper {
+  position: absolute;
+  height: 248px;
+  width: 360px;
+  padding-top: 12px;
+  background-color: white;
+  margin-top: 12px;
+  margin-left: -240px;
+  border-radius: 5px;
+  overflow: auto;
+  scrollbar-width: none;
+  z-index: 10;
+  box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+  display: none;
+
+  &.open {
+    display: block;
+  }
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
+
+  .empty {
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transform: translateY(-13px);
+  }
+
+  ul {
+    list-style: none;
+
+    li {
+      display: flex;
+      border-bottom: 1px solid colors.$grayscale-gray7;
+      padding: 8px 12px;
+
+      .imageWrapper {
+        margin-top: 2px;
+        width: 36px;
+        height: 36px;
+        border-radius: 50%;
+        overflow: hidden;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+        img {
+          width: 36px;
+          height: 36px;
+        }
+      }
+
+      .text {
+        margin-left: 12px;
+
+        .content {
+          font-size: 13px;
+          color: colors.$grayscale-gray3;
+
+          &.read {
+            color: colors.$grayscale-gray2;
+          }
+        }
+
+        .date {
+          color: colors.$grayscale-gray5;
+          text-align: left;
+          margin-top: 5px;
+        }
+      }
+    }
+  }
+}
