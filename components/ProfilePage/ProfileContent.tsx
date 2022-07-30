@@ -1,8 +1,8 @@
 import React from "react";
 
-import { postsApi } from "../../api/postsApi";
 import BlogIcon from "../../assets/icons/blog/gray.svg";
 import GithubIcon from "../../assets/icons/github/gray.svg";
+import { postsApi } from "../../store/postsApi";
 import useRouterInfo from "../../utils/useRouterInfo";
 
 import styles from "./ProfilePage.module.scss";

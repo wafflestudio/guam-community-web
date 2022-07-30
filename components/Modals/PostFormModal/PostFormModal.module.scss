@@ -380,6 +380,9 @@
           position: absolute;
           bottom: 85px;
           left: 20px;
+          display: flex;
+          justify-content: center;
+          align-items: center;
 
           img {
             width: auto;
@@ -392,6 +395,9 @@
             position: absolute;
             bottom: 88px;
             left: 25px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
 
             img {
               width: auto;

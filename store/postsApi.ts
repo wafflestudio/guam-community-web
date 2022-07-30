@@ -179,7 +179,10 @@ export const postsApi = createApi({
     }),
 
     getPushList: build.query<IPushData, number>({
-      query: (page) => ({ url: `push?page=${page}&size=10` }),
+      query: (page) => ({
+        url: `push?page=${page}&size=10`,
+      }),
+      keepUnusedDataFor: Infinity,
       providesTags: () => [{ type: "Push List" }],
     }),
     postPushRead: build.mutation({
@@ -188,10 +191,7 @@ export const postsApi = createApi({
         method: "POST",
         body: { userId, pushEventIds },
       }),
-      invalidatesTags: (result) => [
-        { type: "Letters", pairId: result?.to },
-        { type: "LetterBox List" },
-      ],
+      invalidatesTags: () => [{ type: "Push List" }],
     }),
 
     getUser: build.query<IUser, number | undefined>({
@@ -217,6 +217,7 @@ export const {
   useGetPairLettersQuery,
   usePostLetterMutation,
   useGetPushListQuery,
+  usePostPushReadMutation,
   useGetUserQuery,
   util: { getRunningOperationPromises },
 } = postsApi;

@@ -1,12 +1,11 @@
 import { configureStore } from "@reduxjs/toolkit";
 import { createWrapper } from "next-redux-wrapper";
 
-import { postsApi } from "../api/postsApi";
-
 import authReducer from "./authSlice";
 import commentFormReducer from "./commentFormSlice";
 import pairReducer from "./letterPairSlice";
 import modalReducer from "./modalSlice";
+import { postsApi } from "./postsApi";
 import userReducer from "./userSlice";
 
 export const store = () =>

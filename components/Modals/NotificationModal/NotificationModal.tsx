@@ -8,8 +8,12 @@ import React, {
   useState,
 } from "react";
 
-import { useGetPushListQuery } from "../../../api/postsApi";
+import { notificationList } from "../../../constants/constants";
 import { useAppSelector } from "../../../store/hooks";
+import {
+  useGetPushListQuery,
+  usePostPushReadMutation,
+} from "../../../store/postsApi";
 import { IPushData } from "../../../types/types";
 import { relativeDate } from "../../../utils/formatDate";
 import { useModalRef } from "../../../utils/useModalRef";
@@ -30,10 +34,12 @@ const NotificationModal = ({
   const modalRef = useRef<HTMLDivElement>(null);
 
   const { isLoggedIn } = useAppSelector((state) => state.auth);
+  const { id: userId } = useAppSelector((state) => state.user);
 
   const currentResult = useGetPushListQuery(page, {
     skip: !isLoggedIn || !hasNext || page < 0,
   });
+  const [postPushRead] = usePostPushReadMutation();
 
   useEffect(() => {
     if (currentResult.data) {
@@ -57,6 +63,10 @@ const NotificationModal = ({
   };
   const throttleScroll = throttle(handleScroll, 300);
 
+  const onPushClick = (pushEventIds: number[]) => {
+    postPushRead({ userId, pushEventIds });
+  };
+
   return (
     <div
       ref={modalRef}
@@ -73,8 +83,19 @@ const NotificationModal = ({
             const link = push.linkUrl.substr(push.linkUrl.indexOf("1") + 1);
 
             return (
-              <li key={push.id}>
+              <li key={push.id} onClick={() => onPushClick([push.id])}>
                 <div className={styles.imageWrapper}>
+                  {push.isRead ? null : (
+                    <svg
+                      width="12"
+                      height="12"
+                      viewBox="0 0 12 12"
+                      fill="none"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <circle cx="6" cy="6" r="6" fill="#FF00FF" />
+                    </svg>
+                  )}
                   <img
                     alt={`${push.writer.nickname}의 이미지`}
                     src={
@@ -92,7 +113,15 @@ const NotificationModal = ({
                   >
                     <Link href={link}>
                       <a>
-                        {push.writer.nickname}가 {push.kind}
+                        <span className={styles.writerName}>
+                          {push.writer.nickname}
+                        </span>{" "}
+                        님이{" "}
+                        {
+                          notificationList.find(
+                            (notification) => notification.key === push.kind
+                          )?.phrase
+                        }
                       </a>
                     </Link>
                   </div>

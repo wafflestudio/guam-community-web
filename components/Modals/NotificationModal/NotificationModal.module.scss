@@ -49,6 +49,14 @@
         display: flex;
         justify-content: center;
         align-items: center;
+        position: relative;
+
+        svg {
+          position: absolute;
+          top: 0;
+          left: 0;
+          z-index: 2;
+        }
 
         img {
           width: 36px;
@@ -65,6 +73,10 @@
 
           &.read {
             color: colors.$grayscale-gray2;
+          }
+
+          .writerName {
+            font-weight: 500;
           }
         }
 

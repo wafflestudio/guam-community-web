@@ -1,7 +1,7 @@
 import { RefObject } from "react";
 
-import { useGetPairLettersQuery } from "../../api/postsApi";
 import { useAppSelector } from "../../store/hooks";
+import { useGetPairLettersQuery } from "../../store/postsApi";
 import { relativeDate } from "../../utils/formatDate";
 
 import styles from "./Messages.module.scss";

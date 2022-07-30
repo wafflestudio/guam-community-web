@@ -1,6 +1,6 @@
-import { postsApi } from "../../api/postsApi";
 import { useAppDispatch, useAppSelector } from "../../store/hooks";
 import { setPair } from "../../store/letterPairSlice";
+import { postsApi } from "../../store/postsApi";
 import { ILetters, IUser } from "../../types/types";
 import { relativeDate } from "../../utils/formatDate";
 import Profile from "../PostPageSide/Profile";

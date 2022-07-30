@@ -71,7 +71,7 @@ export interface IDetailedPost extends IPostsListPost {
 }
 
 export interface IImageUrl {
-  id: number;
+  id: string;
   url: string;
 }
 

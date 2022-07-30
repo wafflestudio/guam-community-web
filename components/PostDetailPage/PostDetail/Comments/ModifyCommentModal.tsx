@@ -1,6 +1,6 @@
 import React, { Dispatch, SetStateAction, useRef } from "react";
 
-import { useDeleteCommentMutation } from "../../../../api/postsApi";
+import { useDeleteCommentMutation } from "../../../../store/postsApi";
 import { useModalRef } from "../../../../utils/useModalRef";
 
 import styles from "./Comment.module.scss";

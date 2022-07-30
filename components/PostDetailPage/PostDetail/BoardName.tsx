@@ -1,7 +1,7 @@
 import { useRouter } from "next/router";
 
-import { postsApi } from "../../../api/postsApi";
 import { boardList, categoryList } from "../../../constants/constants";
+import { postsApi } from "../../../store/postsApi";
 
 import styles from "./BoardName.module.scss";
 

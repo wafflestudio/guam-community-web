@@ -24,6 +24,8 @@ export default function SetNickname() {
     setNickname(target.value);
 
   const onSubmitNickname = async () => {
+    if (nickname.length < 2) return alert("닉네임 두글자 이상");
+
     const formData = new FormData();
     formData.append("nickname", nickname);
 

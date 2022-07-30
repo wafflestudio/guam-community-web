@@ -1,9 +1,9 @@
 import { useRouter } from "next/router";
 import { useEffect, useMemo, useState } from "react";
 
-import { useGetPostDetailQuery } from "../../api/postsApi";
 import PageTitle from "../../components/PageTitle";
 import PostDetailPage from "../../components/PostDetailPage/PostDetailPage";
+import { useGetPostDetailQuery } from "../../store/postsApi";
 import { useLogin } from "../../utils/useLogin";
 
 export default function DetailedPostPage() {
@@ -28,7 +28,7 @@ export default function DetailedPostPage() {
     } else {
       router.push("/404");
     }
-  }, [router.isReady, router.query.page]);
+  }, [router.isReady, router.query.page, postId]);
 
   const { data, isLoading, error } = useGetPostDetailQuery(currentPost, {
     skip: !isLoggedIn || currentPost === 0,

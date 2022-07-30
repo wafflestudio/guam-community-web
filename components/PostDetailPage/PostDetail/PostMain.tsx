@@ -2,8 +2,8 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import { useCallback, useState } from "react";
 
-import { postsApi } from "../../../api/postsApi";
 import MoreIcon from "../../../assets/icons/more.svg";
+import { postsApi } from "../../../store/postsApi";
 import { relativeDate } from "../../../utils/formatDate";
 import DeleteConfirmModal from "../PostModifyModal/DeleteConfirmModal/DeleteConfirmModal";
 import PostModifyModal from "../PostModifyModal/PostModifyModal";

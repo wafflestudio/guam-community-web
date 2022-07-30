@@ -7,9 +7,9 @@ import {
   useState,
 } from "react";
 
-import { usePostLetterMutation } from "../../api/postsApi";
 import CameraIcon from "../../assets/icons/camera.svg";
 import { useAppSelector } from "../../store/hooks";
+import { usePostLetterMutation } from "../../store/postsApi";
 import { IImageUrl } from "../../types/types";
 
 import MessageImages from "./MessageImages";

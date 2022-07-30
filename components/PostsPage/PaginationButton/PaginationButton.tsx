@@ -1,9 +1,9 @@
 import { useRouter } from "next/router";
 import React from "react";
 
-import { postsApi } from "../../../api/postsApi";
 import BackIcon from "../../../assets/icons/back.svg";
 import RightIcon from "../../../assets/icons/right.svg";
+import { postsApi } from "../../../store/postsApi";
 import useRouterInfo from "../../../utils/useRouterInfo";
 
 import styles from "./PaginationButton.module.scss";

@@ -1,10 +1,6 @@
 import Link from "next/link";
 import { useRouter } from "next/router";
 
-import {
-  useLikePostMutation,
-  useScrapPostMutation,
-} from "../../../../api/postsApi";
 import CommentIcon from "../../../../assets/icons/comment/comment_20.svg";
 import LikeFilledIcon from "../../../../assets/icons/like/filled_20.svg";
 import LikeIcon from "../../../../assets/icons/like/post-list.svg";
@@ -12,6 +8,10 @@ import PictureIcon from "../../../../assets/icons/picture.svg";
 import ProfileIcon from "../../../../assets/icons/profile/default_image.svg";
 import ScrapFilledIcon from "../../../../assets/icons/scrap/filled_20.svg";
 import ScrapIcon from "../../../../assets/icons/scrap/outlined_20.svg";
+import {
+  useLikePostMutation,
+  useScrapPostMutation,
+} from "../../../../store/postsApi";
 import { IPostsListPost } from "../../../../types/types";
 import { relativeDate } from "../../../../utils/formatDate";
 
@@ -24,7 +24,7 @@ export default function Post({ post }: { post: IPostsListPost }) {
   const router = useRouter();
 
   const onClickPost = () => {
-    router.push(`/post/${post.id}`);
+    router.push(`/posts/${post.id}`);
   };
 
   const onLikePost = () =>

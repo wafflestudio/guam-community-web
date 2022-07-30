@@ -1,8 +1,8 @@
 import React from "react";
 
-import { useGetUserQuery } from "../../api/postsApi";
 import PageTitle from "../../components/PageTitle";
 import ProfilePage from "../../components/ProfilePage/ProfilePage";
+import { useGetUserQuery } from "../../store/postsApi";
 import { useLogin } from "../../utils/useLogin";
 import useRouterInfo from "../../utils/useRouterInfo";
 
@@ -11,13 +11,18 @@ const ProfileById = () => {
 
   const { userId } = useRouterInfo();
 
-  const user = useGetUserQuery(parseInt(userId), {
-    skip:
-      !userId ||
-      typeof userId !== "string" ||
-      typeof parseInt(userId) !== "number" ||
-      !isLoggedIn,
-  });
+  const user = useGetUserQuery(
+    userId && typeof userId === "string" && typeof parseInt(userId) === "number"
+      ? parseInt(userId)
+      : 0,
+    {
+      skip:
+        !userId ||
+        typeof userId !== "string" ||
+        typeof parseInt(userId) !== "number" ||
+        !isLoggedIn,
+    }
+  );
 
   return (
     <>

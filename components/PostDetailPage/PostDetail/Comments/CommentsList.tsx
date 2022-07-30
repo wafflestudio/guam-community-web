@@ -1,7 +1,7 @@
 import { useRouter } from "next/router";
 import { useState } from "react";
 
-import { postsApi } from "../../../../api/postsApi";
+import { postsApi } from "../../../../store/postsApi";
 
 import Comment from "./Comment";
 
