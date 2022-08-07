@@ -14,11 +14,3 @@ export default function SetProfile() {
     </>
   );
 }
-
-// export async function getStaticProps() {
-//   return {
-//     props: {
-//       protected: true,
-//     },
-//   };
-// }

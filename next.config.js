@@ -35,7 +35,7 @@ const nextConfig = {
       },
       {
         source: "/presigned_bucket_url/:path*",
-        destination: process.env.DESTINATION_URL,
+        destination: process.env.PRESIGNED_BUCKET_URL,
       },
       {
         source: "/relyingparty/:path*",

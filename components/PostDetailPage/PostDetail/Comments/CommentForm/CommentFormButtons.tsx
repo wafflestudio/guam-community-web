@@ -1,3 +1,4 @@
+import axios, { AxiosRequestConfig } from "axios";
 import React, { RefObject, useCallback } from "react";
 
 import CameraIcon from "../../../../../assets/icons/camera.svg";
@@ -9,6 +10,7 @@ import {
 import { useAppDispatch, useAppSelector } from "../../../../../store/hooks";
 import { usePostCommentMutation } from "../../../../../store/postsApi";
 import { IUser } from "../../../../../types/types";
+import useRouterInfo from "../../../../../utils/useRouterInfo";
 
 import styles from "./CommentForm.module.scss";
 
@@ -16,12 +18,10 @@ const CommentFormButtons = ({
   photoInputRef,
   mockTextareaRef,
   mentionList,
-  postId,
 }: {
   photoInputRef: RefObject<HTMLInputElement>;
   mockTextareaRef: RefObject<HTMLDivElement>;
   mentionList: IUser[];
-  postId: string;
 }) => {
   const { commentInput, images, imageUrls } = useAppSelector(
     (state) => state.commentForm
@@ -37,6 +37,7 @@ const CommentFormButtons = ({
   }, [imageUrls.length]);
 
   const [postComment] = usePostCommentMutation();
+  const { postId } = useRouterInfo();
 
   const onSubmitComment: React.FormEventHandler = async (e) => {
     e.preventDefault();
@@ -51,27 +52,41 @@ const CommentFormButtons = ({
           (name) => mentionList?.find((user) => user.nickname === name)?.id
         ) || null;
 
-    const data = new FormData();
-    const object = {
+    const data = {
       content: commentInput,
       ...(mentionIds && { mentionIds }),
+      ...(images.length && { imageFilePaths: images.map((file) => file.name) }),
     };
-    Object.keys(object).forEach((key) =>
-      data.append(key, object[key as keyof object])
-    );
-    images.length !== 0 &&
-      images.forEach((image) => {
-        data.append("images", image);
-      });
 
-    const id = typeof postId === "string" ? postId : "0";
+    if (postId)
+      try {
+        const { data: urlData } = await postComment({
+          data,
+          id: postId,
+        });
+        const { preSignedUrls } = urlData;
 
-    postComment({ data, id });
+        await Promise.all(
+          preSignedUrls.map((url: string, i: number) => {
+            const options: AxiosRequestConfig = {
+              url: `/presigned_bucket_url/${
+                url.split(process.env.BUCKET_URL || "")[1]
+              }`,
+              method: "PUT",
+              headers: { "Content-Type": images[i].type },
+              data: images[i],
+            };
+            axios(options);
+          })
+        );
 
-    dispatch(setCommentInput(""));
-    dispatch(setImages([]));
-    dispatch(setImageUrls([]));
-    mockTextareaRef.current!.innerHTML = "";
+        dispatch(setCommentInput(""));
+        dispatch(setImages([]));
+        dispatch(setImageUrls([]));
+        mockTextareaRef.current!.innerHTML = "";
+      } catch (e) {
+        console.log(e);
+      }
   };
 
   return (

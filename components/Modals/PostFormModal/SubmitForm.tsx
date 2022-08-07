@@ -32,8 +32,6 @@ const SubmitForm = () => {
   const [content, setContent] = useState("");
   const [categoryId, setCategoryId] = useState(0);
   const [imageFiles, setImageFiles] = useState<File[]>([]);
-  const [imageData, setImageData] = useState<Uint8Array[]>([]);
-  const [imageNames, setImageNames] = useState<string[]>([]);
   const [imageUrls, setImageUrls] = useState<IImageUrl[]>([]);
 
   const photoInput = useRef<HTMLInputElement>(null);
@@ -57,8 +55,7 @@ const SubmitForm = () => {
     };
   }, [expanded]);
 
-  const [postPost, { isError, isSuccess, data: postResult }] =
-    usePostPostMutation();
+  const [postPost] = usePostPostMutation();
 
   const dispatch = useAppDispatch();
 
@@ -95,21 +92,12 @@ const SubmitForm = () => {
     target,
   }) => {
     if (target.files)
-      setImageNames(Array.from(target.files).map((file) => file.name));
-    handleImageInput(
-      target,
-      10,
-      imageFiles,
-      setImageFiles,
-      setImageUrls,
-      setImageData
-    );
-    console.log(imageData);
+      handleImageInput(target, 10, imageFiles, setImageFiles, setImageUrls);
   };
 
   const clickImageInput = () => photoInput.current?.click();
 
-  const onPostSubmit: FormEventHandler<HTMLFormElement> = (e) => {
+  const onPostSubmit: FormEventHandler<HTMLFormElement> = async (e) => {
     e.preventDefault();
 
     if (boardId === 0) return window.alert("게시판을 골라주세요");
@@ -122,57 +110,38 @@ const SubmitForm = () => {
       title,
       content,
       categoryId,
-      imageFilePaths: imageNames,
+      imageFilePaths: imageFiles.map((file) => file.name),
     };
 
-    postPost(data);
+    try {
+      const { data: urlData } = await postPost(data);
+      const { presignedUrls } = urlData;
+
+      await Promise.all(
+        presignedUrls.map((url: string, i: number) => {
+          const options: AxiosRequestConfig = {
+            url: `/presigned_bucket_url/${
+              url.split(process.env.BUCKET_URL || "")[1]
+            }`,
+            method: "PUT",
+            headers: { "Content-Type": imageFiles[i].type },
+            data: imageFiles[i],
+          };
+          axios(options);
+        })
+      );
+
+      setBoardId(0);
+      setTitle("");
+      setContent("");
+      setCategoryId(0);
+      setImageFiles([]);
+      setImageUrls([]);
+      closeModal();
+    } catch (e) {
+      console.log(e);
+    }
   };
-
-  useEffect(() => {
-    const afterPostPost = async () => {
-      if (isSuccess) {
-        try {
-          await Promise.all(
-            postResult.presignedUrls.map((url: string, i: number) => {
-              const newArr = [];
-              while (imageData[i].length)
-                newArr.push(
-                  Array(imageData[i]).splice(0, Math.sqrt(imageData[i].length))
-                );
-              const options: AxiosRequestConfig = {
-                method: "PUT",
-                url: `/presigned_bucket_url/${
-                  url.split(process.env.BUCKET_URL || "")[1]
-                }`,
-                data: newArr,
-              };
-              return axios(options);
-              //   return axios.put(
-              //     `/presigned_bucket_url/${
-              //       url.split(process.env.BUCKET_URL || "")[1]
-              //     }`,
-              //     imageData[i]
-              //   );
-            })
-          );
-          setBoardId(0);
-          setTitle("");
-          setContent("");
-          setCategoryId(0);
-          setImageFiles([]);
-          setImageUrls([]);
-          closeModal();
-        } catch (e) {
-          console.log(e);
-          alert("사진 업로드 실패");
-        }
-      }
-
-      if (isError) alert("포스트 등록 실패");
-    };
-
-    afterPostPost();
-  }, [isSuccess, isError]);
 
   return (
     <form onSubmit={onPostSubmit}>

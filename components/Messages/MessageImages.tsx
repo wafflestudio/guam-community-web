@@ -53,7 +53,7 @@ export default function MessageImages({
           setImages(imagesList.slice(0, 5));
 
           const newUrls = imagesList.map((file) => ({
-            id: file.lastModified,
+            id: file.lastModified + file.name,
             url: URL.createObjectURL(file),
           }));
           setImageUrls(newUrls.slice(0, 5));

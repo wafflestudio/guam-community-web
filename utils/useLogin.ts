@@ -9,8 +9,8 @@ export const useLogin = () => {
   const router = useRouter();
 
   useEffect(() => {
-    if (!isLoggedIn) router.push("/login");
-  }, []);
+    if (isLoggedIn === false) router.push("/login");
+  }, [isLoggedIn, router]);
 
   return isLoggedIn;
 };

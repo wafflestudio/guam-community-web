@@ -4,7 +4,12 @@ import { useEffect, useMemo, useState } from "react";
 import PageTitle from "../components/PageTitle";
 import PostsPage from "../components/PostsPage/PostsPage";
 import { useAppSelector } from "../store/hooks";
-import { useGetAllPostsQuery } from "../store/postsApi";
+import {
+  getAllPosts,
+  getRunningOperationPromises,
+  useGetAllPostsQuery,
+} from "../store/postsApi";
+import { wrapper } from "../store/store";
 
 const Home = () => {
   const [currentPage, setCurrentPage] = useState<number | undefined>(undefined);
@@ -43,3 +48,18 @@ const Home = () => {
 };
 
 export default Home;
+
+export const getServerSideProps = wrapper.getServerSideProps(
+  (store) => async (context) => {
+    const { page } = context.query;
+    if (typeof page === "string" && typeof parseInt(page) === "number") {
+      store.dispatch(getAllPosts.initiate(parseInt(page)));
+    }
+
+    await Promise.all(getRunningOperationPromises());
+
+    return {
+      props: {},
+    };
+  }
+);

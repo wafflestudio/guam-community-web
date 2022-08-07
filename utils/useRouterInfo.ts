@@ -16,7 +16,13 @@ const useRouterInfo = () => {
 
   const userId = router.query.userId;
 
-  return { boardType, boardId, page, keyword, userId };
+  const postId =
+    typeof router.query.postId === "string" &&
+    typeof parseInt(router.query.postId) === "number"
+      ? parseInt(router.query.postId)
+      : undefined;
+
+  return { boardType, boardId, page, keyword, userId, postId };
 };
 
 export default useRouterInfo;

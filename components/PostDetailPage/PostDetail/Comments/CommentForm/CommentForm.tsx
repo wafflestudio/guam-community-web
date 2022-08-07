@@ -101,7 +101,6 @@ function CommentForm() {
         photoInputRef={photoInputRef}
         mockTextareaRef={mockTextareaRef}
         mentionList={mentionList || []}
-        postId={typeof postId === "string" ? postId : "0"}
       />
       {mentionListOpen && mentionList ? (
         <MentionList

@@ -1,4 +1,5 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
+import { HYDRATE } from "next-redux-wrapper";
 
 import {
   IDetailedPost,
@@ -16,6 +17,12 @@ interface PostsBoardQuery {
   page: number | undefined;
 }
 
+interface PostCommentQuery {
+  content: string;
+  mentionIds?: (number | null | undefined)[];
+  imageFilePaths: string[];
+}
+
 export const postsApi = createApi({
   reducerPath: "posts",
   baseQuery: fetchBaseQuery({
@@ -28,6 +35,11 @@ export const postsApi = createApi({
       return headers;
     },
   }),
+  extractRehydrationInfo(action, { reducerPath }) {
+    if (action.type === HYDRATE) {
+      return action.payload[reducerPath];
+    }
+  },
   tagTypes: [
     "Posts List",
     "Post Detail",
@@ -123,7 +135,7 @@ export const postsApi = createApi({
       ],
     }),
     postComment: build.mutation({
-      query({ data, id }: { data: FormData; id: string }) {
+      query({ data, id }: { data: PostCommentQuery; id: number }) {
         return {
           url: `posts/${id}/comments`,
           method: "POST",
