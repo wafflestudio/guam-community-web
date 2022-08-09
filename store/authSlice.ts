@@ -1,11 +1,11 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 type authState = {
-  isLoggedIn: undefined | boolean;
+  isLoggedIn: null | boolean;
 };
 
 const initialState: authState = {
-  isLoggedIn: undefined,
+  isLoggedIn: null,
 };
 
 const authSlice = createSlice({

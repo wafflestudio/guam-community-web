@@ -1,12 +1,9 @@
 import axios, { AxiosRequestConfig } from "axios";
 import React, {
   ChangeEventHandler,
-  createRef,
   FormEventHandler,
-  RefObject,
   useCallback,
   useEffect,
-  useMemo,
   useRef,
   useState,
 } from "react";
@@ -15,10 +12,13 @@ import CancelIcon from "../../../assets/icons/cancel/outlined.svg";
 import CheckIcon from "../../../assets/icons/check.svg";
 import DownIcon from "../../../assets/icons/down/down_20.svg";
 import PlusIcon from "../../../assets/icons/plus.svg";
-import { boardList, categoryList, MB } from "../../../constants/constants";
+import { boardList, categoryList } from "../../../constants/constants";
 import { useAppDispatch, useAppSelector } from "../../../store/hooks";
 import { setPostFormModal } from "../../../store/modalSlice";
-import { usePostPostMutation } from "../../../store/postsApi";
+import {
+  usePatchPostMutation,
+  usePostPostMutation,
+} from "../../../store/postsApi";
 import { IImageUrl } from "../../../types/types";
 import { handleImageInput } from "../../../utils/handleImageInputs";
 import { useModalRef } from "../../../utils/useModalRef";
@@ -32,17 +32,26 @@ const SubmitForm = () => {
   const [content, setContent] = useState("");
   const [categoryId, setCategoryId] = useState(0);
   const [imageFiles, setImageFiles] = useState<File[]>([]);
-  const [imageData, setImageData] = useState<Uint8Array[]>([]);
-  const [imageNames, setImageNames] = useState<string[]>([]);
   const [imageUrls, setImageUrls] = useState<IImageUrl[]>([]);
+
+  const { post } = useAppSelector((state) => state.modals.postFormModal);
+
+  useEffect(() => {
+    if (post) {
+      setBoardId(post.boardId);
+      setTitle(post.title);
+      setContent(post.content);
+      setCategoryId(post.category.categoryId);
+      setImageUrls(
+        post.imagePaths.map((path, id) => {
+          return { id: id.toString(), url: path };
+        })
+      );
+    }
+  }, [post]);
 
   const photoInput = useRef<HTMLInputElement>(null);
   const boardListRef = useRef<HTMLDivElement>(null);
-
-  const refs: RefObject<HTMLImageElement>[] = useMemo(
-    () => Array.from({ length: 3 }).map(() => createRef()),
-    []
-  );
 
   const { expanded } = useAppSelector((state) => state.modals.postFormModal);
 
@@ -57,13 +66,15 @@ const SubmitForm = () => {
     };
   }, [expanded]);
 
-  const [postPost, { isError, isSuccess, data: postResult }] =
-    usePostPostMutation();
+  const [postPost] = usePostPostMutation();
+  const [patchPost] = usePatchPostMutation();
 
   const dispatch = useAppDispatch();
 
   const closeModal = () => {
-    dispatch(setPostFormModal({ open: false, expanded: false }));
+    dispatch(
+      setPostFormModal({ open: false, expanded: false, post: undefined })
+    );
   };
 
   const onToggleBoardList = () =>
@@ -95,21 +106,12 @@ const SubmitForm = () => {
     target,
   }) => {
     if (target.files)
-      setImageNames(Array.from(target.files).map((file) => file.name));
-    handleImageInput(
-      target,
-      10,
-      imageFiles,
-      setImageFiles,
-      setImageUrls,
-      setImageData
-    );
-    console.log(imageData);
+      handleImageInput(target, 10, imageFiles, setImageFiles, setImageUrls);
   };
 
   const clickImageInput = () => photoInput.current?.click();
 
-  const onPostSubmit: FormEventHandler<HTMLFormElement> = (e) => {
+  const onPostSubmit: FormEventHandler<HTMLFormElement> = async (e) => {
     e.preventDefault();
 
     if (boardId === 0) return window.alert("게시판을 골라주세요");
@@ -122,57 +124,51 @@ const SubmitForm = () => {
       title,
       content,
       categoryId,
-      imageFilePaths: imageNames,
+      ...(!post && { imageFilePaths: imageFiles.map((file) => file.name) }),
     };
 
-    postPost(data);
-  };
-
-  useEffect(() => {
-    const afterPostPost = async () => {
-      if (isSuccess) {
-        try {
+    try {
+      if (!post) {
+        const { data: urlData } = await postPost(data);
+        const { presignedUrls } = urlData;
+        if (presignedUrls?.length && !post) {
           await Promise.all(
-            postResult.presignedUrls.map((url: string, i: number) => {
-              const newArr = [];
-              while (imageData[i].length)
-                newArr.push(
-                  Array(imageData[i]).splice(0, Math.sqrt(imageData[i].length))
-                );
+            presignedUrls.map((url: string, i: number) => {
               const options: AxiosRequestConfig = {
-                method: "PUT",
                 url: `/presigned_bucket_url/${
                   url.split(process.env.BUCKET_URL || "")[1]
                 }`,
-                data: newArr,
+                method: "PUT",
+                headers: { "Content-Type": imageFiles[i].type },
+                data: imageFiles[i],
               };
-              return axios(options);
-              //   return axios.put(
-              //     `/presigned_bucket_url/${
-              //       url.split(process.env.BUCKET_URL || "")[1]
-              //     }`,
-              //     imageData[i]
-              //   );
+              axios(options);
             })
           );
-          setBoardId(0);
-          setTitle("");
-          setContent("");
-          setCategoryId(0);
-          setImageFiles([]);
-          setImageUrls([]);
-          closeModal();
-        } catch (e) {
-          console.log(e);
-          alert("사진 업로드 실패");
         }
+      } else {
+        if (
+          boardId === post.boardId &&
+          categoryId === post.category.categoryId &&
+          title === post.title &&
+          content === post.content
+        )
+          return alert("수정된 내역이 없습니다");
+
+        await patchPost({ data, postId: post.id });
       }
 
-      if (isError) alert("포스트 등록 실패");
-    };
-
-    afterPostPost();
-  }, [isSuccess, isError]);
+      setBoardId(0);
+      setTitle("");
+      setContent("");
+      setCategoryId(0);
+      setImageFiles([]);
+      setImageUrls([]);
+      closeModal();
+    } catch (e) {
+      console.log(e);
+    }
+  };
 
   return (
     <form onSubmit={onPostSubmit}>
@@ -295,11 +291,11 @@ const SubmitForm = () => {
                   left: `${expanded ? 25 + 140 * index : 20 + 124 * index}px`,
                 }}
               >
-                <img ref={refs[index]} key={imageUrl.id} src={imageUrl.url} />
+                <img key={imageUrl.id} src={imageUrl.url} />
               </div>
             ))
           : null}
-        {imageUrls.length < 5 ? (
+        {imageUrls.length < 5 || !post ? (
           <div
             className={`${styles.addBox} ${expanded && styles.expanded}`}
             style={{

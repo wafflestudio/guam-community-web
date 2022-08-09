@@ -1,4 +1,5 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
+// import { HYDRATE } from "next-redux-wrapper";
 
 import {
   IDetailedPost,
@@ -16,6 +17,20 @@ interface PostsBoardQuery {
   page: number | undefined;
 }
 
+interface PostPostQuery {
+  boardId: number;
+  categoryId: number;
+  content: string;
+  title: string;
+  imageFilePaths?: string[];
+}
+
+interface PostCommentQuery {
+  content: string;
+  mentionIds?: (number | null | undefined)[];
+  imageFilePaths: string[];
+}
+
 export const postsApi = createApi({
   reducerPath: "posts",
   baseQuery: fetchBaseQuery({
@@ -28,6 +43,11 @@ export const postsApi = createApi({
       return headers;
     },
   }),
+  // extractRehydrationInfo(action, { reducerPath }) {
+  //   if (action.type === HYDRATE) {
+  //     return action.payload[reducerPath];
+  //   }
+  // },
   tagTypes: [
     "Posts List",
     "Post Detail",
@@ -79,6 +99,20 @@ export const postsApi = createApi({
         { type: "Posts List", boardId: result.boardId, page: 0 },
       ],
     }),
+    patchPost: build.mutation({
+      query: (body) => {
+        return {
+          url: `posts/${body.postId}`,
+          method: "PATCH",
+          body: body.data,
+        };
+      },
+      invalidatesTags: (result, error, req) => [
+        { type: "Posts List", boardId: req.boardId, page: 0 },
+        { type: "Posts List", boardId: 0 },
+        { type: "Post Detail", postId: result.boardId },
+      ],
+    }),
     scrapPost: build.mutation({
       query(req) {
         return {
@@ -123,7 +157,7 @@ export const postsApi = createApi({
       ],
     }),
     postComment: build.mutation({
-      query({ data, id }: { data: FormData; id: string }) {
+      query({ data, id }: { data: PostCommentQuery; id: number }) {
         return {
           url: `posts/${id}/comments`,
           method: "POST",
@@ -206,6 +240,7 @@ export const {
   useGetPostsByBoardQuery,
   useGetSearchPostsQuery,
   usePostPostMutation,
+  usePatchPostMutation,
   useScrapPostMutation,
   useLikePostMutation,
   useGetPostDetailQuery,

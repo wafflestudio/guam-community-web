@@ -8,8 +8,7 @@ export const handleImageInput = async (
   size: number,
   imageFiles: File[],
   setImageFiles: Dispatch<SetStateAction<File[]>>,
-  setImageUrls: Dispatch<SetStateAction<IImageUrl[]>>,
-  setImageData: Dispatch<SetStateAction<Uint8Array[]>>
+  setImageUrls: Dispatch<SetStateAction<IImageUrl[]>>
 ) => {
   if (target.files) {
     if (Array.from(target.files).some((file) => file.size > size * MB)) {
@@ -28,21 +27,5 @@ export const handleImageInput = async (
       url: URL.createObjectURL(file),
     }));
     setImageUrls((imageUrls) => [...imageUrls, ...newUrls].slice(0, 5));
-
-    const newArray: number[] = [];
-
-    await Promise.all(
-      imagesList.slice(0, 5).map((image) => {
-        const reader = new FileReader();
-        reader.readAsArrayBuffer(image);
-
-        reader.onload = ({ target }) => {
-          //   if (typeof target?.result === typeof ArrayBuffer && target?.result) {
-          newArray = newArray.concat(new Uint8Array(target.result));
-          setImageData(newArray);
-        };
-        // };
-      })
-    );
   }
 };

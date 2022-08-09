@@ -96,14 +96,16 @@ const NotificationModal = ({
                       <circle cx="6" cy="6" r="6" fill="#FF00FF" />
                     </svg>
                   )}
-                  <img
-                    alt={`${push.writer.nickname}의 이미지`}
-                    src={
-                      push.writer.profileImage
-                        ? process.env.BUCKET_URL + push.writer.profileImage
-                        : "/default_profile_image.png"
-                    }
-                  />
+                  <div className={styles.imageInnerWrapper}>
+                    <img
+                      alt={`${push.writer.nickname}의 이미지`}
+                      src={
+                        push.writer.profileImage
+                          ? process.env.BUCKET_URL + push.writer.profileImage
+                          : "/default_profile_image.png"
+                      }
+                    />
+                  </div>
                 </div>
                 <div className={styles.text}>
                   <div

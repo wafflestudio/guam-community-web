@@ -6,6 +6,7 @@ const nextConfig = {
     KEY: process.env.KEY,
     BUCKET_URL: process.env.BUCKET_URL,
     PRESIGNED_BUCKET_URL: process.env.PRESIGNED_BUCKET_URL,
+    POSTS_URL: process.env.POSTS_URL,
     REST_API_KEY: process.env.REST_API_KEY,
     CLIENT_SECRET: process.env.CLIENT_SECRET,
     FIREBASE_API_KEY: process.env.FIREBASE_API_KEY,
@@ -35,7 +36,7 @@ const nextConfig = {
       },
       {
         source: "/presigned_bucket_url/:path*",
-        destination: process.env.DESTINATION_URL,
+        destination: process.env.PRESIGNED_BUCKET_URL,
       },
       {
         source: "/relyingparty/:path*",

@@ -1,10 +1,11 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
-import { IUser } from "../types/types";
+import { IDetailedPost, IUser } from "../types/types";
 
 type postFormModalType = {
   open: boolean;
   expanded: boolean;
+  post?: IDetailedPost | null;
 };
 
 type userModalType = {
@@ -57,6 +58,7 @@ const initialState = {
   postFormModal: {
     open: false,
     expanded: false,
+    post: null,
   },
   postModifyModalOpen: false,
   deleteConfirmModalOpen: false,
