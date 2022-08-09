@@ -1,10 +1,10 @@
 import { useRouter } from "next/router";
 import { useEffect, useMemo, useState } from "react";
 
-import { useGetAllPostsQuery } from "../api/postsApi";
 import PageTitle from "../components/PageTitle";
 import PostsPage from "../components/PostsPage/PostsPage";
 import { useAppSelector } from "../store/hooks";
+import { useGetAllPostsQuery } from "../store/postsApi";
 
 const Home = () => {
   const [currentPage, setCurrentPage] = useState<number | undefined>(undefined);

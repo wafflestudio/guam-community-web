@@ -43,7 +43,7 @@ function HandleImages({
           dispatch(setImages(imagesList.slice(0, 5)));
 
           const newUrls = imagesList.map((file) => ({
-            id: file.lastModified,
+            id: file.lastModified + file.name,
             url: URL.createObjectURL(file),
           }));
           dispatch(setImageUrls(newUrls.slice(0, 5)));
@@ -53,8 +53,10 @@ function HandleImages({
     );
 
   const deleteImage = useCallback(
-    (id: number) => {
-      dispatch(setImages(images.filter((file) => file.lastModified !== id)));
+    (id: string) => {
+      dispatch(
+        setImages(images.filter((file) => file.lastModified + file.name !== id))
+      );
       dispatch(setImageUrls(imageUrls.filter((url) => url.id !== id)));
     },
     [dispatch, imageUrls, images]

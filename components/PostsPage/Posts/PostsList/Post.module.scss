@@ -66,6 +66,8 @@
     text-overflow: ellipsis;
     color: colors.$grayscale-gray3;
     cursor: pointer;
+    overflow: hidden;
+    white-space: nowrap;
   }
 
   div.profileImage {

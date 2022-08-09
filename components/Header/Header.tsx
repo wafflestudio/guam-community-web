@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { useRouter } from "next/router";
 import React, { useEffect } from "react";
 
@@ -25,7 +26,11 @@ export default function Header() {
   return (
     <header className={styles.container}>
       <div className={styles.main}>
-        <div className={styles.logo} />
+        <Link href={"/"}>
+          <a>
+            <div className={styles.logo} />
+          </a>
+        </Link>
         <SearchBar />
         <Navigator />
       </div>

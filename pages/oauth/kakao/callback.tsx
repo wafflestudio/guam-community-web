@@ -38,7 +38,7 @@ export default function Auth() {
         client_id: REST_API_KEY,
         redirect_uri: REDIRECT_URI,
         code: code,
-        client_secret: CLIENT_SECRET,
+        // client_secret: CLIENT_SECRET,
       });
 
       try {

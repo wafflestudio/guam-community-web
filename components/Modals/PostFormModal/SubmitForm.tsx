@@ -1,13 +1,16 @@
+import axios, { AxiosRequestConfig } from "axios";
 import React, {
   ChangeEventHandler,
+  createRef,
   FormEventHandler,
+  RefObject,
   useCallback,
   useEffect,
+  useMemo,
   useRef,
   useState,
 } from "react";
 
-import { usePostPostMutation } from "../../../api/postsApi";
 import CancelIcon from "../../../assets/icons/cancel/outlined.svg";
 import CheckIcon from "../../../assets/icons/check.svg";
 import DownIcon from "../../../assets/icons/down/down_20.svg";
@@ -15,7 +18,10 @@ import PlusIcon from "../../../assets/icons/plus.svg";
 import { boardList, categoryList, MB } from "../../../constants/constants";
 import { useAppDispatch, useAppSelector } from "../../../store/hooks";
 import { setPostFormModal } from "../../../store/modalSlice";
+import { usePostPostMutation } from "../../../store/postsApi";
 import { IImageUrl } from "../../../types/types";
+import { handleImageInput } from "../../../utils/handleImageInputs";
+import { useModalRef } from "../../../utils/useModalRef";
 
 import styles from "./PostFormModal.module.scss";
 
@@ -25,12 +31,22 @@ const SubmitForm = () => {
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
   const [categoryId, setCategoryId] = useState(0);
-  const [images, setImages] = useState<File[]>([]);
+  const [imageFiles, setImageFiles] = useState<File[]>([]);
+  const [imageData, setImageData] = useState<Uint8Array[]>([]);
+  const [imageNames, setImageNames] = useState<string[]>([]);
   const [imageUrls, setImageUrls] = useState<IImageUrl[]>([]);
 
   const photoInput = useRef<HTMLInputElement>(null);
+  const boardListRef = useRef<HTMLDivElement>(null);
+
+  const refs: RefObject<HTMLImageElement>[] = useMemo(
+    () => Array.from({ length: 3 }).map(() => createRef()),
+    []
+  );
 
   const { expanded } = useAppSelector((state) => state.modals.postFormModal);
+
+  useModalRef(boardListRef, setBoardListOpen);
 
   useEffect(() => {
     if (expanded) document.body.style.overflow = "hidden";
@@ -41,7 +57,8 @@ const SubmitForm = () => {
     };
   }, [expanded]);
 
-  const [postPost, { isError, isSuccess }] = usePostPostMutation();
+  const [postPost, { isError, isSuccess, data: postResult }] =
+    usePostPostMutation();
 
   const dispatch = useAppDispatch();
 
@@ -74,27 +91,20 @@ const SubmitForm = () => {
 
   const onDeleteCategory = () => setCategoryId(0);
 
-  const handleImageInput: React.ChangeEventHandler<HTMLInputElement> = ({
+  const onChangeImage: React.ChangeEventHandler<HTMLInputElement> = async ({
     target,
   }) => {
-    if (target.files) {
-      if (Array.from(target.files).some((file) => file.size > 10 * MB)) {
-        alert("이미지 크기는 10MB 이하만 가능합니다");
-      }
-
-      const filteredImages = Array.from(target.files).filter(
-        (image) => image.size <= 10 * MB
-      );
-      const imagesList = [...images, ...filteredImages];
-      if (imagesList.length > 5) alert("사진은 5장까지 첨부 가능합니다");
-      setImages(imagesList.slice(0, 5));
-
-      const newUrls = filteredImages.map((file) => ({
-        id: file.lastModified,
-        url: URL.createObjectURL(file),
-      }));
-      setImageUrls((imageUrls) => [...imageUrls, ...newUrls].slice(0, 5));
-    }
+    if (target.files)
+      setImageNames(Array.from(target.files).map((file) => file.name));
+    handleImageInput(
+      target,
+      10,
+      imageFiles,
+      setImageFiles,
+      setImageUrls,
+      setImageData
+    );
+    console.log(imageData);
   };
 
   const clickImageInput = () => photoInput.current?.click();
@@ -107,36 +117,61 @@ const SubmitForm = () => {
       return window.alert("제목과 내용을 작성해주세요");
     if (categoryId === 0) return window.alert("태그를 골라주세요");
 
-    const data = new FormData();
-    const object = {
+    const data = {
       boardId,
       title,
       content,
       categoryId,
+      imageFilePaths: imageNames,
     };
-    Object.keys(object).forEach((key) =>
-      data.append(key, object[key as keyof object])
-    );
-    images.length &&
-      images.forEach((image) => {
-        data.append("images", image);
-      });
 
     postPost(data);
   };
 
   useEffect(() => {
-    if (isSuccess) {
-      setBoardId(0);
-      setTitle("");
-      setContent("");
-      setCategoryId(0);
-      setImages([]);
-      setImageUrls([]);
-      closeModal();
-    }
+    const afterPostPost = async () => {
+      if (isSuccess) {
+        try {
+          await Promise.all(
+            postResult.presignedUrls.map((url: string, i: number) => {
+              const newArr = [];
+              while (imageData[i].length)
+                newArr.push(
+                  Array(imageData[i]).splice(0, Math.sqrt(imageData[i].length))
+                );
+              const options: AxiosRequestConfig = {
+                method: "PUT",
+                url: `/presigned_bucket_url/${
+                  url.split(process.env.BUCKET_URL || "")[1]
+                }`,
+                data: newArr,
+              };
+              return axios(options);
+              //   return axios.put(
+              //     `/presigned_bucket_url/${
+              //       url.split(process.env.BUCKET_URL || "")[1]
+              //     }`,
+              //     imageData[i]
+              //   );
+            })
+          );
+          setBoardId(0);
+          setTitle("");
+          setContent("");
+          setCategoryId(0);
+          setImageFiles([]);
+          setImageUrls([]);
+          closeModal();
+        } catch (e) {
+          console.log(e);
+          alert("사진 업로드 실패");
+        }
+      }
 
-    if (isError) alert("포스트 등록 실패");
+      if (isError) alert("포스트 등록 실패");
+    };
+
+    afterPostPost();
   }, [isSuccess, isError]);
 
   return (
@@ -153,7 +188,7 @@ const SubmitForm = () => {
           </button>
         </div>
         {boardListOpen ? (
-          <div className={styles.boardList}>
+          <div className={styles.boardList} ref={boardListRef}>
             {boardList.map((board) => {
               if (board.id === 0) return;
               return (
@@ -248,7 +283,7 @@ const SubmitForm = () => {
           ref={photoInput}
           type="file"
           accept="image/*"
-          onChange={handleImageInput}
+          onChange={onChangeImage}
           multiple
         />
         {imageUrls.length !== 0
@@ -260,7 +295,7 @@ const SubmitForm = () => {
                   left: `${expanded ? 25 + 140 * index : 20 + 124 * index}px`,
                 }}
               >
-                <img key={imageUrl.id} src={imageUrl.url} />
+                <img ref={refs[index]} key={imageUrl.id} src={imageUrl.url} />
               </div>
             ))
           : null}

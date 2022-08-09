@@ -1,6 +1,5 @@
 import React, { RefObject, useCallback } from "react";
 
-import { usePostCommentMutation } from "../../../../../api/postsApi";
 import CameraIcon from "../../../../../assets/icons/camera.svg";
 import {
   setCommentInput,
@@ -8,6 +7,7 @@ import {
   setImageUrls,
 } from "../../../../../store/commentFormSlice";
 import { useAppDispatch, useAppSelector } from "../../../../../store/hooks";
+import { usePostCommentMutation } from "../../../../../store/postsApi";
 import { IUser } from "../../../../../types/types";
 
 import styles from "./CommentForm.module.scss";

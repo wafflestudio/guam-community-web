@@ -1,10 +1,10 @@
 import { useRouter } from "next/router";
 import { useEffect, useMemo, useState } from "react";
 
-import { useGetSearchPostsQuery } from "../../api/postsApi";
 import PageTitle from "../../components/PageTitle";
 import PostsPage from "../../components/PostsPage/PostsPage";
 import { useAppSelector } from "../../store/hooks";
+import { useGetSearchPostsQuery } from "../../store/postsApi";
 
 export default function Home() {
   const [currentPage, setCurrentPage] = useState<number | undefined>(undefined);

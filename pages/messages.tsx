@@ -1,10 +1,10 @@
-import { useGetLettersQuery } from "../api/postsApi";
 import MessagesPage from "../components/Messages/MessagesPage";
 import PageTitle from "../components/PageTitle";
-import { useAppSelector } from "../store/hooks";
+import { useGetLettersQuery } from "../store/postsApi";
+import { useLogin } from "../utils/useLogin";
 
 const Messages = () => {
-  const { isLoggedIn } = useAppSelector((state) => state.auth);
+  const isLoggedIn = useLogin();
 
   const { isLoading, error } = useGetLettersQuery(undefined, {
     refetchOnMountOrArgChange: true,

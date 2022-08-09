@@ -29,9 +29,9 @@ export default function Profile() {
             {nickname}
           </div>
         </div>
-      ) : (
+      ) : isLoggedIn === false ? (
         <SignInUpButton />
-      )}
+      ) : null}
     </>
   );
 }

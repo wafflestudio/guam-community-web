@@ -1,7 +1,7 @@
 import { useRouter } from "next/router";
 import React, { SetStateAction } from "react";
 
-import { useDeletePostMutation } from "../../../../api/postsApi";
+import { useDeletePostMutation } from "../../../../store/postsApi";
 
 import styles from "./DeleteConfirmModal.module.scss";
 

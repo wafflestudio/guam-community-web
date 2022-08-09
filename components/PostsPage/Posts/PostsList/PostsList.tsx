@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 
-import { postsApi } from "../../../../api/postsApi";
+import { postsApi } from "../../../../store/postsApi";
 import { IPostsListPost } from "../../../../types/types";
 import useRouterInfo from "../../../../utils/useRouterInfo";
 import PaginationButton from "../../PaginationButton/PaginationButton";

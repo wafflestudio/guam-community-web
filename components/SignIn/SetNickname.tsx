@@ -5,6 +5,7 @@ import { ChangeEventHandler, useState } from "react";
 import BalloonIcon from "../../assets/icons/balloon/balloon_32.svg";
 import { useAppDispatch, useAppSelector } from "../../store/hooks";
 import { setUserState } from "../../store/userSlice";
+import { getFirebaseIdToken } from "../../utils/firebaseUtils";
 
 import LeftGuam from "./LeftGuam";
 
@@ -23,12 +24,16 @@ export default function SetNickname() {
     setNickname(target.value);
 
   const onSubmitNickname = async () => {
-    const formData = new FormData();
+    if (nickname.length < 2) return alert("닉네임 두글자 이상");
 
+    const formData = new FormData();
     formData.append("nickname", nickname);
 
     try {
-      const { data } = await axios.patch(`/api/users/${id}`, formData);
+      const token = await getFirebaseIdToken();
+      const { data } = await axios.patch(`/api/users/${id}`, formData, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
       data.profileSet = true;
       dispatch(setUserState(data));
 

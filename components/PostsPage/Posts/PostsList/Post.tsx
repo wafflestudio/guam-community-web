@@ -1,12 +1,6 @@
-import dayjs from "dayjs";
-import ko from "dayjs/locale/ko";
-import relativeTime from "dayjs/plugin/relativeTime";
+import Link from "next/link";
 import { useRouter } from "next/router";
 
-import {
-  useLikePostMutation,
-  useScrapPostMutation,
-} from "../../../../api/postsApi";
 import CommentIcon from "../../../../assets/icons/comment/comment_20.svg";
 import LikeFilledIcon from "../../../../assets/icons/like/filled_20.svg";
 import LikeIcon from "../../../../assets/icons/like/post-list.svg";
@@ -14,12 +8,14 @@ import PictureIcon from "../../../../assets/icons/picture.svg";
 import ProfileIcon from "../../../../assets/icons/profile/default_image.svg";
 import ScrapFilledIcon from "../../../../assets/icons/scrap/filled_20.svg";
 import ScrapIcon from "../../../../assets/icons/scrap/outlined_20.svg";
-import { boardList } from "../../../../constants/constants";
+import {
+  useLikePostMutation,
+  useScrapPostMutation,
+} from "../../../../store/postsApi";
 import { IPostsListPost } from "../../../../types/types";
+import { relativeDate } from "../../../../utils/formatDate";
 
 import styles from "./Post.module.scss";
-
-dayjs.extend(relativeTime);
 
 export default function Post({ post }: { post: IPostsListPost }) {
   const [scrapPost] = useScrapPostMutation();
@@ -27,11 +23,8 @@ export default function Post({ post }: { post: IPostsListPost }) {
 
   const router = useRouter();
 
-  const createdTime = new Date(post.createdAt);
-
   const onClickPost = () => {
-    console.log(9);
-    router.push(`/posts/${boardList[post.boardId].route}/${post.id}`);
+    router.push(`/posts/${post.id}`);
   };
 
   const onLikePost = () =>
@@ -49,7 +42,7 @@ export default function Post({ post }: { post: IPostsListPost }) {
         #{post.category ? post.category.title : null}
       </div>
       <span className={`${styles["typo1-regular"]} ${styles.fromNow}`}>
-        {dayjs(createdTime).locale(ko).fromNow()}
+        {relativeDate(post.createdAt)}
       </span>
       <hr />
       <div className={`${styles.title}`} onClick={onClickPost}>
@@ -62,21 +55,28 @@ export default function Post({ post }: { post: IPostsListPost }) {
       >
         {post.content}
       </div>
-      <div className={styles.profileImage}>
-        {post.user.profileImage ? (
-          <img
-            className={styles.profile}
-            src={
-              process.env.BUCKET_URL + post.user.profileImage + "?" + Date.now()
-            }
-          />
-        ) : (
-          <ProfileIcon />
-        )}
-      </div>
-      <span className={`${styles["typo2-regular"]} ${styles.writerName}`}>
-        {post.user.nickname}
-      </span>
+      <Link href={`/profile/${post.user.id}`}>
+        <a>
+          <div className={styles.profileImage}>
+            {post.user.profileImage ? (
+              <img
+                className={styles.profile}
+                src={
+                  process.env.BUCKET_URL +
+                  post.user.profileImage +
+                  "?" +
+                  Date.now()
+                }
+              />
+            ) : (
+              <ProfileIcon />
+            )}
+          </div>
+          <span className={`${styles["typo2-regular"]} ${styles.writerName}`}>
+            {post.user.nickname}
+          </span>
+        </a>
+      </Link>
       <div className={styles.engagement}>
         <span
           className={`${styles.countContainer} ${styles.likes}`}

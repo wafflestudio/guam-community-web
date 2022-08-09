@@ -1,15 +1,15 @@
 import { useRouter } from "next/router";
 import { useEffect, useMemo, useState } from "react";
 
-import { useGetPostDetailQuery } from "../../../api/postsApi";
-import PageTitle from "../../../components/PageTitle";
-import PostDetailPage from "../../../components/PostDetailPage/PostDetailPage";
-import { useAppSelector } from "../../../store/hooks";
+import PageTitle from "../../components/PageTitle";
+import PostDetailPage from "../../components/PostDetailPage/PostDetailPage";
+import { useGetPostDetailQuery } from "../../store/postsApi";
+import { useLogin } from "../../utils/useLogin";
 
 export default function DetailedPostPage() {
   const [currentPost, setCurrentPost] = useState<number>(0);
 
-  const { isLoggedIn } = useAppSelector((state) => state.auth);
+  const isLoggedIn = useLogin();
 
   const router = useRouter();
 
@@ -28,7 +28,7 @@ export default function DetailedPostPage() {
     } else {
       router.push("/404");
     }
-  }, [router.isReady, router.query.page]);
+  }, [router.isReady, router.query.page, postId]);
 
   const { data, isLoading, error } = useGetPostDetailQuery(currentPost, {
     skip: !isLoggedIn || currentPost === 0,
@@ -40,11 +40,6 @@ export default function DetailedPostPage() {
       <PageTitle title={data?.title || "Posts"} />
       {isLoading ? <span>Loading</span> : error ? <span>Error</span> : null}
       <PostDetailPage />
-      {/* {postData?.imagePaths.map((image) => (
-        <li key={image}>
-          <img src={process.env.BUCKET_URL + image} />
-        </li>
-      ))} */}
     </>
   );
 }

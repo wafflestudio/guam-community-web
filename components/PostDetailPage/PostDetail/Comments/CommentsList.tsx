@@ -1,7 +1,7 @@
 import { useRouter } from "next/router";
 import { useState } from "react";
 
-import { postsApi } from "../../../../api/postsApi";
+import { postsApi } from "../../../../store/postsApi";
 
 import Comment from "./Comment";
 
@@ -20,12 +20,7 @@ export default function CommentsList() {
   return (
     <div className={styles.container}>
       {comments?.map((comment) => (
-        <Comment
-          key={comment.id}
-          comment={comment}
-          selectedId={selectedId}
-          setSelectedId={setSelectedId}
-        />
+        <Comment key={comment.id} comment={comment} />
       ))}
     </div>
   );

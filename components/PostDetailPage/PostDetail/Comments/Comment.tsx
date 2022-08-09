@@ -1,25 +1,20 @@
-import { Dispatch, SetStateAction, useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 
-import { useLikeCommentMutation } from "../../../../api/postsApi";
 import LikeIcon from "../../../../assets/icons/like/outlined.svg";
 import MoreIcon from "../../../../assets/icons/more.svg";
-import { useAppDispatch, useAppSelector } from "../../../../store/hooks";
+import { useAppDispatch } from "../../../../store/hooks";
 import { setImageExtendedModal } from "../../../../store/modalSlice";
+import { useLikeCommentMutation } from "../../../../store/postsApi";
 import { IComment } from "../../../../types/types";
 
 import CommentMoreModal from "./CommentMoreModal";
+import ModifyCommentModal from "./ModifyCommentModal";
 
 import styles from "./Comment.module.scss";
 
-export default function Comment({
-  comment,
-  selectedId,
-  setSelectedId,
-}: {
-  comment: IComment;
-  selectedId: number | null;
-  setSelectedId: Dispatch<SetStateAction<number | null>>;
-}) {
+export default function Comment({ comment }: { comment: IComment }) {
+  const [moreOpen, setMoreOpen] = useState(false);
+
   const containerRef = useRef<HTMLLIElement>(null);
   const commentRef = useRef<HTMLDivElement>(null);
 
@@ -27,12 +22,7 @@ export default function Comment({
 
   const [likeComment] = useLikeCommentMutation();
 
-  const { id } = comment;
-
-  const onClickMore = () => {
-    if (selectedId === id) setSelectedId(null);
-    else setSelectedId(id);
-  };
+  const onClickMore = () => setMoreOpen((moreOpen) => !moreOpen);
 
   useEffect(() => {
     if (commentRef.current?.textContent) {
@@ -118,8 +108,16 @@ export default function Comment({
             <div>{comment.likeCount}</div>
           </div>
         </div>
-        {selectedId === id ? (
-          <CommentMoreModal user={comment.user} setSelectedId={setSelectedId} />
+        {moreOpen ? (
+          !comment.isMine ? (
+            <CommentMoreModal user={comment.user} setMoreOpen={setMoreOpen} />
+          ) : (
+            <ModifyCommentModal
+              setMoreOpen={setMoreOpen}
+              postId={comment.postId}
+              commentId={comment.id}
+            />
+          )
         ) : null}
       </div>
     </li>

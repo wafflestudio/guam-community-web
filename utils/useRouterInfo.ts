@@ -7,13 +7,16 @@ const useRouterInfo = () => {
   const boardType = router.isReady && router.query.boardType;
 
   const boardId = boardList.find((board) => boardType === board.route)?.id;
+
   const page =
     typeof router.query.page === "string" ? parseInt(router.query.page) - 1 : 0;
 
   const keyword =
     typeof router.query.keyword === "string" && encodeURI(router.query.keyword);
 
-  return { boardType, boardId, page, keyword };
+  const userId = router.query.userId;
+
+  return { boardType, boardId, page, keyword, userId };
 };
 
 export default useRouterInfo;
