@@ -1,12 +1,9 @@
 import axios, { AxiosRequestConfig } from "axios";
 import React, {
   ChangeEventHandler,
-  createRef,
   FormEventHandler,
-  RefObject,
   useCallback,
   useEffect,
-  useMemo,
   useRef,
   useState,
 } from "react";
@@ -15,10 +12,13 @@ import CancelIcon from "../../../assets/icons/cancel/outlined.svg";
 import CheckIcon from "../../../assets/icons/check.svg";
 import DownIcon from "../../../assets/icons/down/down_20.svg";
 import PlusIcon from "../../../assets/icons/plus.svg";
-import { boardList, categoryList, MB } from "../../../constants/constants";
+import { boardList, categoryList } from "../../../constants/constants";
 import { useAppDispatch, useAppSelector } from "../../../store/hooks";
 import { setPostFormModal } from "../../../store/modalSlice";
-import { usePostPostMutation } from "../../../store/postsApi";
+import {
+  usePatchPostMutation,
+  usePostPostMutation,
+} from "../../../store/postsApi";
 import { IImageUrl } from "../../../types/types";
 import { handleImageInput } from "../../../utils/handleImageInputs";
 import { useModalRef } from "../../../utils/useModalRef";
@@ -34,13 +34,24 @@ const SubmitForm = () => {
   const [imageFiles, setImageFiles] = useState<File[]>([]);
   const [imageUrls, setImageUrls] = useState<IImageUrl[]>([]);
 
+  const { post } = useAppSelector((state) => state.modals.postFormModal);
+
+  useEffect(() => {
+    if (post) {
+      setBoardId(post.boardId);
+      setTitle(post.title);
+      setContent(post.content);
+      setCategoryId(post.category.categoryId);
+      setImageUrls(
+        post.imagePaths.map((path, id) => {
+          return { id: id.toString(), url: path };
+        })
+      );
+    }
+  }, [post]);
+
   const photoInput = useRef<HTMLInputElement>(null);
   const boardListRef = useRef<HTMLDivElement>(null);
-
-  const refs: RefObject<HTMLImageElement>[] = useMemo(
-    () => Array.from({ length: 3 }).map(() => createRef()),
-    []
-  );
 
   const { expanded } = useAppSelector((state) => state.modals.postFormModal);
 
@@ -56,11 +67,14 @@ const SubmitForm = () => {
   }, [expanded]);
 
   const [postPost] = usePostPostMutation();
+  const [patchPost] = usePatchPostMutation();
 
   const dispatch = useAppDispatch();
 
   const closeModal = () => {
-    dispatch(setPostFormModal({ open: false, expanded: false }));
+    dispatch(
+      setPostFormModal({ open: false, expanded: false, post: undefined })
+    );
   };
 
   const onToggleBoardList = () =>
@@ -110,26 +124,39 @@ const SubmitForm = () => {
       title,
       content,
       categoryId,
-      imageFilePaths: imageFiles.map((file) => file.name),
+      ...(!post && { imageFilePaths: imageFiles.map((file) => file.name) }),
     };
 
     try {
-      const { data: urlData } = await postPost(data);
-      const { presignedUrls } = urlData;
+      if (!post) {
+        const { data: urlData } = await postPost(data);
+        const { presignedUrls } = urlData;
+        if (presignedUrls?.length && !post) {
+          await Promise.all(
+            presignedUrls.map((url: string, i: number) => {
+              const options: AxiosRequestConfig = {
+                url: `/presigned_bucket_url/${
+                  url.split(process.env.BUCKET_URL || "")[1]
+                }`,
+                method: "PUT",
+                headers: { "Content-Type": imageFiles[i].type },
+                data: imageFiles[i],
+              };
+              axios(options);
+            })
+          );
+        }
+      } else {
+        if (
+          boardId === post.boardId &&
+          categoryId === post.category.categoryId &&
+          title === post.title &&
+          content === post.content
+        )
+          return alert("수정된 내역이 없습니다");
 
-      await Promise.all(
-        presignedUrls.map((url: string, i: number) => {
-          const options: AxiosRequestConfig = {
-            url: `/presigned_bucket_url/${
-              url.split(process.env.BUCKET_URL || "")[1]
-            }`,
-            method: "PUT",
-            headers: { "Content-Type": imageFiles[i].type },
-            data: imageFiles[i],
-          };
-          axios(options);
-        })
-      );
+        await patchPost({ data, postId: post.id });
+      }
 
       setBoardId(0);
       setTitle("");
@@ -264,11 +291,11 @@ const SubmitForm = () => {
                   left: `${expanded ? 25 + 140 * index : 20 + 124 * index}px`,
                 }}
               >
-                <img ref={refs[index]} key={imageUrl.id} src={imageUrl.url} />
+                <img key={imageUrl.id} src={imageUrl.url} />
               </div>
             ))
           : null}
-        {imageUrls.length < 5 ? (
+        {imageUrls.length < 5 || !post ? (
           <div
             className={`${styles.addBox} ${expanded && styles.expanded}`}
             style={{

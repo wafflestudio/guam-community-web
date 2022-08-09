@@ -3,4 +3,18 @@
   margin: auto;
   margin-top: 32px;
   position: relative;
+
+  .listContainer {
+    width: 841px;
+    position: absolute;
+    left: 287px;
+    top: 80px;
+
+    img.loading {
+      position: absolute;
+      top: calc(50vh - 160px);
+      left: 360px;
+      transform: (-50%, -50%);
+    }
+  }
 }

@@ -1,5 +1,5 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
-import { HYDRATE } from "next-redux-wrapper";
+// import { HYDRATE } from "next-redux-wrapper";
 
 import {
   IDetailedPost,
@@ -15,6 +15,14 @@ interface PostsBoardQuery {
   boardId?: number | undefined;
   keyword?: string;
   page: number | undefined;
+}
+
+interface PostPostQuery {
+  boardId: number;
+  categoryId: number;
+  content: string;
+  title: string;
+  imageFilePaths?: string[];
 }
 
 interface PostCommentQuery {
@@ -35,11 +43,11 @@ export const postsApi = createApi({
       return headers;
     },
   }),
-  extractRehydrationInfo(action, { reducerPath }) {
-    if (action.type === HYDRATE) {
-      return action.payload[reducerPath];
-    }
-  },
+  // extractRehydrationInfo(action, { reducerPath }) {
+  //   if (action.type === HYDRATE) {
+  //     return action.payload[reducerPath];
+  //   }
+  // },
   tagTypes: [
     "Posts List",
     "Post Detail",
@@ -89,6 +97,20 @@ export const postsApi = createApi({
       invalidatesTags: (result) => [
         { type: "Posts List", boardId: 0, page: 0 },
         { type: "Posts List", boardId: result.boardId, page: 0 },
+      ],
+    }),
+    patchPost: build.mutation({
+      query: (body) => {
+        return {
+          url: `posts/${body.postId}`,
+          method: "PATCH",
+          body: body.data,
+        };
+      },
+      invalidatesTags: (result, error, req) => [
+        { type: "Posts List", boardId: req.boardId, page: 0 },
+        { type: "Posts List", boardId: 0 },
+        { type: "Post Detail", postId: result.boardId },
       ],
     }),
     scrapPost: build.mutation({
@@ -218,6 +240,7 @@ export const {
   useGetPostsByBoardQuery,
   useGetSearchPostsQuery,
   usePostPostMutation,
+  usePatchPostMutation,
   useScrapPostMutation,
   useLikePostMutation,
   useGetPostDetailQuery,

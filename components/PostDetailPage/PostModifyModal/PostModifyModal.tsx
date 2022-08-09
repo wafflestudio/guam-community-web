@@ -1,17 +1,37 @@
-import React, { SetStateAction } from "react";
+import React, { SetStateAction, useRef } from "react";
+
+import { useAppDispatch } from "../../../store/hooks";
+import { setPostFormModal } from "../../../store/modalSlice";
+import { IDetailedPost } from "../../../types/types";
+import { useModalRef } from "../../../utils/useModalRef";
 
 import styles from "./PostModifyModal.module.scss";
 
 export default function PostModifyModal({
+  post,
   setDeleteConfirmModal,
+  setModal,
 }: {
+  post: IDetailedPost;
   setDeleteConfirmModal: React.Dispatch<SetStateAction<boolean>>;
+  setModal: React.Dispatch<SetStateAction<boolean>>;
 }) {
+  const modalRef = useRef<HTMLDivElement>(null);
+  useModalRef(modalRef, setModal);
+
+  const dispatch = useAppDispatch();
+
+  const onPatchPost = () => {
+    dispatch(setPostFormModal({ open: true, expanded: false, post }));
+  };
   const onDeletePost = () => setDeleteConfirmModal(true);
 
   return (
-    <div className={styles.container}>
-      <button className={`${styles["typo5-regular"]} ${styles.modify}`}>
+    <div ref={modalRef} className={styles.container}>
+      <button
+        className={`${styles["typo5-regular"]} ${styles.modify}`}
+        onClick={onPatchPost}
+      >
         수정하기
       </button>
       <button
