@@ -40,7 +40,8 @@ export const POST_COMMENT = "POST_COMMENT";
 export const MENTION = "MENTION";
 export const POST_LIKE = "POST_LIKE";
 export const POST_SCRAP = "POST_SCRAP";
-export const COMMENT_LIKE = "COMMENT_LIKE";
+export const POST_COMMENT_LIKE = "POST_COMMENT_LIKE";
+export const POST_COMMENT_MENTION = "POST_COMMENT_MENTION";
 export const notificationList = [
   {
     id: 0,
@@ -50,5 +51,10 @@ export const notificationList = [
   { id: 1, key: MENTION, phrase: "댓글에서 언급했습니다." },
   { id: 2, key: POST_LIKE, phrase: "게시글을 좋아합니다." },
   { id: 3, key: POST_SCRAP, phrase: "게시글을 스크랩했습니다." },
-  { id: 4, key: COMMENT_LIKE, phrase: "댓글을 좋아합니다." },
+  { id: 4, key: POST_COMMENT_LIKE, phrase: "댓글을 좋아합니다." },
+  {
+    id: 5,
+    key: POST_COMMENT_MENTION,
+    phrase: "댓글에서 사용자를 멘션했습니다.",
+  },
 ];
