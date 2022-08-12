@@ -2,8 +2,10 @@ import { useRouter } from "next/router";
 import { useCallback, useState } from "react";
 
 import MoreIcon from "../../../assets/icons/more.svg";
-import { postsApi } from "../../../store/postsApi";
+import { useGetPostDetailQuery } from "../../../store/postsApi";
 import { relativeDate } from "../../../utils/formatDate";
+import { useLogin } from "../../../utils/useLogin";
+import useRouterInfo from "../../../utils/useRouterInfo";
 import DeleteConfirmModal from "../PostModifyModal/DeleteConfirmModal/DeleteConfirmModal";
 import PostModifyModal from "../PostModifyModal/PostModifyModal";
 
@@ -19,13 +21,12 @@ export default function PostMain() {
     if (post?.user.id !== 0 && post?.user.id !== undefined)
       router.push(`/profile/${post?.user.id}`);
   };
-  const { postId } = router.query;
+  const isLoggedIn = useLogin();
+  const { postId } = useRouterInfo();
 
-  const post = postsApi.endpoints.getPostDetail.useQuery(
-    typeof postId === "string" ? parseInt(postId) : 0
-  ).data;
-
-  console.log(post?.user.id);
+  const { data: post } = useGetPostDetailQuery(postId!, {
+    skip: !postId || !isLoggedIn,
+  });
 
   const toggleMore = useCallback(() => {
     const modalState = postModifyModal;
@@ -60,11 +61,11 @@ export default function PostMain() {
           className={`${styles["typo5-regular"]} ${styles.userNickname} ${
             post?.user.id !== 0 && post?.user.id !== undefined && styles.pointer
           }`}
+          onClick={onProfileClick}
         >
           {post?.user.nickname}
         </div>
       </div>
-
       <div className={styles.content}>
         <div className={`${styles["typo4-regular"]} ${styles.description}`}>
           {post?.content}

@@ -2,18 +2,19 @@ import React from "react";
 
 import BlogIcon from "../../assets/icons/blog/gray.svg";
 import GithubIcon from "../../assets/icons/github/gray.svg";
-import { postsApi } from "../../store/postsApi";
+import { useGetUserQuery } from "../../store/postsApi";
+import { useLogin } from "../../utils/useLogin";
 import useRouterInfo from "../../utils/useRouterInfo";
 
 import styles from "./ProfilePage.module.scss";
 
 const ProfileContent = () => {
+  const isLoggedIn = useLogin();
   const { userId } = useRouterInfo();
 
-  const user =
-    typeof userId === "string"
-      ? postsApi.endpoints.getUser.useQueryState(parseInt(userId))?.data
-      : undefined;
+  const { data: user } = useGetUserQuery(userId, {
+    skip: !userId || !isLoggedIn,
+  });
 
   console.log(user?.interests);
 
@@ -30,7 +31,9 @@ const ProfileContent = () => {
       <div className={`${styles.nickname} ${styles["typo6-medium"]}`}>
         {user?.nickname}
       </div>
-      <div className={styles.introduction}>{user?.introduction}</div>
+      <div className={`${styles.introduction} ${styles["typo4-regular"]}`}>
+        {user?.introduction}
+      </div>
       {user?.githubId ? (
         <button className={styles.github}>
           <a

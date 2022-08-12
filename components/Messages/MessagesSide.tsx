@@ -1,21 +1,21 @@
-import { useAppDispatch, useAppSelector } from "../../store/hooks";
-import { setPair } from "../../store/letterPairSlice";
-import { postsApi } from "../../store/postsApi";
-import { ILetters, IUser } from "../../types/types";
+import { useRouter } from "next/router";
+
+import NewIcon from "../../assets/icons/new.svg";
+import { useGetLettersQuery } from "../../store/postsApi";
 import { relativeDate } from "../../utils/formatDate";
+import { useLogin } from "../../utils/useLogin";
+import useRouterInfo from "../../utils/useRouterInfo";
 import Profile from "../PostPageSide/Profile";
 
 import styles from "./Messages.module.scss";
 
 export default function MessagesSide() {
-  const pair = useAppSelector((state) => state.pair);
+  const router = useRouter();
 
-  const letters: ILetters | undefined =
-    postsApi.endpoints.getLetters.useQueryState().data;
+  const isLoggedIn = useLogin();
+  const { pairId } = useRouterInfo();
 
-  const dispatch = useAppDispatch();
-
-  const onClickPair = (pair: IUser) => dispatch(setPair(pair));
+  const { data: letters } = useGetLettersQuery({}, { skip: !isLoggedIn });
 
   return (
     <div className={styles.sideContainer}>
@@ -33,17 +33,23 @@ export default function MessagesSide() {
                 <li
                   key={box.pair.id}
                   className={`${styles.messageBox} ${
-                    box.pair.id === pair.id && styles.selected
+                    box.pair.id === pairId && styles.selected
                   }`}
-                  onClick={() => onClickPair(box.pair)}
+                  onClick={() => router.push(`/letters/${box.pair.id}`)}
                 >
-                  <img
-                    src={
-                      box.pair.profileImage
-                        ? process.env.BUCKET_URL + box.pair.profileImage
-                        : "/default_profile_image.png"
-                    }
-                  />
+                  <div className={styles.imageWrapper}>
+                    {box.lastLetter.isRead ? null : <NewIcon />}
+                    <div className={styles.imageInnerWrapper}>
+                      <img
+                        src={
+                          box.pair.profileImage
+                            ? process.env.BUCKET_URL + box.pair.profileImage
+                            : "/default_profile_image.png"
+                        }
+                        alt={`${box.pair.nickname}의 프로필 이미지`}
+                      />
+                    </div>
+                  </div>
                   <div
                     className={`${styles["typo4-medium"]} ${styles.pairName}`}
                   >

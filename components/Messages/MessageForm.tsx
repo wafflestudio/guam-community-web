@@ -11,6 +11,7 @@ import CameraIcon from "../../assets/icons/camera.svg";
 import { useAppSelector } from "../../store/hooks";
 import { usePostLetterMutation } from "../../store/postsApi";
 import { IImageUrl } from "../../types/types";
+import useRouterInfo from "../../utils/useRouterInfo";
 
 import MessageImages from "./MessageImages";
 
@@ -28,7 +29,7 @@ export default function MessageForm({
   const textareaRef = useRef<HTMLTextAreaElement>(null);
   const photoInputRef = useRef<HTMLInputElement>(null);
 
-  const pair = useAppSelector((state) => state.pair);
+  const { pairId } = useRouterInfo();
 
   useEffect(() => {
     if (textareaRef.current) {
@@ -59,7 +60,7 @@ export default function MessageForm({
 
     const data = new FormData();
     const object = {
-      to: pair.id,
+      to: pairId,
       text: messageInput.trim().length !== 0 ? messageInput.trim() : "사진",
     };
     Object.keys(object).forEach((key) =>

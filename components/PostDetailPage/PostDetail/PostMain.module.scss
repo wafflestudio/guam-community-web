@@ -1,10 +1,10 @@
-@import "../../../assets/colors/colors";
+@use "../../../assets/colors/colors";
 @import "../../../assets/fonts/typography_regular";
 @import "../../../assets/fonts/typography_medium";
 
 .container {
   width: 840px;
-  background: $grayscale-white;
+  background: colors.$grayscale-white;
   margin-top: 24px;
   margin-left: 288px;
   padding: 24px 24px 12px;
@@ -14,7 +14,7 @@
     margin: 0;
     font-weight: 500;
     min-height: 39px;
-    color: $grayscale-gray1;
+    color: colors.$grayscale-gray1;
   }
 
   hr {
@@ -24,7 +24,7 @@
     border-top: 1px solid;
     margin: 0;
     margin-top: 8px;
-    color: $grayscale-gray7;
+    color: colors.$grayscale-gray7;
   }
 
   .userInfo {
@@ -36,10 +36,16 @@
       height: 36px;
       border-radius: 50%;
       overflow: hidden;
-      display: inline-block;
+      display: inline-flex;
+      background: colors.$grayscale-gray6;
+      justify-content: center;
+
+      &.pointer {
+        cursor: pointer;
+      }
 
       img {
-        width: 36px;
+        width: auto;
         height: 36px;
       }
     }
@@ -50,7 +56,11 @@
       font-weight: 500;
       display: inline-block;
       vertical-align: top;
-      color: $grayscale-gray2;
+      color: colors.$grayscale-gray2;
+
+      &.pointer {
+        cursor: pointer;
+      }
     }
   }
 
@@ -61,7 +71,7 @@
 
     .description {
       width: 100%;
-      color: $grayscale-gray3;
+      color: colors.$grayscale-gray3;
     }
   }
 
@@ -100,7 +110,7 @@
   .createdAt {
     height: 16px;
     margin-top: 30px;
-    color: $grayscale-gray4;
+    color: colors.$grayscale-gray4;
   }
 
   .more {
