@@ -1,10 +1,4 @@
-import React, {
-  Dispatch,
-  RefObject,
-  SetStateAction,
-  useCallback,
-  useRef,
-} from "react";
+import React, { Dispatch, RefObject, SetStateAction, useRef } from "react";
 
 import CancelIcon from "../../assets/icons/cancel/filled_18.svg";
 import { MB } from "../../constants/constants";
@@ -27,48 +21,43 @@ export default function MessageImages({
 }) {
   const imageDisplayRef = useRef<HTMLDivElement>(null);
 
-  const handleImageInput: React.ChangeEventHandler<HTMLInputElement> =
-    useCallback(
-      ({ target }) => {
-        if (target.files) {
-          if (Array.from(target.files).some((file) => file.size > 10 * MB)) {
-            alert("이미지 크기는 10MB 이하만 가능합니다");
-          }
+  const handleImageInput: React.ChangeEventHandler<HTMLInputElement> = ({
+    target,
+  }) => {
+    if (target.files) {
+      if (Array.from(target.files).some((file) => file.size > 10 * MB)) {
+        alert("이미지 크기는 10MB 이하만 가능합니다");
+      }
 
-          const filteredImages = Array.from(target.files).filter(
-            (image) => image.size <= 10 * MB
-          );
+      const filteredImages = Array.from(target.files).filter(
+        (image) => image.size <= 10 * MB
+      );
 
-          const imagesList = [...images, ...filteredImages].filter(
-            (value, index, self) =>
-              index ===
-              self.findIndex(
-                (t) =>
-                  t.lastModified === value.lastModified && t.name === value.name
-              )
-          );
-          if (imagesList.length !== images.length + filteredImages.length)
-            alert("이미 선택한 사진입니다");
-          if (imagesList.length > 5) alert("사진은 5장까지 첨부 가능합니다");
-          setImages(imagesList.slice(0, 5));
+      const imagesList = [...images, ...filteredImages].filter(
+        (value, index, self) =>
+          index ===
+          self.findIndex(
+            (t) =>
+              t.lastModified === value.lastModified && t.name === value.name
+          )
+      );
+      if (imagesList.length !== images.length + filteredImages.length)
+        alert("이미 선택한 사진입니다");
+      if (imagesList.length > 5) alert("사진은 5장까지 첨부 가능합니다");
+      setImages(imagesList.slice(0, 5));
 
-          const newUrls = imagesList.map((file) => ({
-            id: file.lastModified + file.name,
-            url: URL.createObjectURL(file),
-          }));
-          setImageUrls(newUrls.slice(0, 5));
-        }
-      },
-      [images]
-    );
+      const newUrls = imagesList.map((file) => ({
+        id: file.lastModified + file.name,
+        url: URL.createObjectURL(file),
+      }));
+      setImageUrls(newUrls.slice(0, 5));
+    }
+  };
 
-  const deleteImage = useCallback(
-    (id: number) => {
-      setImages(images.filter((file, index) => index !== id));
-      setImageUrls(imageUrls.filter((url, index) => index !== id));
-    },
-    [imageUrls, images]
-  );
+  const deleteImage = (id: number) => {
+    setImages(images.filter((file, index) => index !== id));
+    setImageUrls(imageUrls.filter((url, index) => index !== id));
+  };
 
   return (
     <>

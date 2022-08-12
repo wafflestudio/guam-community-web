@@ -1,5 +1,5 @@
 import axios, { AxiosRequestConfig } from "axios";
-import React, { RefObject, useCallback } from "react";
+import React, { RefObject } from "react";
 
 import CameraIcon from "../../../../../assets/icons/camera.svg";
 import {
@@ -28,13 +28,13 @@ const CommentFormButtons = ({
   );
   const dispatch = useAppDispatch();
 
-  const clickImageInput = useCallback(() => {
+  const clickImageInput = () => {
     if (imageUrls.length >= 5) {
       alert("사진은 5장까지 첨부 가능합니다");
       return;
     }
     photoInputRef.current?.click();
-  }, [imageUrls.length]);
+  };
 
   const [postComment] = usePostCommentMutation();
   const { postId } = useRouterInfo();

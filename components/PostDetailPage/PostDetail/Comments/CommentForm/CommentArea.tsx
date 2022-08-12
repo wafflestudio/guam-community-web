@@ -1,4 +1,4 @@
-import React, { RefObject, useCallback } from "react";
+import React, { RefObject } from "react";
 
 import {
   setCommentInput,
@@ -18,25 +18,19 @@ const CommentArea = ({
   const { commentInput } = useAppSelector((state) => state.commentForm);
   const dispatch = useAppDispatch();
 
-  const onCommentChange: React.ChangeEventHandler<HTMLTextAreaElement> =
-    useCallback(
-      ({ target }) => {
-        dispatch(setCommentInput(target.value));
-      },
-      [dispatch]
-    );
+  const onCommentChange: React.ChangeEventHandler<HTMLTextAreaElement> = ({
+    target,
+  }) => {
+    dispatch(setCommentInput(target.value));
+  };
 
-  const onMention: React.KeyboardEventHandler<HTMLTextAreaElement> =
-    useCallback(
-      (e) => {
-        if (e.key === "@") {
-          dispatch(setMentionListOpen(true));
-        } else {
-          dispatch(setMentionListOpen(false));
-        }
-      },
-      [dispatch]
-    );
+  const onMention: React.KeyboardEventHandler<HTMLTextAreaElement> = (e) => {
+    if (e.key === "@") {
+      dispatch(setMentionListOpen(true));
+    } else {
+      dispatch(setMentionListOpen(false));
+    }
+  };
 
   return (
     <div className={styles.commentContainer}>

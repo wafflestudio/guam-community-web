@@ -1,5 +1,5 @@
 import { useRouter } from "next/router";
-import { useCallback, useState } from "react";
+import { useState } from "react";
 
 import MoreIcon from "../../../assets/icons/more.svg";
 import { useGetPostDetailQuery } from "../../../store/postsApi";
@@ -28,10 +28,10 @@ export default function PostMain() {
     skip: !postId || !isLoggedIn,
   });
 
-  const toggleMore = useCallback(() => {
+  const toggleMore = () => {
     const modalState = postModifyModal;
     setPostModifyModal(!modalState);
-  }, [postModifyModal]);
+  };
 
   return (
     <div className={styles.container}>
