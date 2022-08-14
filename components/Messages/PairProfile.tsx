@@ -3,10 +3,9 @@ import { useRouter } from "next/router";
 import { useState } from "react";
 
 import MoreIcon from "../../assets/icons/more.svg";
-import { useAppDispatch } from "../../store/hooks";
+import { useAppDispatch, useAppSelector } from "../../store/hooks";
 import { setUserBlockModal, setUserReportModal } from "../../store/modalSlice";
 import { useGetUserQuery } from "../../store/postsApi";
-import { useLogin } from "../../utils/useLogin";
 import useRouterInfo from "../../utils/useRouterInfo";
 
 import styles from "./Messages.module.scss";
@@ -14,7 +13,8 @@ import styles from "./Messages.module.scss";
 export default function PairProfile() {
   const [modal, setModal] = useState(false);
 
-  const isLoggedIn = useLogin();
+  const { isLoggedIn } = useAppSelector((state) => state.auth);
+
   const { pairId } = useRouterInfo();
 
   const { data: pair } = useGetUserQuery(pairId, {

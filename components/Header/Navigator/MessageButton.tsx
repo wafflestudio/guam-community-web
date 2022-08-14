@@ -3,13 +3,13 @@ import { useRouter } from "next/router";
 
 import MessageIcon from "../../../assets/icons/message/default.svg";
 import NewMessagesIcon from "../../../assets/icons/message/new.svg";
+import { useAppSelector } from "../../../store/hooks";
 import { useGetLettersCountQuery } from "../../../store/postsApi";
-import { useLogin } from "../../../utils/useLogin";
 
 import styles from "./MessageButton.module.scss";
 
 export default function MessageButton() {
-  const isLoggedIn = useLogin();
+  const { isLoggedIn } = useAppSelector((state) => state.auth);
   const router = useRouter();
 
   const { data } = useGetLettersCountQuery({}, { skip: !isLoggedIn });

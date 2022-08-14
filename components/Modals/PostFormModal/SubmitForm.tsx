@@ -11,13 +11,18 @@ import CancelIcon from "../../../assets/icons/cancel/outlined.svg";
 import CheckIcon from "../../../assets/icons/check.svg";
 import DownIcon from "../../../assets/icons/down/down_20.svg";
 import PlusIcon from "../../../assets/icons/plus.svg";
-import { boardList, categoryList } from "../../../constants/constants";
+import {
+  boardList,
+  categoryList,
+  TOAST_SHOW_TIME,
+} from "../../../constants/constants";
 import { useAppDispatch, useAppSelector } from "../../../store/hooks";
 import { setPostFormModal } from "../../../store/modalSlice";
 import {
   usePatchPostMutation,
   usePostPostMutation,
 } from "../../../store/postsApi";
+import { setToast } from "../../../store/toastSlice";
 import { IImageUrl } from "../../../types/types";
 import { handleImageInput } from "../../../utils/handleImageInputs";
 import { useModalRef } from "../../../utils/useModalRef";
@@ -109,10 +114,11 @@ const SubmitForm = () => {
   const onPostSubmit: FormEventHandler<HTMLFormElement> = async (e) => {
     e.preventDefault();
 
-    if (boardId === 0) return window.alert("게시판을 골라주세요");
+    if (boardId === 0) return dispatch(setToast("게시판을 골라주세요"));
+
     if (title.length === 0 || content.length === 0)
-      return window.alert("제목과 내용을 작성해주세요");
-    if (categoryId === 0) return window.alert("태그를 골라주세요");
+      return dispatch(setToast("제목과 내용을 작성해주세요"));
+    if (categoryId === 0) return dispatch(setToast("태그를 골라주세요"));
 
     const data = {
       boardId,
@@ -162,167 +168,174 @@ const SubmitForm = () => {
       closeModal();
     } catch (e) {
       console.log(e);
+      dispatch(setToast({ open: true, text: "게시글 작성에 실패했습니다." }));
     }
   };
 
   return (
-    <form onSubmit={onPostSubmit}>
-      <div className={`${styles.boardWrapper} ${expanded && styles.expanded}`}>
-        <div className={styles.boardHeader}>
-          <button
-            className={`${styles.boardHeaderTitle} ${styles["typo4-regular"]} ${styles.boardId}`}
-            onClick={onToggleBoardList}
-            type="button"
-          >
-            {boardId === 0 ? "게시판" : boardList[boardId].name}
-            <DownIcon />
-          </button>
-        </div>
-        {boardListOpen ? (
-          <div className={styles.boardList} ref={boardListRef}>
-            {boardList.map((board) => {
-              if (board.id === 0) return;
-              return (
-                <li key={board.id} onClick={() => onBoardIdChange(board.id)}>
-                  <button
-                    type="button"
-                    className={`${styles["typo5-regular"]} ${styles.boardListItem}`}
-                  >
-                    {board.name}
-                  </button>
-                  {board.id === boardId ? <CheckIcon /> : null}
-                </li>
-              );
-            })}
-          </div>
-        ) : null}
-      </div>
-      <input
-        className={`${styles["typo6-medium"]} ${styles.title} ${
-          expanded && styles.expanded
-        }`}
-        type="text"
-        value={title}
-        onChange={onTitleChange}
-        placeholder="제목"
-      />
-      <textarea
-        className={`${styles["typo4-regular"]} ${styles.content} ${
-          expanded && styles.expanded
-        }`}
-        value={content}
-        onChange={onContentChange}
-        placeholder="내용을 입력해주세요."
-      />
-      <div className={styles.categoryOptions}>
+    <>
+      <form onSubmit={onPostSubmit}>
         <div
-          className={`${styles["typo4-regular"]} ${styles.label} ${
+          className={`${styles.boardWrapper} ${expanded && styles.expanded}`}
+        >
+          <div className={styles.boardHeader}>
+            <button
+              className={`${styles.boardHeaderTitle} ${styles["typo4-regular"]} ${styles.boardId}`}
+              onClick={onToggleBoardList}
+              type="button"
+            >
+              {boardId === 0 ? "게시판" : boardList[boardId].name}
+              <DownIcon />
+            </button>
+          </div>
+          {boardListOpen ? (
+            <div className={styles.boardList} ref={boardListRef}>
+              {boardList.map((board) => {
+                if (board.id === 0) return;
+                return (
+                  <li key={board.id} onClick={() => onBoardIdChange(board.id)}>
+                    <button
+                      type="button"
+                      className={`${styles["typo5-regular"]} ${styles.boardListItem}`}
+                    >
+                      {board.name}
+                    </button>
+                    {board.id === boardId ? <CheckIcon /> : null}
+                  </li>
+                );
+              })}
+            </div>
+          ) : null}
+        </div>
+        <input
+          className={`${styles["typo6-medium"]} ${styles.title} ${
             expanded && styles.expanded
           }`}
-        >
-          태그
-        </div>
-        {categoryId == 0 ? (
-          categoryList.map((category) => (
-            <div className={styles.categoryList} key={category.id}>
-              <input
-                type="radio"
-                name={category.tag}
-                id={category.tag}
-                value={category.id}
-                onChange={onCategoryIdChange}
-              />
-              <label
-                className={`${styles["typo4-medium"]} ${styles[category.tag]} ${
-                  expanded && styles.expanded
-                }`}
-                htmlFor={category.tag}
-              >
-                #{category.name}
-              </label>
-            </div>
-          ))
-        ) : (
+          type="text"
+          value={title}
+          onChange={onTitleChange}
+          placeholder="제목"
+        />
+        <textarea
+          className={`${styles["typo4-regular"]} ${styles.content} ${
+            expanded && styles.expanded
+          }`}
+          value={content}
+          onChange={onContentChange}
+          placeholder="내용을 입력해주세요."
+        />
+        <div className={styles.categoryOptions}>
           <div
-            className={`${styles["typo5-medium"]} ${styles.selectedCategory} ${
+            className={`${styles["typo4-regular"]} ${styles.label} ${
               expanded && styles.expanded
             }`}
           >
-            <span className={styles.categoryName}>
-              #{categoryList[categoryId - 1].name}
-            </span>
-            <button
-              type="button"
-              className={styles.deleteCategory}
-              onClick={onDeleteCategory}
-            >
-              <CancelIcon />
-            </button>
+            태그
           </div>
-        )}
-      </div>
-      <div className={styles.addPhotos}>
-        <div
-          className={`${styles["typo4-regular"]} ${styles.label} ${
-            expanded && styles.expanded
-          }`}
-        >
-          사진
-        </div>
-        <input
-          className={styles.photoInput}
-          ref={photoInput}
-          type="file"
-          accept="image/*"
-          onChange={onChangeImage}
-          multiple
-        />
-        {imageUrls.length !== 0
-          ? imageUrls.map((imageUrl, index) => (
-              <div
-                className={`${styles.imageList} ${expanded && styles.expanded}`}
-                key={imageUrl.id}
-                style={{
-                  left: `${expanded ? 25 + 140 * index : 20 + 124 * index}px`,
-                }}
-              >
-                <img key={imageUrl.id} src={imageUrl.url} />
+          {categoryId == 0 ? (
+            categoryList.map((category) => (
+              <div className={styles.categoryList} key={category.id}>
+                <input
+                  type="radio"
+                  name={category.tag}
+                  id={category.tag}
+                  value={category.id}
+                  onChange={onCategoryIdChange}
+                />
+                <label
+                  className={`${styles["typo4-medium"]} ${
+                    styles[category.tag]
+                  } ${expanded && styles.expanded}`}
+                  htmlFor={category.tag}
+                >
+                  #{category.name}
+                </label>
               </div>
             ))
-          : null}
-        {imageUrls.length < 5 || !post ? (
+          ) : (
+            <div
+              className={`${styles["typo5-medium"]} ${
+                styles.selectedCategory
+              } ${expanded && styles.expanded}`}
+            >
+              <span className={styles.categoryName}>
+                #{categoryList[categoryId - 1].name}
+              </span>
+              <button
+                type="button"
+                className={styles.deleteCategory}
+                onClick={onDeleteCategory}
+              >
+                <CancelIcon />
+              </button>
+            </div>
+          )}
+        </div>
+        <div className={styles.addPhotos}>
           <div
-            className={`${styles.addBox} ${expanded && styles.expanded}`}
-            style={{
-              left: `${
-                expanded
-                  ? 25 + 140 * imageUrls.length
-                  : 20 + 124 * imageUrls.length
-              }px`,
-            }}
-            onClick={clickImageInput}
+            className={`${styles["typo4-regular"]} ${styles.label} ${
+              expanded && styles.expanded
+            }`}
           >
-            <PlusIcon />
+            사진
           </div>
-        ) : null}
-      </div>
-      <button
-        type="button"
-        className={`${styles["typo4-regular"]} ${styles.save} ${
-          styles.bottom
-        } ${expanded && styles.expanded}`}
-      >
-        저장
-      </button>
-      <button
-        type="submit"
-        className={`${styles["typo4-regular"]} ${styles.submit} ${
-          styles.bottom
-        } ${expanded && styles.expanded}`}
-      >
-        등록
-      </button>
-    </form>
+          <input
+            className={styles.photoInput}
+            ref={photoInput}
+            type="file"
+            accept="image/*"
+            onChange={onChangeImage}
+            multiple
+          />
+          {imageUrls.length !== 0
+            ? imageUrls.map((imageUrl, index) => (
+                <div
+                  className={`${styles.imageList} ${
+                    expanded && styles.expanded
+                  }`}
+                  key={imageUrl.id}
+                  style={{
+                    left: `${expanded ? 25 + 140 * index : 20 + 124 * index}px`,
+                  }}
+                >
+                  <img key={imageUrl.id} src={imageUrl.url} />
+                </div>
+              ))
+            : null}
+          {imageUrls.length < 5 || !post ? (
+            <div
+              className={`${styles.addBox} ${expanded && styles.expanded}`}
+              style={{
+                left: `${
+                  expanded
+                    ? 25 + 140 * imageUrls.length
+                    : 20 + 124 * imageUrls.length
+                }px`,
+              }}
+              onClick={clickImageInput}
+            >
+              <PlusIcon />
+            </div>
+          ) : null}
+        </div>
+        <button
+          type="button"
+          className={`${styles["typo4-regular"]} ${styles.save} ${
+            styles.bottom
+          } ${expanded && styles.expanded}`}
+        >
+          저장
+        </button>
+        <button
+          type="submit"
+          className={`${styles["typo4-regular"]} ${styles.submit} ${
+            styles.bottom
+          } ${expanded && styles.expanded}`}
+        >
+          등록
+        </button>
+      </form>
+    </>
   );
 };
 

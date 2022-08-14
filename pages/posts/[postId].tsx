@@ -2,12 +2,13 @@ import { Fragment } from "react";
 
 import PageTitle from "../../components/PageTitle";
 import PostDetailPage from "../../components/PostDetailPage/PostDetailPage";
+import { useAppSelector } from "../../store/hooks";
 import { useGetPostDetailQuery } from "../../store/postsApi";
-import { useLogin } from "../../utils/useLogin";
 import useRouterInfo from "../../utils/useRouterInfo";
+import withAuth from "../../utils/withAuth";
 
-export default function DetailedPostPage() {
-  const isLoggedIn = useLogin();
+const DetailedPostPage = () => {
+  const { isLoggedIn } = useAppSelector((state) => state.auth);
   const { postId } = useRouterInfo();
 
   const { data, isLoading, error } = useGetPostDetailQuery(postId!, {
@@ -22,4 +23,6 @@ export default function DetailedPostPage() {
       <PostDetailPage />
     </Fragment>
   );
-}
+};
+
+export default withAuth(DetailedPostPage);

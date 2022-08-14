@@ -3,9 +3,9 @@ import { createWrapper } from "next-redux-wrapper";
 
 import authReducer from "./authSlice";
 import commentFormReducer from "./commentFormSlice";
-import pairReducer from "./letterPairSlice";
 import modalReducer from "./modalSlice";
 import { postsApi } from "./postsApi";
+import toastReducer from "./toastSlice";
 import userReducer from "./userSlice";
 
 export const store = () =>
@@ -15,7 +15,7 @@ export const store = () =>
       user: userReducer,
       modals: modalReducer,
       commentForm: commentFormReducer,
-      pair: pairReducer,
+      toast: toastReducer,
       [postsApi.reducerPath]: postsApi.reducer,
     },
     middleware: (getDefaultMiddleware) =>

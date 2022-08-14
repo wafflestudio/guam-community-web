@@ -2,9 +2,9 @@ import { useRouter } from "next/router";
 import { useState } from "react";
 
 import MoreIcon from "../../../assets/icons/more.svg";
+import { useAppSelector } from "../../../store/hooks";
 import { useGetPostDetailQuery } from "../../../store/postsApi";
 import { relativeDate } from "../../../utils/formatDate";
-import { useLogin } from "../../../utils/useLogin";
 import useRouterInfo from "../../../utils/useRouterInfo";
 import DeleteConfirmModal from "../PostModifyModal/DeleteConfirmModal/DeleteConfirmModal";
 import PostModifyModal from "../PostModifyModal/PostModifyModal";
@@ -21,7 +21,7 @@ export default function PostMain() {
     if (post?.user.id !== 0 && post?.user.id !== undefined)
       router.push(`/profile/${post?.user.id}`);
   };
-  const isLoggedIn = useLogin();
+  const { isLoggedIn } = useAppSelector((state) => state.auth);
   const { postId } = useRouterInfo();
 
   const { data: post } = useGetPostDetailQuery(postId!, {

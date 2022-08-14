@@ -1,15 +1,15 @@
 import PageTitle from "../components/PageTitle";
 import PostsPage from "../components/PostsPage/PostsPage";
+import { useAppSelector } from "../store/hooks";
 import { useGetSearchPostsQuery } from "../store/postsApi";
-import { useLogin } from "../utils/useLogin";
 import useRouterInfo from "../utils/useRouterInfo";
 
 export default function Home() {
-  const isLoggedIn = useLogin();
+  const { isLoggedIn } = useAppSelector((state) => state.auth);
 
   const { page, keyword } = useRouterInfo();
 
-  useGetSearchPostsQuery(
+  const { data, isLoading } = useGetSearchPostsQuery(
     { keyword: keyword || "", page },
     {
       refetchOnMountOrArgChange: true,
@@ -22,7 +22,7 @@ export default function Home() {
       <PageTitle
         title={`${typeof keyword === "string" && decodeURI(keyword)}`}
       />
-      <PostsPage />
+      <PostsPage posts={data?.content} isLoading={isLoading} />
     </>
   );
 }

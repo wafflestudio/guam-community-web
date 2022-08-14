@@ -2,14 +2,15 @@ import React from "react";
 
 import BlogIcon from "../../assets/icons/blog/gray.svg";
 import GithubIcon from "../../assets/icons/github/gray.svg";
+import { useAppSelector } from "../../store/hooks";
 import { useGetUserQuery } from "../../store/postsApi";
-import { useLogin } from "../../utils/useLogin";
 import useRouterInfo from "../../utils/useRouterInfo";
 
 import styles from "./ProfilePage.module.scss";
 
 const ProfileContent = () => {
-  const isLoggedIn = useLogin();
+  const { isLoggedIn } = useAppSelector((state) => state.auth);
+
   const { userId } = useRouterInfo();
 
   const { data: user } = useGetUserQuery(userId, {

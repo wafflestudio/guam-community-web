@@ -9,7 +9,7 @@ export default function Home() {
 
   const { page, boardId, boardType } = useRouterInfo();
 
-  useGetPostsByBoardQuery(
+  const { data, isLoading } = useGetPostsByBoardQuery(
     { boardId, page },
     {
       refetchOnMountOrArgChange: true,
@@ -23,7 +23,7 @@ export default function Home() {
       <PageTitle
         title={`${typeof boardType === "string" && boardType.toUpperCase()}`}
       />
-      <PostsPage />
+      <PostsPage posts={data?.content} isLoading={isLoading} />
     </>
   );
 }

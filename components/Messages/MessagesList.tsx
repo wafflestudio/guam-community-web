@@ -3,17 +3,17 @@ import { RefObject } from "react";
 import { useAppSelector } from "../../store/hooks";
 import { useGetPairLettersQuery, useGetUserQuery } from "../../store/postsApi";
 import { relativeDate } from "../../utils/formatDate";
-import { useLogin } from "../../utils/useLogin";
 import useRouterInfo from "../../utils/useRouterInfo";
 
 import styles from "./Messages.module.scss";
 
-export default function MessagesList({
+const MessagesList = ({
   messageListRef,
 }: {
   messageListRef: RefObject<HTMLUListElement>;
-}) {
-  const isLoggedIn = useLogin();
+}) => {
+  const { isLoggedIn } = useAppSelector((state) => state.auth);
+
   const { pairId } = useRouterInfo();
   const { user } = useAppSelector((state) => state);
 
@@ -49,4 +49,6 @@ export default function MessagesList({
       })}
     </ul>
   );
-}
+};
+
+export default MessagesList;

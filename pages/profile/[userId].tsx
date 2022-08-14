@@ -2,12 +2,13 @@ import React from "react";
 
 import PageTitle from "../../components/PageTitle";
 import ProfilePage from "../../components/ProfilePage/ProfilePage";
+import { useAppSelector } from "../../store/hooks";
 import { useGetUserQuery } from "../../store/postsApi";
-import { useLogin } from "../../utils/useLogin";
 import useRouterInfo from "../../utils/useRouterInfo";
+import withAuth from "../../utils/withAuth";
 
 const ProfileById = () => {
-  const isLoggedIn = useLogin();
+  const { isLoggedIn } = useAppSelector((state) => state.auth);
 
   const { userId } = useRouterInfo();
 
@@ -32,4 +33,4 @@ const ProfileById = () => {
   );
 };
 
-export default ProfileById;
+export default withAuth(ProfileById);

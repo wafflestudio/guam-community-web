@@ -1,9 +1,9 @@
 import { useRouter } from "next/router";
 
 import NewIcon from "../../assets/icons/new.svg";
+import { useAppSelector } from "../../store/hooks";
 import { useGetLettersQuery } from "../../store/postsApi";
 import { relativeDate } from "../../utils/formatDate";
-import { useLogin } from "../../utils/useLogin";
 import useRouterInfo from "../../utils/useRouterInfo";
 import Profile from "../PostPageSide/Profile";
 
@@ -12,7 +12,7 @@ import styles from "./Messages.module.scss";
 export default function MessagesSide() {
   const router = useRouter();
 
-  const isLoggedIn = useLogin();
+  const { isLoggedIn } = useAppSelector((state) => state.auth);
   const { pairId } = useRouterInfo();
 
   const { data: letters } = useGetLettersQuery({}, { skip: !isLoggedIn });

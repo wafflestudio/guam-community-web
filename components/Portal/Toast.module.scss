@@ -1,0 +1,26 @@
+@use "../../assets/colors/colors";
+@import "../../assets/fonts/typography_regular";
+
+.container {
+  width: 639px;
+  height: 50px;
+  background: colors.$red-core;
+  border-radius: 10px;
+  display: flex;
+  gap: 4px;
+  padding: 13px 0 14px 12px;
+  position: fixed;
+  top: 10px;
+  left: 50%;
+  transform: translateX(-50%);
+  transition: transform 0.6s ease-in-out;
+  animation: forwards;
+  z-index: 1000000;
+
+  span {
+    font-weight: 500;
+    color: white;
+    height: 23px;
+    padding-top: 2px;
+  }
+}

@@ -1,11 +1,9 @@
 import SignOutButton from "../../components/Buttons/SignOutButton";
 import PageTitle from "../../components/PageTitle";
 import SetProfilePage from "../../components/SetProfilePage/SetProfilePage";
-import { useLogin } from "../../utils/useLogin";
+import withAuth from "../../utils/withAuth";
 
-export default function SetProfile() {
-  useLogin();
-
+const SetProfile = () => {
   return (
     <>
       <PageTitle title="Profile" />
@@ -13,4 +11,6 @@ export default function SetProfile() {
       <SignOutButton />
     </>
   );
-}
+};
+
+export default withAuth(SetProfile);
