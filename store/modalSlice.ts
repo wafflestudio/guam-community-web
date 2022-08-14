@@ -10,7 +10,7 @@ type postFormModalType = {
 
 type userModalType = {
   open: boolean;
-  user: IUser | null;
+  user: IUser | null | undefined;
 };
 
 type imageExtendedModalType = {

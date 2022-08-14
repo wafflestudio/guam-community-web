@@ -52,6 +52,7 @@ export const postsApi = createApi({
     "Posts List",
     "Post Detail",
     "LetterBox List",
+    "Letters Count",
     "Letters",
     "Push List",
     "User",
@@ -200,6 +201,10 @@ export const postsApi = createApi({
       query: (id) => ({ url: `letters/${id}`, method: "GET" }),
       providesTags: (result) => [{ type: "Letters", pairId: result?.pairId }],
     }),
+    getLettersCount: build.query({
+      query: () => ({ url: "letters/me" }),
+      providesTags: [{ type: "Letters Count" }],
+    }),
     postLetter: build.mutation({
       query: (data: FormData) => ({
         url: `letters`,
@@ -250,6 +255,7 @@ export const {
   useLikeCommentMutation,
   useGetLettersQuery,
   useGetPairLettersQuery,
+  useGetLettersCountQuery,
   usePostLetterMutation,
   useGetPushListQuery,
   usePostPushReadMutation,

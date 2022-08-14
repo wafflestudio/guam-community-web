@@ -1,5 +1,4 @@
 import { useRouter } from "next/router";
-import { useEffect } from "react";
 
 import { useAppSelector } from "../store/hooks";
 
@@ -8,9 +7,7 @@ export const useLogin = () => {
 
   const router = useRouter();
 
-  useEffect(() => {
-    if (isLoggedIn === false) router.push("/login");
-  }, [isLoggedIn, router]);
+  if (isLoggedIn === false) router.push("/login");
 
   return isLoggedIn;
 };

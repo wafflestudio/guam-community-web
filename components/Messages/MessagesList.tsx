@@ -1,8 +1,10 @@
 import { RefObject } from "react";
 
 import { useAppSelector } from "../../store/hooks";
-import { useGetPairLettersQuery } from "../../store/postsApi";
+import { useGetPairLettersQuery, useGetUserQuery } from "../../store/postsApi";
 import { relativeDate } from "../../utils/formatDate";
+import { useLogin } from "../../utils/useLogin";
+import useRouterInfo from "../../utils/useRouterInfo";
 
 import styles from "./Messages.module.scss";
 
@@ -11,15 +13,18 @@ export default function MessagesList({
 }: {
   messageListRef: RefObject<HTMLUListElement>;
 }) {
-  const { pair, user } = useAppSelector((state) => state);
+  const isLoggedIn = useLogin();
+  const { pairId } = useRouterInfo();
+  const { user } = useAppSelector((state) => state);
 
-  const { data } = useGetPairLettersQuery(pair.id || 0, {
-    skip: pair.id === (undefined || null),
+  const { data: pairLetters } = useGetPairLettersQuery(pairId!, {
+    skip: !pairId || !isLoggedIn,
   });
+  const { data: pair } = useGetUserQuery(pairId, { skip: !pairId });
 
   return (
     <ul className={styles.messagesList} ref={messageListRef}>
-      {data?.letters.map((letter) => {
+      {pairLetters?.letters.map((letter) => {
         return (
           <li key={letter.id}>
             <div className={styles.writerName}>
@@ -29,7 +34,7 @@ export default function MessagesList({
                 </span>
               ) : (
                 <span className={`${styles["typo4-regular"]}`}>
-                  {pair.nickname}
+                  {pair?.nickname}
                 </span>
               )}
               <div className={`${styles["typo2-regular"]} ${styles.fromNow}`}>

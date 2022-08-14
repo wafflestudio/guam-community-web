@@ -22,7 +22,7 @@ export default function SearchBar() {
   const onSearch: React.ChangeEventHandler<HTMLFormElement> = (e) => {
     e.preventDefault();
     if (searchInput.length < 2) return alert("검색은 두글자 이상");
-    router.push(`/posts/search?keyword=${searchInput.trim()}`);
+    router.push(`/search?keyword=${searchInput.trim()}`);
   };
 
   return (

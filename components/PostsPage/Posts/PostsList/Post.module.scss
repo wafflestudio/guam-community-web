@@ -57,7 +57,7 @@
     }
   }
 
-  div.content {
+  p.content {
     width: 793px;
     height: 21px;
     position: relative;
@@ -68,6 +68,10 @@
     cursor: pointer;
     overflow: hidden;
     white-space: nowrap;
+  }
+
+  .pointer {
+    cursor: pointer;
   }
 
   div.profileImage {
@@ -81,9 +85,10 @@
     display: flex;
     justify-content: center;
     align-items: center;
+    background: colors.$grayscale-gray6;
 
     img.profile {
-      width: 100%;
+      width: auto;
       height: 100%;
     }
 

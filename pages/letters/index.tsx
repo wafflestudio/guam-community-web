@@ -1,7 +1,7 @@
-import MessagesPage from "../components/Messages/MessagesPage";
-import PageTitle from "../components/PageTitle";
-import { useGetLettersQuery } from "../store/postsApi";
-import { useLogin } from "../utils/useLogin";
+import MessagesPage from "../../components/Messages/MessagesPage";
+import PageTitle from "../../components/PageTitle";
+import { useGetLettersQuery } from "../../store/postsApi";
+import { useLogin } from "../../utils/useLogin";
 
 const Messages = () => {
   const isLoggedIn = useLogin();

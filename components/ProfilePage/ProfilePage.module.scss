@@ -1,6 +1,6 @@
 @use "../../assets/colors/colors";
-@use "../../assets/fonts/typography_medium";
-@use "../../assets/fonts/typography_regular";
+@import "../../assets/fonts/typography_medium";
+@import "../../assets/fonts/typography_regular";
 
 .container {
   width: 1133px;
@@ -23,9 +23,10 @@
       display: flex;
       justify-content: center;
       align-items: center;
+      background: colors.$grayscale-gray7;
 
       img {
-        width: 226px;
+        height: 226px;
       }
     }
 
@@ -37,6 +38,7 @@
       margin-top: 10px;
       width: 303px;
       word-break: break-all;
+      color: colors.$grayscale-gray3;
     }
 
     .github {

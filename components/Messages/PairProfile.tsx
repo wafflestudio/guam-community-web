@@ -3,15 +3,23 @@ import { useRouter } from "next/router";
 import { useState } from "react";
 
 import MoreIcon from "../../assets/icons/more.svg";
-import { useAppDispatch, useAppSelector } from "../../store/hooks";
+import { useAppDispatch } from "../../store/hooks";
 import { setUserBlockModal, setUserReportModal } from "../../store/modalSlice";
+import { useGetUserQuery } from "../../store/postsApi";
+import { useLogin } from "../../utils/useLogin";
+import useRouterInfo from "../../utils/useRouterInfo";
 
 import styles from "./Messages.module.scss";
 
 export default function PairProfile() {
   const [modal, setModal] = useState(false);
 
-  const { pair } = useAppSelector((state) => state);
+  const isLoggedIn = useLogin();
+  const { pairId } = useRouterInfo();
+
+  const { data: pair } = useGetUserQuery(pairId, {
+    skip: !isLoggedIn || !pairId,
+  });
 
   const dispatch = useAppDispatch();
 
@@ -33,17 +41,20 @@ export default function PairProfile() {
 
   return (
     <div className={styles.pairProfile}>
-      <img
-        src={
-          pair.profileImage
-            ? process.env.BUCKET_URL + pair.profileImage
-            : "/default_profile_image.png"
-        }
-      />
-      <div className={`${styles["typo6-medium"]} ${styles.nickname}`}>
-        {pair.nickname}
+      <div className={styles.imageWrapper}>
+        <img
+          src={
+            pair?.profileImage
+              ? process.env.BUCKET_URL + pair.profileImage
+              : "/default_profile_image.png"
+          }
+          alt={`${pair?.nickname}의 프로필 이미지`}
+        />
       </div>
-      <Link href={`/profile/${pair.id}`}>
+      <div className={`${styles["typo6-medium"]} ${styles.nickname}`}>
+        {pair?.nickname}
+      </div>
+      <Link href={`/profile/${pair?.id}`}>
         <a>
           <div className={styles.profileLink}>프로필 보기</div>
         </a>

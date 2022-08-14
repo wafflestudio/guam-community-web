@@ -2,7 +2,6 @@ import axios, { AxiosRequestConfig } from "axios";
 import React, {
   ChangeEventHandler,
   FormEventHandler,
-  useCallback,
   useEffect,
   useRef,
   useState,
@@ -80,25 +79,21 @@ const SubmitForm = () => {
   const onToggleBoardList = () =>
     setBoardListOpen((boardListOpen) => !boardListOpen);
 
-  const onBoardIdChange = useCallback((id: number) => {
+  const onBoardIdChange = (id: number) => {
     setBoardId(id);
     onToggleBoardList();
-  }, []);
+  };
 
-  const onTitleChange: ChangeEventHandler<HTMLInputElement> = useCallback(
-    ({ target }) => setTitle(target.value),
-    []
-  );
+  const onTitleChange: ChangeEventHandler<HTMLInputElement> = ({ target }) =>
+    setTitle(target.value);
 
-  const onContentChange: ChangeEventHandler<HTMLTextAreaElement> = useCallback(
-    ({ target }) => setContent(target.value),
-    []
-  );
+  const onContentChange: ChangeEventHandler<HTMLTextAreaElement> = ({
+    target,
+  }) => setContent(target.value);
 
-  const onCategoryIdChange: ChangeEventHandler<HTMLInputElement> = useCallback(
-    ({ target }) => setCategoryId(parseInt(target.value)),
-    []
-  );
+  const onCategoryIdChange: ChangeEventHandler<HTMLInputElement> = ({
+    target,
+  }) => setCategoryId(parseInt(target.value));
 
   const onDeleteCategory = () => setCategoryId(0);
 

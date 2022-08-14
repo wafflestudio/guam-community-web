@@ -25,7 +25,7 @@ export default function CommentMoreModal({
 
   const router = useRouter();
 
-  const onSendMessage = () => router.push("/letters");
+  const onSendMessage = () => router.push(`/letters/${user.id}`);
 
   const onReportUser = () => {
     dispatch(setUserReportModal({ open: true, user }));

@@ -8,6 +8,7 @@ import React, {
   useState,
 } from "react";
 
+import NewIcon from "../../../assets/icons/new.svg";
 import { notificationList } from "../../../constants/constants";
 import { useAppSelector } from "../../../store/hooks";
 import {
@@ -80,22 +81,13 @@ const NotificationModal = ({
       ) : (
         <ul>
           {list?.map((push) => {
-            const link = push.linkUrl.substr(push.linkUrl.indexOf("1") + 1);
+            const link = push.linkUrl.split("v1")[1];
+            console.log(link);
 
             return (
               <li key={push.id} onClick={() => onPushClick([push.id])}>
                 <div className={styles.imageWrapper}>
-                  {push.isRead ? null : (
-                    <svg
-                      width="12"
-                      height="12"
-                      viewBox="0 0 12 12"
-                      fill="none"
-                      xmlns="http://www.w3.org/2000/svg"
-                    >
-                      <circle cx="6" cy="6" r="6" fill="#FF00FF" />
-                    </svg>
-                  )}
+                  {push.isRead ? null : <NewIcon />}
                   <div className={styles.imageInnerWrapper}>
                     <img
                       alt={`${push.writer.nickname}의 이미지`}
