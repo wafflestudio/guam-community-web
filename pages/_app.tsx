@@ -8,20 +8,17 @@ import React, { useEffect } from "react";
 import { useDispatch } from "react-redux";
 
 import Layout from "../components/layout";
-import Toast from "../components/Portal/Toast";
-import { firebaseConfig, TOAST_SHOW_TIME } from "../constants/constants";
+import Modal from "../components/Portal/Modal/Modal";
+import Toast from "../components/Portal/Toast/Toast";
+import { firebaseConfig } from "../constants/constants";
 import { signIn, signOut } from "../store/authSlice";
-import { useAppSelector } from "../store/hooks";
 import { wrapper } from "../store/store";
-import { resetToast } from "../store/toastSlice";
 import { removeUserState, setUserState } from "../store/userSlice";
 import { getFirebaseIdToken } from "../utils/firebaseUtils";
 
 function App({ Component, pageProps }: AppProps) {
   const router = useRouter();
   const dispatch = useDispatch();
-
-  const { open: toastOpen } = useAppSelector((state) => state.toast);
 
   firebase.initializeApp(firebaseConfig);
 
@@ -51,18 +48,11 @@ function App({ Component, pageProps }: AppProps) {
     });
   }, [router.isReady]);
 
-  useEffect(() => {
-    const closeToast = setTimeout(() => {
-      if (toastOpen) dispatch(resetToast());
-    }, TOAST_SHOW_TIME);
-
-    return () => clearTimeout(closeToast);
-  }, [toastOpen]);
-
   return (
     <Layout>
       <Component {...pageProps} />
-      {toastOpen ? <Toast /> : null}
+      <Toast />
+      <Modal />
     </Layout>
   );
 }

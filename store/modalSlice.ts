@@ -2,26 +2,36 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 import { IDetailedPost, IUser } from "../types/types";
 
+export enum ModalType {
+  POST_FORM,
+  IMAGE,
+  DELETE_CONFIRM,
+  USER_BLOCK,
+  USER_REPORT,
+}
+
 type postFormModalType = {
-  open: boolean;
   expanded: boolean;
   post?: IDetailedPost | null;
 };
 
+type deleteConfirmModalType = {
+  id: number | null;
+  type: string;
+};
+
 type userModalType = {
-  open: boolean;
   user: IUser | null | undefined;
 };
 
 type imageExtendedModalType = {
-  open: boolean;
   paths: string[];
 };
 
 type ModalStateType = {
+  open: number | null;
   postFormModal: postFormModalType;
-  postModifyModalOpen: boolean;
-  deleteConfirmModalOpen: boolean;
+  deleteConfirmModal: deleteConfirmModalType;
   userReportModal: userModalType;
   userBlockModal: userModalType;
   imageExtendedModal: imageExtendedModalType;
@@ -32,36 +42,33 @@ type ModalReducerType = {
     state: ModalStateType,
     action: PayloadAction<postFormModalType>
   ) => ModalStateType;
-  setPostModifyModalOpen: (
+  setDeleteConfirmModal: (
     state: ModalStateType,
-    action: PayloadAction<boolean>
-  ) => ModalStateType;
-  setDeleteConfirmModalOpen: (
-    state: ModalStateType,
-    action: PayloadAction<boolean>
-  ) => ModalStateType;
-  setUserReportModal: (
-    state: ModalStateType,
-    action: PayloadAction<userModalType>
-  ) => ModalStateType;
-  setUserBlockModal: (
-    state: ModalStateType,
-    action: PayloadAction<userModalType>
+    action: PayloadAction<deleteConfirmModalType>
   ) => ModalStateType;
   setImageExtendedModal: (
     state: ModalStateType,
     action: PayloadAction<imageExtendedModalType>
   ) => ModalStateType;
+  setUserBlockModal: (
+    state: ModalStateType,
+    action: PayloadAction<userModalType>
+  ) => ModalStateType;
+  setUserReportModal: (
+    state: ModalStateType,
+    action: PayloadAction<userModalType>
+  ) => ModalStateType;
+  resetModals: () => ModalStateType;
 };
 
 const initialState = {
+  open: null,
   postFormModal: {
     open: false,
     expanded: false,
     post: null,
   },
-  postModifyModalOpen: false,
-  deleteConfirmModalOpen: false,
+  deleteConfirmModal: { id: null, type: "" },
   userReportModal: {
     open: false,
     user: null,
@@ -80,52 +87,52 @@ const modalSlice = createSlice<ModalStateType, ModalReducerType>({
   name: "modals",
   initialState,
   reducers: {
-    setPostFormModal: (state, action) => {
+    setPostFormModal: (_, action) => {
       return {
-        ...state,
+        ...initialState,
+        open: ModalType.POST_FORM,
         postFormModal: action.payload,
       };
     },
-    setPostModifyModalOpen: (state, action) => {
+    setDeleteConfirmModal: (_, action) => {
       return {
-        ...state,
-        postModifyModalOpen: action.payload,
+        ...initialState,
+        open: ModalType.DELETE_CONFIRM,
+        deleteConfirmModal: action.payload,
       };
     },
-    setDeleteConfirmModalOpen: (state, action) => {
+    setImageExtendedModal: (_, action) => {
       return {
-        ...state,
-        deleteConfirmModalOpen: action.payload,
-      };
-    },
-    setUserReportModal: (state, action) => {
-      return {
-        ...state,
-        userReportModal: action.payload,
-      };
-    },
-    setUserBlockModal: (state, action) => {
-      return {
-        ...state,
-        userBlockModal: action.payload,
-      };
-    },
-    setImageExtendedModal: (state, action) => {
-      return {
-        ...state,
+        ...initialState,
+        open: ModalType.IMAGE,
         imageExtendedModal: action.payload,
       };
     },
+    setUserBlockModal: (_, action) => {
+      return {
+        ...initialState,
+        open: ModalType.USER_BLOCK,
+        userBlockModal: action.payload,
+      };
+    },
+    setUserReportModal: (_, action) => {
+      return {
+        ...initialState,
+        open: ModalType.USER_REPORT,
+        userReportModal: action.payload,
+      };
+    },
+    resetModals: () => initialState,
   },
 });
 
 export const {
   setPostFormModal,
-  setPostModifyModalOpen,
-  setDeleteConfirmModalOpen,
+  setDeleteConfirmModal,
+  setImageExtendedModal,
   setUserReportModal,
   setUserBlockModal,
-  setImageExtendedModal,
+  resetModals,
 } = modalSlice.actions;
 
 export default modalSlice.reducer;

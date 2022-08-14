@@ -17,7 +17,7 @@ export default function PairProfile() {
 
   const { pairId } = useRouterInfo();
 
-  const { data: pair } = useGetUserQuery(pairId, {
+  const { data: pair } = useGetUserQuery(pairId!, {
     skip: !isLoggedIn || !pairId,
   });
 
@@ -30,12 +30,12 @@ export default function PairProfile() {
   const onSendMessage = () => router.push("/letters");
 
   const onReportUser = () => {
-    dispatch(setUserReportModal({ open: true, user: pair }));
+    dispatch(setUserReportModal({ user: pair }));
     setModal(false);
   };
 
   const onBlockUser = () => {
-    dispatch(setUserBlockModal({ open: true, user: pair }));
+    dispatch(setUserBlockModal({ user: pair }));
     setModal(false);
   };
 

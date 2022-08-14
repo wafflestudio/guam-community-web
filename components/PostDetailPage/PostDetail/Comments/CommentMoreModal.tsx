@@ -28,12 +28,12 @@ export default function CommentMoreModal({
   const onSendMessage = () => router.push(`/letters/${user.id}`);
 
   const onReportUser = () => {
-    dispatch(setUserReportModal({ open: true, user }));
+    dispatch(setUserReportModal({ user }));
     setMoreOpen(false);
   };
 
   const onBlockUser = () => {
-    dispatch(setUserBlockModal({ open: true, user }));
+    dispatch(setUserBlockModal({ user }));
     setMoreOpen(false);
   };
 

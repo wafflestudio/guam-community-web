@@ -11,8 +11,12 @@ const useRouterInfo = () => {
   const page =
     typeof router.query.page === "string" ? parseInt(router.query.page) - 1 : 0;
 
+  const clientPage = page + 1;
+
   const keyword =
-    typeof router.query.keyword === "string" && encodeURI(router.query.keyword);
+    typeof router.query.keyword === "string"
+      ? encodeURI(router.query.keyword)
+      : "";
 
   const userId =
     typeof router.query.userId === "string" &&
@@ -32,7 +36,16 @@ const useRouterInfo = () => {
       ? parseInt(router.query.pairId)
       : undefined;
 
-  return { boardType, boardId, page, keyword, userId, postId, pairId };
+  return {
+    boardType,
+    boardId,
+    page,
+    clientPage,
+    keyword,
+    userId,
+    postId,
+    pairId,
+  };
 };
 
 export default useRouterInfo;

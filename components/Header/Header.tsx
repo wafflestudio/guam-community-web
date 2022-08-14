@@ -3,10 +3,7 @@ import { useRouter } from "next/router";
 import React, { useEffect } from "react";
 
 import { useAppDispatch } from "../../store/hooks";
-import {
-  setDeleteConfirmModalOpen,
-  setPostModifyModalOpen,
-} from "../../store/modalSlice";
+import { resetModals } from "../../store/modalSlice";
 
 import Navigator from "./Navigator/Navigator";
 import SearchBar from "./SearchBar/SearchBar";
@@ -19,8 +16,7 @@ export default function Header() {
   const dispatch = useAppDispatch();
 
   useEffect(() => {
-    dispatch(setDeleteConfirmModalOpen(false));
-    dispatch(setPostModifyModalOpen(false));
+    dispatch(resetModals());
   }, [router.asPath]);
 
   return (

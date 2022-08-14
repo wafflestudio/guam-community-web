@@ -6,14 +6,12 @@ import { useAppSelector } from "../../../store/hooks";
 import { useGetPostDetailQuery } from "../../../store/postsApi";
 import { relativeDate } from "../../../utils/formatDate";
 import useRouterInfo from "../../../utils/useRouterInfo";
-import DeleteConfirmModal from "../PostModifyModal/DeleteConfirmModal/DeleteConfirmModal";
 import PostModifyModal from "../PostModifyModal/PostModifyModal";
 
 import styles from "./PostMain.module.scss";
 
 export default function PostMain() {
   const [postModifyModal, setPostModifyModal] = useState(false);
-  const [deleteConfirmModal, setDeleteConfirmModal] = useState(false);
   const [imageNum, setImageNum] = useState(0);
 
   const router = useRouter();
@@ -71,19 +69,20 @@ export default function PostMain() {
           {post?.content}
         </div>
       </div>
-      {post?.imagePaths.length !== 0 ? (
+      {post?.imagePaths.length !== 0 && post?.imagePaths[imageNum] ? (
         <div className={styles.imageList}>
           <img
             className={styles.big}
-            src={process.env.BUCKET_URL + (post?.imagePaths[imageNum] || "")}
+            src={process.env.BUCKET_URL + post?.imagePaths[imageNum]}
           />
           <ul>
             {post?.imagePaths.map((path, index) => {
-              return (
-                <li key={path} onClick={() => setImageNum(index)}>
-                  <img src={process.env.BUCKET_URL + path} />
-                </li>
-              );
+              if (path)
+                return (
+                  <li key={path} onClick={() => setImageNum(index)}>
+                    <img src={process.env.BUCKET_URL + path} />
+                  </li>
+                );
             })}
           </ul>
         </div>
@@ -97,19 +96,7 @@ export default function PostMain() {
             <MoreIcon />
           </button>
           {postModifyModal ? (
-            <PostModifyModal
-              post={post}
-              setDeleteConfirmModal={setDeleteConfirmModal}
-              setModal={setPostModifyModal}
-            />
-          ) : null}
-          {deleteConfirmModal ? (
-            <DeleteConfirmModal
-              type={"게시글"}
-              id={post.id}
-              deleteConfirmModal={deleteConfirmModal}
-              setDeleteConfirmModal={setDeleteConfirmModal}
-            />
+            <PostModifyModal post={post} setModal={setPostModifyModal} />
           ) : null}
         </div>
       ) : null}

@@ -20,7 +20,7 @@ const MessagesList = ({
   const { data: pairLetters } = useGetPairLettersQuery(pairId!, {
     skip: !pairId || !isLoggedIn,
   });
-  const { data: pair } = useGetUserQuery(pairId, { skip: !pairId });
+  const { data: pair } = useGetUserQuery(pairId!, { skip: !pairId });
 
   return (
     <ul className={styles.messagesList} ref={messageListRef}>

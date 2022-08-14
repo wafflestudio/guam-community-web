@@ -21,6 +21,7 @@ const Home = (
       <PostsPage
         posts={clientPosts?.content || props.data.content}
         isLoading={isLoading}
+        hasNext={clientPosts?.hasNext || props.data.hasNext}
       />
     </>
   );

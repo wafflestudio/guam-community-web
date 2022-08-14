@@ -25,7 +25,7 @@ interface PostPostQuery {
   imageFilePaths?: string[];
 }
 
-interface PostCommentQuery {
+interface IPostComment {
   content: string;
   mentionIds?: (number | null | undefined)[];
   imageFilePaths: string[];
@@ -158,7 +158,7 @@ export const postsApi = createApi({
       ],
     }),
     postComment: build.mutation({
-      query({ data, id }: { data: PostCommentQuery; id: number }) {
+      query({ data, id }: { data: IPostComment; id: number }) {
         return {
           url: `posts/${id}/comments`,
           method: "POST",
@@ -233,7 +233,7 @@ export const postsApi = createApi({
       invalidatesTags: () => [{ type: "Push List" }],
     }),
 
-    getUser: build.query<IUser, number | undefined>({
+    getUser: build.query<IUser, number>({
       query: (id) => ({ url: `users/${id}`, method: "GET" }),
       providesTags: (result) => [{ type: "User", userId: result?.id }],
     }),

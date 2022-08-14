@@ -48,7 +48,7 @@ export default function Comment({ comment }: { comment: IComment }) {
     });
 
   const onClickImage = () =>
-    dispatch(setImageExtendedModal({ open: true, paths: comment.imagePaths }));
+    dispatch(setImageExtendedModal({ paths: comment.imagePaths }));
 
   return (
     <li key={comment.id} className={styles.container} ref={containerRef}>

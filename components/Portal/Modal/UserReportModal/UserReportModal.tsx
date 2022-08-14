@@ -1,25 +1,19 @@
-import { useAppDispatch, useAppSelector } from "../../../store/hooks";
-import { setUserReportModal } from "../../../store/modalSlice";
+import { useAppSelector } from "../../../../store/hooks";
 
 import styles from "./UserReportModal.module.scss";
 
-export default function UserReportModal() {
-  const { open, user } = useAppSelector(
-    (state) => state.modals.userReportModal
-  );
-
-  const dispatch = useAppDispatch();
-
-  const closeModal = () =>
-    dispatch(setUserReportModal({ open: false, user: null }));
+export default function UserReportModal({
+  closeModal,
+}: {
+  closeModal: () => {
+    payload: undefined;
+    type: string;
+  };
+}) {
+  const { user } = useAppSelector((state) => state.modals.userReportModal);
 
   return (
-    <div
-      className={`${styles.wrapper} ${"modal-wrapper"} ${
-        open ? styles.open : styles.close
-      }`}
-      onClick={closeModal}
-    >
+    <div className={"modal-wrapper"} onClick={closeModal}>
       <main
         className={`${styles.container} ${"modal-container"}`}
         onClick={(e) => e.stopPropagation()}

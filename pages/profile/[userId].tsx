@@ -12,18 +12,9 @@ const ProfileById = () => {
 
   const { userId } = useRouterInfo();
 
-  const user = useGetUserQuery(
-    userId && typeof userId === "string" && typeof parseInt(userId) === "number"
-      ? parseInt(userId)
-      : 0,
-    {
-      skip:
-        !userId ||
-        typeof userId !== "string" ||
-        typeof parseInt(userId) !== "number" ||
-        !isLoggedIn,
-    }
-  );
+  const user = useGetUserQuery(userId!, {
+    skip: !userId || !isLoggedIn,
+  });
 
   return (
     <>

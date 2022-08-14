@@ -13,7 +13,7 @@ const ProfileContent = () => {
 
   const { userId } = useRouterInfo();
 
-  const { data: user } = useGetUserQuery(userId, {
+  const { data: user } = useGetUserQuery(userId!, {
     skip: !userId || !isLoggedIn,
   });
 

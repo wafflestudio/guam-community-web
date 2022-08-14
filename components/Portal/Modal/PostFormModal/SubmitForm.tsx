@@ -7,29 +7,31 @@ import React, {
   useState,
 } from "react";
 
-import CancelIcon from "../../../assets/icons/cancel/outlined.svg";
-import CheckIcon from "../../../assets/icons/check.svg";
-import DownIcon from "../../../assets/icons/down/down_20.svg";
-import PlusIcon from "../../../assets/icons/plus.svg";
-import {
-  boardList,
-  categoryList,
-  TOAST_SHOW_TIME,
-} from "../../../constants/constants";
-import { useAppDispatch, useAppSelector } from "../../../store/hooks";
-import { setPostFormModal } from "../../../store/modalSlice";
+import CancelIcon from "../../../../assets/icons/cancel/outlined.svg";
+import CheckIcon from "../../../../assets/icons/check.svg";
+import DownIcon from "../../../../assets/icons/down/down_20.svg";
+import PlusIcon from "../../../../assets/icons/plus.svg";
+import { boardList, categoryList } from "../../../../constants/constants";
+import { useAppDispatch, useAppSelector } from "../../../../store/hooks";
 import {
   usePatchPostMutation,
   usePostPostMutation,
-} from "../../../store/postsApi";
-import { setToast } from "../../../store/toastSlice";
-import { IImageUrl } from "../../../types/types";
-import { handleImageInput } from "../../../utils/handleImageInputs";
-import { useModalRef } from "../../../utils/useModalRef";
+} from "../../../../store/postsApi";
+import { setToast } from "../../../../store/toastSlice";
+import { IImageUrl } from "../../../../types/types";
+import { handleImageInput } from "../../../../utils/handleImageInputs";
+import { useModalRef } from "../../../../utils/useModalRef";
 
 import styles from "./PostFormModal.module.scss";
 
-const SubmitForm = () => {
+const SubmitForm = ({
+  closeModal,
+}: {
+  closeModal: () => {
+    payload: undefined;
+    type: string;
+  };
+}) => {
   const [boardId, setBoardId] = useState(0);
   const [boardListOpen, setBoardListOpen] = useState(false);
   const [title, setTitle] = useState("");
@@ -74,12 +76,6 @@ const SubmitForm = () => {
   const [patchPost] = usePatchPostMutation();
 
   const dispatch = useAppDispatch();
-
-  const closeModal = () => {
-    dispatch(
-      setPostFormModal({ open: false, expanded: false, post: undefined })
-    );
-  };
 
   const onToggleBoardList = () =>
     setBoardListOpen((boardListOpen) => !boardListOpen);
