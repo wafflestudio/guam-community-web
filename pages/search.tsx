@@ -22,7 +22,11 @@ export default function Home() {
       <PageTitle
         title={`${typeof keyword === "string" && decodeURI(keyword)}`}
       />
-      <PostsPage posts={data?.content} isLoading={isLoading} />
+      <PostsPage
+        posts={data?.content}
+        isLoading={isLoading}
+        hasNext={data?.hasNext || false}
+      />
     </>
   );
 }

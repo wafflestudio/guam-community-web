@@ -23,7 +23,11 @@ export default function Home() {
       <PageTitle
         title={`${typeof boardType === "string" && boardType.toUpperCase()}`}
       />
-      <PostsPage posts={data?.content} isLoading={isLoading} />
+      <PostsPage
+        posts={data?.content}
+        isLoading={isLoading}
+        hasNext={data?.hasNext || false}
+      />
     </>
   );
 }

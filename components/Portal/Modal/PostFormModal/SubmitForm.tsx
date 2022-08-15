@@ -126,6 +126,8 @@ const SubmitForm = ({
 
     try {
       if (!post) {
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+        //@ts-ignore
         const { data: urlData } = await postPost(data);
         const { presignedUrls } = urlData;
         if (presignedUrls?.length && !post) {

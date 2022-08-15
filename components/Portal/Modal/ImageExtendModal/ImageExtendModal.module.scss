@@ -3,8 +3,8 @@
 @import "../../../../assets/fonts/typography_medium";
 
 .container {
-  height: 80vh;
-  // width: 80vh;
+  max-height: 80vh;
+  max-width: 80vw;
   position: relative;
   background: transparent;
 

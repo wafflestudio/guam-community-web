@@ -60,7 +60,11 @@ const CommentFormButtons = ({
 
     if (postId)
       try {
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+        //@ts-ignore
         const { data: urlData } = await postComment({
+          // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+          //@ts-ignore
           data,
           id: postId,
         });

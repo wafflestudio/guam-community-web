@@ -15,7 +15,9 @@ export default function MessagesSide() {
   const { isLoggedIn } = useAppSelector((state) => state.auth);
   const { pairId } = useRouterInfo();
 
-  const { data: letters } = useGetLettersQuery({}, { skip: !isLoggedIn });
+  const { data: letters } = useGetLettersQuery(undefined, {
+    skip: !isLoggedIn,
+  });
 
   return (
     <div className={styles.sideContainer}>
