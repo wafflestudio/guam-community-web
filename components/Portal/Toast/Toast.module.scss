@@ -1,0 +1,70 @@
+@use "../../../assets/colors/colors";
+@import "../../../assets/fonts/typography_regular";
+
+.container {
+  width: 639px;
+  height: 50px;
+  background: colors.$red-core;
+  border-radius: 10px;
+  display: flex;
+  gap: 4px;
+  padding: 13px 0 14px 12px;
+  position: fixed;
+  top: 10px;
+  left: 50%;
+  transform: translateX(-50%);
+  -webkit-animation: fadein 0.5s, fadeout 0.5s 1.5s;
+  animation: fadein 0.5s, fadeout 0.5s 1.5s;
+  z-index: 1000000;
+
+  span {
+    font-weight: 500;
+    color: white;
+    height: 23px;
+    padding-top: 2px;
+  }
+}
+
+@-webkit-keyframes fadein {
+  from {
+    top: 0;
+    opacity: 0;
+  }
+  to {
+    top: 10px;
+    opacity: 1;
+  }
+}
+
+@keyframes fadein {
+  from {
+    top: 0;
+    opacity: 0;
+  }
+  to {
+    top: 10px;
+    opacity: 1;
+  }
+}
+
+@-webkit-keyframes fadeout {
+  from {
+    top: 10px;
+    opacity: 1;
+  }
+  to {
+    top: 0;
+    opacity: 0;
+  }
+}
+
+@keyframes fadeout {
+  from {
+    top: 10px;
+    opacity: 1;
+  }
+  to {
+    top: 0;
+    opacity: 0;
+  }
+}

@@ -1,25 +1,25 @@
-import { useEffect, useRef, useState } from "react";
+import { useRef, useState } from "react";
 
-import BackIcon from "../../../assets/icons/back.svg";
-import NextIcon from "../../../assets/icons/right.svg";
-import { useAppDispatch, useAppSelector } from "../../../store/hooks";
-import { setImageExtendedModal } from "../../../store/modalSlice";
+import BackIcon from "../../../../assets/icons/back.svg";
+import NextIcon from "../../../../assets/icons/right.svg";
+import { useAppSelector } from "../../../../store/hooks";
 
 import styles from "./ImageExtendModal.module.scss";
 
-export default function ImageExtendModal() {
+export default function ImageExtendModal({
+  closeModal,
+}: {
+  closeModal: () => {
+    payload: undefined;
+    type: string;
+  };
+}) {
   const [imgNum, setImgNum] = useState(0);
 
-  const imageRef = useRef<HTMLImageElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
+  const imageRef = useRef<HTMLImageElement>(null);
 
-  const { open, paths } = useAppSelector(
-    (state) => state.modals.imageExtendedModal
-  );
-  const dispatch = useAppDispatch();
-
-  const closeModal = () =>
-    dispatch(setImageExtendedModal({ open: false, paths: [] }));
+  const { paths } = useAppSelector((state) => state.modals.imageExtendedModal);
 
   const onArrowClick = (direction: number) => {
     if (direction) {
@@ -38,9 +38,7 @@ export default function ImageExtendModal() {
 
   return (
     <div
-      className={`${styles.wrapper} ${"modal-wrapper"} ${
-        open ? styles.open : styles.close
-      }`}
+      className={`${styles.wrapper} ${"modal-wrapper"}`}
       onClick={closeModal}
     >
       <div
@@ -48,11 +46,13 @@ export default function ImageExtendModal() {
         onClick={(e) => e.stopPropagation()}
         ref={containerRef}
       >
-        <img
-          ref={imageRef}
-          src={process.env.BUCKET_URL + paths[imgNum]}
-          onLoad={onImageLoad}
-        />
+        {paths[imgNum] ? (
+          <img
+            ref={imageRef}
+            src={process.env.BUCKET_URL + paths[imgNum]}
+            onLoad={onImageLoad}
+          />
+        ) : null}
         {imgNum - 1 >= 0 ? (
           <button className={styles.prev} onClick={() => onArrowClick(0)}>
             <BackIcon />

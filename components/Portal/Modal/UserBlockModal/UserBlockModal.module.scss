@@ -1,25 +1,13 @@
-@use "../../../assets/colors/colors";
-@import "../../../assets/fonts/typography_regular";
-@import "../../../assets/fonts/typography_medium";
+@use "../../../../assets/colors/colors";
+@import "../../../../assets/fonts/typography_regular";
+@import "../../../../assets/fonts/typography_medium";
 
-.wrapper {
-  &.close {
-    opacity: 0;
-    pointer-events: none;
-  }
+.container {
+  height: 263px;
+  width: 552px;
+  border-radius: 8px;
 
-  &.open {
-    opacity: 1;
-    pointer-events: initial;
-  }
-
-  .container {
-    height: 263px;
-    width: 552px;
-    border-radius: 8px;
-  }
-
-  h1 {
+  h1.title {
     font-weight: 500;
     position: absolute;
     top: 24px;

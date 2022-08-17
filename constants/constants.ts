@@ -8,6 +8,7 @@ export const INFORMATION = "information";
 export const AD = "ad";
 
 export const MB = 1e6;
+export const TOAST_SHOW_TIME = 2000;
 
 export const firebaseConfig = {
   apiKey: process.env.FIREBASE_API_KEY,

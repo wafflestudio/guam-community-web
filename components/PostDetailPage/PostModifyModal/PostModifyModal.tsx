@@ -1,7 +1,10 @@
 import React, { SetStateAction, useRef } from "react";
 
 import { useAppDispatch } from "../../../store/hooks";
-import { setPostFormModal } from "../../../store/modalSlice";
+import {
+  setDeleteConfirmModal,
+  setPostFormModal,
+} from "../../../store/modalSlice";
 import { IDetailedPost } from "../../../types/types";
 import { useModalRef } from "../../../utils/useModalRef";
 
@@ -9,11 +12,9 @@ import styles from "./PostModifyModal.module.scss";
 
 export default function PostModifyModal({
   post,
-  setDeleteConfirmModal,
   setModal,
 }: {
   post: IDetailedPost;
-  setDeleteConfirmModal: React.Dispatch<SetStateAction<boolean>>;
   setModal: React.Dispatch<SetStateAction<boolean>>;
 }) {
   const modalRef = useRef<HTMLDivElement>(null);
@@ -22,9 +23,10 @@ export default function PostModifyModal({
   const dispatch = useAppDispatch();
 
   const onPatchPost = () => {
-    dispatch(setPostFormModal({ open: true, expanded: false, post }));
+    dispatch(setPostFormModal({ expanded: false, post }));
   };
-  const onDeletePost = () => setDeleteConfirmModal(true);
+  const onDeletePost = () =>
+    dispatch(setDeleteConfirmModal({ id: post.id, type: "게시글" }));
 
   return (
     <div ref={modalRef} className={styles.container}>

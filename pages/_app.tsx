@@ -8,6 +8,8 @@ import React, { useEffect } from "react";
 import { useDispatch } from "react-redux";
 
 import Layout from "../components/layout";
+import Modal from "../components/Portal/Modal/Modal";
+import Toast from "../components/Portal/Toast/Toast";
 import { firebaseConfig } from "../constants/constants";
 import { signIn, signOut } from "../store/authSlice";
 import { wrapper } from "../store/store";
@@ -49,6 +51,8 @@ function App({ Component, pageProps }: AppProps) {
   return (
     <Layout>
       <Component {...pageProps} />
+      <Toast />
+      <Modal />
     </Layout>
   );
 }

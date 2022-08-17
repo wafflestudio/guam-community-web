@@ -1,7 +1,3 @@
-import ImageExtendModal from "../Modals/ImageExtendModal/ImageExtendModal";
-import PostFormModal from "../Modals/PostFormModal/PostFormModal";
-import UserBlockModal from "../Modals/UserBlockModal/UserBlockModal";
-import UserReportModal from "../Modals/UserReportModal/UserReportModal";
 import Side from "../PostPageSide/Side";
 import styles from "../PostsPage/PostsPage.module.scss";
 
@@ -12,10 +8,6 @@ export default function PostDetailPage() {
     <div className={styles.container}>
       <Side />
       <PostDetail />
-      <PostFormModal />
-      <UserReportModal />
-      <UserBlockModal />
-      <ImageExtendModal />
     </div>
   );
 }

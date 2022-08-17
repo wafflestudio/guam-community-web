@@ -1,17 +1,13 @@
-import { useRouter } from "next/router";
-
 import { boardList, categoryList } from "../../../constants/constants";
-import { postsApi } from "../../../store/postsApi";
+import { useGetPostDetailQuery } from "../../../store/postsApi";
+import useRouterInfo from "../../../utils/useRouterInfo";
 
 import styles from "./BoardName.module.scss";
 
 export default function BoardName() {
-  const router = useRouter();
-  const { postId } = router.query;
+  const { postId } = useRouterInfo();
 
-  const post = postsApi.endpoints.getPostDetail.useQueryState(
-    typeof postId === "string" ? parseInt(postId) : 0
-  ).data;
+  const { data: post } = useGetPostDetailQuery(postId!, { skip: !postId });
 
   const boardName = boardList.find((board) => post?.boardId === board.id)?.name;
   const tagName = categoryList.find(

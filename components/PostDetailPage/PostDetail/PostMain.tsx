@@ -2,18 +2,16 @@ import { useRouter } from "next/router";
 import { useState } from "react";
 
 import MoreIcon from "../../../assets/icons/more.svg";
+import { useAppSelector } from "../../../store/hooks";
 import { useGetPostDetailQuery } from "../../../store/postsApi";
 import { relativeDate } from "../../../utils/formatDate";
-import { useLogin } from "../../../utils/useLogin";
 import useRouterInfo from "../../../utils/useRouterInfo";
-import DeleteConfirmModal from "../PostModifyModal/DeleteConfirmModal/DeleteConfirmModal";
 import PostModifyModal from "../PostModifyModal/PostModifyModal";
 
 import styles from "./PostMain.module.scss";
 
 export default function PostMain() {
   const [postModifyModal, setPostModifyModal] = useState(false);
-  const [deleteConfirmModal, setDeleteConfirmModal] = useState(false);
   const [imageNum, setImageNum] = useState(0);
 
   const router = useRouter();
@@ -21,7 +19,7 @@ export default function PostMain() {
     if (post?.user.id !== 0 && post?.user.id !== undefined)
       router.push(`/profile/${post?.user.id}`);
   };
-  const isLoggedIn = useLogin();
+  const { isLoggedIn } = useAppSelector((state) => state.auth);
   const { postId } = useRouterInfo();
 
   const { data: post } = useGetPostDetailQuery(postId!, {
@@ -71,19 +69,20 @@ export default function PostMain() {
           {post?.content}
         </div>
       </div>
-      {post?.imagePaths.length !== 0 ? (
+      {post?.imagePaths.length !== 0 && post?.imagePaths[imageNum] ? (
         <div className={styles.imageList}>
           <img
             className={styles.big}
-            src={process.env.BUCKET_URL + (post?.imagePaths[imageNum] || "")}
+            src={process.env.BUCKET_URL + post?.imagePaths[imageNum]}
           />
           <ul>
             {post?.imagePaths.map((path, index) => {
-              return (
-                <li key={path} onClick={() => setImageNum(index)}>
-                  <img src={process.env.BUCKET_URL + path} />
-                </li>
-              );
+              if (path)
+                return (
+                  <li key={path} onClick={() => setImageNum(index)}>
+                    <img src={process.env.BUCKET_URL + path} />
+                  </li>
+                );
             })}
           </ul>
         </div>
@@ -97,19 +96,7 @@ export default function PostMain() {
             <MoreIcon />
           </button>
           {postModifyModal ? (
-            <PostModifyModal
-              post={post}
-              setDeleteConfirmModal={setDeleteConfirmModal}
-              setModal={setPostModifyModal}
-            />
-          ) : null}
-          {deleteConfirmModal ? (
-            <DeleteConfirmModal
-              type={"게시글"}
-              id={post.id}
-              deleteConfirmModal={deleteConfirmModal}
-              setDeleteConfirmModal={setDeleteConfirmModal}
-            />
+            <PostModifyModal post={post} setModal={setPostModifyModal} />
           ) : null}
         </div>
       ) : null}

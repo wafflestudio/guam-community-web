@@ -1,18 +1,8 @@
-@use "../../../assets/colors/colors";
-@import "../../../assets/fonts/typography_regular";
-@import "../../../assets/fonts/typography_medium";
+@use "../../../../assets/colors/colors";
+@import "../../../../assets/fonts/typography_regular";
+@import "../../../../assets/fonts/typography_medium";
 
 .wrapper {
-  &.close {
-    opacity: 0;
-    pointer-events: none;
-  }
-
-  &.open {
-    opacity: 1;
-    pointer-events: initial;
-  }
-
   &.expanded {
     height: calc(100vh - 57px);
     width: 100vw;

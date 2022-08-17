@@ -82,7 +82,6 @@ const NotificationModal = ({
         <ul>
           {list?.map((push) => {
             const link = push.linkUrl.split("v1")[1];
-            console.log(link);
 
             return (
               <li key={push.id} onClick={() => onPushClick([push.id])}>

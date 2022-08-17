@@ -1,40 +1,43 @@
 import { useRouter } from "next/router";
-import React, { SetStateAction } from "react";
+import React from "react";
 
+import { useAppDispatch, useAppSelector } from "../../../../store/hooks";
 import { useDeletePostMutation } from "../../../../store/postsApi";
+import { setToast } from "../../../../store/toastSlice";
 
 import styles from "./DeleteConfirmModal.module.scss";
 
 export default function DeleteConfirmModal({
-  type,
-  id,
-  deleteConfirmModal,
-  setDeleteConfirmModal,
+  closeModal,
 }: {
-  type: string;
-  id: number;
-  deleteConfirmModal: boolean;
-  setDeleteConfirmModal: React.Dispatch<SetStateAction<boolean>>;
+  closeModal: () => {
+    payload: undefined;
+    type: string;
+  };
 }) {
   const router = useRouter();
+  const dispatch = useAppDispatch();
+
+  const { type, id } = useAppSelector(
+    (state) => state.modals.deleteConfirmModal
+  );
+  console.log(id);
 
   const [deletePost] = useDeletePostMutation();
 
-  const closeModal = () => setDeleteConfirmModal(false);
-
   const onDeletePost = () => {
-    deletePost(id);
-    router.push("/");
-    closeModal();
+    try {
+      deletePost(id);
+      router.push("/");
+      closeModal();
+    } catch (e) {
+      console.log(e);
+      dispatch(setToast("게시글 삭제 실패"));
+    }
   };
 
   return (
-    <div
-      className={`${styles.wrapper} ${
-        deleteConfirmModal ? styles.open : styles.close
-      }`}
-      onClick={closeModal}
-    >
+    <div className={"modal-wrapper"} onClick={closeModal}>
       <main className={styles.container} onClick={(e) => e.stopPropagation()}>
         <h1 className={`${styles["typo6-medium"]} ${styles.title}`}>
           {type}을 삭제하시겠어요?

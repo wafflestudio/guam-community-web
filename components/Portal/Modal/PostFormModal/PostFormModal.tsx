@@ -1,32 +1,33 @@
 import React from "react";
 
-import CancelIcon from "../../../assets/icons/cancel/outlined.svg";
-import ExpandIcon from "../../../assets/icons/expand.svg";
-import { useAppDispatch, useAppSelector } from "../../../store/hooks";
-import { setPostFormModal } from "../../../store/modalSlice";
+import CancelIcon from "../../../../assets/icons/cancel/outlined.svg";
+import ExpandIcon from "../../../../assets/icons/expand.svg";
+import { useAppDispatch, useAppSelector } from "../../../../store/hooks";
+import { setPostFormModal } from "../../../../store/modalSlice";
 
 import SubmitForm from "./SubmitForm";
 
 import styles from "./PostFormModal.module.scss";
 
-export default function PostFormModal() {
-  const { open, expanded } = useAppSelector(
-    (state) => state.modals.postFormModal
-  );
+export default function PostFormModal({
+  closeModal,
+}: {
+  closeModal: () => {
+    payload: undefined;
+    type: string;
+  };
+}) {
+  const { expanded } = useAppSelector((state) => state.modals.postFormModal);
 
   const dispatch = useAppDispatch();
 
-  const expandModal = () =>
-    dispatch(setPostFormModal({ open: true, expanded: true }));
-
-  const closeModal = () =>
-    dispatch(setPostFormModal({ open: false, expanded: false }));
+  const expandModal = () => dispatch(setPostFormModal({ expanded: true }));
 
   return (
     <div
       className={`${!expanded && `${"modal-wrapper"} ${styles.wrapper}`} ${
-        open ? styles.open : styles.close
-      } ${expanded && `${styles.expanded} ${styles.wrapper}`}`}
+        expanded && `${styles.expanded} ${styles.wrapper}`
+      }`}
       onClick={closeModal}
     >
       <main
@@ -57,7 +58,7 @@ export default function PostFormModal() {
             <CancelIcon />
           )}
         </button>
-        <SubmitForm />
+        <SubmitForm closeModal={closeModal} />
         <hr className={`${styles.title} ${expanded && styles.expanded}`} />
         <hr className={`${styles.contentTop} ${expanded && styles.expanded}`} />
         <hr

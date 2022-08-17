@@ -1,23 +1,19 @@
-import { useAppDispatch, useAppSelector } from "../../../store/hooks";
-import { setUserBlockModal } from "../../../store/modalSlice";
+import { useAppSelector } from "../../../../store/hooks";
 
 import styles from "./UserBlockModal.module.scss";
 
-export default function UserBlockModal() {
-  const { open, user } = useAppSelector((state) => state.modals.userBlockModal);
-
-  const dispatch = useAppDispatch();
-
-  const closeModal = () =>
-    dispatch(setUserBlockModal({ open: false, user: null }));
+export default function UserBlockModal({
+  closeModal,
+}: {
+  closeModal: () => {
+    payload: undefined;
+    type: string;
+  };
+}) {
+  const { user } = useAppSelector((state) => state.modals.userBlockModal);
 
   return (
-    <div
-      className={`${styles.wrapper} ${"modal-wrapper"} ${
-        open ? styles.open : styles.close
-      }`}
-      onClick={closeModal}
-    >
+    <div className={"modal-wrapper"} onClick={closeModal}>
       <main
         className={`${styles.container} ${"modal-container"}`}
         onClick={(e) => e.stopPropagation()}
