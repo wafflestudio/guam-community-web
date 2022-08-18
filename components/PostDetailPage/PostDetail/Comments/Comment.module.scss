@@ -18,10 +18,14 @@
       left: 12px;
       border-radius: 50%;
       overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
 
       img {
-        width: 20px;
-        height: 20px;
+        object-fit: cover;
+        min-width: 20px;
+        min-height: 20px;
       }
     }
 

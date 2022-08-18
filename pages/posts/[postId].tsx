@@ -1,4 +1,5 @@
-import { Fragment } from "react";
+import { useRouter } from "next/router";
+import { Fragment, useEffect } from "react";
 
 import PageTitle from "../../components/PageTitle";
 import PostDetailPage from "../../components/PostDetailPage/PostDetailPage";
@@ -13,12 +14,18 @@ const DetailedPostPage = () => {
   const { postId } = useRouterInfo();
 
   const dispatch = useAppDispatch();
+  const router = useRouter();
 
   const { data, error } = useGetPostDetailQuery(postId!, {
     skip: !isLoggedIn || !postId,
   });
 
-  if (error) dispatch(setToast("게시글을 받아오는데 실패했습니다"));
+  useEffect(() => {
+    if (error) {
+      dispatch(setToast("게시글을 받아오는데 실패했습니다"));
+      router.push("/");
+    }
+  }, [error]);
 
   return (
     <Fragment key={postId}>

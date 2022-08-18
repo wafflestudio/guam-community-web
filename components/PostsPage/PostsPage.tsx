@@ -1,5 +1,5 @@
 import { IPostsListPost } from "../../types/types";
-import Side from "../PostPageSide/Side";
+import Side from "../Side/Side";
 
 import PostsList from "./Posts/PostsList/PostsList";
 import WriteAPost from "./Posts/WriteAPost/WriteAPost";

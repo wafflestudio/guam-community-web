@@ -37,16 +37,17 @@
       border-radius: 50%;
       overflow: hidden;
       display: inline-flex;
-      background: colors.$grayscale-gray6;
       justify-content: center;
+      align-items: center;
 
       &.pointer {
         cursor: pointer;
       }
 
       img {
-        width: auto;
-        height: 36px;
+        object-fit: cover;
+        min-width: 36px;
+        min-height: 36px;
       }
     }
 
@@ -65,13 +66,17 @@
   }
 
   .content {
-    width: 840px;
+    width: 796px;
     margin-top: 12px;
     padding: 12px 0;
 
     .description {
       width: 100%;
       color: colors.$grayscale-gray3;
+    }
+
+    &.loadingContent {
+      text-align: center;
     }
   }
 
