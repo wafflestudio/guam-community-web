@@ -1,14 +1,15 @@
-@import "../../../../../assets/colors/colors";
+@use "../../../../../assets/colors/colors";
 @import "../../../../../assets/fonts/typography_medium";
+@import "../../../../../assets/fonts/typography_regular";
 
 .container {
-  span {
-    position: absolute;
-    left: 24px;
-    top: 15px;
+  margin-left: 24px;
 
-    &#specials {
-      font-weight: 500;
-    }
+  .keyword {
+    font-weight: 500;
+  }
+
+  .search {
+    color: colors.$grayscale-gray1;
   }
 }

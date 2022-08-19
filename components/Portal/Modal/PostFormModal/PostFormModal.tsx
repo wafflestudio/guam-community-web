@@ -28,7 +28,9 @@ export default function PostFormModal({
       className={`${!expanded && `${"modal-wrapper"} ${styles.wrapper}`} ${
         expanded && `${styles.expanded} ${styles.wrapper}`
       }`}
-      onClick={closeModal}
+      onClick={() => {
+        if (!expanded) closeModal();
+      }}
     >
       <main
         className={`${styles.container} ${"modal-container"} ${

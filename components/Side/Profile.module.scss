@@ -10,10 +10,14 @@
     border-radius: 50%;
     margin-left: 16px;
     overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 
     img {
-      width: 100%;
-      height: 100%;
+      object-fit: cover;
+      min-height: 56px;
+      min-width: 56px;
     }
   }
 

@@ -23,10 +23,11 @@
       display: flex;
       justify-content: center;
       align-items: center;
-      background: colors.$grayscale-gray7;
 
       img {
-        height: 226px;
+        object-fit: cover;
+        min-width: 226px;
+        min-height: 226px;
       }
     }
 

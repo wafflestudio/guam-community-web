@@ -5,7 +5,7 @@ import { useState } from "react";
 import MoreIcon from "../../assets/icons/more.svg";
 import { useAppDispatch, useAppSelector } from "../../store/hooks";
 import { setUserBlockModal, setUserReportModal } from "../../store/modalSlice";
-import { useGetUserQuery } from "../../store/postsApi";
+import { useGetLettersQuery, useGetUserQuery } from "../../store/postsApi";
 import useRouterInfo from "../../utils/useRouterInfo";
 
 import styles from "./Messages.module.scss";
@@ -17,9 +17,10 @@ export default function PairProfile() {
 
   const { pairId } = useRouterInfo();
 
-  const { data: pair } = useGetUserQuery(pairId!, {
-    skip: !isLoggedIn || !pairId,
-  });
+  const pair = useGetLettersQuery(
+    {},
+    { skip: !pairId || !isLoggedIn }
+  ).data?.letterBoxes.find((box) => box.pair.id === pairId)?.pair;
 
   const dispatch = useAppDispatch();
 
