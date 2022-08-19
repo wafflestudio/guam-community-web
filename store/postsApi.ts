@@ -87,6 +87,17 @@ export const postsApi = createApi({
         },
       ],
     }),
+    getSearchCount: build.query<number, PostsBoardQuery>({
+      query: (req) => ({
+        url: `posts/search/count?keyword=${req.keyword}`,
+      }),
+      providesTags: (result, error, req) => [
+        {
+          type: "Posts List",
+          searchCount: req.keyword,
+        },
+      ],
+    }),
     postPost: build.mutation({
       query: (body) => {
         return {
@@ -216,10 +227,17 @@ export const postsApi = createApi({
         { type: "LetterBox List" },
       ],
     }),
-
+    deleteLetterBox: build.mutation({
+      query: (pairId: number) => ({
+        url: `letters/${pairId}`,
+        method: "DELETE",
+      }),
+      invalidatesTags: [{ type: "LetterBox List" }],
+    }),
     getPushList: build.query<IPushData, number>({
       query: (page) => ({
         url: `push?page=${page}&size=10`,
+        method: "GET",
       }),
       keepUnusedDataFor: Infinity,
       providesTags: () => [{ type: "Push List" }],
@@ -244,6 +262,7 @@ export const {
   useGetAllPostsQuery,
   useGetPostsByBoardQuery,
   useGetSearchPostsQuery,
+  useGetSearchCountQuery,
   usePostPostMutation,
   usePatchPostMutation,
   useScrapPostMutation,
@@ -257,6 +276,7 @@ export const {
   useGetPairLettersQuery,
   useGetLettersCountQuery,
   usePostLetterMutation,
+  useDeleteLetterBoxMutation,
   useGetPushListQuery,
   usePostPushReadMutation,
   useGetUserQuery,

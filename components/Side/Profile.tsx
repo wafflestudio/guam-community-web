@@ -15,7 +15,7 @@ export default function Profile() {
           <div className={styles.profileImage}>
             {profileImage ? (
               <img
-                src={process.env.BUCKET_URL + profileImage + "?" + Date.now()}
+                src={process.env.BUCKET_URL + profileImage}
                 onError={({ currentTarget }) => {
                   currentTarget.onerror = null;
                   currentTarget.src = "/default_profile_image.png";

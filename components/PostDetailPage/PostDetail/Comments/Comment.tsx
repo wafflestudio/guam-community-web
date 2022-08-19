@@ -6,9 +6,8 @@ import { useAppDispatch } from "../../../../store/hooks";
 import { setImageExtendedModal } from "../../../../store/modalSlice";
 import { useLikeCommentMutation } from "../../../../store/postsApi";
 import { IComment } from "../../../../types/types";
-
-import CommentMoreModal from "./CommentMoreModal";
-import ModifyCommentModal from "./ModifyCommentModal";
+import ModifyCommentModal from "../../../Modals/CommentModal/ModifyCommentModal";
+import MoreModal from "../../../Modals/MoreModal/MoreModal";
 
 import styles from "./Comment.module.scss";
 
@@ -107,7 +106,7 @@ export default function Comment({ comment }: { comment: IComment }) {
         </div>
         {moreOpen ? (
           !comment.isMine ? (
-            <CommentMoreModal user={comment.user} setMoreOpen={setMoreOpen} />
+            <MoreModal user={comment.user} setMoreOpen={setMoreOpen} />
           ) : (
             <ModifyCommentModal
               setMoreOpen={setMoreOpen}

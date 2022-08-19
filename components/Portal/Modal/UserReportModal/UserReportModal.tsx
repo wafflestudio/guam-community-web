@@ -1,3 +1,4 @@
+import { reportReasons } from "../../../../constants/constants";
 import { useAppSelector } from "../../../../store/hooks";
 
 import styles from "./UserReportModal.module.scss";
@@ -25,21 +26,17 @@ export default function UserReportModal({
           취소
         </button>
         <div className={`${styles["typo4-regular"]} ${styles.info}`}>
-          {user?.nickname} 사용자를 신고하는 이유를 알려주세요.
+          {user?.nickname} 님을 신고하는 이유를 알려주세요.
         </div>
         <ul className={styles.reportReason}>
-          <li className={`${styles["typo5-regular"]} ${styles.reason}`}>
-            욕설 및 비방 등 폭력적인 언행
-          </li>
-          <li className={`${styles["typo5-regular"]} ${styles.reason}`}>
-            광고성의 게시물 및 댓글 도배
-          </li>
-          <li className={`${styles["typo5-regular"]} ${styles.reason}`}>
-            또 무슨 이유가 있을까요? 이유 추가좀
-          </li>
-          <li className={`${styles["typo5-regular"]} ${styles.reason}`}>
-            기타
-          </li>
+          {reportReasons.map((reason) => (
+            <li
+              key={reason.id}
+              className={`${styles["typo5-regular"]} ${styles.reason}`}
+            >
+              {reason.text}
+            </li>
+          ))}
         </ul>
         <button className={`${styles["typo5-regular"]} ${styles.report}`}>
           신고하기

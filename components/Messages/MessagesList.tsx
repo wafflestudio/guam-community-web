@@ -23,10 +23,9 @@ const MessagesList = ({
   const { data: pairLetters } = useGetPairLettersQuery(pairId!, {
     skip: !pairId || !isLoggedIn,
   });
-  const pair = useGetLettersQuery(
-    {},
-    { skip: !pairId || !isLoggedIn }
-  ).data?.letterBoxes.find((box) => box.pair.id === pairId)?.pair;
+  const pair = useGetLettersQuery(undefined, {
+    skip: !pairId || !isLoggedIn,
+  }).data?.letterBoxes.find((box) => box.pair.id === pairId)?.pair;
 
   return (
     <ul className={styles.messagesList} ref={messageListRef}>

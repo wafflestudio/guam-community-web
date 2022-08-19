@@ -6,12 +6,13 @@ import { useAppSelector } from "../../../store/hooks";
 import { useGetPostDetailQuery } from "../../../store/postsApi";
 import { relativeDate } from "../../../utils/formatDate";
 import useRouterInfo from "../../../utils/useRouterInfo";
-import PostModifyModal from "../PostModifyModal/PostModifyModal";
+import MoreModal from "../../Modals/MoreModal/MoreModal";
+import PostModifyModal from "../../Modals/PostModifyModal/PostModifyModal";
 
 import styles from "./PostMain.module.scss";
 
 export default function PostMain() {
-  const [postModifyModal, setPostModifyModal] = useState(false);
+  const [moreModal, setMoreModal] = useState(false);
   const [imageNum, setImageNum] = useState(0);
 
   const router = useRouter();
@@ -26,10 +27,7 @@ export default function PostMain() {
     skip: !postId || !isLoggedIn,
   });
 
-  const toggleMore = () => {
-    const modalState = postModifyModal;
-    setPostModifyModal(!modalState);
-  };
+  const toggleMore = () => setMoreModal((modalState) => !modalState);
 
   return (
     <div className={styles.container}>
@@ -50,6 +48,7 @@ export default function PostMain() {
                 ? process.env.BUCKET_URL + post?.user.profileImage
                 : "/default_profile_image.png"
             }
+            alt={`${post?.user.nickname}의 프로필 이미지`}
           />
         </div>
         <div
@@ -65,7 +64,7 @@ export default function PostMain() {
         className={`${styles.content} ${isLoading && styles.loadingContent}`}
       >
         {isLoading ? (
-          <img className={styles.loading} src={"/loading.gif"} />
+          <img className={styles.loading} src={"/loading.gif"} alt={"로딩중"} />
         ) : null}
         <div className={`${styles["typo4-regular"]} ${styles.description}`}>
           {post?.content}
@@ -82,7 +81,10 @@ export default function PostMain() {
               if (path)
                 return (
                   <li key={path} onClick={() => setImageNum(index)}>
-                    <img src={process.env.BUCKET_URL + path} />
+                    <img
+                      src={process.env.BUCKET_URL + path}
+                      alt={`${post.title}의 이미지`}
+                    />
                   </li>
                 );
             })}
@@ -92,16 +94,19 @@ export default function PostMain() {
       <div className={`${styles["typo1-regular"]} ${styles.createdAt}`}>
         {post && relativeDate(post.createdAt)}
       </div>
-      {post?.isMine ? (
-        <div className={styles.more}>
-          <button onClick={toggleMore}>
-            <MoreIcon />
-          </button>
-          {postModifyModal ? (
-            <PostModifyModal post={post} setModal={setPostModifyModal} />
-          ) : null}
-        </div>
-      ) : null}
+
+      <div className={styles.more}>
+        <button onClick={toggleMore}>
+          <MoreIcon />
+        </button>
+        {moreModal && post ? (
+          post?.isMine ? (
+            <PostModifyModal post={post} setModal={setMoreModal} />
+          ) : (
+            <MoreModal user={post?.user} setMoreOpen={setMoreModal} />
+          )
+        ) : null}
+      </div>
     </div>
   );
 }
