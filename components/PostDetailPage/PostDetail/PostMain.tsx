@@ -22,7 +22,7 @@ export default function PostMain() {
   const { isLoggedIn } = useAppSelector((state) => state.auth);
   const { postId } = useRouterInfo();
 
-  const { data: post, isLoading } = useGetPostDetailQuery(postId!, {
+  const { data: post } = useGetPostDetailQuery(postId!, {
     skip: !postId || !isLoggedIn,
   });
 
@@ -47,7 +47,10 @@ export default function PostMain() {
           <img
             src={
               post?.user.profileImage
-                ? process.env.BUCKET_URL + post?.user.profileImage
+                ? process.env.BUCKET_URL +
+                  post?.user.profileImage +
+                  "?" +
+                  Date.now()
                 : "/default_profile_image.png"
             }
           />
@@ -61,12 +64,7 @@ export default function PostMain() {
           {post?.user.nickname}
         </div>
       </div>
-      <div
-        className={`${styles.content} ${isLoading && styles.loadingContent}`}
-      >
-        {isLoading ? (
-          <img className={styles.loading} src={"/loading.gif"} />
-        ) : null}
+      <div className={styles.content}>
         <div className={`${styles["typo4-regular"]} ${styles.description}`}>
           {post?.content}
         </div>

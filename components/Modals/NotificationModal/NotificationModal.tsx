@@ -39,26 +39,18 @@ const NotificationModal = ({
 
   const currentResult = useGetPushListQuery(page, {
     skip: !isLoggedIn || !hasNext || page < 0,
-    refetchOnMountOrArgChange: true,
   });
   const [postPushRead] = usePostPushReadMutation();
-
-  useModalRef(modalRef, setModal);
 
   useEffect(() => {
     if (currentResult.data) {
       const { data } = currentResult;
       if (!data.hasNext) setHasNext(false);
-      setList((list) =>
-        list
-          .concat(data.content)
-          .filter(
-            (value, index, self) =>
-              index === self.findIndex((t) => t.id === value.id)
-          )
-      );
+      setList((list) => list.concat(data.content));
     }
-  }, [currentResult]);
+  }, [currentResult.data]);
+
+  useModalRef(modalRef, setModal);
 
   const handleScroll = () => {
     if (modalRef.current && hasNext) {
@@ -74,7 +66,6 @@ const NotificationModal = ({
 
   const onPushClick = (pushEventIds: number[]) => {
     postPushRead({ userId, pushEventIds });
-    setModal(false);
   };
 
   return (

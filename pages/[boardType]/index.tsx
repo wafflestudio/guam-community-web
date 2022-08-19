@@ -1,6 +1,5 @@
 import PageTitle from "../../components/PageTitle";
 import PostsPage from "../../components/PostsPage/PostsPage";
-import { boardList } from "../../constants/constants";
 import { useAppSelector } from "../../store/hooks";
 import { useGetPostsByBoardQuery } from "../../store/postsApi";
 import useRouterInfo from "../../utils/useRouterInfo";
@@ -13,6 +12,7 @@ export default function Home() {
   const { data, isLoading } = useGetPostsByBoardQuery(
     { boardId, page },
     {
+      refetchOnMountOrArgChange: true,
       skip:
         page === undefined || boardId === undefined || isLoggedIn === undefined,
     }
@@ -30,18 +30,4 @@ export default function Home() {
       />
     </>
   );
-}
-
-export async function getStaticPaths() {
-  const paths = boardList.slice(1).map((board) => ({
-    params: { boardType: board.route },
-  }));
-
-  return { paths, fallback: false };
-}
-
-export async function getStaticProps() {
-  return {
-    props: {},
-  };
 }

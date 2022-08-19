@@ -20,13 +20,9 @@ export default function Profile() {
                   currentTarget.onerror = null;
                   currentTarget.src = "/default_profile_image.png";
                 }}
-                alt={`${nickname}님의 프로필 이미지`}
               />
             ) : (
-              <img
-                src={"/default_profile_image.png"}
-                alt={`${nickname}님의 프로필 이미지`}
-              />
+              <img src={"/default_profile_image.png"} />
             )}
           </div>
           <div className={`${styles["typo6-medium"]} ${styles.nickname}`}>

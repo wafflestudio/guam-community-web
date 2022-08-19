@@ -57,7 +57,10 @@ export default function Comment({ comment }: { comment: IComment }) {
           <img
             src={
               comment.user.profileImage
-                ? process.env.BUCKET_URL + comment.user.profileImage
+                ? process.env.BUCKET_URL +
+                  comment.user.profileImage +
+                  "?" +
+                  Date.now()
                 : "/default_profile_image.png"
             }
           />

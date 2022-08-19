@@ -1,10 +1,7 @@
 import { RefObject } from "react";
 
 import { useAppSelector } from "../../store/hooks";
-import {
-  useGetLettersQuery,
-  useGetPairLettersQuery,
-} from "../../store/postsApi";
+import { useGetPairLettersQuery, useGetUserQuery } from "../../store/postsApi";
 import { relativeDate } from "../../utils/formatDate";
 import useRouterInfo from "../../utils/useRouterInfo";
 
@@ -23,10 +20,7 @@ const MessagesList = ({
   const { data: pairLetters } = useGetPairLettersQuery(pairId!, {
     skip: !pairId || !isLoggedIn,
   });
-  const pair = useGetLettersQuery(
-    {},
-    { skip: !pairId || !isLoggedIn }
-  ).data?.letterBoxes.find((box) => box.pair.id === pairId)?.pair;
+  const { data: pair } = useGetUserQuery(pairId!, { skip: !pairId });
 
   return (
     <ul className={styles.messagesList} ref={messageListRef}>

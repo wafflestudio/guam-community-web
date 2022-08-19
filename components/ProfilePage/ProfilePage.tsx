@@ -1,6 +1,6 @@
 import React from "react";
 
-import Side from "../Side/Side";
+import PostsBoard from "../PostPageSide/PostsBoard";
 
 import ProfileContent from "./ProfileContent";
 
@@ -9,7 +9,7 @@ import styles from "./ProfilePage.module.scss";
 const ProfilePage = () => {
   return (
     <div className={styles.container}>
-      <Side />
+      <PostsBoard />
       <ProfileContent />
     </div>
   );

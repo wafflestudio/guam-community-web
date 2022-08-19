@@ -1,16 +1,13 @@
 import { NextComponentType } from "next";
 
-import { useRouter } from "next/router";
-
+import Login from "../pages/login";
 import { useAppSelector } from "../store/hooks";
 
 export default function withAuth<T>(Component: NextComponentType<T>) {
   const Auth = (props: T) => {
     const { isLoggedIn } = useAppSelector((state) => state.auth);
 
-    const router = useRouter();
-
-    if (isLoggedIn === false) router.push("/login");
+    if (isLoggedIn === false) return <Login />;
 
     if (isLoggedIn) return <Component {...props} />;
 

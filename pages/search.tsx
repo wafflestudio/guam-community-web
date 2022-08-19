@@ -3,16 +3,16 @@ import PostsPage from "../components/PostsPage/PostsPage";
 import { useAppSelector } from "../store/hooks";
 import { useGetSearchPostsQuery } from "../store/postsApi";
 import useRouterInfo from "../utils/useRouterInfo";
-import withAuth from "../utils/withAuth";
 
-const Search = () => {
+export default function Home() {
   const { isLoggedIn } = useAppSelector((state) => state.auth);
 
   const { page, keyword } = useRouterInfo();
 
   const { data, isLoading } = useGetSearchPostsQuery(
-    { keyword: keyword!, page },
+    { keyword: keyword || "", page },
     {
+      refetchOnMountOrArgChange: true,
       skip: page === undefined || keyword === undefined || !isLoggedIn,
     }
   );
@@ -29,6 +29,4 @@ const Search = () => {
       />
     </>
   );
-};
-
-export default withAuth(Search);
+}

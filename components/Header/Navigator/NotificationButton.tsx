@@ -14,9 +14,9 @@ export default function NotificationButton() {
 
   const { isLoggedIn } = useAppSelector((state) => state.auth);
 
-  const { data: pushList } = useGetPushListQuery(0, {
-    skip: !isLoggedIn,
-  });
+  const pushList = useGetPushListQuery(0, {
+    skip: isLoggedIn === undefined,
+  }).data;
 
   return (
     <li className={styles.notificationButton}>

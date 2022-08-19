@@ -84,9 +84,8 @@
 
             img,
             svg {
-              object-fit: cover;
-              min-width: 100%;
-              min-height: 100%;
+              width: auto;
+              height: 40px;
             }
           }
         }
@@ -137,12 +136,6 @@
   height: 688px;
   background: colors.$grayscale-white;
 
-  &.loading {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
-
   .emptyImg {
     position: absolute;
     left: 380px;
@@ -163,13 +156,13 @@
       display: flex;
       justify-content: center;
       border-radius: 50%;
+      background: colors.$grayscale-gray6;
       overflow: hidden;
     }
 
     img {
-      object-fit: cover;
-      min-width: 56px;
-      min-height: 56px;
+      width: auto;
+      height: 56px;
     }
 
     .nickname {
