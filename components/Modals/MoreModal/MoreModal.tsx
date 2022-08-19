@@ -1,17 +1,17 @@
 import { useRouter } from "next/router";
 import { Dispatch, SetStateAction, useRef } from "react";
 
-import { useAppDispatch } from "../../../../store/hooks";
+import { useAppDispatch } from "../../../store/hooks";
 import {
   setUserBlockModal,
   setUserReportModal,
-} from "../../../../store/modalSlice";
-import { IUser } from "../../../../types/types";
-import { useModalRef } from "../../../../utils/useModalRef";
+} from "../../../store/modalSlice";
+import { IUser } from "../../../types/types";
+import { useModalRef } from "../../../utils/useModalRef";
 
-import styles from "./Comment.module.scss";
+import styles from "./MoreModal.module.scss";
 
-export default function CommentMoreModal({
+export default function MoreModal({
   user,
   setMoreOpen,
 }: {
@@ -40,9 +40,11 @@ export default function CommentMoreModal({
   return (
     <div className={styles.moreModal} ref={modalRef}>
       <ul>
-        <li>
-          <button onClick={onSendMessage}>쪽지 보내기</button>
-        </li>
+        {user.id !== 0 ? (
+          <li>
+            <button onClick={onSendMessage}>쪽지 보내기</button>
+          </li>
+        ) : null}
         <li>
           <button onClick={onReportUser}>신고하기</button>
         </li>

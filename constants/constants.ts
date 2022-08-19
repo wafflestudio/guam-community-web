@@ -59,3 +59,11 @@ export const notificationList = [
     phrase: "댓글에서 사용자를 멘션했습니다.",
   },
 ];
+
+export const reportReasons = [
+  { id: 0, text: "욕설/비방/음담패설" },
+  { id: 1, text: "사행성 게시물" },
+  { id: 2, text: "불법 복제/무단도용" },
+  { id: 3, text: "게시글/댓글 도배" },
+  { id: 4, text: "기타" },
+];

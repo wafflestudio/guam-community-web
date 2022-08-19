@@ -167,7 +167,7 @@ export default function SetProfilePage() {
       <button type="submit">등록</button>
       {imageUrl ? (
         typeof profileImage === "string" ? (
-          <img src={process.env.BUCKET_URL + imageUrl + "?" + Date.now()} />
+          <img src={process.env.BUCKET_URL + imageUrl} />
         ) : (
           <img src={imageUrl} />
         )

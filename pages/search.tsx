@@ -1,7 +1,10 @@
 import PageTitle from "../components/PageTitle";
 import PostsPage from "../components/PostsPage/PostsPage";
 import { useAppSelector } from "../store/hooks";
-import { useGetSearchPostsQuery } from "../store/postsApi";
+import {
+  useGetSearchCountQuery,
+  useGetSearchPostsQuery,
+} from "../store/postsApi";
 import useRouterInfo from "../utils/useRouterInfo";
 import withAuth from "../utils/withAuth";
 
@@ -11,6 +14,12 @@ const Search = () => {
   const { page, keyword } = useRouterInfo();
 
   const { data, isLoading } = useGetSearchPostsQuery(
+    { keyword: keyword!, page },
+    {
+      skip: page === undefined || keyword === undefined || !isLoggedIn,
+    }
+  );
+  useGetSearchCountQuery(
     { keyword: keyword!, page },
     {
       skip: page === undefined || keyword === undefined || !isLoggedIn,

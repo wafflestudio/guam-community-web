@@ -1,5 +1,4 @@
 import { useRouter } from "next/router";
-import { useState } from "react";
 
 import { postsApi } from "../../../../store/postsApi";
 
@@ -8,8 +7,6 @@ import Comment from "./Comment";
 import styles from "./CommentsList.module.scss";
 
 export default function CommentsList() {
-  const [selectedId, setSelectedId] = useState<number | null>(null);
-
   const router = useRouter();
   const { postId } = router.query;
 

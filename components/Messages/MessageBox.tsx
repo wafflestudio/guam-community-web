@@ -18,16 +18,12 @@ export default function MessagesBox() {
     postsApi.endpoints.getLetters.useQueryState(undefined, {
       skip: !isLoggedIn,
     });
-  const { isLoading: pairLoading } =
-    postsApi.endpoints.getPairLetters.useQueryState(pairId!, {
-      skip: !pairId || !isLoggedIn,
-    });
 
   const messageListRef = useRef<HTMLUListElement>(null);
 
   return (
     <div className={styles.mainContainer}>
-      {listLoading || pairLoading ? (
+      {listLoading ? (
         <img src="/loading.gif" alt="로딩 중" className={styles.emptyImg} />
       ) : !pairId ? (
         <div className={styles.emptyImg}>

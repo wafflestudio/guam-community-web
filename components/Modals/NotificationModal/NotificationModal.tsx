@@ -1,5 +1,6 @@
 import throttle from "lodash/throttle";
 import Link from "next/link";
+import { useRouter } from "next/router";
 import React, {
   Dispatch,
   SetStateAction,
@@ -15,7 +16,7 @@ import {
   useGetPushListQuery,
   usePostPushReadMutation,
 } from "../../../store/postsApi";
-import { IPushData } from "../../../types/types";
+import { IPushData, IPushList } from "../../../types/types";
 import { relativeDate } from "../../../utils/formatDate";
 import { useModalRef } from "../../../utils/useModalRef";
 
@@ -37,28 +38,22 @@ const NotificationModal = ({
   const { isLoggedIn } = useAppSelector((state) => state.auth);
   const { id: userId } = useAppSelector((state) => state.user);
 
+  const router = useRouter();
+
   const currentResult = useGetPushListQuery(page, {
     skip: !isLoggedIn || !hasNext || page < 0,
-    refetchOnMountOrArgChange: true,
   });
   const [postPushRead] = usePostPushReadMutation();
-
-  useModalRef(modalRef, setModal);
 
   useEffect(() => {
     if (currentResult.data) {
       const { data } = currentResult;
       if (!data.hasNext) setHasNext(false);
-      setList((list) =>
-        list
-          .concat(data.content)
-          .filter(
-            (value, index, self) =>
-              index === self.findIndex((t) => t.id === value.id)
-          )
-      );
+      setList((list) => list.concat(data.content));
     }
-  }, [currentResult]);
+  }, [currentResult.data]);
+
+  useModalRef(modalRef, setModal);
 
   const handleScroll = () => {
     if (modalRef.current && hasNext) {
@@ -72,9 +67,8 @@ const NotificationModal = ({
   };
   const throttleScroll = throttle(handleScroll, 300);
 
-  const onPushClick = (pushEventIds: number[]) => {
-    postPushRead({ userId, pushEventIds });
-    setModal(false);
+  const onPushClick = (push: IPushList) => {
+    if (!push.isRead) postPushRead({ userId, pushEventIds: [push.id] });
   };
 
   return (
@@ -91,30 +85,30 @@ const NotificationModal = ({
         <ul>
           {list?.map((push) => {
             const link = push.linkUrl.split("v1")[1];
-
             return (
-              <li key={push.id} onClick={() => onPushClick([push.id])}>
-                <div className={styles.imageWrapper}>
-                  {push.isRead ? null : <NewIcon />}
-                  <div className={styles.imageInnerWrapper}>
-                    <img
-                      alt={`${push.writer.nickname}의 이미지`}
-                      src={
-                        push.writer.profileImage
-                          ? process.env.BUCKET_URL + push.writer.profileImage
-                          : "/default_profile_image.png"
-                      }
-                    />
-                  </div>
-                </div>
-                <div className={styles.text}>
-                  <div
-                    className={`${styles.content} ${
-                      push.isRead && styles.read
-                    }`}
-                  >
-                    <Link href={link}>
-                      <a>
+              <Link key={push.id} href={link}>
+                <a>
+                  <li onClick={() => onPushClick(push)}>
+                    <div className={styles.imageWrapper}>
+                      {push.isRead ? null : <NewIcon />}
+                      <div className={styles.imageInnerWrapper}>
+                        <img
+                          alt={`${push.writer.nickname}의 이미지`}
+                          src={
+                            push.writer.profileImage
+                              ? process.env.BUCKET_URL +
+                                push.writer.profileImage
+                              : "/default_profile_image.png"
+                          }
+                        />
+                      </div>
+                    </div>
+                    <div className={styles.text}>
+                      <div
+                        className={`${styles.content} ${
+                          push.isRead && styles.read
+                        }`}
+                      >
                         <span className={styles.writerName}>
                           {push.writer.nickname}
                         </span>{" "}
@@ -124,14 +118,16 @@ const NotificationModal = ({
                             (notification) => notification.key === push.kind
                           )?.phrase
                         }
-                      </a>
-                    </Link>
-                  </div>
-                  <div className={`${styles["typo2-regular"]} ${styles.date}`}>
-                    {relativeDate(push.createdAt)}
-                  </div>
-                </div>
-              </li>
+                      </div>
+                      <div
+                        className={`${styles["typo2-regular"]} ${styles.date}`}
+                      >
+                        {relativeDate(push.createdAt)}
+                      </div>
+                    </div>
+                  </li>
+                </a>
+              </Link>
             );
           })}
         </ul>
