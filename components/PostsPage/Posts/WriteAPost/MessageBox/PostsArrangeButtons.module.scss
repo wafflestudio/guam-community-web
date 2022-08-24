@@ -9,17 +9,20 @@
     background: transparent;
     padding: 0;
     cursor: pointer;
+    color: $grayscale-gray4;
 
     &#recommend {
-      color: $grayscale-gray4;
       position: absolute;
       left: 653px;
     }
 
     &#time {
-      color: $grayscale-gray2;
       position: absolute;
       left: 711px;
+    }
+
+    &.selected {
+      color: $grayscale-gray2;
     }
   }
 }

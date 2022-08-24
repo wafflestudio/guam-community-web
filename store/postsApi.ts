@@ -17,6 +17,11 @@ interface PostsBoardQuery {
   page: number | undefined;
 }
 
+interface PostsFavoriteQuery {
+  boardId: number;
+  rankFrom?: number;
+}
+
 interface PostPostQuery {
   boardId: number;
   categoryId: number;
@@ -84,6 +89,17 @@ export const postsApi = createApi({
         {
           type: "Posts List",
           search: req.keyword,
+        },
+      ],
+    }),
+    getFavoritePosts: build.query<IPostsData, PostsFavoriteQuery>({
+      query: (req) => ({
+        url: `posts/favorites?boardId=${req.boardId}&rankFrom=${req.rankFrom}`,
+      }),
+      providesTags: (result, error, req) => [
+        {
+          type: "Posts List",
+          rank: req.rankFrom,
         },
       ],
     }),
@@ -262,6 +278,7 @@ export const {
   useGetAllPostsQuery,
   useGetPostsByBoardQuery,
   useGetSearchPostsQuery,
+  useGetFavoritePostsQuery,
   useGetSearchCountQuery,
   usePostPostMutation,
   usePatchPostMutation,
