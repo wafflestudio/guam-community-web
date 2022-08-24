@@ -417,9 +417,11 @@
         &.save {
           background: colors.$grayscale-gray5;
           left: 531px;
+          display: none;
 
           &.expanded {
             left: 895px;
+            display: block;
           }
         }
 
