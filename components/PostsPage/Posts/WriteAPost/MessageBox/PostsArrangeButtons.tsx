@@ -10,6 +10,7 @@ export default function PostsArrangeButtons() {
 
   const onClickMode = (recommend: boolean) => {
     if (router.pathname === "/") router.push("/favorites");
+    else if (router.pathname === "/favorites") router.push("/");
     else if (boardType)
       router.push(`/${boardType}${recommend ? "/favorites" : ""}`);
   };

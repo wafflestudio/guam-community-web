@@ -18,7 +18,7 @@ interface PostsBoardQuery {
 }
 
 interface PostsFavoriteQuery {
-  boardId: number;
+  boardId?: number;
   rankFrom?: number;
 }
 
@@ -94,7 +94,9 @@ export const postsApi = createApi({
     }),
     getFavoritePosts: build.query<IPostsData, PostsFavoriteQuery>({
       query: (req) => ({
-        url: `posts/favorites?boardId=${req.boardId}&rankFrom=${req.rankFrom}`,
+        url: `posts/favorites?${
+          req.boardId ? `boardId=${req.boardId}` : ""
+        }&rankFrom=${req.rankFrom}`,
       }),
       providesTags: (result, error, req) => [
         {

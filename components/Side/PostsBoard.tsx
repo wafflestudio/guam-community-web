@@ -39,7 +39,11 @@ export default function PostsBoard() {
                 <button
                   className={`${styles["typo4-medium"]} ${styles.listItem} ${
                     styles.all
-                  } ${router.pathname === "/" && styles.isSelected}`}
+                  } ${
+                    (router.pathname === "/" ||
+                      router.pathname === "/favorites") &&
+                    styles.isSelected
+                  }`}
                 >
                   {router.pathname === "/" ? <FeedActiveIcon /> : <FeedIcon />}
                   <span>전체 게시판</span>
