@@ -13,6 +13,7 @@ import DownIcon from "../../../../assets/icons/down/down_20.svg";
 import PlusIcon from "../../../../assets/icons/plus.svg";
 import { boardList, categoryList } from "../../../../constants/constants";
 import { useAppDispatch, useAppSelector } from "../../../../store/hooks";
+import { setPostFormModal } from "../../../../store/modalSlice";
 import {
   usePatchPostMutation,
   usePostPostMutation,
@@ -213,6 +214,7 @@ const SubmitForm = ({
           value={title}
           onChange={onTitleChange}
           placeholder="제목"
+          maxLength={30}
         />
         <textarea
           className={`${styles["typo4-regular"]} ${styles.content} ${
@@ -221,6 +223,7 @@ const SubmitForm = ({
           value={content}
           onChange={onContentChange}
           placeholder="내용을 입력해주세요."
+          maxLength={400}
         />
         <div className={styles.categoryOptions}>
           <div
@@ -321,8 +324,9 @@ const SubmitForm = ({
           className={`${styles["typo4-regular"]} ${styles.save} ${
             styles.bottom
           } ${expanded && styles.expanded}`}
+          onClick={() => dispatch(setPostFormModal({ expanded: false }))}
         >
-          저장
+          최소화
         </button>
         <button
           type="submit"

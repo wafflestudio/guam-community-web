@@ -1,5 +1,7 @@
-import { useMemo } from "react";
+import { useEffect, useMemo } from "react";
 
+import { useAppDispatch } from "../../../../store/hooks";
+import { setToast } from "../../../../store/toastSlice";
 import { IPostsListPost } from "../../../../types/types";
 import PaginationButton from "../../PaginationButton/PaginationButton";
 
@@ -16,10 +18,18 @@ export default function PostsList({
   isLoading: boolean;
   hasNext: boolean;
 }) {
+  const dispatch = useAppDispatch();
+
   const postsList = useMemo(
     () => posts?.map((post) => <Post key={post.id} post={post} />),
     [posts]
   );
+
+  useEffect(() => {
+    if (posts?.length === 0) {
+      dispatch(setToast("게시글이 더이상 없습니다."));
+    }
+  }, [dispatch, posts?.length]);
 
   return (
     <>
@@ -28,7 +38,9 @@ export default function PostsList({
         {isLoading ? (
           <img className={styles.loading} src={"/loading.gif"} />
         ) : null}
-        {posts ? <PaginationButton hasNext={hasNext} /> : null}
+        {posts ? (
+          <PaginationButton hasNext={!(posts?.length === 0) && hasNext} />
+        ) : null}
       </div>
     </>
   );

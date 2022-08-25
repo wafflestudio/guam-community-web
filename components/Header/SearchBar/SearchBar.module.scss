@@ -1,4 +1,4 @@
-@import "../../../assets/colors/colors";
+@use "../../../assets/colors/colors";
 @import "../../../assets/fonts/typography_regular";
 
 .container {
@@ -8,11 +8,20 @@
   .searchInput {
     width: 357px;
     height: 40px;
-    background: $grayscale-gray7;
-    border: none;
+    background: colors.$grayscale-gray7;
+    border: transparent;
+    border-radius: 5px;
     padding: 10px 8px;
-    color: $grayscale-gray2;
+    color: colors.$grayscale-gray2;
     vertical-align: top;
+
+    &:focus {
+      border: 1px solid colors.$purple-core;
+    }
+  }
+
+  .searchInput:focus + button svg path {
+    fill: colors.$purple-core;
   }
 
   button {
@@ -22,7 +31,7 @@
 
     svg {
       path {
-        fill: $grayscale-gray3;
+        fill: colors.$grayscale-gray3;
       }
     }
   }

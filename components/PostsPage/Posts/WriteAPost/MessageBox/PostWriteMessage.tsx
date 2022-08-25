@@ -9,7 +9,6 @@ export default function PostWriteMessage() {
     keyword: keyword!,
     page,
   });
-  console.log(count);
 
   return (
     <div className={styles.container}>

@@ -4,7 +4,10 @@ import { boardList } from "../constants/constants";
 
 const useRouterInfo = () => {
   const router = useRouter();
-  const boardType = router.isReady && router.query.boardType;
+  const boardType =
+    typeof router.query.boardType === "string"
+      ? router.query.boardType
+      : undefined;
 
   const boardId = boardList.find((board) => boardType === board.route)?.id;
 
