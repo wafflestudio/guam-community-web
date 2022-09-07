@@ -1,6 +1,6 @@
 import React from "react";
 
-import Side from "../Side/Side";
+import Side from "components/Side/Side";
 
 import ProfileContent from "./ProfileContent";
 

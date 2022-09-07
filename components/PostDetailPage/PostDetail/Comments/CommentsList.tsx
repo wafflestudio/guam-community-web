@@ -1,6 +1,6 @@
 import { useRouter } from "next/router";
 
-import { postsApi } from "../../../../store/postsApi";
+import { postsApi } from "store/postsApi";
 
 import Comment from "./Comment";
 

@@ -2,11 +2,11 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import { useState } from "react";
 
-import MoreIcon from "../../assets/icons/more.svg";
-import { useAppDispatch, useAppSelector } from "../../store/hooks";
-import { setUserBlockModal, setUserReportModal } from "../../store/modalSlice";
-import { useGetUserQuery } from "../../store/postsApi";
-import useRouterInfo from "../../utils/useRouterInfo";
+import MoreIcon from "assets/icons/more.svg";
+import { useAppDispatch, useAppSelector } from "store/hooks";
+import { setUserBlockModal, setUserReportModal } from "store/modalSlice";
+import { useGetUserQuery } from "store/postsApi";
+import useRouterInfo from "utils/useRouterInfo";
 
 import styles from "./Messages.module.scss";
 

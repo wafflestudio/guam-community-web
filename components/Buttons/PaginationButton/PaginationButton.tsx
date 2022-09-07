@@ -1,11 +1,10 @@
 import { useRouter } from "next/router";
 import React from "react";
 
-import BackIcon from "../../../assets/icons/back.svg";
-import RightIcon from "../../../assets/icons/right.svg";
-import useRouterInfo from "../../../utils/useRouterInfo";
-
-import styles from "./PaginationButton.module.scss";
+import BackIcon from "assets/icons/back.svg";
+import RightIcon from "assets/icons/right.svg";
+import styles from "styles/PaginationButton.module.scss";
+import useRouterInfo from "utils/useRouterInfo";
 
 const PaginationButton = ({ hasNext }: { hasNext: boolean }) => {
   const router = useRouter();

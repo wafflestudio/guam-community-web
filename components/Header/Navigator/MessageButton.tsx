@@ -1,10 +1,10 @@
 import Link from "next/link";
 import { useRouter } from "next/router";
 
-import MessageIcon from "../../../assets/icons/message/default.svg";
-import NewMessagesIcon from "../../../assets/icons/message/new.svg";
-import { useAppSelector } from "../../../store/hooks";
-import { useGetLettersCountQuery } from "../../../store/postsApi";
+import MessageIcon from "assets/icons/message/default.svg";
+import NewMessagesIcon from "assets/icons/message/new.svg";
+import { useAppSelector } from "store/hooks";
+import { useGetLettersCountQuery } from "store/postsApi";
 
 import styles from "./MessageButton.module.scss";
 

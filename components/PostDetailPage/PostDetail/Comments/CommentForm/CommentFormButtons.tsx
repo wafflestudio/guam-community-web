@@ -1,16 +1,16 @@
 import axios, { AxiosRequestConfig } from "axios";
 import React, { RefObject } from "react";
 
-import CameraIcon from "../../../../../assets/icons/camera.svg";
+import CameraIcon from "assets/icons/camera.svg";
 import {
   setCommentInput,
   setImages,
   setImageUrls,
-} from "../../../../../store/commentFormSlice";
-import { useAppDispatch, useAppSelector } from "../../../../../store/hooks";
-import { usePostCommentMutation } from "../../../../../store/postsApi";
-import { IUser } from "../../../../../types/types";
-import useRouterInfo from "../../../../../utils/useRouterInfo";
+} from "store/commentFormSlice";
+import { useAppDispatch, useAppSelector } from "store/hooks";
+import { usePostCommentMutation } from "store/postsApi";
+import { IUser } from "types/types";
+import useRouterInfo from "utils/useRouterInfo";
 
 import styles from "./CommentForm.module.scss";
 

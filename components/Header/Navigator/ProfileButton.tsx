@@ -1,8 +1,8 @@
 import Link from "next/link";
 import { useRouter } from "next/router";
 
-import ProfileFilledIcon from "../../../assets/icons/profile/filled.svg";
-import ProfileIcon from "../../../assets/icons/profile/outlined.svg";
+import ProfileFilledIcon from "assets/icons/profile/filled.svg";
+import ProfileIcon from "assets/icons/profile/outlined.svg";
 
 import styles from "./ProfileButton.module.scss";
 

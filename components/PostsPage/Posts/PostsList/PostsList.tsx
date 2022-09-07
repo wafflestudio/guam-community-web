@@ -1,9 +1,9 @@
 import { useEffect, useMemo } from "react";
 
-import { useAppDispatch } from "../../../../store/hooks";
-import { setToast } from "../../../../store/toastSlice";
-import { IPostsListPost } from "../../../../types/types";
-import PaginationButton from "../../PaginationButton/PaginationButton";
+import PaginationButton from "components/Buttons/PaginationButton/PaginationButton";
+import { useAppDispatch } from "store/hooks";
+import { setToast } from "store/toastSlice";
+import { IPostsListPost } from "types/types";
 
 import Post from "./Post";
 

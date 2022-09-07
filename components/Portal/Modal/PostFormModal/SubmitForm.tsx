@@ -7,21 +7,18 @@ import React, {
   useState,
 } from "react";
 
-import CancelIcon from "../../../../assets/icons/cancel/outlined.svg";
-import CheckIcon from "../../../../assets/icons/check.svg";
-import DownIcon from "../../../../assets/icons/down/down_20.svg";
-import PlusIcon from "../../../../assets/icons/plus.svg";
-import { boardList, categoryList } from "../../../../constants/constants";
-import { useAppDispatch, useAppSelector } from "../../../../store/hooks";
-import { setPostFormModal } from "../../../../store/modalSlice";
-import {
-  usePatchPostMutation,
-  usePostPostMutation,
-} from "../../../../store/postsApi";
-import { setToast } from "../../../../store/toastSlice";
-import { IImageUrl } from "../../../../types/types";
-import { handleImageInput } from "../../../../utils/handleImageInputs";
-import { useModalRef } from "../../../../utils/useModalRef";
+import CancelIcon from "assets/icons/cancel/outlined.svg";
+import CheckIcon from "assets/icons/check.svg";
+import DownIcon from "assets/icons/down/down_20.svg";
+import PlusIcon from "assets/icons/plus.svg";
+import { boardList, categoryList } from "constants/constants";
+import { useAppDispatch, useAppSelector } from "store/hooks";
+import { setPostFormModal } from "store/modalSlice";
+import { usePatchPostMutation, usePostPostMutation } from "store/postsApi";
+import { setToast } from "store/toastSlice";
+import { IImageUrl } from "types/types";
+import { handleImageInput } from "utils/handleImageInputs";
+import { useModalRef } from "utils/useModalRef";
 
 import styles from "./PostFormModal.module.scss";
 

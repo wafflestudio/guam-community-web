@@ -1,12 +1,9 @@
 import React, { SetStateAction, useRef } from "react";
 
-import { useAppDispatch } from "../../../store/hooks";
-import {
-  setDeleteConfirmModal,
-  setPostFormModal,
-} from "../../../store/modalSlice";
-import { IDetailedPost } from "../../../types/types";
-import { useModalRef } from "../../../utils/useModalRef";
+import { useAppDispatch } from "store/hooks";
+import { setDeleteConfirmModal, setPostFormModal } from "store/modalSlice";
+import { IDetailedPost } from "types/types";
+import { useModalRef } from "utils/useModalRef";
 
 import styles from "./PostModifyModal.module.scss";
 

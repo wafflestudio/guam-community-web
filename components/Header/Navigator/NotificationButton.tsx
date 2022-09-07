@@ -1,10 +1,11 @@
 import { useState } from "react";
 
-import NotificationNewFilledIcon from "../../../assets/icons/notification/filled/new.svg";
-import NotificationIcon from "../../../assets/icons/notification/outlined/default.svg";
-import NotificationNewIcon from "../../../assets/icons/notification/outlined/new.svg";
-import { useAppSelector } from "../../../store/hooks";
-import { useGetPushListQuery } from "../../../store/postsApi";
+import NotificationNewFilledIcon from "assets/icons/notification/filled/new.svg";
+import NotificationIcon from "assets/icons/notification/outlined/default.svg";
+import NotificationNewIcon from "assets/icons/notification/outlined/new.svg";
+import { useAppSelector } from "store/hooks";
+import { useGetPushListQuery } from "store/postsApi";
+
 import NotificationModal from "../../Modals/NotificationModal/NotificationModal";
 
 import styles from "./NotificationButton.module.scss";

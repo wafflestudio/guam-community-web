@@ -1,9 +1,9 @@
 import React, { RefObject } from "react";
 
-import CancelIcon from "../../../../../assets/icons/cancel/filled_18.svg";
-import { MB } from "../../../../../constants/constants";
-import { setImages, setImageUrls } from "../../../../../store/commentFormSlice";
-import { useAppDispatch, useAppSelector } from "../../../../../store/hooks";
+import CancelIcon from "assets/icons/cancel/filled_18.svg";
+import { MB } from "constants/constants";
+import { setImages, setImageUrls } from "store/commentFormSlice";
+import { useAppDispatch, useAppSelector } from "store/hooks";
 
 import styles from "./CommentForm.module.scss";
 

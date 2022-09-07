@@ -1,5 +1,5 @@
-import { reportReasons } from "../../../../constants/constants";
-import { useAppSelector } from "../../../../store/hooks";
+import { reportReasons } from "constants/constants";
+import { useAppSelector } from "store/hooks";
 
 import styles from "./UserReportModal.module.scss";
 

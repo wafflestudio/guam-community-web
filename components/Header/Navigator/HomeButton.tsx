@@ -2,7 +2,7 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import React from "react";
 
-import HomeIcon from "../../../assets/icons/home/filled.svg";
+import HomeIcon from "assets/icons/home/filled.svg";
 
 import styles from "./HomeButton.module.scss";
 

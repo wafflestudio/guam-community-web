@@ -1,6 +1,6 @@
 import { createPortal } from "react-dom";
 
-import { useAppSelector } from "../../../store/hooks";
+import { useAppSelector } from "store/hooks";
 
 const ModalPortal = ({ children }: { children: JSX.Element }) => {
   const { open } = useAppSelector((state) => state.modals);

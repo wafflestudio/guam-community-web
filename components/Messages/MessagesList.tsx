@@ -1,12 +1,9 @@
 import { RefObject } from "react";
 
-import { useAppSelector } from "../../store/hooks";
-import {
-  useGetLettersQuery,
-  useGetPairLettersQuery,
-} from "../../store/postsApi";
-import { relativeDate } from "../../utils/formatDate";
-import useRouterInfo from "../../utils/useRouterInfo";
+import { useAppSelector } from "store/hooks";
+import { useGetLettersQuery, useGetPairLettersQuery } from "store/postsApi";
+import { relativeDate } from "utils/formatDate";
+import useRouterInfo from "utils/useRouterInfo";
 
 import styles from "./Messages.module.scss";
 

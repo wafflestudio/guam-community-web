@@ -1,8 +1,8 @@
 import React, { Dispatch, RefObject, SetStateAction, useRef } from "react";
 
-import CancelIcon from "../../assets/icons/cancel/filled_18.svg";
-import { MB } from "../../constants/constants";
-import { IImageUrl } from "../../types/types";
+import CancelIcon from "assets/icons/cancel/filled_18.svg";
+import { MB } from "constants/constants";
+import { IImageUrl } from "types/types";
 
 import styles from "./Messages.module.scss";
 

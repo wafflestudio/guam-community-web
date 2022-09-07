@@ -1,9 +1,9 @@
 import React from "react";
 
-import CancelIcon from "../../../../assets/icons/cancel/outlined.svg";
-import ExpandIcon from "../../../../assets/icons/expand.svg";
-import { useAppDispatch, useAppSelector } from "../../../../store/hooks";
-import { setPostFormModal } from "../../../../store/modalSlice";
+import CancelIcon from "assets/icons/cancel/outlined.svg";
+import ExpandIcon from "assets/icons/expand.svg";
+import { useAppDispatch, useAppSelector } from "store/hooks";
+import { setPostFormModal } from "store/modalSlice";
 
 import SubmitForm from "./SubmitForm";
 

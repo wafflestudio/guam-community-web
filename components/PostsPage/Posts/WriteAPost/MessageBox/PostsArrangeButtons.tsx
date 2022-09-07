@@ -1,6 +1,6 @@
 import { useRouter } from "next/router";
 
-import useRouterInfo from "../../../../../utils/useRouterInfo";
+import useRouterInfo from "utils/useRouterInfo";
 
 import styles from "./PostsArrangeButtons.module.scss";
 

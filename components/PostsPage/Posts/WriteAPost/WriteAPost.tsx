@@ -1,4 +1,4 @@
-import PostWriteButton from "../../../PostWriteButton/PostWriteButton";
+import PostWriteButton from "components/Buttons/PostWriteButton/PostWriteButton";
 
 import MessageBox from "./MessageBox/MessageBox";
 

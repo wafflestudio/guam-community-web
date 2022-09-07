@@ -9,16 +9,13 @@ import React, {
   useState,
 } from "react";
 
-import NewIcon from "../../../assets/icons/new.svg";
-import { notificationList } from "../../../constants/constants";
-import { useAppSelector } from "../../../store/hooks";
-import {
-  useGetPushListQuery,
-  usePostPushReadMutation,
-} from "../../../store/postsApi";
-import { IPushData, IPushList } from "../../../types/types";
-import { relativeDate } from "../../../utils/formatDate";
-import { useModalRef } from "../../../utils/useModalRef";
+import NewIcon from "assets/icons/new.svg";
+import { notificationList } from "constants/constants";
+import { useAppSelector } from "store/hooks";
+import { useGetPushListQuery, usePostPushReadMutation } from "store/postsApi";
+import { IPushData, IPushList } from "types/types";
+import { relativeDate } from "utils/formatDate";
+import { useModalRef } from "utils/useModalRef";
 
 import styles from "./NotificationModal.module.scss";
 

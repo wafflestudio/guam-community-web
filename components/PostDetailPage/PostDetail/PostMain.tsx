@@ -1,13 +1,13 @@
 import { useRouter } from "next/router";
 import { useState } from "react";
 
-import MoreIcon from "../../../assets/icons/more.svg";
-import { useAppSelector } from "../../../store/hooks";
-import { useGetPostDetailQuery } from "../../../store/postsApi";
-import { relativeDate } from "../../../utils/formatDate";
-import useRouterInfo from "../../../utils/useRouterInfo";
-import MoreModal from "../../Modals/MoreModal/MoreModal";
-import PostModifyModal from "../../Modals/PostModifyModal/PostModifyModal";
+import MoreIcon from "assets/icons/more.svg";
+import MoreModal from "components/Modals/MoreModal/MoreModal";
+import PostModifyModal from "components/PostDetailPage/PostModifyModal/PostModifyModal";
+import { useAppSelector } from "store/hooks";
+import { useGetPostDetailQuery } from "store/postsApi";
+import { relativeDate } from "utils/formatDate";
+import useRouterInfo from "utils/useRouterInfo";
 
 import styles from "./PostMain.module.scss";
 

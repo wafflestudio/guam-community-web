@@ -1,13 +1,13 @@
 import { useEffect, useRef, useState } from "react";
 
-import LikeIcon from "../../../../assets/icons/like/outlined.svg";
-import MoreIcon from "../../../../assets/icons/more.svg";
-import { useAppDispatch } from "../../../../store/hooks";
-import { setImageExtendedModal } from "../../../../store/modalSlice";
-import { useLikeCommentMutation } from "../../../../store/postsApi";
-import { IComment } from "../../../../types/types";
-import ModifyCommentModal from "../../../Modals/CommentModal/ModifyCommentModal";
-import MoreModal from "../../../Modals/MoreModal/MoreModal";
+import LikeIcon from "assets/icons/like/outlined.svg";
+import MoreIcon from "assets/icons/more.svg";
+import ModifyCommentModal from "components/Modals/CommentModal/ModifyCommentModal";
+import MoreModal from "components/Modals/MoreModal/MoreModal";
+import { useAppDispatch } from "store/hooks";
+import { setImageExtendedModal } from "store/modalSlice";
+import { useLikeCommentMutation } from "store/postsApi";
+import { IComment } from "types/types";
 
 import styles from "./Comment.module.scss";
 

@@ -1,9 +1,9 @@
 import { useRouter } from "next/router";
 import React, { useEffect, useMemo, useRef } from "react";
 
-import { useAppSelector } from "../../../../../store/hooks";
-import { postsApi } from "../../../../../store/postsApi";
-import { mentionRegex } from "../../../../../utils/mentionRegex";
+import { useAppSelector } from "store/hooks";
+import { postsApi } from "store/postsApi";
+import { mentionRegex } from "utils/mentionRegex";
 
 import CommentArea from "./CommentArea";
 import CommentFormButtons from "./CommentFormButtons";

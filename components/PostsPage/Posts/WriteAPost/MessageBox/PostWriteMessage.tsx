@@ -1,5 +1,5 @@
-import { postsApi } from "../../../../../store/postsApi";
-import useRouterInfo from "../../../../../utils/useRouterInfo";
+import { postsApi } from "store/postsApi";
+import useRouterInfo from "utils/useRouterInfo";
 
 import styles from "./PostWriteMessage.module.scss";
 

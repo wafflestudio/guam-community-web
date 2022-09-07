@@ -1,8 +1,8 @@
 import { useRef, useState } from "react";
 
-import BackIcon from "../../../../assets/icons/back.svg";
-import NextIcon from "../../../../assets/icons/right.svg";
-import { useAppSelector } from "../../../../store/hooks";
+import BackIcon from "assets/icons/back.svg";
+import NextIcon from "assets/icons/right.svg";
+import { useAppSelector } from "store/hooks";
 
 import styles from "./ImageExtendModal.module.scss";
 

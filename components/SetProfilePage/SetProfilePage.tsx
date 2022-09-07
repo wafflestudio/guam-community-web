@@ -2,9 +2,9 @@ import axios from "axios";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 
-import { useAppDispatch, useAppSelector } from "../../store/hooks";
-import { setUserState } from "../../store/userSlice";
-import { getFirebaseIdToken } from "../../utils/firebaseUtils";
+import { useAppDispatch, useAppSelector } from "store/hooks";
+import { setUserState } from "store/userSlice";
+import { getFirebaseIdToken } from "utils/firebaseUtils";
 
 interface IProfileObject {
   nickname: string;
@@ -167,12 +167,12 @@ export default function SetProfilePage() {
       <button type="submit">등록</button>
       {imageUrl ? (
         typeof profileImage === "string" ? (
-          <img src={process.env.BUCKET_URL + imageUrl} />
+          <img src={process.env.BUCKET_URL + imageUrl} alt="프로필 이미지" />
         ) : (
-          <img src={imageUrl} />
+          <img src={imageUrl} alt="프로필 이미지" />
         )
       ) : (
-        <img src={"/default_profile_image.png"} />
+        <img src={"/default_profile_image.png"} alt="기본 프로필 이미지" />
       )}
     </form>
   );

@@ -73,6 +73,7 @@
     .description {
       width: 100%;
       color: colors.$grayscale-gray3;
+      white-space: pre-line;
     }
 
     &.loadingContent {

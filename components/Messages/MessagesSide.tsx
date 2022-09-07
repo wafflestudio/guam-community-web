@@ -1,10 +1,11 @@
 import { useRouter } from "next/router";
 
-import NewIcon from "../../assets/icons/new.svg";
-import { useAppSelector } from "../../store/hooks";
-import { useGetLettersQuery } from "../../store/postsApi";
-import { relativeDate } from "../../utils/formatDate";
-import useRouterInfo from "../../utils/useRouterInfo";
+import NewIcon from "assets/icons/new.svg";
+import { useAppSelector } from "store/hooks";
+import { useGetLettersQuery } from "store/postsApi";
+import { relativeDate } from "utils/formatDate";
+import useRouterInfo from "utils/useRouterInfo";
+
 import Profile from "../Side/Profile";
 
 import styles from "./Messages.module.scss";

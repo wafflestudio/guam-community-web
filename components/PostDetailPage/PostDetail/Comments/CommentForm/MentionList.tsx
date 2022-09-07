@@ -1,12 +1,9 @@
 import { RefObject, useRef } from "react";
 
-import {
-  setCommentInput,
-  setMentionListOpen,
-} from "../../../../../store/commentFormSlice";
-import { useAppDispatch, useAppSelector } from "../../../../../store/hooks";
-import { IUser } from "../../../../../types/types";
-import { mentionRegex } from "../../../../../utils/mentionRegex";
+import { setCommentInput, setMentionListOpen } from "store/commentFormSlice";
+import { useAppDispatch, useAppSelector } from "store/hooks";
+import { IUser } from "types/types";
+import { mentionRegex } from "utils/mentionRegex";
 
 import styles from "./CommentForm.module.scss";
 

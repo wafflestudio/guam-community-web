@@ -2,10 +2,10 @@ import axios from "axios";
 import { useRouter } from "next/router";
 import { ChangeEventHandler, useState } from "react";
 
-import BalloonIcon from "../../assets/icons/balloon/balloon_32.svg";
-import { useAppDispatch, useAppSelector } from "../../store/hooks";
-import { setUserState } from "../../store/userSlice";
-import { getFirebaseIdToken } from "../../utils/firebaseUtils";
+import BalloonIcon from "assets/icons/balloon/balloon_32.svg";
+import { useAppDispatch, useAppSelector } from "store/hooks";
+import { setUserState } from "store/userSlice";
+import { getFirebaseIdToken } from "utils/firebaseUtils";
 
 import styles from "./SignIn.module.scss";
 

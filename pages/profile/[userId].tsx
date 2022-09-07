@@ -1,20 +1,25 @@
+import { useRouter } from "next/router";
 import React from "react";
 
-import PageTitle from "../../components/PageTitle";
-import ProfilePage from "../../components/ProfilePage/ProfilePage";
-import { useAppSelector } from "../../store/hooks";
-import { useGetUserQuery } from "../../store/postsApi";
-import useRouterInfo from "../../utils/useRouterInfo";
-import withAuth from "../../utils/withAuth";
+import PageTitle from "components/PageTitle";
+import ProfilePage from "components/ProfilePage/ProfilePage";
+import { useAppSelector } from "store/hooks";
+import { useGetUserQuery } from "store/postsApi";
+import useRouterInfo from "utils/useRouterInfo";
+import withAuth from "utils/withAuth";
 
 const ProfileById = () => {
   const { isLoggedIn } = useAppSelector((state) => state.auth);
+  const { id } = useAppSelector((state) => state.user);
 
+  const router = useRouter();
   const { userId } = useRouterInfo();
 
   const user = useGetUserQuery(userId!, {
     skip: !userId || !isLoggedIn,
   });
+
+  if (userId === id) router.push("/profile/me");
 
   return (
     <>

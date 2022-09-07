@@ -1,10 +1,7 @@
 import React, { RefObject } from "react";
 
-import {
-  setCommentInput,
-  setMentionListOpen,
-} from "../../../../../store/commentFormSlice";
-import { useAppDispatch, useAppSelector } from "../../../../../store/hooks";
+import { setCommentInput, setMentionListOpen } from "store/commentFormSlice";
+import { useAppDispatch, useAppSelector } from "store/hooks";
 
 import styles from "./CommentForm.module.scss";
 

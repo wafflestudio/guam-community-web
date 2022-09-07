@@ -1,4 +1,5 @@
-import { useAppSelector } from "../../../../store/hooks";
+import { useAppSelector } from "store/hooks";
+import { usePostBlockMutation } from "store/postsApi";
 
 import styles from "./UserBlockModal.module.scss";
 
@@ -11,6 +12,15 @@ export default function UserBlockModal({
   };
 }) {
   const { user } = useAppSelector((state) => state.modals.userBlockModal);
+
+  const [postBlock, { error }] = usePostBlockMutation();
+
+  const onBlock = async () => {
+    if (user?.id) {
+      await postBlock(user?.id);
+      closeModal();
+    }
+  };
 
   return (
     <div className={"modal-wrapper"} onClick={closeModal}>
@@ -32,7 +42,10 @@ export default function UserBlockModal({
           차단계정 관리는 프로필&gt; 계정 설정&gt; 차단 목록 관리 탭에서 확인
           가능합니다
         </div>
-        <button className={`${styles["typo5-regular"]} ${styles.block}`}>
+        <button
+          onClick={onBlock}
+          className={`${styles["typo5-regular"]} ${styles.block}`}
+        >
           차단하기
         </button>
         <hr className={styles.title} />

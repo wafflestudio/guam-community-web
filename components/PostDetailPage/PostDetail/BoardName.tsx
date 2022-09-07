@@ -1,6 +1,6 @@
-import { boardList, categoryList } from "../../../constants/constants";
-import { useGetPostDetailQuery } from "../../../store/postsApi";
-import useRouterInfo from "../../../utils/useRouterInfo";
+import { boardList, categoryList } from "constants/constants";
+import { useGetPostDetailQuery } from "store/postsApi";
+import useRouterInfo from "utils/useRouterInfo";
 
 import styles from "./BoardName.module.scss";
 

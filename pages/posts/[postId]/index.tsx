@@ -1,13 +1,13 @@
 import { useRouter } from "next/router";
-import { Fragment, useEffect } from "react";
+import { Fragment } from "react";
 
-import PageTitle from "../../../components/PageTitle";
-import PostDetailPage from "../../../components/PostDetailPage/PostDetailPage";
-import { useAppDispatch, useAppSelector } from "../../../store/hooks";
-import { useGetPostDetailQuery } from "../../../store/postsApi";
-import { setToast } from "../../../store/toastSlice";
-import useRouterInfo from "../../../utils/useRouterInfo";
-import withAuth from "../../../utils/withAuth";
+import PageTitle from "components/PageTitle";
+import PostDetailPage from "components/PostDetailPage/PostDetailPage";
+import { useAppDispatch, useAppSelector } from "store/hooks";
+import { useGetPostDetailQuery } from "store/postsApi";
+import { setToast } from "store/toastSlice";
+import useRouterInfo from "utils/useRouterInfo";
+import withAuth from "utils/withAuth";
 
 const DetailedPostPage = () => {
   const { isLoggedIn } = useAppSelector((state) => state.auth);
@@ -20,12 +20,10 @@ const DetailedPostPage = () => {
     skip: !isLoggedIn || !postId,
   });
 
-  useEffect(() => {
-    if (error) {
-      dispatch(setToast("게시글을 받아오는데 실패했습니다"));
-      router.push("/");
-    }
-  }, [error]);
+  if (error) {
+    dispatch(setToast("게시글을 받아오는데 실패했습니다"));
+    router.push("/");
+  }
 
   return (
     <Fragment key={postId}>

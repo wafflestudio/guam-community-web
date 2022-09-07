@@ -1,10 +1,10 @@
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 
-import SearchIcon from "../../../assets/icons/search.svg";
-import { useAppDispatch } from "../../../store/hooks";
-import { setToast } from "../../../store/toastSlice";
-import useRouterInfo from "../../../utils/useRouterInfo";
+import SearchIcon from "assets/icons/search.svg";
+import { useAppDispatch } from "store/hooks";
+import { setToast } from "store/toastSlice";
+import useRouterInfo from "utils/useRouterInfo";
 
 import styles from "./SearchBar.module.scss";
 
@@ -28,7 +28,7 @@ export default function SearchBar() {
   const onSearch: React.ChangeEventHandler<HTMLFormElement> = (e) => {
     e.preventDefault();
 
-    if (searchInput.length < 2)
+    if (searchInput.trim().length < 2)
       return dispatch(setToast("검색은 두 글자 이상"));
     router.push(`/search?keyword=${searchInput.trim()}`);
   };

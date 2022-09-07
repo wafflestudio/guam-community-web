@@ -1,9 +1,9 @@
 import { useRef } from "react";
 
-import EmptyIcon from "../../assets/icons/empty.svg";
-import { useAppSelector } from "../../store/hooks";
-import { postsApi } from "../../store/postsApi";
-import useRouterInfo from "../../utils/useRouterInfo";
+import EmptyIcon from "assets/icons/empty.svg";
+import { useAppSelector } from "store/hooks";
+import { postsApi } from "store/postsApi";
+import useRouterInfo from "utils/useRouterInfo";
 
 import MessageForm from "./MessageForm";
 import MessagesList from "./MessagesList";

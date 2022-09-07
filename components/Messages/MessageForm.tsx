@@ -7,10 +7,10 @@ import {
   useState,
 } from "react";
 
-import CameraIcon from "../../assets/icons/camera.svg";
-import { usePostLetterMutation } from "../../store/postsApi";
-import { IImageUrl } from "../../types/types";
-import useRouterInfo from "../../utils/useRouterInfo";
+import CameraIcon from "assets/icons/camera.svg";
+import { usePostLetterMutation } from "store/postsApi";
+import { IImageUrl } from "types/types";
+import useRouterInfo from "utils/useRouterInfo";
 
 import MessageImages from "./MessageImages";
 

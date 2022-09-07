@@ -1,8 +1,7 @@
-import WriteIcon from "../../assets/icons/write/button.svg";
-import { useAppDispatch } from "../../store/hooks";
-import { setPostFormModal } from "../../store/modalSlice";
-
-import styles from "./PostWriteButton.module.scss";
+import WriteIcon from "assets/icons/write/button.svg";
+import { useAppDispatch } from "store/hooks";
+import { setPostFormModal } from "store/modalSlice";
+import styles from "styles/PostWriteButton.module.scss";
 
 export default function PostWriteButton({
   postDetailPage,
