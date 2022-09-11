@@ -2,8 +2,8 @@ import { GetServerSidePropsContext, InferGetServerSidePropsType } from "next";
 
 import axios from "axios";
 
+import PostsPage from "components/pages/posts/PostsPage";
 import PageTitle from "components/PageTitle";
-import PostsPage from "components/PostsPage/PostsPage";
 import { useAppSelector } from "store/hooks";
 import { useGetAllPostsQuery } from "store/postsApi";
 

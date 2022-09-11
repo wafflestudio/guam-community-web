@@ -1,8 +1,8 @@
 import { useRouter } from "next/router";
 import { Fragment } from "react";
 
+import PostDetailPage from "components/pages/postDetail/PostDetailPage";
 import PageTitle from "components/PageTitle";
-import PostDetailPage from "components/PostDetailPage/PostDetailPage";
 import { useAppDispatch, useAppSelector } from "store/hooks";
 import { useGetPostDetailQuery } from "store/postsApi";
 import { setToast } from "store/toastSlice";

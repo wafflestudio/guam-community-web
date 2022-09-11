@@ -1,0 +1,188 @@
+@use "../assets/colors/colors";
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@700&display=swap");
+@import "../assets/fonts/typography_medium";
+@import "../assets/fonts/typography_regular";
+
+.wrapper {
+  height: 100vh;
+  width: 100vw;
+  display: flex;
+  position: fixed;
+  top: 0;
+  left: 0;
+
+  .introduction {
+    width: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: colors.$grayscale-white;
+
+    .logo {
+      display: flex;
+      height: 143px;
+      align-items: center;
+
+      img {
+        width: 107px;
+        height: 107px;
+      }
+
+      .guam {
+        width: 322px;
+        height: 143px;
+        text-align: right;
+        color: colors.$purple-dark1;
+      }
+    }
+
+    .description {
+      font-weight: 500;
+      font-size: 28px;
+      color: colors.$grayscale-gray4;
+      margin-top: 8px;
+    }
+  }
+
+  .background {
+    width: 50%;
+    background: white;
+
+    .login {
+      width: 100%;
+      height: 100%;
+      background: rgba(105, 81, 255, 0.8);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+
+      .buttonList {
+        width: 412px;
+        height: 349px;
+        background: colors.$grayscale-white;
+        box-shadow: 0px 5px 10px 10px rgba(0, 0, 0, 0.05);
+        border-radius: 8px;
+        padding: 68px 74px;
+
+        button {
+          width: 264px;
+          height: 56px;
+          margin-bottom: 23px;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          font-weight: 500;
+          gap: 8px;
+          border-radius: 10px;
+          border: 1px solid colors.$grayscale-gray6;
+          font-family: "Noto Sans KR";
+          font-style: normal;
+          font-weight: 500;
+          font-size: 16px;
+          line-height: 26px;
+
+          &.kakaoLogin {
+            background: #ffcd00;
+          }
+
+          &.toHome {
+            background: colors.$purple-core;
+            color: colors.$grayscale-white;
+            position: relative;
+
+            svg {
+              position: absolute;
+              right: 16px;
+
+              path {
+                fill: colors.$grayscale-white;
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+.setNicknameContainer {
+  width: 100vw;
+  height: 100vh;
+  background: #e5e5e5;
+  position: fixed;
+  top: 0;
+  left: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  .setNickname {
+    width: 455px;
+    height: 511px;
+    background: colors.$grayscale-white;
+    border-radius: 5px;
+    padding: 64px;
+
+    svg {
+      margin: 4.67px;
+    }
+
+    .greetings {
+      margin-top: 12px;
+      margin-bottom: 24px;
+    }
+
+    .instructions {
+      color: colors.$grayscale-gray3;
+      margin-bottom: 12px;
+    }
+
+    .nicknameInput {
+      height: 79px;
+
+      input {
+        width: 327px;
+        height: 52px;
+        border: none;
+        border-bottom: 1px solid colors.$grayscale-gray5;
+        padding: 13px;
+
+        &::placeholder {
+          color: colors.$grayscale-gray4;
+        }
+
+        &.filled {
+          border-bottom: 1px solid colors.$grayscale-gray1;
+        }
+
+        &:focus {
+          border-bottom: 1px solid colors.$purple-core;
+        }
+
+        &.duplicate {
+          border-bottom: 1px solid colors.$red-core;
+        }
+      }
+
+      div {
+        color: colors.$red-core;
+        margin-top: 4px;
+      }
+    }
+
+    .submit {
+      margin-top: 33px;
+      width: 327px;
+      height: 56px;
+      border-radius: 16px;
+      font-weight: 500;
+      background: colors.$purple-core;
+      color: colors.$grayscale-white;
+
+      &:disabled {
+        background: colors.$grayscale-gray7;
+        cursor: default;
+      }
+    }
+  }
+}

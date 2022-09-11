@@ -1,8 +1,8 @@
 import { useRouter } from "next/router";
 import React from "react";
 
+import ProfilePage from "components/pages/profile/ProfilePage";
 import PageTitle from "components/PageTitle";
-import ProfilePage from "components/ProfilePage/ProfilePage";
 import { useAppSelector } from "store/hooks";
 import { useGetUserQuery } from "store/postsApi";
 import useRouterInfo from "utils/useRouterInfo";

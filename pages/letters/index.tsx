@@ -1,4 +1,4 @@
-import MessagesPage from "components/Messages/MessagesPage";
+import MessagesPage from "components/pages/letters/MessagesPage";
 import PageTitle from "components/PageTitle";
 import { useAppSelector } from "store/hooks";
 import { useGetLettersQuery } from "store/postsApi";

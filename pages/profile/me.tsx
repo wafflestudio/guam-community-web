@@ -1,6 +1,6 @@
 import SignOutButton from "components/Buttons/SignOutButton";
+import SetProfilePage from "components/pages/setProfile/SetProfilePage";
 import PageTitle from "components/PageTitle";
-import SetProfilePage from "components/SetProfilePage/SetProfilePage";
 import withAuth from "utils/withAuth";
 
 const SetProfile = () => {

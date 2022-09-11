@@ -9,9 +9,8 @@ import RightIcon from "assets/icons/right.svg";
 import { useAppDispatch } from "store/hooks";
 import { setToast } from "store/toastSlice";
 import { setUserState } from "store/userSlice";
+import styles from "styles/SignIn.module.scss";
 import { getFirebaseIdToken } from "utils/firebaseUtils";
-
-import styles from "./SignIn.module.scss";
 
 export default function SignIn() {
   const dispatch = useAppDispatch();

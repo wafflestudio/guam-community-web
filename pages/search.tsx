@@ -1,5 +1,5 @@
+import PostsPage from "components/pages/posts/PostsPage";
 import PageTitle from "components/PageTitle";
-import PostsPage from "components/PostsPage/PostsPage";
 import { useAppSelector } from "store/hooks";
 import { useGetSearchCountQuery, useGetSearchPostsQuery } from "store/postsApi";
 import useRouterInfo from "utils/useRouterInfo";

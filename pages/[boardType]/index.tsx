@@ -1,5 +1,5 @@
+import PostsPage from "components/pages/posts/PostsPage";
 import PageTitle from "components/PageTitle";
-import PostsPage from "components/PostsPage/PostsPage";
 import { boardList } from "constants/constants";
 import { useAppSelector } from "store/hooks";
 import { useGetPostsByBoardQuery } from "store/postsApi";

@@ -14,15 +14,14 @@ import HRIcon from "assets/icons/board/hr.svg";
 import InfoActiveIcon from "assets/icons/board/info-active.svg";
 import InfoIcon from "assets/icons/board/info.svg";
 import { AD, ANONYMOUS, CAREER, FREE, INFORMATION } from "constants/constants";
-
-import styles from "./PostsBoard.module.scss";
+import styles from "styles/Side.module.scss";
 
 export default function PostsBoard() {
   const router = useRouter();
   const isSelected = (route: string) => router.query.boardType === route;
 
   return (
-    <div className={styles.container}>
+    <div className={styles.postsBoard}>
       <div className={`${styles["typo5-medium"]} ${styles.title}`}>게시판</div>
       <hr />
       <nav>
