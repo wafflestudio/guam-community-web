@@ -1,7 +1,7 @@
 @use "../assets/colors/colors";
 @import "../assets/fonts/typography_medium";
 @import "../assets/fonts/typography_regular";
-@import "../assets//fonts/typography_poppins";
+@import "../assets/fonts/typography_poppins";
 
 html,
 body {
@@ -13,7 +13,12 @@ body {
   width: 100vw;
 }
 
-h1 {
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
   margin: 0;
 }
 
@@ -61,6 +66,20 @@ input {
 
 .customPlaceholder {
   color: colors.$grayscale-gray5;
+}
+
+.image-wrapper {
+  overflow: hidden;
+  display: flex;
+  border-radius: 50%;
+  justify-content: center;
+  align-items: center;
+
+  img {
+    object-fit: cover;
+    min-width: 100%;
+    min-height: 100%;
+  }
 }
 
 .modal-wrapper {

@@ -22,10 +22,10 @@ const ProfileById = () => {
   if (userId === id) router.push("/profile/me");
 
   return (
-    <>
+    <React.Fragment key={userId}>
       <PageTitle title={`${user.data?.nickname}`} />
       <ProfilePage />
-    </>
+    </React.Fragment>
   );
 };
 

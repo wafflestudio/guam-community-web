@@ -7,6 +7,7 @@ import { useRouter } from "next/router";
 import React, { useEffect } from "react";
 import { useDispatch } from "react-redux";
 
+import Footer from "components/Footer/Footer";
 import Layout from "components/layout";
 import Modal from "components/Portal/Modal/Modal";
 import Toast from "components/Portal/Toast/Toast";
@@ -53,6 +54,7 @@ function App({ Component, pageProps }: AppProps) {
       <Component {...pageProps} />
       <Toast />
       <Modal />
+      <Footer />
     </Layout>
   );
 }

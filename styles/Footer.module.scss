@@ -1,0 +1,22 @@
+@use "../assets/colors/colors";
+
+.container {
+  width: 1128px;
+  margin: auto;
+
+  hr {
+    border: none;
+    border-top: 1px solid colors.$grayscale-gray6;
+  }
+
+  .text {
+    display: flex;
+    justify-content: space-between;
+    color: colors.$grayscale-gray4;
+
+    .links {
+      display: flex;
+      gap: 12px;
+    }
+  }
+}
