@@ -1,7 +1,7 @@
 import React from "react";
 
-import MessagesPage from "../../components/Messages/MessagesPage";
-import PageTitle from "../../components/PageTitle";
+import MessagesPage from "components/pages/letters/MessagesPage";
+import PageTitle from "components/PageTitle";
 
 const PairMessage = () => {
   return (

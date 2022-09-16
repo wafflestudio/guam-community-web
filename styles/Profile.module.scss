@@ -1,0 +1,28 @@
+.container {
+  width: 264px;
+  margin-bottom: 24px;
+
+  .profileImage {
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    margin-left: 16px;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    img {
+      object-fit: cover;
+      min-height: 56px;
+      min-width: 56px;
+    }
+  }
+
+  .nickname {
+    position: absolute;
+    left: 96px;
+    top: 13px;
+    font-weight: 500;
+  }
+}

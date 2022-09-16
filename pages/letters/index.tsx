@@ -1,8 +1,8 @@
-import MessagesPage from "../../components/Messages/MessagesPage";
-import PageTitle from "../../components/PageTitle";
-import { useAppSelector } from "../../store/hooks";
-import { useGetLettersQuery } from "../../store/postsApi";
-import withAuth from "../../utils/withAuth";
+import MessagesPage from "components/pages/letters/MessagesPage";
+import PageTitle from "components/PageTitle";
+import { useAppSelector } from "store/hooks";
+import { useGetLettersQuery } from "store/postsApi";
+import withAuth from "utils/withAuth";
 
 const Messages = () => {
   const { isLoggedIn } = useAppSelector((state) => state.auth);
@@ -15,7 +15,11 @@ const Messages = () => {
   return (
     <>
       <PageTitle title="Messages" />
-      {error ? <>error</> : isLoading ? <img src="/loading.webp" /> : null}
+      {error ? (
+        <>error</>
+      ) : isLoading ? (
+        <img src="/loading.webp" alt="로딩중" />
+      ) : null}
       <MessagesPage />
     </>
   );

@@ -1,7 +1,7 @@
 import React from "react";
 
-import { useAppDispatch, useAppSelector } from "../../../store/hooks";
-import { ModalType, resetModals } from "../../../store/modalSlice";
+import { useAppDispatch, useAppSelector } from "store/hooks";
+import { ModalType, resetModals } from "store/modalSlice";
 
 import DeleteConfirmModal from "./DeleteConfirmModal/DeleteConfirmModal";
 import ImageExtendModal from "./ImageExtendModal/ImageExtendModal";

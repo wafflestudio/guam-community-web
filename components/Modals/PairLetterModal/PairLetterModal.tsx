@@ -1,15 +1,12 @@
 import { useRouter } from "next/router";
 import { Dispatch, SetStateAction, useRef } from "react";
 
-import { useAppDispatch } from "../../../store/hooks";
-import {
-  setUserBlockModal,
-  setUserReportModal,
-} from "../../../store/modalSlice";
-import { useDeleteLetterBoxMutation } from "../../../store/postsApi";
-import { IUser } from "../../../types/types";
-import { useModalRef } from "../../../utils/useModalRef";
-import styles from "../../Messages/Messages.module.scss";
+import { useAppDispatch } from "store/hooks";
+import { setUserBlockModal, setUserReportModal } from "store/modalSlice";
+import { useDeleteLetterBoxMutation } from "store/postsApi";
+import styles from "styles/Messages.module.scss";
+import { IUser } from "types/types";
+import { useModalRef } from "utils/useModalRef";
 
 const PairLetterModal = ({
   pair,

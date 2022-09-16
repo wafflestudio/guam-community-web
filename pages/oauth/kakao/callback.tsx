@@ -9,9 +9,9 @@ import { useRouter } from "next/router";
 import qs from "qs";
 import { useEffect } from "react";
 
-import { useAppDispatch } from "../../../store/hooks";
-import { setUserState } from "../../../store/userSlice";
-import { getFirebaseIdToken } from "../../../utils/firebaseUtils";
+import { useAppDispatch } from "store/hooks";
+import { setUserState } from "store/userSlice";
+import { getFirebaseIdToken } from "utils/firebaseUtils";
 
 export default function Auth() {
   const dispatch = useAppDispatch();

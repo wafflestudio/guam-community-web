@@ -2,10 +2,10 @@ import { GetServerSidePropsContext, InferGetServerSidePropsType } from "next";
 
 import axios from "axios";
 
-import PageTitle from "../components/PageTitle";
-import PostsPage from "../components/PostsPage/PostsPage";
-import { useAppSelector } from "../store/hooks";
-import { useGetAllPostsQuery } from "../store/postsApi";
+import PostsPage from "components/pages/posts/PostsPage";
+import PageTitle from "components/PageTitle";
+import { useAppSelector } from "store/hooks";
+import { useGetAllPostsQuery } from "store/postsApi";
 
 const Home = (
   props: InferGetServerSidePropsType<typeof getServerSideProps>

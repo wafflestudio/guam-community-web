@@ -1,7 +1,7 @@
 import React from "react";
 
-import WarningIcon from "../../../assets/icons/warning.svg";
-import { useAppSelector } from "../../../store/hooks";
+import WarningIcon from "assets/icons/warning.svg";
+import { useAppSelector } from "store/hooks";
 
 import ToastPortal from "./ToastPortal";
 

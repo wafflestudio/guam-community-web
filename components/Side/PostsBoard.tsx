@@ -1,34 +1,27 @@
 import Link from "next/link";
 import { useRouter } from "next/router";
 
-import AdActiveIcon from "../../assets/icons/board/ad-active.svg";
-import AdIcon from "../../assets/icons/board/ad.svg";
-import AnonymousActiveIcon from "../../assets/icons/board/anonymous-active.svg";
-import AnonymousIcon from "../../assets/icons/board/anonymous.svg";
-import FeedActiveIcon from "../../assets/icons/board/feed-active.svg";
-import FeedIcon from "../../assets/icons/board/feed.svg";
-import FreeActiveIcon from "../../assets/icons/board/free-active.svg";
-import FreeIcon from "../../assets/icons/board/free.svg";
-import HRActiveIcon from "../../assets/icons/board/hr-active.svg";
-import HRIcon from "../../assets/icons/board/hr.svg";
-import InfoActiveIcon from "../../assets/icons/board/info-active.svg";
-import InfoIcon from "../../assets/icons/board/info.svg";
-import {
-  AD,
-  ANONYMOUS,
-  CAREER,
-  FREE,
-  INFORMATION,
-} from "../../constants/constants";
-
-import styles from "./PostsBoard.module.scss";
+import AdActiveIcon from "assets/icons/board/ad-active.svg";
+import AdIcon from "assets/icons/board/ad.svg";
+import AnonymousActiveIcon from "assets/icons/board/anonymous-active.svg";
+import AnonymousIcon from "assets/icons/board/anonymous.svg";
+import FeedActiveIcon from "assets/icons/board/feed-active.svg";
+import FeedIcon from "assets/icons/board/feed.svg";
+import FreeActiveIcon from "assets/icons/board/free-active.svg";
+import FreeIcon from "assets/icons/board/free.svg";
+import HRActiveIcon from "assets/icons/board/hr-active.svg";
+import HRIcon from "assets/icons/board/hr.svg";
+import InfoActiveIcon from "assets/icons/board/info-active.svg";
+import InfoIcon from "assets/icons/board/info.svg";
+import { AD, ANONYMOUS, CAREER, FREE, INFORMATION } from "constants/constants";
+import styles from "styles/Side.module.scss";
 
 export default function PostsBoard() {
   const router = useRouter();
   const isSelected = (route: string) => router.query.boardType === route;
 
   return (
-    <div className={styles.container}>
+    <div className={styles.postsBoard}>
       <div className={`${styles["typo5-medium"]} ${styles.title}`}>게시판</div>
       <hr />
       <nav>

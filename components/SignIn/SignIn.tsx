@@ -3,16 +3,14 @@ import { getAuth, GoogleAuthProvider, signInWithPopup } from "firebase/auth";
 import Link from "next/link";
 import { useRouter } from "next/router";
 
-import GoogleIcon from "../../assets/icons/logo/google.svg";
-import KaKaoIcon from "../../assets/icons/logo/kakao.svg";
-import RightIcon from "../../assets/icons/right.svg";
-import { signIn } from "../../store/authSlice";
-import { useAppDispatch } from "../../store/hooks";
-import { setToast } from "../../store/toastSlice";
-import { setUserState } from "../../store/userSlice";
-import { getFirebaseIdToken } from "../../utils/firebaseUtils";
-
-import styles from "./SignIn.module.scss";
+import GoogleIcon from "assets/icons/logo/google.svg";
+import KaKaoIcon from "assets/icons/logo/kakao.svg";
+import RightIcon from "assets/icons/right.svg";
+import { useAppDispatch } from "store/hooks";
+import { setToast } from "store/toastSlice";
+import { setUserState } from "store/userSlice";
+import styles from "styles/SignIn.module.scss";
+import { getFirebaseIdToken } from "utils/firebaseUtils";
 
 export default function SignIn() {
   const dispatch = useAppDispatch();

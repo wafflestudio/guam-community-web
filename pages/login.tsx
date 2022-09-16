@@ -1,5 +1,5 @@
-import PageTitle from "../components/PageTitle";
-import SignIn from "../components/SignIn/SignIn";
+import PageTitle from "components/PageTitle";
+import SignIn from "components/SignIn/SignIn";
 
 const Login = () => {
   return (

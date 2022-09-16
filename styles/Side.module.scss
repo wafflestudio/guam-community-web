@@ -1,0 +1,108 @@
+@use "../assets/colors/colors";
+@import "../assets/fonts/typography_medium";
+
+.container {
+  display: inline-block;
+  position: absolute;
+
+  .signInUp {
+    height: 56px;
+    width: 264px;
+    border-radius: 10px;
+    background: colors.$purple-core;
+    border: 1px solid colors.$grayscale-gray6;
+    margin-bottom: 24px;
+
+    .text {
+      font-weight: 500;
+      color: colors.$grayscale-white;
+      position: absolute;
+      top: 15px;
+      left: 77px;
+    }
+  }
+
+  .postsBoard {
+    width: 264px;
+    height: 298px;
+    background: colors.$grayscale-white;
+    position: absolute;
+
+    .title {
+      font-weight: 500;
+      position: absolute;
+      left: 24px;
+      top: 24px;
+    }
+
+    hr {
+      width: 216px;
+      height: 0;
+      border: none;
+      border-top: 1px solid;
+      margin: 0;
+      position: absolute;
+      left: 24px;
+      top: 58px;
+      color: colors.$grayscale-gray7;
+    }
+
+    nav {
+      ul {
+        li {
+          button.listItem {
+            svg {
+              position: absolute;
+              left: 24px;
+            }
+
+            span {
+              position: absolute;
+              left: 52px;
+              height: 23px;
+              color: colors.$grayscale-gray4;
+              display: flex;
+              align-items: flex-end;
+              line-height: 21px;
+            }
+
+            &.all svg,
+            &.all span {
+              top: 70px;
+            }
+
+            &.free svg,
+            &.free span {
+              top: 106px;
+            }
+
+            &.anonymous svg,
+            &.anonymous span {
+              top: 142px;
+            }
+
+            &.info svg,
+            &.info span {
+              top: 178px;
+            }
+
+            &.career svg,
+            &.career span {
+              top: 214px;
+            }
+
+            &.ad svg,
+            &.ad span {
+              top: 250px;
+            }
+
+            &.isSelected span {
+              color: colors.$purple-dark1;
+              font-weight: 500;
+            }
+          }
+        }
+      }
+    }
+  }
+}

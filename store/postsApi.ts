@@ -36,6 +36,10 @@ interface IPostComment {
   imageFilePaths: string[];
 }
 
+interface PostBlockQuery {
+  blockUserId: number;
+}
+
 export const postsApi = createApi({
   reducerPath: "posts",
   baseQuery: fetchBaseQuery({
@@ -61,6 +65,7 @@ export const postsApi = createApi({
     "Letters",
     "Push List",
     "User",
+    "Block List",
   ],
   endpoints: (build) => ({
     getAllPosts: build.query<IPostsData, number>({
@@ -273,6 +278,27 @@ export const postsApi = createApi({
       query: (id) => ({ url: `users/${id}`, method: "GET" }),
       providesTags: (result) => [{ type: "User", userId: result?.id }],
     }),
+
+    getBlocks: build.query({
+      query: () => ({ url: "blocks", method: "GET" }),
+      providesTags: [{ type: "Block List" }],
+    }),
+    postBlock: build.mutation({
+      query: (blockUserId: number) => ({
+        url: "blocks",
+        method: "POST",
+        body: { blockUserId },
+      }),
+      invalidatesTags: [{ type: "Block List" }],
+    }),
+    deleteBlock: build.mutation({
+      query: (blockUserId: number) => ({
+        url: "blocks",
+        method: "DELETE",
+        body: { blockUserId },
+      }),
+      invalidatesTags: [{ type: "Block List" }],
+    }),
   }),
 });
 
@@ -299,6 +325,9 @@ export const {
   useGetPushListQuery,
   usePostPushReadMutation,
   useGetUserQuery,
+  useGetBlocksQuery,
+  usePostBlockMutation,
+  useDeleteBlockMutation,
   util: { getRunningOperationPromises },
 } = postsApi;
 

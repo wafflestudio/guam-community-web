@@ -1,4 +1,4 @@
-import SetNickname from "../../components/SignIn/SetNickname";
+import SetNickname from "components/SignIn/SetNickname";
 
 const SetNicknamePage = () => {
   return <SetNickname />;

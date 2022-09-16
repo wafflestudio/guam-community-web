@@ -1,9 +1,9 @@
 import { useRouter } from "next/router";
 import React from "react";
 
-import { useAppDispatch, useAppSelector } from "../../../../store/hooks";
-import { useDeletePostMutation } from "../../../../store/postsApi";
-import { setToast } from "../../../../store/toastSlice";
+import { useAppDispatch, useAppSelector } from "store/hooks";
+import { useDeletePostMutation } from "store/postsApi";
+import { setToast } from "store/toastSlice";
 
 import styles from "./DeleteConfirmModal.module.scss";
 
