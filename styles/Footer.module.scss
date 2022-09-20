@@ -2,7 +2,7 @@
 
 .container {
   width: 1128px;
-  margin: auto;
+  margin: 50px auto;
 
   hr {
     border: none;
@@ -17,6 +17,17 @@
     .links {
       display: flex;
       gap: 12px;
+    }
+  }
+
+  .downloadButtons {
+    margin-top: 20px;
+    display: flex;
+    gap: 15px;
+    align-items: center;
+
+    img {
+      width: 150px;
     }
   }
 }

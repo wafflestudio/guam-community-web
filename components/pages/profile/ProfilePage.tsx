@@ -3,6 +3,7 @@ import React from "react";
 
 import BlogIcon from "assets/icons/blog/gray.svg";
 import GithubIcon from "assets/icons/github/gray.svg";
+import MessageIcon from "assets/icons/message/default_20.svg";
 import SettingIcon from "assets/icons/setting.svg";
 import { useAppSelector } from "store/hooks";
 import { useGetUserQuery } from "store/postsApi";
@@ -11,6 +12,7 @@ import useRouterInfo from "utils/useRouterInfo";
 
 const ProfilePage = () => {
   const { isLoggedIn } = useAppSelector((state) => state.auth);
+  const { id } = useAppSelector((state) => state.user);
 
   const { userId } = useRouterInfo();
 
@@ -34,7 +36,7 @@ const ProfilePage = () => {
         <div className={styles.summary}>
           <div className={styles.nickname}>
             <h1 className={"typo8-medium"}>{user?.nickname}</h1>
-            <Link href={"/profile/set"}>
+            <Link href={"/profile/setting"}>
               <a className="typo2-regular">프로필 수정</a>
             </Link>
           </div>
@@ -54,14 +56,25 @@ const ProfilePage = () => {
               </a>
             ) : null}
           </div>
-          <Link href={"/profile/set"}>
-            <a className={styles.settingLink + " typo2-regular"}>
-              <button className={styles.setting + " typo3-medium"}>
-                <SettingIcon />
-                설정
-              </button>
-            </a>
-          </Link>
+          {user && user.id !== id ? (
+            <Link href={`/letters/${user.id}`}>
+              <a className={styles.messageLink + " typo2-regular"}>
+                <button className={styles.setting + " typo3-medium"}>
+                  <MessageIcon />
+                  쪽지 보내기
+                </button>
+              </a>
+            </Link>
+          ) : (
+            <Link href={"/profile/set"}>
+              <a className={styles.settingLink + " typo2-regular"}>
+                <button className={styles.setting + " typo3-medium"}>
+                  <SettingIcon />
+                  설정
+                </button>
+              </a>
+            </Link>
+          )}
         </div>
       </div>
       <div className={styles.introduction}>
