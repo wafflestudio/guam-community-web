@@ -21,12 +21,12 @@ const Footer = () => {
       <div className={styles.downloadButtons}>
         <a href="" target={"_blank"}>
           <img
-            src="google-play-badge.png"
+            src="/google-play-badge.png"
             alt="구글 플레이 스토어에서 다운로드받기"
           />
         </a>
         <a href="" target={"_blank"}>
-          <img src="app-store-badge.svg" alt="앱스토어에서 다운로드받기" />
+          <img src="/app-store-badge.svg" alt="앱스토어에서 다운로드받기" />
         </a>
       </div>
     </div>
