@@ -4,7 +4,7 @@ import { getAuth } from "firebase/auth";
 import firebase from "firebase/compat/app";
 import type { AppProps } from "next/app";
 import { useRouter } from "next/router";
-import React, { useEffect } from "react";
+import React from "react";
 import { useDispatch } from "react-redux";
 
 import Layout from "components/layout";
@@ -22,7 +22,7 @@ function App({ Component, pageProps }: AppProps) {
 
   firebase.initializeApp(firebaseConfig);
 
-  useEffect(() => {
+  if (router.isReady) {
     getAuth().onAuthStateChanged(async (user) => {
       if (user) {
         const token = await getFirebaseIdToken();
@@ -46,7 +46,7 @@ function App({ Component, pageProps }: AppProps) {
         dispatch(removeUserState());
       }
     });
-  }, [router.isReady]);
+  }
 
   return (
     <Layout>

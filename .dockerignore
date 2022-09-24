@@ -4,3 +4,5 @@
 .dockerignore
 Dockerfile
 node_modules/  
+docker-compose.yml
+nginx/
