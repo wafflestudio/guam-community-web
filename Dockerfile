@@ -1,6 +1,6 @@
 FROM node:alpine
 
-WORKDIR /guam-community-web-dev
+WORKDIR /guam-community-web
 
 COPY package.json ./
 COPY yarn.lock ./
