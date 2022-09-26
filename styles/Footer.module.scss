@@ -1,0 +1,33 @@
+@use "../assets/colors/colors";
+
+.container {
+  width: 1128px;
+  margin: 50px auto;
+
+  hr {
+    border: none;
+    border-top: 1px solid colors.$grayscale-gray6;
+  }
+
+  .text {
+    display: flex;
+    justify-content: space-between;
+    color: colors.$grayscale-gray4;
+
+    .links {
+      display: flex;
+      gap: 12px;
+    }
+  }
+
+  .downloadButtons {
+    margin-top: 20px;
+    display: flex;
+    gap: 15px;
+    align-items: center;
+
+    img {
+      width: 150px;
+    }
+  }
+}

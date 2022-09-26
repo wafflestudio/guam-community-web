@@ -1,74 +1,108 @@
 @use "../assets/colors/colors";
-@import "../assets/fonts/typography_medium";
-@import "../assets/fonts/typography_regular";
 
 .container {
-  width: 1133px;
+  width: 1128px;
+  height: 584px;
   margin: auto;
-  margin-top: 35px;
+  margin-top: 32px;
+  background: colors.$grayscale-white;
+  padding: 32px 64px;
 
-  .contentContainer {
-    margin-left: 293px;
-    width: 840px;
-    min-height: 452px;
-    background: colors.$grayscale-white;
-    padding: 33px;
-    position: relative;
+  .header {
+    display: flex;
+    gap: 32px;
 
-    .imageWrapper {
-      width: 226px;
-      height: 226px;
-      overflow: hidden;
-      border-radius: 50%;
+    .imageContainer {
+      width: 196px;
+      height: 196px;
+    }
+
+    .summary {
+      height: 116px;
+      margin-top: 63px;
       display: flex;
-      justify-content: center;
-      align-items: center;
+      flex-direction: column;
+      gap: 16px;
 
-      img {
-        object-fit: cover;
-        min-width: 226px;
-        min-height: 226px;
+      .nickname {
+        display: flex;
+        gap: 15px;
+        align-items: baseline;
+
+        h1 {
+          line-height: 28.8px;
+          color: colors.$grayscale-gray2;
+        }
+
+        a {
+          color: colors.$blue-core;
+          display: inline-block;
+        }
+      }
+
+      .links {
+        display: flex;
+        gap: 12px;
+      }
+
+      a.settingLink {
+        height: 31px;
+        width: 64px;
+      }
+
+      a.messageLink {
+        height: 31px;
+        width: 103px;
+      }
+
+      button.setting {
+        height: 100%;
+        width: 100%;
+        border-radius: 8px;
+        padding: 5px 10px 5px 6px;
+        background: colors.$purple-light3;
+        font-weight: 500;
+        color: colors.$purple-core;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 4px;
       }
     }
+  }
 
-    .nickname {
-      margin-top: 28px;
+  .introduction {
+    margin-top: 48px;
+
+    h2 {
+      color: colors.$grayscale-gray1;
     }
 
-    .introduction {
-      margin-top: 10px;
-      width: 303px;
-      word-break: break-all;
-      color: colors.$grayscale-gray3;
+    p {
+      margin: 12px 4px;
+      height: 90px;
+      color: colors.$grayscale-gray4;
+    }
+  }
+
+  .interests {
+    margin-top: 24px;
+
+    h2 {
+      color: colors.$grayscale-gray1;
     }
 
-    .github {
-      position: absolute;
-      top: 283px;
-      left: 608px;
-    }
+    div {
+      display: flex;
+      gap: 12px;
 
-    .blogUrl {
-      position: absolute;
-      top: 283px;
-      right: 51px;
-    }
-
-    .interestList {
-      position: absolute;
-      top: 332px;
-      right: 152px;
-      display: grid;
-      gap: 10px;
-      grid-template-columns: repeat(3, minmax(0, auto));
-
-      li {
-        width: fit-content;
-        height: 28px;
-        border-radius: 15px;
-        padding: 4px 10px;
+      button {
+        margin: 12px 4px;
         color: colors.$grayscale-gray4;
+        padding: 4px 10px;
         border: 1px solid colors.$grayscale-gray6;
+        border-radius: 15px;
+        line-height: 19px;
       }
     }
   }

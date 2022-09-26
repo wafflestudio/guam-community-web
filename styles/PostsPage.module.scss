@@ -10,8 +10,8 @@
 
   .writeAPostcontainer {
     height: 56px;
-    display: block;
-    position: absolute;
+    display: flex;
+    position: relative;
     left: 287px;
 
     .messageContainer {
@@ -22,7 +22,6 @@
       display: inline-grid;
       grid-auto-flow: column;
       align-items: center;
-      position: relative;
     }
 
     .buttonContainer {
@@ -72,9 +71,8 @@
 
   .listContainer {
     width: 841px;
-    position: absolute;
-    left: 287px;
-    top: 68px;
+    margin-left: 287px;
+    position: relative;
 
     img.loading {
       position: absolute;
