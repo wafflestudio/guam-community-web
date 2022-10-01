@@ -3,7 +3,7 @@
 
 .container {
   display: inline-block;
-  position: absolute;
+  position: relative;
 
   .signInUp {
     height: 56px;
@@ -26,7 +26,7 @@
     width: 264px;
     height: 298px;
     background: colors.$grayscale-white;
-    position: absolute;
+    position: relative;
 
     .title {
       font-weight: 500;

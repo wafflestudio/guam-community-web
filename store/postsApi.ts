@@ -40,6 +40,16 @@ interface PostBlockQuery {
   blockUserId: number;
 }
 
+interface ReportPostQuery {
+  postId: number;
+  reason: string;
+}
+
+interface ReportCommentQuery {
+  commentId: number;
+  reason: string;
+}
+
 export const postsApi = createApi({
   reducerPath: "posts",
   baseQuery: fetchBaseQuery({
@@ -299,6 +309,21 @@ export const postsApi = createApi({
       }),
       invalidatesTags: [{ type: "Block List" }],
     }),
+
+    reportPost: build.mutation({
+      query: (body: ReportPostQuery) => ({
+        url: "posts/report",
+        method: "POST",
+        body,
+      }),
+    }),
+    reportComment: build.mutation({
+      query: (body: ReportCommentQuery) => ({
+        url: "comments/report",
+        method: "POST",
+        body,
+      }),
+    }),
   }),
 });
 
@@ -328,6 +353,8 @@ export const {
   useGetBlocksQuery,
   usePostBlockMutation,
   useDeleteBlockMutation,
+  useReportPostMutation,
+  useReportCommentMutation,
   util: { getRunningOperationPromises },
 } = postsApi;
 

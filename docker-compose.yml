@@ -2,7 +2,9 @@ version: "3"
 services:
   nextjs:
     build: ./
+    image: sylvia204/guam-community-web-nextjs
   nginx:
     build: ./nginx
+    image: sylvia204/guam-community-web-nginx
     ports:
       - 80:80

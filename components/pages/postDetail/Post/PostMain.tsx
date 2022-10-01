@@ -2,6 +2,7 @@ import { useRouter } from "next/router";
 import { useState } from "react";
 
 import MoreIcon from "assets/icons/more.svg";
+import PostEngagementButton from "components/Buttons/PostEngagementButton";
 import MoreModal from "components/Modals/MoreModal/MoreModal";
 import PostModifyModal from "components/pages/postDetail/Post/PostModifyModal";
 import { useAppSelector } from "store/hooks";
@@ -30,9 +31,7 @@ export default function PostMain() {
 
   return (
     <div className={styles.postMain}>
-      <h1 className={`${styles["typo8-medium"]} ${styles.title}`}>
-        {post?.title}
-      </h1>
+      <h1 className={`typo8-medium ${styles.title}`}>{post?.title}</h1>
       <hr />
       <div className={`${styles.userInfo}`}>
         <div
@@ -51,7 +50,7 @@ export default function PostMain() {
           />
         </div>
         <div
-          className={`${styles["typo5-regular"]} ${styles.userNickname} ${
+          className={`typo5-regular ${styles.userNickname} ${
             post?.user.id !== 0 && post?.user.id !== undefined && styles.pointer
           }`}
           onClick={onProfileClick}
@@ -65,7 +64,7 @@ export default function PostMain() {
         {isLoading ? (
           <img className={styles.loading} src={"/loading.gif"} alt={"로딩중"} />
         ) : null}
-        <div className={`${styles["typo4-regular"]} ${styles.description}`}>
+        <div className={`typo4-regular ${styles.description}`}>
           {post?.content}
         </div>
       </div>
@@ -90,10 +89,14 @@ export default function PostMain() {
           </ul>
         </div>
       ) : null}
-      <div className={`${styles["typo1-regular"]} ${styles.createdAt}`}>
-        {post && relativeDate(post.createdAt)}
-      </div>
-
+      {post ? (
+        <div className={styles.bottom}>
+          <PostEngagementButton post={post} />
+          <div className={`typo1-regular ${styles.createdAt}`}>
+            {relativeDate(post.createdAt)}
+          </div>
+        </div>
+      ) : null}
       <div className={styles.more}>
         <button onClick={toggleMore}>
           <MoreIcon />

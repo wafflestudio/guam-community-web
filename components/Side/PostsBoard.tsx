@@ -22,7 +22,7 @@ export default function PostsBoard() {
 
   return (
     <div className={styles.postsBoard}>
-      <div className={`${styles["typo5-medium"]} ${styles.title}`}>게시판</div>
+      <div className={`typo5-medium ${styles.title}`}>게시판</div>
       <hr />
       <nav>
         <ul>
@@ -30,9 +30,7 @@ export default function PostsBoard() {
             <Link href={"/"}>
               <a>
                 <button
-                  className={`${styles["typo4-medium"]} ${styles.listItem} ${
-                    styles.all
-                  } ${
+                  className={`typo4-medium ${styles.listItem} ${styles.all} ${
                     (router.pathname === "/" ||
                       router.pathname === "/favorites") &&
                     styles.isSelected
@@ -48,9 +46,9 @@ export default function PostsBoard() {
             <Link href={`/${FREE}`}>
               <a>
                 <button
-                  className={`${styles["typo4-medium"]} ${styles.listItem} ${
-                    styles.free
-                  } ${isSelected(FREE) && styles.isSelected}`}
+                  className={`typo4-medium ${styles.listItem} ${styles.free} ${
+                    isSelected(FREE) && styles.isSelected
+                  }`}
                 >
                   {isSelected(FREE) ? <FreeActiveIcon /> : <FreeIcon />}
                   <span>자유 게시판</span>
@@ -62,7 +60,7 @@ export default function PostsBoard() {
             <Link href={`/${ANONYMOUS}`}>
               <a>
                 <button
-                  className={`${styles["typo4-medium"]} ${styles.listItem} ${
+                  className={`typo4-medium ${styles.listItem} ${
                     styles.anonymous
                   } ${isSelected(ANONYMOUS) && styles.isSelected}`}
                 >
@@ -80,9 +78,9 @@ export default function PostsBoard() {
             <Link href={`/${INFORMATION}`}>
               <a>
                 <button
-                  className={`${styles["typo4-medium"]} ${styles.listItem} ${
-                    styles.info
-                  } ${isSelected(INFORMATION) && styles.isSelected}`}
+                  className={`typo4-medium ${styles.listItem} ${styles.info} ${
+                    isSelected(INFORMATION) && styles.isSelected
+                  }`}
                 >
                   {isSelected(INFORMATION) ? <InfoActiveIcon /> : <InfoIcon />}
                   <span>정보공유 게시판</span>
@@ -94,7 +92,7 @@ export default function PostsBoard() {
             <Link href={`/${CAREER}`}>
               <a>
                 <button
-                  className={`${styles["typo4-medium"]} ${styles.listItem} ${
+                  className={`typo4-medium ${styles.listItem} ${
                     styles.career
                   } ${isSelected(CAREER) && styles.isSelected}`}
                 >
@@ -108,9 +106,9 @@ export default function PostsBoard() {
             <Link href={`/${AD}`}>
               <a>
                 <button
-                  className={`${styles["typo4-medium"]} ${styles.listItem} ${
-                    styles.ad
-                  } ${isSelected(AD) && styles.isSelected}`}
+                  className={`typo4-medium ${styles.listItem} ${styles.ad} ${
+                    isSelected(AD) && styles.isSelected
+                  }`}
                 >
                   {isSelected(AD) ? <AdActiveIcon /> : <AdIcon />}
                   <span>홍보 게시판</span>
