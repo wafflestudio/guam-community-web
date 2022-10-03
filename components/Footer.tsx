@@ -19,7 +19,7 @@ const Footer = () => {
         </div>
       </div>
       <div className={styles.downloadButtons}>
-        <a href="" target={"_blank"}>
+        <a href="https://play.google.com/store/apps/details?id=com.wafflestudio.guam_community" target={"_blank"}>
           <img
             src="/google-play-badge.png"
             alt="구글 플레이 스토어에서 다운로드받기"
