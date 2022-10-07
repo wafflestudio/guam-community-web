@@ -1,0 +1,10 @@
+@use "../assets/colors/colors";
+@import "../assets/fonts/typography_medium";
+
+.container {
+  display: inline-block;
+  width: 264px;
+  height: 298px;
+  background: colors.$grayscale-white;
+  position: absolute;
+}

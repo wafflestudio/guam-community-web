@@ -1,0 +1,54 @@
+@use "assets/colors/colors";
+
+.layout {
+  display: flex;
+  flex-flow: column;
+
+  width: 450px;
+  height: auto;
+
+  .inputWrapper {
+    margin-top: 10px;
+
+    width: 330px;
+    height: 55px;
+
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+
+    border: 2px solid colors.$grayscale-gray6;
+    border-radius: 5px;
+
+    input {
+      width: 250px;
+      height: 50px;
+
+      border: none;
+
+      &::placeholder {
+        color: colors.$grayscale-gray5;
+        font-size: 14px;
+      }
+    }
+
+    button {
+      width: 50px;
+      height: 50px;
+
+      font-size: 14px;
+      color: colors.$purple-core;
+
+      &:disabled {
+        color: colors.$grayscale-gray5;
+      }
+    }
+  }
+
+  .tagList {
+    margin-top: 20px;
+
+    width: 100%;
+    height: auto;
+  }
+}
