@@ -3,7 +3,6 @@ import { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
 
 import TagInput from "components/pages/ProfileSetting/TagInput/TagInput";
-import CropImageModal from "components/Portal/Modal/CropImageModal/CropImageModal";
 import { useAppDispatch, useAppSelector } from "store/hooks";
 import { setUserState } from "store/userSlice";
 import styles from "styles/ProfileSettingPage.module.scss";
