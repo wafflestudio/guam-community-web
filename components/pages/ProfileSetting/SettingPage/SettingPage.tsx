@@ -3,6 +3,7 @@ import { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
 
 import TagInput from "components/pages/ProfileSetting/TagInput/TagInput";
+import CropImageModal from "components/Portal/Modal/CropImageModal/CropImageModal";
 import { useAppDispatch, useAppSelector } from "store/hooks";
 import { setUserState } from "store/userSlice";
 import styles from "styles/ProfileSettingPage.module.scss";
@@ -75,88 +76,90 @@ export default function SettingPage() {
   };
 
   return (
-    <form className={styles.mainContainer} onSubmit={onSubmit}>
-      <label htmlFor="profileImage">
-        <img
-          className={styles.profileImage}
-          src={imageUrl}
-          alt="profile Image"
-        />
-        <input
-          className={styles.imageInput}
-          type="file"
-          accept="image/*"
-          id="profileImage"
-          name="profileImage"
-          onChange={handleImageInput}
-        />
-        <div className={styles.imageInputText}>프로필 사진 변경</div>
-      </label>
-      <label htmlFor="nickname">
-        <div className={styles.labelTitle}>이름</div>
-        <div>
+    <>
+      <form className={styles.mainContainer} onSubmit={onSubmit}>
+        <label htmlFor="profileImage">
+          <img
+            className={styles.profileImage}
+            src={imageUrl}
+            alt="profile Image"
+          />
+          <input
+            className={styles.imageInput}
+            type="file"
+            accept="image/*"
+            id="profileImage"
+            name="profileImage"
+            onChange={handleImageInput}
+          />
+          <div className={styles.imageInputText}>프로필 사진 변경</div>
+        </label>
+        <label htmlFor="nickname">
+          <div className={styles.labelTitle}>이름</div>
+          <div>
+            <input
+              className={styles.textInput}
+              type="text"
+              id="nickname"
+              name="nickname"
+              value={nickname}
+              onChange={onNicknameChange}
+              onKeyDown={(e) => {
+                e.key === "Enter" && e.preventDefault();
+              }}
+            />
+            <div className={styles.countText}>{nickname.length}/10</div>
+          </div>
+        </label>
+        <label htmlFor="introduction">
+          <div className={styles.labelTitle}>소개</div>
+          <div>
+            <textarea
+              className={styles.textareaBox}
+              id="introduction"
+              name="introduction"
+              value={introduction}
+              onChange={onIntroductionChange}
+            />
+            <div className={styles.countText}>{introduction.length}/150</div>
+          </div>
+        </label>
+        <label htmlFor="githubId">
+          <div className={styles.labelTitle}>github ID</div>
           <input
             className={styles.textInput}
             type="text"
-            id="nickname"
-            name="nickname"
-            value={nickname}
-            onChange={onNicknameChange}
+            id="githubId"
+            name="githubId"
+            value={githubId}
+            onChange={onGithubIdChange}
             onKeyDown={(e) => {
               e.key === "Enter" && e.preventDefault();
             }}
           />
-          <div className={styles.countText}>{nickname.length}/10</div>
-        </div>
-      </label>
-      <label htmlFor="introduction">
-        <div className={styles.labelTitle}>소개</div>
-        <div>
-          <textarea
-            className={styles.textareaBox}
-            id="introduction"
-            name="introduction"
-            value={introduction}
-            onChange={onIntroductionChange}
+        </label>
+        <label htmlFor="blogUrl">
+          <div className={styles.labelTitle}>블로그</div>
+          <input
+            className={styles.textInput}
+            type="text"
+            id="blogUrl"
+            name="blogUrl"
+            value={blogUrl}
+            onChange={onBlogUrlChange}
+            onKeyDown={(e) => {
+              e.key === "Enter" && e.preventDefault();
+            }}
           />
-          <div className={styles.countText}>{introduction.length}/150</div>
-        </div>
-      </label>
-      <label htmlFor="githubId">
-        <div className={styles.labelTitle}>github ID</div>
-        <input
-          className={styles.textInput}
-          type="text"
-          id="githubId"
-          name="githubId"
-          value={githubId}
-          onChange={onGithubIdChange}
-          onKeyDown={(e) => {
-            e.key === "Enter" && e.preventDefault();
-          }}
-        />
-      </label>
-      <label htmlFor="blogUrl">
-        <div className={styles.labelTitle}>블로그</div>
-        <input
-          className={styles.textInput}
-          type="text"
-          id="blogUrl"
-          name="blogUrl"
-          value={blogUrl}
-          onChange={onBlogUrlChange}
-          onKeyDown={(e) => {
-            e.key === "Enter" && e.preventDefault();
-          }}
-        />
-      </label>
-      <label>
-        <div className={styles.labelTitle}>관심사</div>
-        <TagInput />
-      </label>
-      <button className={styles.saveButton} type="submit">
-        저장
-      </button>
-    </form>
+        </label>
+        <label>
+          <div className={styles.labelTitle}>관심사</div>
+          <TagInput />
+        </label>
+        <button className={styles.saveButton} type="submit">
+          저장
+        </button>
+      </form>
+    </>
   );
 }
