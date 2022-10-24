@@ -6,13 +6,13 @@
   width: 1128px;
   margin: auto;
   margin-top: 32px;
-  position: relative;
+  display: flex;
 
   .writeAPostcontainer {
     height: 56px;
     display: flex;
     position: relative;
-    left: 287px;
+    margin-left: 24px;
 
     .messageContainer {
       width: 769px;
@@ -71,7 +71,7 @@
 
   .listContainer {
     width: 841px;
-    margin-left: 287px;
+    margin-left: 24px;
     position: relative;
 
     img.loading {
@@ -185,47 +185,10 @@
       color: colors.$grayscale-gray2;
     }
 
-    div.engagement {
-      height: 20px;
-      min-width: 133px;
+    div.engagementButtons {
       position: absolute;
       top: 106px;
       right: 24px;
-      text-align: right;
-
-      .countContainer {
-        height: 20px;
-        box-sizing: border-box;
-
-        svg {
-          height: 100%;
-          width: 20px;
-          vertical-align: top;
-          margin-left: 12px;
-          cursor: pointer;
-        }
-
-        span {
-          color: colors.$grayscale-gray5;
-          display: inline-block;
-          min-width: 15px;
-          height: 20px;
-          vertical-align: top;
-          margin-left: 4px;
-          text-align: center;
-        }
-
-        .likes,
-        .comments {
-          svg {
-            margin-right: 12px;
-          }
-        }
-
-        .likes svg {
-          cursor: pointer;
-        }
-      }
     }
   }
 }

@@ -119,10 +119,17 @@
       }
     }
 
-    .createdAt {
-      height: 16px;
-      margin-top: 30px;
-      color: colors.$grayscale-gray4;
+    .bottom {
+      width: 792px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-top: 36px;
+
+      .createdAt {
+        height: 16px;
+        color: colors.$grayscale-gray4;
+      }
     }
 
     .more {

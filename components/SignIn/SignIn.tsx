@@ -2,18 +2,19 @@ import axios from "axios";
 import { getAuth, GoogleAuthProvider, signInWithPopup } from "firebase/auth";
 import Link from "next/link";
 import { useRouter } from "next/router";
+import { useDispatch } from "react-redux";
 
 import GoogleIcon from "assets/icons/logo/google.svg";
 import KaKaoIcon from "assets/icons/logo/kakao.svg";
 import RightIcon from "assets/icons/right.svg";
-import { useAppDispatch } from "store/hooks";
 import { setToast } from "store/toastSlice";
 import { setUserState } from "store/userSlice";
 import styles from "styles/SignIn.module.scss";
 import { getFirebaseIdToken } from "utils/firebaseUtils";
+import { setProfile } from "utils/setProfile";
 
 export default function SignIn() {
-  const dispatch = useAppDispatch();
+  const dispatch = useDispatch();
 
   const router = useRouter();
 
@@ -24,20 +25,8 @@ export default function SignIn() {
       await signInWithPopup(getAuth(), provider);
 
       const token = await getFirebaseIdToken();
-
-      axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
-
-      const { data: userData } = await axios.get("/api/users/me", {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
-
-      if (!userData.profileSet) router.push("/profile/set_nickname");
-      else {
-        dispatch(setUserState(userData));
-        router.push("/");
-      }
+      if (token) setProfile(token, router, dispatch);
+      router.push("/");
     } catch (e) {
       console.log(e);
       dispatch(setToast("구글 로그인 실패"));
@@ -62,7 +51,7 @@ export default function SignIn() {
           <div className={styles.buttonList}>
             <Link href={"/oauth/authorize/kakao"}>
               <a>
-                <button className={`${styles.kakaoLogin}`}>
+                <button className={styles.kakaoLogin}>
                   <KaKaoIcon />
                   카카오톡으로 시작하기
                 </button>

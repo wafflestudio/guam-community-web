@@ -17,8 +17,10 @@ export default function PostsPage({
   return (
     <div className={styles.container}>
       <Side />
-      <WriteAPost />
-      <PostsList posts={posts} isLoading={isLoading} hasNext={hasNext} />
+      <div>
+        <WriteAPost />
+        <PostsList posts={posts} isLoading={isLoading} hasNext={hasNext} />
+      </div>
     </div>
   );
 }
