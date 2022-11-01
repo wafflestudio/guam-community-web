@@ -22,11 +22,11 @@ const Footer = () => {
         <a href="https://play.google.com/store/apps/details?id=com.wafflestudio.guam_community" target={"_blank"}>
           <img
             src="/google-play-badge.png"
-            alt="구글 플레이 스토어에서 다운로드받기"
+            alt="Google Play Store에서 다운로드받기"
           />
         </a>
-        <a href="" target={"_blank"}>
-          <img src="/app-store-badge.svg" alt="앱스토어에서 다운로드받기" />
+        <a href="https://apps.apple.com/kr/app/guam-community/id1627233509" target={"_blank"}>
+          <img src="/app-store-badge.svg" alt="App Store에서 다운로드받기" />
         </a>
       </div>
     </div>
