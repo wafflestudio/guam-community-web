@@ -7,12 +7,13 @@
   margin: auto;
   margin-top: 32px;
   position: relative;
+  display: flex;
 
   .postMain {
     width: 840px;
     background: colors.$grayscale-white;
     margin-top: 24px;
-    margin-left: 288px;
+    margin-left: 24px;
     padding: 24px 24px 12px;
     position: relative;
 
@@ -146,7 +147,7 @@
     height: 56px;
     background: colors.$grayscale-white;
     position: relative;
-    margin-left: 287px;
+    margin-left: 24px;
 
     .boardName {
       height: 29px;

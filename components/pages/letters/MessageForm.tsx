@@ -1,3 +1,4 @@
+import axios, { AxiosRequestConfig } from "axios";
 import {
   ChangeEventHandler,
   FormEventHandler,
@@ -8,7 +9,9 @@ import {
 } from "react";
 
 import CameraIcon from "assets/icons/camera.svg";
+import { useAppDispatch } from "store/hooks";
 import { usePostLetterMutation } from "store/postsApi";
+import { setToast } from "store/toastSlice";
 import styles from "styles/Messages.module.scss";
 import { IImageUrl } from "types/types";
 import useRouterInfo from "utils/useRouterInfo";
@@ -26,6 +29,8 @@ export default function MessageForm({
 
   const textareaRef = useRef<HTMLTextAreaElement>(null);
   const photoInputRef = useRef<HTMLInputElement>(null);
+
+  const dispatch = useAppDispatch();
 
   const { pairId } = useRouterInfo();
 
@@ -51,10 +56,12 @@ export default function MessageForm({
 
   const [postMessage] = usePostLetterMutation();
 
+  const disabled = messageInput.trim().length === 0 && images.length === 0;
+
   const onSubmitMessage: FormEventHandler = async (e) => {
     e.preventDefault();
 
-    if (messageInput.trim().length === 0 && images.length === 0) return;
+    if (disabled) return;
 
     const data = new FormData();
     const object = {
@@ -69,11 +76,33 @@ export default function MessageForm({
         data.append("images", image);
       });
 
-    postMessage(data);
-
-    setMessageInput("");
-    setImages([]);
-    setImageUrls([]);
+    try {
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      //@ts-ignore
+      const { data: urlData } = await postMessage(data);
+      const { presignedUrls } = urlData;
+      if (presignedUrls?.length) {
+        await Promise.all(
+          presignedUrls.map((url: string, i: number) => {
+            const options: AxiosRequestConfig = {
+              url: `/presigned_bucket_url/${
+                url.split(process.env.BUCKET_URL || "")[1]
+              }`,
+              method: "PUT",
+              headers: { "Content-Type": images[i].type },
+              data: images[i],
+            };
+            axios(options);
+          })
+        );
+      }
+      setMessageInput("");
+      setImages([]);
+      setImageUrls([]);
+    } catch (e) {
+      console.log(e);
+      dispatch(setToast({ open: true, text: "게시글 작성에 실패했습니다." }));
+    }
 
     messageListRef.current?.scrollTo(0, 0);
   };
@@ -96,19 +125,16 @@ export default function MessageForm({
       />
       <button
         type="button"
-        className={`${styles.addPhoto} ${
-          imageUrls.length >= 5 && styles.disabled
-        }`}
+        className={styles.addPhoto}
         onClick={clickImageInput}
         disabled={imageUrls.length >= 5}
       >
         <CameraIcon />
       </button>
       <button
-        className={`${styles["typo5-medium"]} ${styles.submit} ${
-          messageInput.trim() === "" && images.length === 0 && styles.disabled
-        }`}
+        className={`typo5-medium ${styles.submit}`}
         onClick={onSubmitMessage}
+        disabled={disabled}
       >
         전송
       </button>

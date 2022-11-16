@@ -5,6 +5,7 @@ import BlogIcon from "assets/icons/blog/gray.svg";
 import GithubIcon from "assets/icons/github/gray.svg";
 import MessageIcon from "assets/icons/message/default_20.svg";
 import SettingIcon from "assets/icons/setting.svg";
+import ProfileImage from "components/ProfileImage";
 import { useAppSelector } from "store/hooks";
 import { useGetUserQuery } from "store/postsApi";
 import styles from "styles/ProfilePage.module.scss";
@@ -24,8 +25,8 @@ const ProfilePage = () => {
     <div className={styles.container}>
       <div className={styles.header}>
         <div className={styles.imageContainer + " image-wrapper"}>
-          <img
-            src={
+          <ProfileImage
+            imageUrl={
               user?.profileImage
                 ? process.env.BUCKET_URL + user?.profileImage
                 : ""
@@ -66,7 +67,7 @@ const ProfilePage = () => {
               </a>
             </Link>
           ) : (
-            <Link href={"/profile/set"}>
+            <Link href={"/profile/setting"}>
               <a className={styles.settingLink + " typo2-regular"}>
                 <button className={styles.setting + " typo3-medium"}>
                   <SettingIcon />

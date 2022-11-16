@@ -305,7 +305,7 @@
         fill: colors.$grayscale-gray3;
       }
 
-      &.disabled {
+      :disabled {
         cursor: default;
       }
     }
@@ -318,7 +318,7 @@
       right: 24px;
       color: colors.$purple-core;
 
-      &.disabled {
+      :disabled {
         color: colors.$grayscale-gray5;
         cursor: default;
       }
