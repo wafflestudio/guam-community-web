@@ -1,5 +1,3 @@
-import axios from "axios";
-import { getAuth, GoogleAuthProvider, signInWithPopup } from "firebase/auth";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { useDispatch } from "react-redux";
@@ -8,9 +6,8 @@ import GoogleIcon from "assets/icons/logo/google.svg";
 import KaKaoIcon from "assets/icons/logo/kakao.svg";
 import RightIcon from "assets/icons/right.svg";
 import { setToast } from "store/toastSlice";
-import { setUserState } from "store/userSlice";
 import styles from "styles/SignIn.module.scss";
-import { getFirebaseIdToken } from "utils/firebaseUtils";
+import { appleToken, googleToken } from "utils/firebaseUtils";
 import { setProfile } from "utils/setProfile";
 
 export default function SignIn() {
@@ -20,16 +17,23 @@ export default function SignIn() {
 
   const googleSignIn = async () => {
     try {
-      const provider = new GoogleAuthProvider();
-
-      await signInWithPopup(getAuth(), provider);
-
-      const token = await getFirebaseIdToken();
+      const token = await googleToken();
       if (token) setProfile(token, router, dispatch);
       router.push("/");
     } catch (e) {
       console.log(e);
       dispatch(setToast("구글 로그인 실패"));
+    }
+  };
+
+  const appleSignIn = async () => {
+    try {
+      const token = await appleToken();
+      if (token) setProfile(token, router, dispatch);
+      router.push("/");
+    } catch (e) {
+      console.log(e);
+      dispatch(setToast("애플 로그인 실패"));
     }
   };
 
@@ -61,6 +65,10 @@ export default function SignIn() {
               <GoogleIcon />
               구글로 시작하기
             </button>
+            {/* <button onClick={appleSignIn}>
+              <GoogleIcon />
+              애플로 시작하기
+            </button> */}
             <Link href={"/"}>
               <a>
                 <button className={styles.toHome}>

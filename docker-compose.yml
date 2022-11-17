@@ -1,9 +1,11 @@
 version: "3"
 services:
   nextjs:
+    platform: linux/amd64
     build: ./
     image: sylvia204/guam-community-web-nextjs
   nginx:
+    platform: linux/amd64
     build: ./nginx
     image: sylvia204/guam-community-web-nginx
     ports:

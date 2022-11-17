@@ -1,6 +1,4 @@
-import throttle from "lodash/throttle";
 import Link from "next/link";
-import { useRouter } from "next/router";
 import React, {
   Dispatch,
   SetStateAction,
@@ -10,11 +8,13 @@ import React, {
 } from "react";
 
 import NewIcon from "assets/icons/new.svg";
+import ProfileImage from "components/ProfileImage";
 import { notificationList } from "constants/constants";
 import { useAppSelector } from "store/hooks";
 import { useGetPushListQuery, usePostPushReadMutation } from "store/postsApi";
 import { IPushData, IPushList } from "types/types";
 import { relativeDate } from "utils/formatDate";
+import { useIntersectionObserver } from "utils/useIntersectionObserver";
 import { useModalRef } from "utils/useModalRef";
 
 import styles from "./NotificationModal.module.scss";
@@ -28,14 +28,12 @@ const NotificationModal = ({
 }) => {
   const [list, setList] = useState<IPushData["content"]>([]);
   const [hasNext, setHasNext] = useState(true);
-  const [page, setPage] = useState(0);
 
   const modalRef = useRef<HTMLDivElement>(null);
+  const page = useIntersectionObserver(hasNext, modalRef);
 
   const { isLoggedIn } = useAppSelector((state) => state.auth);
   const { id: userId } = useAppSelector((state) => state.user);
-
-  const router = useRouter();
 
   const currentResult = useGetPushListQuery(page, {
     skip: !isLoggedIn || !hasNext || page < 0,
@@ -52,28 +50,12 @@ const NotificationModal = ({
 
   useModalRef(modalRef, setModal);
 
-  const handleScroll = () => {
-    if (modalRef.current && hasNext) {
-      const reachBottom =
-        modalRef.current?.clientHeight >=
-        modalRef.current?.scrollHeight - modalRef.current?.scrollTop - 1;
-      if (reachBottom) {
-        if (hasNext) setPage((page) => page + 1);
-      }
-    }
-  };
-  const throttleScroll = throttle(handleScroll, 300);
-
   const onPushClick = (push: IPushList) => {
     if (!push.isRead) postPushRead({ userId, pushEventIds: [push.id] });
   };
 
   return (
-    <div
-      ref={modalRef}
-      className={`${styles.wrapper} ${open && styles.open}`}
-      onScroll={throttleScroll}
-    >
+    <div ref={modalRef} className={`${styles.wrapper} ${open && styles.open}`}>
       {!list?.length ? (
         <div className={`${styles.empty} ${styles["typo6-regular"]}`}>
           아직 알림이 없습니다.
@@ -89,14 +71,14 @@ const NotificationModal = ({
                     <div className={styles.imageWrapper}>
                       {push.isRead ? null : <NewIcon />}
                       <div className={styles.imageInnerWrapper}>
-                        <img
-                          alt={`${push.writer.nickname}의 이미지`}
-                          src={
+                        <ProfileImage
+                          imageUrl={
                             push.writer.profileImage
                               ? process.env.BUCKET_URL +
                                 push.writer.profileImage
                               : "/default_profile_image.png"
                           }
+                          alt={`${push.writer.nickname}의 이미지`}
                         />
                       </div>
                     </div>
