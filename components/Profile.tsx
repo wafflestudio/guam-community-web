@@ -1,6 +1,7 @@
 import { useAppSelector } from "store/hooks";
 import styles from "styles/Profile.module.scss";
 
+import ProfileImage from "./ProfileImage";
 import SignInUpButton from "./Side/SignInUpButton";
 
 export default function Profile() {
@@ -12,21 +13,10 @@ export default function Profile() {
       {isLoggedIn ? (
         <div className={styles.container}>
           <div className={styles.profileImage}>
-            {profileImage ? (
-              <img
-                src={process.env.BUCKET_URL + profileImage}
-                onError={({ currentTarget }) => {
-                  currentTarget.onerror = null;
-                  currentTarget.src = "/default_profile_image.png";
-                }}
-                alt={`${nickname}님의 프로필 이미지`}
-              />
-            ) : (
-              <img
-                src={"/default_profile_image.png"}
-                alt={`${nickname}님의 프로필 이미지`}
-              />
-            )}
+            <ProfileImage
+              imageUrl={process.env.BUCKET_URL! + profileImage}
+              alt={`${nickname}님의 프로필 이미지`}
+            />
           </div>
           <div className={`${styles["typo6-medium"]} ${styles.nickname}`}>
             {nickname}

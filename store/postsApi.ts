@@ -40,6 +40,11 @@ interface PostBlockQuery {
   blockUserId: number;
 }
 
+interface GetBlocksQuery {
+  userId: number;
+  blockUsers: IUser[];
+}
+
 interface ReportPostQuery {
   postId: number;
   reason: string;
@@ -289,7 +294,7 @@ export const postsApi = createApi({
       providesTags: (result) => [{ type: "User", userId: result?.id }],
     }),
 
-    getBlocks: build.query({
+    getBlocks: build.query<GetBlocksQuery, void>({
       query: () => ({ url: "blocks", method: "GET" }),
       providesTags: [{ type: "Block List" }],
     }),
