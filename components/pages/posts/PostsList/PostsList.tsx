@@ -3,7 +3,7 @@ import { useEffect, useMemo } from "react";
 import PaginationButton from "components/Buttons/PaginationButton";
 import { useAppDispatch } from "store/hooks";
 import { setToast } from "store/toastSlice";
-import styles from "styles/PostsPage.module.scss";
+import styles from "styles/PostsList.module.scss";
 import { IPostsListPost } from "types/types";
 
 import Post from "./Post";

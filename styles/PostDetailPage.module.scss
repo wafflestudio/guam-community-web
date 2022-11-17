@@ -16,6 +16,7 @@
     margin-left: 24px;
     padding: 24px 24px 12px;
     position: relative;
+    border-radius: 8px;
 
     .title {
       margin: 0;
@@ -148,6 +149,7 @@
     background: colors.$grayscale-white;
     position: relative;
     margin-left: 24px;
+    border-radius: 4px;
 
     .boardName {
       height: 29px;
