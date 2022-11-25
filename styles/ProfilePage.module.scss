@@ -107,3 +107,40 @@
     }
   }
 }
+
+.wrapper {
+  display: flex;
+  gap: 23px;
+  margin: auto;
+  width: 1128px;
+}
+
+.profileSideContainer {
+  width: 264px;
+  height: 274px;
+  padding: 24px;
+  font-weight: 500;
+  color: colors.$grayscale-gray2;
+  display: flex;
+  flex-direction: column;
+  background: white;
+  border-radius: 4px;
+  margin-top: 32px;
+  margin-right: -24px;
+
+  a,
+  button {
+    width: 216px;
+    text-align: left;
+  }
+
+  hr {
+    margin: 12px 0;
+    border: none;
+    border-bottom: 1px solid colors.$grayscale-gray7;
+  }
+
+  .currentPath {
+    color: colors.$purple-dark1;
+  }
+}

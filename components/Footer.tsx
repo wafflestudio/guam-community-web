@@ -25,7 +25,7 @@ const Footer = () => {
           rel="noreferrer"
         >
           <img
-            src="/google-play-badge.png"
+            src="/google_play_badge.png"
             alt="Google Play Store에서 다운로드받기"
           />
         </a>
@@ -34,7 +34,7 @@ const Footer = () => {
           target={"_blank"}
           rel="noreferrer"
         >
-          <img src="/app-store-badge.svg" alt="App Store에서 다운로드받기" />
+          <img src="/app_store_badge.svg" alt="App Store에서 다운로드받기" />
         </a>
       </div>
     </div>
