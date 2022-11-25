@@ -1,0 +1,42 @@
+@use "assets/colors/colors";
+
+.tagWrapper {
+  display: inline-flex;
+  flex-flow: row;
+  justify-content: center;
+  align-items: center;
+
+  width: auto;
+  height: 30px;
+
+  border: 2px solid colors.$grayscale-gray5;
+  border-radius: 30px;
+
+  margin: 0 8px 8px 0;
+
+
+  div {
+    width: auto;
+    height: 30px;
+
+    font-size: 12px;
+    color: colors.$grayscale-gray2;
+
+    margin-left: 10px;
+
+    text-align: center;
+    line-height: 30px;
+  }
+
+  button {
+    width: 30px;
+    height: 30px;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+  }
+
+
+}

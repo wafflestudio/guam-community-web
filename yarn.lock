@@ -2146,6 +2146,11 @@ cliui@^7.0.2:
     strip-ansi "^6.0.0"
     wrap-ansi "^7.0.0"
 
+clsx@^1.2.1:
+  version "1.2.1"
+  resolved "https://registry.yarnpkg.com/clsx/-/clsx-1.2.1.tgz#0ddc4a20a549b59c93a4116bb26f5294ca17dc12"
+  integrity sha512-EcR6r5a8bj6pu3ycsa/E/cKVGuTgZJZdsyUYHOksG/UHIiKfjxzRxYJpyVBwYaQeOvghal9fcc4PidlgzugAQg==
+
 color-convert@^1.9.0:
   version "1.9.3"
   resolved "https://registry.yarnpkg.com/color-convert/-/color-convert-1.9.3.tgz#bb71850690e1f136567de629d2d5471deda4c1e8"
@@ -3667,6 +3672,13 @@ react-dom@^17.0.2:
     loose-envify "^1.1.0"
     object-assign "^4.1.1"
     scheduler "^0.20.2"
+
+react-image-crop@^10.0.7:
+  version "10.0.7"
+  resolved "https://registry.yarnpkg.com/react-image-crop/-/react-image-crop-10.0.7.tgz#79ae04ac8886f93c5945c9378bfc38ef3b29df2d"
+  integrity sha512-doV3sz101q9IaTWlx+DlErJ+BUknJ5CMVIRV72thWC3Fn5bg2XWoft7FbbrFGIr46zYrKKS9QuWNEzNkaqRvfQ==
+  dependencies:
+    clsx "^1.2.1"
 
 react-is@^16.13.1, react-is@^16.7.0:
   version "16.13.1"

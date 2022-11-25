@@ -1,0 +1,137 @@
+@use "../assets/colors/colors";
+
+.container {
+  width: 1128px;
+  height: auto;
+  min-height: 584px;
+  margin: 32px auto auto;
+
+  .mainContainer {
+    width: 841px;
+    height: auto;
+    min-height: 584px;
+    margin-left: 287px;
+    position: relative;
+    background: colors.$grayscale-white;
+
+    display: flex;
+    align-items: flex-start;
+    justify-content: left;
+    flex-flow: column;
+
+    padding: 10px 0 30px 0;
+
+    label {
+      margin-left: 100px;
+      margin-top: 25px;
+
+      width: auto;
+      height: auto;
+
+      display: flex;
+      align-items: flex-start;
+      justify-content: left;
+      flex-flow: row;
+    }
+
+    .profileImage{
+      margin-right: 25px;
+
+      width: 56px;
+      height: 56px;
+      
+      cursor: pointer;
+    }
+
+    .labelTitle {
+      margin-right: 25px;
+
+      width: 60px;
+      height: 40px;
+
+      font-size: 14px;
+      text-align: right;
+      line-height: 40px;
+    }
+
+    .imageInput {
+      display: none;
+    }
+
+    .imageInputText {
+      font-size: 14px;
+      color: colors.$purple-core;
+      line-height: 56px;
+
+      height: 56px;
+
+      cursor: pointer;
+    }
+
+    .textInput {
+      height: 42px;
+      width: 240px;
+
+      border: none;
+      padding: 0;
+      border-bottom: 2px solid colors.$purple-light2;
+
+      &:focus {
+        border-bottom: 2px solid colors.$purple-light1;
+      }
+    }
+
+    .textareaBox {
+      margin-top: 10px;
+      padding: 0;
+
+      height: 100px;
+      width: 330px;
+
+      border: none;
+      border-bottom: 2px solid colors.$purple-light2;
+
+      &:focus {
+        border-bottom: 2px solid colors.$purple-light1;
+
+      }
+
+      &::-webkit-scrollbar{
+        width: 8px;
+      }
+
+      &::-webkit-scrollbar-thumb{
+        height: 30%;
+        background: colors.$purple-light1;
+
+        border-radius: 10px;
+      }
+
+      &::-webkit-scrollbar-track {
+        background: colors.$purple-light2
+      }
+
+    }
+
+    .countText {
+      height: 15px;
+
+      font-size: 12px;
+      color: colors.$purple-core;
+
+      text-align: right;
+    }
+
+    .saveButton {
+      margin: 50px 0 0 100px;
+
+      width: 100px;
+      height: 50px;
+
+      background-color: colors.$purple-core;
+      border-radius: 5px;
+
+      color: colors.$grayscale-white;
+    }
+  }
+}
