@@ -3,7 +3,7 @@ import { getAuth } from "firebase/auth";
 import firebase from "firebase/compat/app";
 import type { AppProps } from "next/app";
 import { useRouter } from "next/router";
-import React from "react";
+import React, { useEffect } from "react";
 import { useDispatch } from "react-redux";
 
 import Layout from "components/layout";
@@ -16,23 +16,25 @@ import { removeUserState } from "store/userSlice";
 import { getFirebaseIdToken } from "utils/firebaseUtils";
 import { setProfile } from "utils/setProfile";
 
+firebase.initializeApp(firebaseConfig);
+
 function App({ Component, pageProps }: AppProps) {
   const router = useRouter();
   const dispatch = useDispatch();
 
-  firebase.initializeApp(firebaseConfig);
-
-  if (router.isReady) {
-    getAuth().onAuthStateChanged(async (user) => {
-      if (user) {
-        const token = await getFirebaseIdToken();
-        if (token) setProfile(token, router, dispatch);
-      } else {
-        dispatch(signOut());
-        dispatch(removeUserState());
-      }
-    });
-  }
+  useEffect(() => {
+    if (router.isReady) {
+      getAuth().onAuthStateChanged(async (user) => {
+        if (user) {
+          const token = await getFirebaseIdToken();
+          if (token) setProfile(token, router, dispatch);
+        } else {
+          dispatch(signOut());
+          dispatch(removeUserState());
+        }
+      });
+    }
+  }, [dispatch, router.isReady]);
 
   return (
     <Layout>

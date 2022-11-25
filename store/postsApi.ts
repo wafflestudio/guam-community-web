@@ -22,22 +22,15 @@ interface PostsFavoriteQuery {
   rankFrom?: number;
 }
 
-interface PostPostQuery {
-  boardId: number;
-  categoryId: number;
-  content: string;
-  title: string;
-  imageFilePaths?: string[];
-}
-
 interface IPostComment {
   content: string;
   mentionIds?: (number | null | undefined)[];
   imageFilePaths: string[];
 }
 
-interface PostBlockQuery {
-  blockUserId: number;
+interface GetBlocksQuery {
+  userId: number;
+  blockUsers: IUser[];
 }
 
 interface ReportPostQuery {
@@ -48,6 +41,11 @@ interface ReportPostQuery {
 interface ReportCommentQuery {
   commentId: number;
   reason: string;
+}
+
+interface GetMyPostsQuery {
+  userId: number;
+  page: number;
 }
 
 export const postsApi = createApi({
@@ -76,6 +74,7 @@ export const postsApi = createApi({
     "Push List",
     "User",
     "Block List",
+    "Scrap List",
   ],
   endpoints: (build) => ({
     getAllPosts: build.query<IPostsData, number>({
@@ -168,6 +167,7 @@ export const postsApi = createApi({
       invalidatesTags: (result, error, req) => [
         { type: "Posts List", boardId: 0 },
         { type: "Posts List", boardId: req.boardId },
+        { type: "Scrap List" },
       ],
     }),
     likePost: build.mutation({
@@ -289,7 +289,7 @@ export const postsApi = createApi({
       providesTags: (result) => [{ type: "User", userId: result?.id }],
     }),
 
-    getBlocks: build.query({
+    getBlocks: build.query<GetBlocksQuery, void>({
       query: () => ({ url: "blocks", method: "GET" }),
       providesTags: [{ type: "Block List" }],
     }),
@@ -324,6 +324,20 @@ export const postsApi = createApi({
         body,
       }),
     }),
+
+    getMyPosts: build.query<IPostsData, number>({
+      query: (userId) => ({
+        url: `posts/users/${userId}/my`,
+        method: "GET",
+      }),
+    }),
+    getScrappedPosts: build.query<IPostsData, GetMyPostsQuery>({
+      query: (req) => ({
+        url: `posts/users/${req.userId}/my?page=${req.page}`,
+        method: "GET",
+      }),
+      providesTags: [{ type: "Scrap List" }],
+    }),
   }),
 });
 
@@ -355,6 +369,8 @@ export const {
   useDeleteBlockMutation,
   useReportPostMutation,
   useReportCommentMutation,
+  useGetMyPostsQuery,
+  useGetScrappedPostsQuery,
   util: { getRunningOperationPromises },
 } = postsApi;
 

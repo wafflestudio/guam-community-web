@@ -1,0 +1,55 @@
+@use "../assets/colors/colors";
+
+.container {
+  width: 840px;
+  min-height: 608px;
+  padding: 44px 32px;
+  background: white;
+  margin-top: 32px;
+  margin-left: 23px;
+
+  h1 {
+    font-weight: 500;
+    margin-left: 24px;
+    margin-bottom: 12px;
+  }
+
+  ul {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    padding-left: 0;
+
+    li.userContainer {
+      margin-bottom: 12px;
+      width: 264px;
+      height: 56px;
+      padding: 8px 16px 8px 12px;
+      display: flex;
+      gap: 12px;
+      align-items: center;
+      border-bottom: 1px solid colors.$grayscale-gray7;
+
+      .imageWrapper {
+        height: 40px;
+        width: 40px;
+      }
+
+      .userBlockButton {
+        width: 200px;
+        display: flex;
+        justify-content: space-between;
+
+        div {
+          font-weight: 500;
+          color: colors.$grayscale-gray2;
+        }
+
+        button {
+          font-weight: 500;
+          color: colors.$grayscale-gray4;
+        }
+      }
+    }
+  }
+}

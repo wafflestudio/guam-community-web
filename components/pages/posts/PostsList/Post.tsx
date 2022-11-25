@@ -3,7 +3,7 @@ import { useRouter } from "next/router";
 import PictureIcon from "assets/icons/picture.svg";
 import ProfileIcon from "assets/icons/profile/default_image.svg";
 import PostEngagementButton from "components/Buttons/PostEngagementButton";
-import styles from "styles/PostsPage.module.scss";
+import styles from "styles/PostsList.module.scss";
 import { IPostsListPost } from "types/types";
 import { relativeDate } from "utils/formatDate";
 
